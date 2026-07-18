@@ -2,18 +2,33 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-:root {
-    --color-text-primary: #1d1d1f;
-    --color-text-secondary: #6e6e73;
-    --color-accent: #e1261c;
-    --color-border: #d2d2d7;
-    --color-surface: #f5f5f7;
-}
-
 @theme {
+    --color-background: #ffffff;
+    --color-foreground: #1d1d1f;
+    --color-primary: #e1261c;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #f5f5f7;
+    --color-secondary-foreground: #1d1d1f;
+    --color-muted: #f5f5f7;
+    --color-muted-foreground: #6e6e73;
+    --color-accent: #e1261c;
+    --color-accent-foreground: #ffffff;
+    --color-destructive: #e1261c;
+    --color-destructive-foreground: #ffffff;
+    --color-card: #ffffff;
+    --color-card-foreground: #1d1d1f;
+    --color-popover: #ffffff;
+    --color-popover-foreground: #1d1d1f;
+    --color-border: #d2d2d7;
+    --color-input: #d2d2d7;
+    --color-ring: #e1261c;
+    --radius: 0.625rem;
+
     --color-text-primary: #1d1d1f;
     --color-text-secondary: #6e6e73;
-    --color-accent: #e1261c;
-    --color-border: #d2d2d7;
     --color-surface: #f5f5f7;
+    --color-brand-start: #6d3cf5;
+    --color-brand-end: #3730e0;
+    --font-sans: var(--font-body);
+    --font-display: var(--font-display);
 }

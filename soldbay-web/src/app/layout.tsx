@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
+import { Bricolage_Grotesque, Glaser_Stencil } from "next/font/google";
 import "./globals.css";
+
+const display = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+});
+
+const glaserStencil = Glaser_Stencil({
+  variable: "--font-body",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Soldbay — Buy and sell on campus",
@@ -9,12 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        style={{
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        }}
-      >
+      <body className={`${display.variable} ${glaserStencil.variable} font-sans`}>
         {children}
       </body>
     </html>
