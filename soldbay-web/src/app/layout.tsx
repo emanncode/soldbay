@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Glaser_Stencil } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({
@@ -7,7 +7,7 @@ const display = Bricolage_Grotesque({
   subsets: ["latin"],
 });
 
-const glaserStencil = Glaser_Stencil({
+const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
 });
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${glaserStencil.variable} font-sans`}>
+      <body className={`${display.variable} ${inter.variable} font-sans`}>
         {children}
       </body>
     </html>
