@@ -1,0 +1,486 @@
+{
+  "version": 1,
+  "fileToken": "glladh",
+  "variables": {
+    "--background": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ffffff"
+        }
+      ]
+    },
+    "--foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1d1d1f"
+        }
+      ]
+    },
+    "--card": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ffffff"
+        }
+      ]
+    },
+    "--card-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1d1d1f"
+        }
+      ]
+    },
+    "--popover": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ffffff"
+        }
+      ]
+    },
+    "--popover-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1d1d1f"
+        }
+      ]
+    },
+    "--primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#e1261c"
+        }
+      ]
+    },
+    "--primary-hover": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#c91f16"
+        }
+      ]
+    },
+    "--primary-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ffffff"
+        }
+      ]
+    },
+    "--secondary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#f5f5f7"
+        }
+      ]
+    },
+    "--secondary-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1d1d1f"
+        }
+      ]
+    },
+    "--muted": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#f5f5f7"
+        }
+      ]
+    },
+    "--muted-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#6e6e73"
+        }
+      ]
+    },
+    "--accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#e1261c"
+        }
+      ]
+    },
+    "--accent-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ffffff"
+        }
+      ]
+    },
+    "--destructive": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#dc2626"
+        }
+      ]
+    },
+    "--destructive-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ffffff"
+        }
+      ]
+    },
+    "--border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#d2d2d7"
+        }
+      ]
+    },
+    "--input": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#d2d2d7"
+        }
+      ]
+    },
+    "--ring": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#e1261c"
+        }
+      ]
+    },
+    "--success": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#16a34a"
+        }
+      ]
+    },
+    "--warning": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#f59e0b"
+        }
+      ]
+    },
+    "--info": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#2563eb"
+        }
+      ]
+    },
+    "--radius": {
+      "type": "number",
+      "value": [
+        {
+          "value": 10
+        }
+      ]
+    }
+  },
+  "children": [
+    {
+      "id": "gmfc84",
+      "type": "frame",
+      "name": "shadcn: design system components",
+      "width": 1200,
+      "height": 800,
+      "fill": "var(--background)",
+      "children": [
+        {
+          "type": "frame",
+          "name": "Button/Default",
+          "width": 120,
+          "height": 36,
+          "fill": "var(--primary)",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--primary-foreground)",
+              "content": "Button",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 100,
+              "textGrowth": "fixed-width",
+              "id": "g1o6cj"
+            }
+          ],
+          "id": "g0daeb"
+        },
+        {
+          "type": "frame",
+          "name": "Button/Secondary",
+          "width": 120,
+          "height": 36,
+          "fill": "var(--secondary)",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--secondary-foreground)",
+              "content": "Button",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 100,
+              "textGrowth": "fixed-width",
+              "id": "g3yqmz"
+            }
+          ],
+          "id": "g2h99y"
+        },
+        {
+          "type": "frame",
+          "name": "Button/Destructive",
+          "width": 120,
+          "height": 36,
+          "fill": "var(--destructive)",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--destructive-foreground)",
+              "content": "Button",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 100,
+              "textGrowth": "fixed-width",
+              "id": "g56ejw"
+            }
+          ],
+          "id": "g4rran"
+        },
+        {
+          "type": "frame",
+          "name": "Button/Outline",
+          "width": 120,
+          "height": 36,
+          "fill": "transparent",
+          "cornerRadius": 9999,
+          "stroke": "var(--border)",
+          "strokeWidth": 1,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--foreground)",
+              "content": "Button",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 100,
+              "textGrowth": "fixed-width",
+              "id": "g7gy0k"
+            }
+          ],
+          "id": "g6nvol"
+        },
+        {
+          "type": "frame",
+          "name": "Button/Ghost",
+          "width": 120,
+          "height": 36,
+          "fill": "transparent",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--foreground)",
+              "content": "Button",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 100,
+              "textGrowth": "fixed-width",
+              "id": "g9uv1i"
+            }
+          ],
+          "id": "g8noeb"
+        },
+        {
+          "type": "frame",
+          "name": "Badge/Default",
+          "width": 60,
+          "height": 20,
+          "fill": "var(--primary)",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--primary-foreground)",
+              "content": "Badge",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 44,
+              "textGrowth": "fixed-width",
+              "id": "gbj5ui"
+            }
+          ],
+          "id": "gad3j3"
+        },
+        {
+          "type": "frame",
+          "name": "Badge/Secondary",
+          "width": 60,
+          "height": 20,
+          "fill": "var(--secondary)",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--secondary-foreground)",
+              "content": "Badge",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 44,
+              "textGrowth": "fixed-width",
+              "id": "gdev7y"
+            }
+          ],
+          "id": "gci769"
+        },
+        {
+          "type": "frame",
+          "name": "Badge/Destructive",
+          "width": 60,
+          "height": 20,
+          "fill": "var(--destructive)",
+          "cornerRadius": 9999,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--destructive-foreground)",
+              "content": "Badge",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 44,
+              "textGrowth": "fixed-width",
+              "id": "gfelyi"
+            }
+          ],
+          "id": "gen4t4"
+        },
+        {
+          "type": "frame",
+          "name": "Badge/Outline",
+          "width": 60,
+          "height": 20,
+          "fill": "transparent",
+          "cornerRadius": 9999,
+          "stroke": "var(--border)",
+          "strokeWidth": 1,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "label",
+              "fill": "var(--foreground)",
+              "content": "Badge",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": 500,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 44,
+              "textGrowth": "fixed-width",
+              "id": "ghrqb8"
+            }
+          ],
+          "id": "ggqrwi"
+        },
+        {
+          "type": "frame",
+          "name": "Card",
+          "width": 300,
+          "height": 180,
+          "fill": "var(--card)",
+          "cornerRadius": 10,
+          "stroke": "var(--border)",
+          "strokeWidth": 1,
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "name": "title",
+              "fill": "var(--card-foreground)",
+              "content": "Card Title",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": 600,
+              "lineHeight": 1.4,
+              "width": 260,
+              "id": "gj0ho6"
+            },
+            {
+              "type": "text",
+              "name": "body",
+              "fill": "var(--muted-foreground)",
+              "content": "Card content goes here.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": 400,
+              "lineHeight": 1.4,
+              "width": 260,
+              "id": "gkpbru"
+            }
+          ],
+          "id": "givptd"
+        }
+      ]
+    }
+  ]
+}

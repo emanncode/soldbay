@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "fileToken": "g5ej4d",
+  "imports": {
+    "s": "shadcn.lib.pen"
+  },
+  "children": [
+    {
+      "type": "frame",
+      "name": "Landing Page",
+      "width": 1440,
+      "height": 3000,
+      "fill": "var(--background)",
+      "cornerRadius": 0,
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "name": "Hero Section",
+          "width": 1440,
+          "height": 800,
+          "fill": "#0b0b10",
+          "cornerRadius": 0,
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "name": "Gradient BG",
+              "width": 1440,
+              "height": 800,
+              "cornerRadius": 0,
+              "fill": "transparent",
+              "id": "g2vn8g"
+            },
+            {
+              "type": "text",
+              "name": "Heading",
+              "fill": "#ffffff",
+              "content": "Everything on\ncampus is for sale",
+              "fontFamily": "Inter",
+              "fontSize": 72,
+              "fontWeight": 700,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 700,
+              "id": "g3t12a"
+            },
+            {
+              "type": "text",
+              "name": "Subtitle",
+              "fill": "#ffffff",
+              "content": "Textbooks, gadgets, food, services — from real students on your campus.",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": 400,
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "width": 500,
+              "id": "g43ara"
+            }
+          ],
+          "id": "g1p6ey"
+        }
+      ],
+      "id": "g09p3a"
+    }
+  ]
+}

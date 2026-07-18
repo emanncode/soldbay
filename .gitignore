@@ -1,0 +1,58 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+soldbay-web/node_modules
+soldbay-app/node_modules
+
+# Build output
+soldbay-web/.next
+soldbay-web/out
+soldbay-web/dist
+soldbay-app/dist
+soldbay-app/web-build
+soldbay-app/.expo
+
+# Env & local
+*.local
+.env*
+!.env.example
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*d.md
+
+# OS
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo
+soldbay-web/next-env.d.ts
+soldbay-app/expo-env.d.ts
+
+# Deploy
+.vercel
+
+# Native (Expo)
+soldbay-app/ios
+soldbay-app/android
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision

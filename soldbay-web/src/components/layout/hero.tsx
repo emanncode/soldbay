@@ -33,7 +33,7 @@ export function Hero() {
         >
           Everything on
           <br />
-          <span className="text-white/40">campus is</span> for sale
+          <span className="text-white/60">campus is</span> for sale
         </motion.h1>
 
         <motion.p

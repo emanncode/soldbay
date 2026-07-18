@@ -1,0 +1,44 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "canvas",
+      "x": 0,
+      "y": 0,
+      "name": "Design Canvas",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#ffffff",
+      "layout": "vertical",
+      "gap": 16,
+      "padding": [48, 24],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "title",
+          "fill": "#1d1d1f",
+          "content": "Soldbay — Design here first",
+          "textAlign": "center",
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "fill": "#6e6e73",
+          "textGrowth": "fixed-width",
+          "width": 400,
+          "content": "Design screens here in Pencil.\nApprove before coding.",
+          "lineHeight": 1.5,
+          "textAlign": "center",
+          "fontFamily": "Inter",
+          "fontSize": 14
+        }
+      ]
+    }
+  ]
+}
