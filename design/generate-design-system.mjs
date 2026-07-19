@@ -81,12 +81,12 @@ const VARIABLES = {
 
 // ── Components ──────────────────────────────────────────────────────
 
-// Button
+// Button (2xl size: h-12 px-6 text-lg)
 function makeButton(label, bg, fg, opts = {}) {
-  return frame(label, 120, 36, bg, {
+  return frame(label, 160, 48, bg, {
     cornerRadius: 9999, reusable: true,
     children: [
-      text("label", "Button", { fill: fg, fontSize: 14, fontWeight: 500, textAlign: "center", textGrowth: "fixed-width", width: 100 }),
+      text("label", "Button", { fill: fg, fontSize: 18, fontWeight: 600, textAlign: "center", textGrowth: "fixed-width", width: 130 }),
     ],
     ...(opts.stroke ? { stroke: opts.stroke, strokeWidth: 1 } : {}),
   });

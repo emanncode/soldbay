@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fileToken": "glladh",
+  "fileToken": "glqlhr",
   "variables": {
     "--background": {
       "type": "color",
@@ -197,7 +197,7 @@
   },
   "children": [
     {
-      "id": "gmfc84",
+      "id": "gmswmr",
       "type": "frame",
       "name": "shadcn: design system components",
       "width": 1200,
@@ -207,8 +207,8 @@
         {
           "type": "frame",
           "name": "Button/Default",
-          "width": 120,
-          "height": 36,
+          "width": 160,
+          "height": 48,
           "fill": "var(--primary)",
           "cornerRadius": 9999,
           "layout": "none",
@@ -219,22 +219,22 @@
               "fill": "var(--primary-foreground)",
               "content": "Button",
               "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": 500,
+              "fontSize": 18,
+              "fontWeight": 600,
               "lineHeight": 1.4,
               "textAlign": "center",
-              "width": 100,
+              "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g1o6cj"
+              "id": "g12bl4"
             }
           ],
-          "id": "g0daeb"
+          "id": "g0lc41"
         },
         {
           "type": "frame",
           "name": "Button/Secondary",
-          "width": 120,
-          "height": 36,
+          "width": 160,
+          "height": 48,
           "fill": "var(--secondary)",
           "cornerRadius": 9999,
           "layout": "none",
@@ -245,22 +245,22 @@
               "fill": "var(--secondary-foreground)",
               "content": "Button",
               "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": 500,
+              "fontSize": 18,
+              "fontWeight": 600,
               "lineHeight": 1.4,
               "textAlign": "center",
-              "width": 100,
+              "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g3yqmz"
+              "id": "g3eka1"
             }
           ],
-          "id": "g2h99y"
+          "id": "g2zb95"
         },
         {
           "type": "frame",
           "name": "Button/Destructive",
-          "width": 120,
-          "height": 36,
+          "width": 160,
+          "height": 48,
           "fill": "var(--destructive)",
           "cornerRadius": 9999,
           "layout": "none",
@@ -271,22 +271,22 @@
               "fill": "var(--destructive-foreground)",
               "content": "Button",
               "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": 500,
+              "fontSize": 18,
+              "fontWeight": 600,
               "lineHeight": 1.4,
               "textAlign": "center",
-              "width": 100,
+              "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g56ejw"
+              "id": "g5ljhf"
             }
           ],
-          "id": "g4rran"
+          "id": "g4ybb1"
         },
         {
           "type": "frame",
           "name": "Button/Outline",
-          "width": 120,
-          "height": 36,
+          "width": 160,
+          "height": 48,
           "fill": "transparent",
           "cornerRadius": 9999,
           "stroke": "var(--border)",
@@ -299,22 +299,22 @@
               "fill": "var(--foreground)",
               "content": "Button",
               "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": 500,
+              "fontSize": 18,
+              "fontWeight": 600,
               "lineHeight": 1.4,
               "textAlign": "center",
-              "width": 100,
+              "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g7gy0k"
+              "id": "g7cyrt"
             }
           ],
-          "id": "g6nvol"
+          "id": "g6yubb"
         },
         {
           "type": "frame",
           "name": "Button/Ghost",
-          "width": 120,
-          "height": 36,
+          "width": 160,
+          "height": 48,
           "fill": "transparent",
           "cornerRadius": 9999,
           "layout": "none",
@@ -325,16 +325,16 @@
               "fill": "var(--foreground)",
               "content": "Button",
               "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": 500,
+              "fontSize": 18,
+              "fontWeight": 600,
               "lineHeight": 1.4,
               "textAlign": "center",
-              "width": 100,
+              "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g9uv1i"
+              "id": "g9hy6o"
             }
           ],
-          "id": "g8noeb"
+          "id": "g8edwk"
         },
         {
           "type": "frame",
@@ -357,10 +357,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gbj5ui"
+              "id": "gb1x4h"
             }
           ],
-          "id": "gad3j3"
+          "id": "ga4wns"
         },
         {
           "type": "frame",
@@ -383,10 +383,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gdev7y"
+              "id": "gdmm0n"
             }
           ],
-          "id": "gci769"
+          "id": "gcbv3q"
         },
         {
           "type": "frame",
@@ -409,10 +409,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gfelyi"
+              "id": "gfxlrz"
             }
           ],
-          "id": "gen4t4"
+          "id": "gev5qv"
         },
         {
           "type": "frame",
@@ -437,10 +437,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "ghrqb8"
+              "id": "gheofp"
             }
           ],
-          "id": "ggqrwi"
+          "id": "ggb43g"
         },
         {
           "type": "frame",
@@ -463,7 +463,7 @@
               "fontWeight": 600,
               "lineHeight": 1.4,
               "width": 260,
-              "id": "gj0ho6"
+              "id": "gj5ich"
             },
             {
               "type": "text",
@@ -475,10 +475,10 @@
               "fontWeight": 400,
               "lineHeight": 1.4,
               "width": 260,
-              "id": "gkpbru"
+              "id": "gk1mg7"
             }
           ],
-          "id": "givptd"
+          "id": "gifktb"
         }
       ]
     }
