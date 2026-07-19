@@ -5,10 +5,11 @@ import "./globals.css";
 const display = Bricolage_Grotesque({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
 });
 
 const inter = Inter({
-  variable: "--font-body",
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${inter.variable} font-sans`}>
+      <body className={`${display.variable} ${inter.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
