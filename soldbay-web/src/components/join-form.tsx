@@ -16,6 +16,12 @@ import {
 import { motion } from "framer-motion"
 import { soldbayEase } from "@/lib/motion"
 import { cn } from "@/lib/utils"
+import { ErrorMessage } from "@/components/ui/error-message"
+import {
+  appErrorFromNetwork,
+  appErrorFromResponse,
+  type AppError,
+} from "@/lib/api-error"
 
 const universities = [
   "University of Lagos (UNILAG)",
@@ -111,7 +117,7 @@ export function JoinForm({ type }: JoinFormProps) {
   )
 
   const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState<AppError | null>(null)
 
   const toggleCategory = (index: number) => {
     setCategories((prev) =>
@@ -125,7 +131,7 @@ export function JoinForm({ type }: JoinFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
+    setError(null)
     setSubmitting(true)
 
     try {
@@ -150,10 +156,9 @@ export function JoinForm({ type }: JoinFormProps) {
         return
       }
 
-      const data = await res.json()
-      setError(data.error || "Something went wrong. Please try again.")
+      setError(await appErrorFromResponse(res))
     } catch {
-      setError("Network error. Please check your connection and try again.")
+      setError(appErrorFromNetwork())
     } finally {
       setSubmitting(false)
     }
@@ -319,11 +324,9 @@ export function JoinForm({ type }: JoinFormProps) {
               ))}
             </div>
 
-            {error && (
-              <div className="rounded-lg bg-red-50 px-4 py-3 text-body-s text-red-600">
-                {error}
-              </div>
-            )}
+            {error ? (
+              <ErrorMessage error={error} onDismiss={() => setError(null)} />
+            ) : null}
 
             <Button
               type="submit"
@@ -332,7 +335,11 @@ export function JoinForm({ type }: JoinFormProps) {
               className="mt-2 w-full"
               disabled={submitting}
             >
-              {submitting ? "Joining…" : "Join Waitlist &rarr;"}
+              {submitting
+                ? "Joining…"
+                : error?.retryable
+                  ? "Try again →"
+                  : "Join Waitlist →"}
             </Button>
           </form>
         </motion.div>
