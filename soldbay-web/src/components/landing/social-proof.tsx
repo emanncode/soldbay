@@ -1,40 +1,54 @@
 "use client"
 
+import Link from "next/link"
 import { AnimatedSection } from "@/components/animated-section"
-import { motion } from "framer-motion"
-import { soldbayEase } from "@/lib/motion"
+import { motion, useReducedMotion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { scaleInVariants, scrollViewport } from "@/lib/motion"
+import { getWaitlistProof } from "@/lib/waitlist-proof"
 
-export function SocialProof() {
+type SocialProofProps = {
+  count?: number
+}
+
+export function SocialProof({ count = 0 }: SocialProofProps) {
+  const reduceMotion = useReducedMotion()
+  const proof = getWaitlistProof(count)
+  const isEmpty = count <= 0
+
   return (
-    <AnimatedSection className="bg-surface py-20 md:py-24">
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        <motion.p
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: soldbayEase }}
-          className="font-display text-[64px] font-bold leading-[1] text-brand-start md:text-[80px]"
+    <AnimatedSection className="py-16 md:py-24">
+      <div className="container-page max-w-3xl">
+        <motion.div
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={scrollViewport}
+          variants={scaleInVariants}
+          className="glass-panel-strong rounded-3xl px-8 py-12 text-center sm:px-12 will-change-transform"
         >
-          2,847+
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15, ease: soldbayEase }}
-          className="mt-2 font-display text-heading-m text-text-primary"
-        >
-          students already joined
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3, ease: soldbayEase }}
-          className="mt-3 text-body-m text-text-secondary"
-        >
-          From universities across Nigeria — waiting for Soldbay to launch on their campus.
-        </motion.p>
+          <p className="font-display text-[clamp(2.75rem,8vw,5rem)] font-bold leading-none text-brand-light md:text-[80px]">
+            {proof.headline}
+          </p>
+          <p className="mt-4 font-display text-heading-m text-white">{proof.title}</p>
+          <p className="mt-4 text-body-m text-white/55">{proof.subtitle}</p>
+
+          {isEmpty ? (
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button asChild variant="glass-primary" size="lg" className="font-semibold">
+                <Link href="/join/buyer">Be the first buyer</Link>
+              </Button>
+              <Button asChild variant="glass" size="lg" className="font-semibold">
+                <Link href="/join/seller">Be the first seller</Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="mt-8">
+              <Button asChild variant="glass" size="lg" className="font-semibold">
+                <Link href="/join/buyer">Join the waitlist</Link>
+              </Button>
+            </div>
+          )}
+        </motion.div>
       </div>
     </AnimatedSection>
   )

@@ -17,6 +17,20 @@ function toSellFrequency(value: string): SellFrequency | null {
   return map[value.toLowerCase()] ?? null
 }
 
+/** Public waitlist size for social-proof UI (no PII). */
+export async function GET() {
+  try {
+    const count = await prisma.waitlistSignup.count()
+    return NextResponse.json({ count })
+  } catch (error) {
+    console.error("Waitlist count error:", error)
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again." },
+      { status: 500 },
+    )
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
