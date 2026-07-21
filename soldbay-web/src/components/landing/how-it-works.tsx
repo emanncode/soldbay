@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { AnimatedSection } from "@/components/animated-section";
-import { TagIcon } from "@/components/tag-icon";
-import { soldbayEase } from "@/lib/motion";
+import { motion, useReducedMotion } from "framer-motion"
+import { AnimatedSection } from "@/components/animated-section"
+import { TagIcon } from "@/components/tag-icon"
+import { fadeUpVariants, scrollViewport, staggerCardVariants } from "@/lib/motion"
 
 const steps = [
   {
@@ -21,57 +21,56 @@ const steps = [
     title: "Start buying or selling",
     desc: "Browse listings or post your own. Campus commerce, made simple.",
   },
-];
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: 0.15 * i, ease: soldbayEase },
-  }),
-};
+]
 
 export function HowItWorks() {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <AnimatedSection className="bg-white py-20 md:py-28">
-      <div className="mx-auto px-[5%]">
-        <div className="mb-14 text-center">
-          <h2 className="font-display text-display-m text-text-primary md:text-display-l">
+    <AnimatedSection className="py-24 md:py-32">
+      <div className="container-page">
+        <motion.div
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={scrollViewport}
+          className="mb-16 text-center"
+        >
+          <motion.h2
+            variants={fadeUpVariants}
+            className="font-display text-display-m text-white md:text-display-l"
+          >
             How it works
-          </h2>
-          <p className="mt-2 text-body-m text-text-secondary">
+          </motion.h2>
+          <motion.p variants={fadeUpVariants} className="mt-4 text-body-m text-white/55">
             Three simple steps to get started on Soldbay.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="grid gap-8 md:grid-cols-3">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
               custom={i}
-              initial="hidden"
+              initial={reduceMotion ? false : "hidden"}
               whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={cardVariants}
-              className="flex flex-col gap-4 rounded-[24px] border border-border bg-white p-7 shadow-sm"
+              viewport={scrollViewport}
+              variants={staggerCardVariants}
+              className="glass-panel flex flex-col gap-4 rounded-3xl p-8 will-change-transform"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-linear-to-br from-brand-start to-brand-end">
+              <div className="flex items-center gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-linear-to-br from-brand-start/90 to-brand-end/90 shadow-[0_0_20px_rgb(91_61_240/0.35)]">
                   <TagIcon size={18} fill="#ffffff" />
                 </div>
-                <span className="font-display text-[28px] font-bold text-brand-start">
+                <span className="font-display text-[32px] font-bold leading-none text-brand-light">
                   {step.num}
                 </span>
               </div>
-              <h3 className="font-display text-heading-s text-text-primary">
-                {step.title}
-              </h3>
-              <p className="text-body-s text-text-secondary">{step.desc}</p>
+              <h3 className="font-display text-heading-s text-white">{step.title}</h3>
+              <p className="text-body-s text-white/55">{step.desc}</p>
             </motion.div>
           ))}
         </div>
       </div>
     </AnimatedSection>
-  );
+  )
 }

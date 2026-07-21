@@ -1,5 +1,6 @@
 "use client"
 
+import { motion, useReducedMotion } from "framer-motion"
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { AnimatedSection } from "@/components/animated-section"
+import { fadeUpVariants, scaleInVariants, scrollViewport } from "@/lib/motion"
 
 const faqs = [
   {
@@ -32,25 +34,48 @@ const faqs = [
 ]
 
 export function FAQ() {
-  return (
-    <AnimatedSection className="bg-white py-20 md:py-28">
-      <div className="mx-auto px-[5%]" id="faq">
-        <h2 className="mb-12 text-center font-display text-display-m text-text-primary md:text-display-l">
-          Frequently asked questions
-        </h2>
+  const reduceMotion = useReducedMotion()
 
-        <Accordion type="single" collapsible className="w-full border-0">
-          {faqs.map((faq) => (
-            <AccordionItem key={faq.q} value={faq.q} className="border-b border-border py-1">
-              <AccordionTrigger className="px-0 py-4 text-left font-display text-heading-s text-text-primary hover:no-underline">
-                {faq.q}
-              </AccordionTrigger>
-              <AccordionContent className="px-0 pb-4 text-body-m text-text-secondary">
-                {faq.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+  return (
+    <AnimatedSection className="py-24 md:py-32" id="faq">
+      <div className="container-page max-w-3xl">
+        <motion.h2
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={scrollViewport}
+          variants={fadeUpVariants}
+          className="mb-16 text-center font-display text-display-m text-white md:text-display-l"
+        >
+          Frequently asked questions
+        </motion.h2>
+
+        <motion.div
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={scrollViewport}
+          variants={scaleInVariants}
+        >
+          <Accordion
+            type="single"
+            collapsible
+            className="glass-panel w-full overflow-hidden rounded-3xl border-white/12"
+          >
+            {faqs.map((faq) => (
+              <AccordionItem
+                key={faq.q}
+                value={faq.q}
+                className="border-b border-white/10 px-0 last:border-b-0 data-open:bg-white/5"
+              >
+                <AccordionTrigger className="cursor-pointer px-4 py-4 text-left font-display text-heading-s text-white hover:no-underline hover:text-white sm:px-8 sm:py-6 **:data-[slot=accordion-trigger-icon]:text-white/50">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-4 text-body-m text-white/60 sm:px-8 sm:pb-6">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </motion.div>
       </div>
     </AnimatedSection>
   )
