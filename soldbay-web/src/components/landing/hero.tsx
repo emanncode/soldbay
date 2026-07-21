@@ -1,19 +1,15 @@
-"use client"
+"use client";
 
-import { motion, useReducedMotion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { fadeUpVariants, scaleInVariants } from "@/lib/motion"
-import Link from "next/link"
-import Image from "next/image"
+import { motion, useReducedMotion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { fadeUpVariants, scaleInVariants } from "@/lib/motion";
+import Link from "next/link";
+import Image from "next/image";
 
-/**
- * Hero abstract artwork path (served from /public).
- * See: public/HERO_ABSTRACT_README.txt
- */
-const HERO_ABSTRACT_SRC = "/hero-abstract.svg"
+const HERO_ABSTRACT_SRC = "/hero-abstract.svg";
 
 export function Hero() {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotion();
 
   return (
     <section className="relative flex min-h-screen flex-col overflow-hidden">
@@ -37,8 +33,7 @@ export function Hero() {
         />
       </div>
 
-      {/* Gutters 16→24→32→48; clear fixed nav 112/128 */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[100rem] flex-1 flex-col justify-end px-4 pt-nav pb-16 sm:px-6 sm:pb-24 md:px-8 lg:px-16 lg:pb-32">
+      <div className="relative z-10 mx-auto flex w-full max-w-[100rem] flex-1 flex-col justify-center px-4 pt-nav pb-16 sm:px-6 sm:pb-24 md:px-8 lg:px-16 lg:pb-32">
         <motion.div
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
@@ -56,10 +51,10 @@ export function Hero() {
               variants={fadeUpVariants}
               className="w-full max-w-none font-display font-extrabold tracking-tight"
             >
-              <span className="text-hero-gradient block text-[clamp(2.75rem,9vw,7.5rem)] leading-[0.95] drop-shadow-[0_4px_40px_rgba(0,0,0,0.55)]">
+              <span className="text-hero-gradient block text-[clamp(3.85rem,9vw,7.5rem)] leading-[0.95] drop-shadow-[0_4px_40px_rgba(0,0,0,0.55)]">
                 Student marketplace
               </span>
-              <span className="text-hero-gradient mt-0 block text-[clamp(2.75rem,9vw,7.5rem)] leading-[0.95] drop-shadow-[0_4px_40px_rgba(0,0,0,0.55)]">
+              <span className="text-hero-gradient mt-0 block text-[clamp(3.85rem,9vw,7.5rem)] leading-[0.95] drop-shadow-[0_4px_40px_rgba(0,0,0,0.55)]">
                 Coming to your campus.
               </span>
             </motion.h1>
@@ -75,9 +70,11 @@ export function Hero() {
 
           <motion.div
             variants={scaleInVariants}
-            className="glass-panel-strong w-full shrink-0 rounded-3xl p-8 sm:max-w-md"
+            className="glass-panel-strong w-full shrink-0 mt-15 rounded-3xl p-8 sm:max-w-md"
           >
-            <p className="font-display text-heading-s text-white">Join our waitlist</p>
+            <p className="font-display text-heading-s text-white">
+              Join our waitlist
+            </p>
             <p className="mt-2 text-body-s text-white/70">
               Get notified when Soldbay launches on your campus.
             </p>
@@ -103,5 +100,5 @@ export function Hero() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
