@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { SiteNav } from "@/components/site-nav";
 
 const display = Bricolage_Grotesque({
   variable: "--font-display",
@@ -8,10 +10,7 @@ const display = Bricolage_Grotesque({
   weight: ["600", "700", "800"],
 });
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Soldbay — Buy and sell on campus",
@@ -20,8 +19,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", inter.variable)}>
       <body className={`${display.variable} ${inter.variable} font-sans antialiased`}>
+        <SiteNav />
         {children}
       </body>
     </html>
