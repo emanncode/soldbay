@@ -7,14 +7,21 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { motion } from "framer-motion"
-import { soldbayEase } from "@/lib/motion"
+import { motion, useReducedMotion } from "framer-motion"
+import { formCardEntry, formFieldEntry } from "@/lib/motion"
 import { cn } from "@/lib/utils"
 import { ErrorMessage } from "@/components/ui/error-message"
 import {
@@ -22,6 +29,7 @@ import {
   appErrorFromResponse,
   type AppError,
 } from "@/lib/api-error"
+import { PageShell } from "@/components/page-shell"
 
 const universities = [
   "University of Lagos (UNILAG)",
@@ -39,6 +47,13 @@ const universities = [
 const academicLevels = ["100L", "200L", "300L", "400L", "500L", "Postgraduate"]
 const sellFrequencies = ["Daily", "Weekly", "Occasionally"]
 
+/** Shared field look — heights/padding on 8-pt (h-48px, px-16) */
+const fieldClass =
+  "h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white shadow-none placeholder:text-white/40 focus-visible:border-brand-light/50 focus-visible:ring-brand-start/25"
+
+const selectContentClass =
+  "rounded-xl border border-white/12 bg-[#12101f] text-white shadow-xl ring-1 ring-white/10"
+
 interface ChipProps {
   label: string
   selected: boolean
@@ -51,10 +66,10 @@ function Chip({ label, selected, onClick }: ChipProps) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-all",
+        "inline-flex cursor-pointer items-center rounded-full border px-4 py-2 text-[13px] font-medium transition-all",
         selected
-          ? "border-brand-start bg-brand-start text-white"
-          : "border-border bg-white text-text-primary hover:border-text-tertiary",
+          ? "border-brand-light/60 bg-brand-start/80 text-white shadow-[0_0_16px_rgb(91_61_240/0.35)]"
+          : "border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:bg-white/10 hover:text-white",
       )}
     >
       {label}
@@ -74,6 +89,7 @@ interface JoinFormProps {
 export function JoinForm({ type }: JoinFormProps) {
   const router = useRouter()
   const isBuyer = type === "buyer"
+  const reduceMotion = useReducedMotion()
 
   const [formData, setFormData] = useState({
     name: "",
@@ -165,185 +181,238 @@ export function JoinForm({ type }: JoinFormProps) {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-5.5rem)] flex-col bg-[#0b0b10]">
-      <div className="flex flex-1 items-center justify-center px-6 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: soldbayEase }}
-          className="w-full max-w-140 rounded-[24px] bg-white p-8 shadow-lg md:p-12"
-        >
-          <h1 className="font-display text-heading-l text-text-primary">
-            {isBuyer ? "Join as a Buyer" : "Become a Seller"}
-          </h1>
-          <p className="mt-1 text-body-s text-text-secondary">
-            {isBuyer
-              ? "Get notified when Soldbay launches on your campus."
-              : "Start selling to students on your campus."}
-          </p>
-
-          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
-            {/* Name */}
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                placeholder="Enter your full name"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
-                className="rounded-md border-border bg-white/50 px-3.5 py-2.5"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="email">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@university.edu.ng"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData((d) => ({ ...d, email: e.target.value }))}
-                className="rounded-md border-border bg-white/50 px-3.5 py-2.5"
-              />
-            </div>
-
-            {/* University */}
-            <div className="flex flex-col gap-1.5">
-              <Label>University</Label>
-              <Select
-                value={formData.university}
-                onValueChange={(v) => setFormData((d) => ({ ...d, university: v }))}
-              >
-                <SelectTrigger className="h-10 w-full rounded-md border-border bg-white/50 px-3.5 text-left">
-                  <SelectValue placeholder="Select your university" />
-                </SelectTrigger>
-                <SelectContent>
-                  {universities.map((u) => (
-                    <SelectItem key={u} value={u}>
-                      {u}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Academic Level (buyer) or What they sell (seller) */}
-            {isBuyer ? (
-              <div className="flex flex-col gap-1.5">
-                <Label>Academic Level</Label>
-                <Select
-                  value={formData.academicLevel}
-                  onValueChange={(v) => setFormData((d) => ({ ...d, academicLevel: v }))}
+    <PageShell>
+      <div className="flex min-h-screen flex-col pt-nav">
+        <div className="flex flex-1 items-center justify-center px-4 py-16 sm:px-6">
+          <motion.div
+            className="form-spotlight w-full max-w-140"
+            initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            {/* Lightened focal area behind the form */}
+            <div className="form-spotlight-glow" aria-hidden />
+            <Card className="glass-panel-focus relative z-10 border-white/20 bg-transparent py-0 shadow-none ring-0">
+              <CardHeader className="px-8 pt-8 md:px-12 md:pt-12">
+                <motion.div
+                  initial={reduceMotion ? false : "hidden"}
+                  animate="visible"
+                  variants={formFieldEntry}
                 >
-                  <SelectTrigger className="h-10 w-full rounded-md border-border bg-white/50 px-3.5 text-left">
-                    <SelectValue placeholder="Select your level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {academicLevels.map((l) => (
-                      <SelectItem key={l} value={l}>
-                        {l}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="sellCategory">What do you sell?</Label>
-                <Input
-                  id="sellCategory"
-                  placeholder="e.g. textbooks, gadgets, fashion, snacks"
-                  value={formData.sellCategory}
-                  onChange={(e) => setFormData((d) => ({ ...d, sellCategory: e.target.value }))}
-                  className="rounded-md border-border bg-white/50 px-3.5 py-2.5"
-                />
-              </div>
-            )}
+                  <CardTitle className="font-display text-heading-l text-white">
+                    {isBuyer ? "Join as a Buyer" : "Become a Seller"}
+                  </CardTitle>
+                  <CardDescription className="mt-2 text-body-s text-white/55">
+                    {isBuyer
+                      ? "Get notified when Soldbay launches on your campus."
+                      : "Start selling to students on your campus."}
+                  </CardDescription>
+                </motion.div>
+              </CardHeader>
 
-            {/* Categories chips (buyer) or Sell frequency (seller) */}
-            {isBuyer ? (
-              <div className="flex flex-col gap-2">
-                <Label>Interested Categories</Label>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((cat, i) => (
-                    <Chip
-                      key={cat.label}
-                      label={cat.label}
-                      selected={cat.selected}
-                      onClick={() => toggleCategory(i)}
+              <CardContent className="px-8 pb-8 md:px-12 md:pb-12">
+                <motion.form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-6"
+                  variants={formCardEntry}
+                  initial={reduceMotion ? false : "hidden"}
+                  animate="visible"
+                >
+                  <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                    <Label htmlFor="name" className="text-white/80">
+                      Full Name
+                    </Label>
+                    <Input
+                      id="name"
+                      placeholder="Enter your full name"
+                      required
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData((d) => ({ ...d, name: e.target.value }))
+                      }
+                      className={fieldClass}
                     />
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-1.5">
-                <Label>How often would you sell?</Label>
-                <Select
-                  value={formData.sellFrequency}
-                  onValueChange={(v) => setFormData((d) => ({ ...d, sellFrequency: v }))}
-                >
-                  <SelectTrigger className="h-10 w-full rounded-md border-border bg-white/50 px-3.5 text-left">
-                    <SelectValue placeholder="Select frequency" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {sellFrequencies.map((f) => (
-                      <SelectItem key={f} value={f}>
-                        {f}
-                      </SelectItem>
+                  </motion.div>
+
+                  <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                    <Label htmlFor="email" className="text-white/80">
+                      Email Address
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="you@university.edu.ng"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData((d) => ({ ...d, email: e.target.value }))
+                      }
+                      className={fieldClass}
+                    />
+                  </motion.div>
+
+                  <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                    <Label className="text-white/80">University</Label>
+                    <Select
+                      value={formData.university}
+                      onValueChange={(v) =>
+                        setFormData((d) => ({ ...d, university: v }))
+                      }
+                    >
+                      <SelectTrigger className={cn(fieldClass, "w-full text-left")}>
+                        <SelectValue placeholder="Select your university" />
+                      </SelectTrigger>
+                      <SelectContent className={selectContentClass}>
+                        {universities.map((u) => (
+                          <SelectItem
+                            key={u}
+                            value={u}
+                            className="focus:bg-white/10 focus:text-white"
+                          >
+                            {u}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </motion.div>
+
+                  {isBuyer ? (
+                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                      <Label className="text-white/80">Academic Level</Label>
+                      <Select
+                        value={formData.academicLevel}
+                        onValueChange={(v) =>
+                          setFormData((d) => ({ ...d, academicLevel: v }))
+                        }
+                      >
+                        <SelectTrigger className={cn(fieldClass, "w-full text-left")}>
+                          <SelectValue placeholder="Select your level" />
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {academicLevels.map((l) => (
+                            <SelectItem
+                              key={l}
+                              value={l}
+                              className="focus:bg-white/10 focus:text-white"
+                            >
+                              {l}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </motion.div>
+                  ) : (
+                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                      <Label htmlFor="sellCategory" className="text-white/80">
+                        What do you sell?
+                      </Label>
+                      <Input
+                        id="sellCategory"
+                        placeholder="e.g. textbooks, gadgets, fashion, snacks"
+                        value={formData.sellCategory}
+                        onChange={(e) =>
+                          setFormData((d) => ({
+                            ...d,
+                            sellCategory: e.target.value,
+                          }))
+                        }
+                        className={fieldClass}
+                      />
+                    </motion.div>
+                  )}
+
+                  {isBuyer ? (
+                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                      <Label className="text-white/80">Interested Categories</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {categories.map((cat, i) => (
+                          <Chip
+                            key={cat.label}
+                            label={cat.label}
+                            selected={cat.selected}
+                            onClick={() => toggleCategory(i)}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                      <Label className="text-white/80">How often would you sell?</Label>
+                      <Select
+                        value={formData.sellFrequency}
+                        onValueChange={(v) =>
+                          setFormData((d) => ({ ...d, sellFrequency: v }))
+                        }
+                      >
+                        <SelectTrigger className={cn(fieldClass, "w-full text-left")}>
+                          <SelectValue placeholder="Select frequency" />
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {sellFrequencies.map((f) => (
+                            <SelectItem
+                              key={f}
+                              value={f}
+                              className="focus:bg-white/10 focus:text-white"
+                            >
+                              {f}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </motion.div>
+                  )}
+
+                  <motion.div variants={formFieldEntry} className="flex flex-col gap-4 pt-2">
+                    <Label className="text-base text-white/90">
+                      {isBuyer
+                        ? "What matters most to you as a buyer?"
+                        : "What matters most to you as a seller?"}
+                    </Label>
+                    {poll.map((option, i) => (
+                      <div key={option.label} className="flex items-center gap-4">
+                        <Checkbox
+                          id={`poll-${i}`}
+                          checked={option.checked}
+                          onCheckedChange={() => togglePoll(i)}
+                          className="border-white/25 bg-white/5 data-checked:border-brand-start data-checked:bg-brand-start"
+                        />
+                        <label
+                          htmlFor={`poll-${i}`}
+                          className="cursor-pointer text-body-s text-white/80 select-none"
+                        >
+                          {option.label}
+                        </label>
+                      </div>
                     ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+                  </motion.div>
 
-            {/* Poll question */}
-            <div className="flex flex-col gap-3 pt-2">
-              <Label className="text-base">
-                {isBuyer
-                  ? "What matters most to you as a buyer?"
-                  : "What matters most to you as a seller?"}
-              </Label>
-              {poll.map((option, i) => (
-                <div key={option.label} className="flex items-center gap-3">
-                  <Checkbox
-                    id={`poll-${i}`}
-                    checked={option.checked}
-                    onCheckedChange={() => togglePoll(i)}
-                    className="border-border data-[state=checked]:bg-brand-start data-[state=checked]:border-brand-start"
-                  />
-                  <label
-                    htmlFor={`poll-${i}`}
-                    className="text-body-s text-text-primary cursor-pointer"
-                  >
-                    {option.label}
-                  </label>
-                </div>
-              ))}
-            </div>
+                  {error ? (
+                    <motion.div variants={formFieldEntry}>
+                      <ErrorMessage error={error} onDismiss={() => setError(null)} />
+                    </motion.div>
+                  ) : null}
 
-            {error ? (
-              <ErrorMessage error={error} onDismiss={() => setError(null)} />
-            ) : null}
-
-            <Button
-              type="submit"
-              variant="default"
-              size="2xl"
-              className="mt-2 w-full"
-              disabled={submitting}
-            >
-              {submitting
-                ? "Joining…"
-                : error?.retryable
-                  ? "Try again →"
-                  : "Join Waitlist →"}
-            </Button>
-          </form>
-        </motion.div>
+                  <motion.div variants={formFieldEntry}>
+                    <Button
+                      type="submit"
+                      variant="glass-primary"
+                      size="2xl"
+                      className="mt-0 w-full font-semibold"
+                      disabled={submitting}
+                    >
+                      {submitting
+                        ? "Joining…"
+                        : error?.retryable
+                          ? "Try again →"
+                          : "Join Waitlist →"}
+                    </Button>
+                  </motion.div>
+                </motion.form>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </PageShell>
   )
 }
