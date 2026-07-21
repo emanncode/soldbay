@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fileToken": "g5sdzg",
+  "fileToken": "g54vig",
   "imports": {
     "s": "shadcn.lib.pen"
   },
@@ -30,7 +30,7 @@
               "height": 800,
               "cornerRadius": 0,
               "fill": "transparent",
-              "id": "g2dsox"
+              "id": "g24b9i"
             },
             {
               "type": "text",
@@ -43,7 +43,7 @@
               "lineHeight": 1.4,
               "textAlign": "center",
               "width": 700,
-              "id": "g31ub5"
+              "id": "g3gj5x"
             },
             {
               "type": "text",
@@ -56,13 +56,13 @@
               "lineHeight": 1.4,
               "textAlign": "center",
               "width": 500,
-              "id": "g4hels"
+              "id": "g4kcfa"
             }
           ],
-          "id": "g1yywk"
+          "id": "g13rr3"
         }
       ],
-      "id": "g0djww"
+      "id": "g0wyb9"
     }
   ]
 }

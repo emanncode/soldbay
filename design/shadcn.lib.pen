@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fileToken": "glqlhr",
+  "fileToken": "glsbtc",
   "variables": {
     "--background": {
       "type": "color",
@@ -197,7 +197,7 @@
   },
   "children": [
     {
-      "id": "gmswmr",
+      "id": "gmsoa4",
       "type": "frame",
       "name": "shadcn: design system components",
       "width": 1200,
@@ -225,10 +225,10 @@
               "textAlign": "center",
               "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g12bl4"
+              "id": "g1avwd"
             }
           ],
-          "id": "g0lc41"
+          "id": "g0d9p7"
         },
         {
           "type": "frame",
@@ -251,10 +251,10 @@
               "textAlign": "center",
               "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g3eka1"
+              "id": "g3vc9q"
             }
           ],
-          "id": "g2zb95"
+          "id": "g2acbe"
         },
         {
           "type": "frame",
@@ -277,10 +277,10 @@
               "textAlign": "center",
               "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g5ljhf"
+              "id": "g5lbbd"
             }
           ],
-          "id": "g4ybb1"
+          "id": "g4xrdh"
         },
         {
           "type": "frame",
@@ -305,10 +305,10 @@
               "textAlign": "center",
               "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g7cyrt"
+              "id": "g7bniu"
             }
           ],
-          "id": "g6yubb"
+          "id": "g62t8l"
         },
         {
           "type": "frame",
@@ -331,10 +331,10 @@
               "textAlign": "center",
               "width": 130,
               "textGrowth": "fixed-width",
-              "id": "g9hy6o"
+              "id": "g95dj0"
             }
           ],
-          "id": "g8edwk"
+          "id": "g8gohx"
         },
         {
           "type": "frame",
@@ -357,10 +357,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gb1x4h"
+              "id": "gbqjr7"
             }
           ],
-          "id": "ga4wns"
+          "id": "ga3vsf"
         },
         {
           "type": "frame",
@@ -383,10 +383,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gdmm0n"
+              "id": "gd0gfm"
             }
           ],
-          "id": "gcbv3q"
+          "id": "gcczch"
         },
         {
           "type": "frame",
@@ -409,10 +409,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gfxlrz"
+              "id": "gfvxd8"
             }
           ],
-          "id": "gev5qv"
+          "id": "genqsw"
         },
         {
           "type": "frame",
@@ -437,10 +437,10 @@
               "textAlign": "center",
               "width": 44,
               "textGrowth": "fixed-width",
-              "id": "gheofp"
+              "id": "gh7odz"
             }
           ],
-          "id": "ggb43g"
+          "id": "ggpj2e"
         },
         {
           "type": "frame",
@@ -463,7 +463,7 @@
               "fontWeight": 600,
               "lineHeight": 1.4,
               "width": 260,
-              "id": "gj5ich"
+              "id": "gjbfr8"
             },
             {
               "type": "text",
@@ -475,10 +475,10 @@
               "fontWeight": 400,
               "lineHeight": 1.4,
               "width": 260,
-              "id": "gk1mg7"
+              "id": "gk8r56"
             }
           ],
-          "id": "gifktb"
+          "id": "giemmf"
         }
       ]
     }
