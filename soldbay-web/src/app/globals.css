@@ -1,6 +1,32 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Clickable UI affordance — buttons, links, FAQ, custom controls */
+@layer base {
+  a[href],
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="checkbox"],
+  [role="combobox"],
+  [role="option"],
+  summary,
+  label[for],
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="submit"],
+  input[type="button"],
+  select {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"],
+  input:disabled,
+  select:disabled {
+    cursor: not-allowed;
+  }
+}
+
 @theme inline {
   @keyframes accordion-down {
     from { height: 0; }
@@ -117,14 +143,63 @@
   --font-display: var(--font-display), "Bricolage Grotesque", sans-serif;
   --font-sans: var(--font-sans), "Inter", sans-serif;
 
-  /* Radii */
+  /* Radii — 8-point friendly */
   --radius-sm: 8px;
-  --radius-md: 12px;
+  --radius-md: 8px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+  --radius-2xl: 32px;
+
+  /* Spacing scale (8-point grid; 4px half-step only for micro gaps) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-7: 56px;
+  --space-8: 64px;
+  --space-10: 80px;
+  --space-12: 96px;
+  --space-14: 112px;
+  --space-16: 128px;
 
   /* Motion */
   --ease-soldbay: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/**
+ * Horizontal page gutters + max width — 8-pt aligned (16 / 24 / 32).
+ * Use for nav, sections, forms.
+ */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem; /* 1152 ≈ 6xl */
+  padding-inline: 16px;
+}
+
+@media (width >= 40rem) {
+  .container-page {
+    padding-inline: 24px;
+  }
+}
+
+@media (width >= 64rem) {
+  .container-page {
+    padding-inline: 32px;
+  }
+}
+
+/** Fixed-nav offset (8×14 / 8×16) */
+@utility pt-nav {
+  padding-top: 112px; /* 8×14 */
+}
+
+@media (width >= 40rem) {
+  .pt-nav {
+    padding-top: 128px; /* 8×16 */
+  }
 }
 
 @utility text-display-xl {
@@ -204,5 +279,159 @@
 
   .text-display-l {
     font-size: 60px;
+  }
+}
+
+/* ── Glassmorphism (landing / dark surfaces) ───────────────────────── */
+
+@utility glass-panel {
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background-color: rgb(255 255 255 / 0.06);
+  box-shadow:
+    0 8px 32px rgb(0 0 0 / 0.35),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+@utility glass-panel-strong {
+  border: 1px solid rgb(255 255 255 / 0.16);
+  background-color: rgb(255 255 255 / 0.1);
+  box-shadow:
+    0 12px 40px rgb(0 0 0 / 0.4),
+    inset 0 1px 0 rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+}
+
+@utility glass-input {
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background-color: rgb(0 0 0 / 0.35);
+  color: white;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Fixed full-page Soldbay atmosphere (purple brand, image-2 style composition) */
+@utility page-atmosphere {
+  background-color: #07060f;
+  background-image:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgb(91 61 240 / 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 40%, rgb(69 39 200 / 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 15% 70%, rgb(46 31 141 / 0.35) 0%, transparent 55%),
+    linear-gradient(180deg, #0b0b10 0%, #0a0818 40%, #07060f 100%);
+  background-attachment: fixed;
+}
+
+@utility page-noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* Nav: pure glass — blur + edge only, no filled panel behind */
+@utility glass-nav {
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background-color: transparent;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+}
+
+/**
+ * Soft spotlight behind form / success cards — draws the eye to the center.
+ * Use as a wrapper: <div class="form-spotlight"><Card /></div>
+ */
+@utility form-spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+@utility form-spotlight-glow {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: min(140%, 52rem);
+  height: min(160%, 42rem);
+  translate: -50% -50%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse 55% 50% at 50% 45%,
+      rgb(255 255 255 / 0.14) 0%,
+      rgb(139 108 255 / 0.22) 28%,
+      rgb(91 61 240 / 0.18) 48%,
+      rgb(7 6 15 / 0) 72%
+    );
+  filter: blur(2px);
+}
+
+/* Slightly brighter glass when sitting on the spotlight */
+@utility glass-panel-focus {
+  border: 1px solid rgb(255 255 255 / 0.22);
+  background-color: rgb(255 255 255 / 0.12);
+  box-shadow:
+    0 0 0 1px rgb(139 108 255 / 0.12),
+    0 20px 60px rgb(0 0 0 / 0.45),
+    0 0 80px rgb(91 61 240 / 0.2),
+    inset 0 1px 0 rgb(255 255 255 / 0.16);
+  backdrop-filter: blur(32px) saturate(1.55);
+  -webkit-backdrop-filter: blur(32px) saturate(1.55);
+}
+
+/* Hero headline — gradient shimmer clipped to glyphs */
+@utility text-hero-gradient {
+  background-image: linear-gradient(
+    105deg,
+    #ffffff 0%,
+    #f5f3ff 18%,
+    #ddd6fe 32%,
+    #c4b5fd 42%,
+    #ffffff 52%,
+    #a78bfa 68%,
+    #ede9fe 82%,
+    #ffffff 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hero-text-shimmer 9s ease-in-out infinite;
+}
+
+/* Hero headline — fill glyphs with the abstract hero image */
+@utility text-hero-image-clip {
+  background-image: url("/hero-abstract.svg");
+  background-size: cover;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* soft outline so thin glyphs stay readable on dark areas of the image */
+  filter: drop-shadow(0 2px 24px rgb(91 61 240 / 0.35));
+}
+
+@keyframes hero-text-shimmer {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* Don’t run continuous shimmer when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .text-hero-gradient {
+    animation: none;
+    background-position: 0% center;
   }
 }

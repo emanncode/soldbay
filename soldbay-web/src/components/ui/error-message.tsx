@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import type { AppError, ErrorVariant } from "@/lib/api-error"
 
 const errorMessageVariants = cva(
-  "flex w-full gap-3 rounded-xl border px-4 py-3.5 text-left shadow-sm",
+  "flex w-full gap-4 rounded-xl border px-4 py-4 text-left shadow-sm",
   {
     variants: {
       variant: {
@@ -132,7 +132,7 @@ export function ErrorMessage({ error, className, onDismiss }: ErrorMessageProps)
             </span>
           ) : null}
         </div>
-        <p className="mt-1 text-body-s leading-relaxed opacity-90">{error.message}</p>
+        <p className="mt-2 text-body-s leading-relaxed opacity-90">{error.message}</p>
         {error.retryable ? (
           <p className="mt-2 text-xs font-medium opacity-80">
             Tap the button below to try again.
@@ -143,7 +143,7 @@ export function ErrorMessage({ error, className, onDismiss }: ErrorMessageProps)
         <button
           type="button"
           onClick={onDismiss}
-          className="shrink-0 rounded-md px-1.5 py-0.5 text-xs font-medium opacity-60 transition-opacity hover:opacity-100"
+          className="shrink-0 cursor-pointer rounded-md px-1.5 py-0.5 text-xs font-medium opacity-60 transition-opacity hover:opacity-100"
           aria-label="Dismiss error"
         >
           ✕
