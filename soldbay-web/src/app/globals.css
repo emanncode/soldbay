@@ -314,6 +314,7 @@
 
 /* Fixed full-page Soldbay atmosphere (purple brand, image-2 style composition) */
 @utility page-atmosphere {
+  overflow-x: clip;
   background-color: #07060f;
   background-image:
     radial-gradient(ellipse 90% 60% at 50% -10%, rgb(91 61 240 / 0.45) 0%, transparent 55%),
