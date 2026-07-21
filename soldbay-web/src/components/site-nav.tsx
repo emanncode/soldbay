@@ -10,6 +10,7 @@ const links = [
   { href: "/join/buyer", label: "Buyers" },
   { href: "/join/seller", label: "Sellers" },
   { href: "/#faq", label: "FAQ" },
+  { href: "/#questions", label: "Questions" },
 ] as const
 
 export function SiteNav() {

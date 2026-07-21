@@ -2,6 +2,7 @@ import { Hero } from "@/components/landing/hero"
 import { HowItWorks } from "@/components/landing/how-it-works"
 import { SocialProof } from "@/components/landing/social-proof"
 import { FAQ } from "@/components/landing/faq"
+import { AskQuestion } from "@/components/landing/ask-question"
 import { Footer } from "@/components/landing/footer"
 import { PageShell } from "@/components/page-shell"
 import { prisma } from "@/lib/prisma"
@@ -25,6 +26,7 @@ export default async function Home() {
         <HowItWorks />
         <SocialProof count={waitlistCount} />
         <FAQ />
+        <AskQuestion />
         <Footer />
       </main>
     </PageShell>

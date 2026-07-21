@@ -38,6 +38,15 @@ model WaitlistSignup {
   createdAt   DateTime       @default(now())
 }
 
+/** Public “Ask a question” submissions (forwarded to QUESTIONS_INBOX email). */
+model SiteQuestion {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  question  String
+  createdAt DateTime @default(now())
+}
+
 model University {
   id    String @id @default(cuid())
   name  String @unique
