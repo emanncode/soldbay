@@ -123,7 +123,10 @@ export default function LoginScreen() {
                   }
                 />
 
-                <TouchableOpacity style={{ alignItems: "flex-end" }}>
+                <TouchableOpacity
+                  onPress={() => router.push("/forgot-password")}
+                  style={{ alignItems: "flex-end" }}
+                >
                   <Text
                     style={{
                       fontFamily: "Inter-Medium",
