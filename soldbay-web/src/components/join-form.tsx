@@ -1,36 +1,37 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { motion, useReducedMotion } from "framer-motion"
-import { formCardEntry, formFieldEntry } from "@/lib/motion"
-import { cn } from "@/lib/utils"
-import { ErrorMessage } from "@/components/ui/error-message"
+} from "@/components/ui/select";
+import { motion, useReducedMotion } from "framer-motion";
+import { formCardEntry, formFieldEntry } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { ErrorMessage } from "@/components/ui/error-message";
 import {
   appErrorFromNetwork,
   appErrorFromResponse,
   type AppError,
-} from "@/lib/api-error"
-import { PageShell } from "@/components/page-shell"
+} from "@/lib/api-error";
+import { PageShell } from "@/components/page-shell";
 
 const universities = [
+  "Adekunle Ajasin University (AAUA)",
   "University of Lagos (UNILAG)",
   "University of Ibadan (UI)",
   "Obafemi Awolowo University (OAU)",
@@ -39,24 +40,23 @@ const universities = [
   "Lagos State University (LASU)",
   "University of Benin (UNIBEN)",
   "Federal University of Technology, Akure (FUTA)",
-  "Covenant University",
   "Other",
-]
+];
 
-const academicLevels = ["100L", "200L", "300L", "400L", "500L", "Postgraduate"]
-const sellFrequencies = ["Daily", "Weekly", "Occasionally"]
+const academicLevels = ["100L", "200L", "300L", "400L", "500L", "Postgraduate"];
+const sellFrequencies = ["Daily", "Weekly", "Occasionally"];
 
 /** Shared field look — heights/padding on 8-pt (h-48px, px-16) */
 const fieldClass =
-  "h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white shadow-none placeholder:text-white/40 focus-visible:border-brand-light/50 focus-visible:ring-brand-start/25"
+  "h-12 w-full rounded-xl border border-white/15 bg-white/5 px-4 text-white shadow-none placeholder:text-white/40 focus-visible:border-brand-light/50 focus-visible:ring-brand-start/25";
 
 const selectContentClass =
-  "rounded-xl border border-white/12 bg-[#12101f] text-white shadow-xl ring-1 ring-white/10"
+  "rounded-xl border border-white/12 bg-[#12101f] text-white shadow-xl ring-1 ring-white/10";
 
 interface ChipProps {
-  label: string
-  selected: boolean
-  onClick: () => void
+  label: string;
+  selected: boolean;
+  onClick: () => void;
 }
 
 function Chip({ label, selected, onClick }: ChipProps) {
@@ -73,22 +73,22 @@ function Chip({ label, selected, onClick }: ChipProps) {
     >
       {label}
     </button>
-  )
+  );
 }
 
 interface PollOption {
-  label: string
-  checked: boolean
+  label: string;
+  checked: boolean;
 }
 
 interface JoinFormProps {
-  type: "buyer" | "seller"
+  type: "buyer" | "seller";
 }
 
 export function JoinForm({ type }: JoinFormProps) {
-  const router = useRouter()
-  const isBuyer = type === "buyer"
-  const reduceMotion = useReducedMotion()
+  const router = useRouter();
+  const isBuyer = type === "buyer";
+  const reduceMotion = useReducedMotion();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -97,7 +97,7 @@ export function JoinForm({ type }: JoinFormProps) {
     academicLevel: "",
     sellCategory: "",
     sellFrequency: "",
-  })
+  });
 
   const [categories, setCategories] = useState([
     { label: "Textbooks", selected: false },
@@ -106,7 +106,7 @@ export function JoinForm({ type }: JoinFormProps) {
     { label: "Food & Drinks", selected: false },
     { label: "Services", selected: false },
     { label: "Housing", selected: false },
-  ])
+  ]);
 
   const buyerPollOptions = [
     "Verified sellers",
@@ -114,7 +114,7 @@ export function JoinForm({ type }: JoinFormProps) {
     "Campus delivery",
     "In-app chat",
     "Buyer protection",
-  ]
+  ];
 
   const sellerPollOptions = [
     "Easy listings",
@@ -122,32 +122,34 @@ export function JoinForm({ type }: JoinFormProps) {
     "Buyer reach",
     "Secure payments",
     "In-app chat",
-  ]
+  ];
 
   const [poll, setPoll] = useState<PollOption[]>(
     (isBuyer ? buyerPollOptions : sellerPollOptions).map((label) => ({
       label,
       checked: false,
     })),
-  )
+  );
 
-  const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState<AppError | null>(null)
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<AppError | null>(null);
 
   const toggleCategory = (index: number) => {
     setCategories((prev) =>
       prev.map((c, i) => (i === index ? { ...c, selected: !c.selected } : c)),
-    )
-  }
+    );
+  };
 
   const togglePoll = (index: number) => {
-    setPoll((prev) => prev.map((p, i) => (i === index ? { ...p, checked: !p.checked } : p)))
-  }
+    setPoll((prev) =>
+      prev.map((p, i) => (i === index ? { ...p, checked: !p.checked } : p)),
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    setSubmitting(true)
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
 
     try {
       const res = await fetch("/api/waitlist", {
@@ -164,20 +166,20 @@ export function JoinForm({ type }: JoinFormProps) {
           categories: categories.filter((c) => c.selected).map((c) => c.label),
           pollAnswers: poll.filter((p) => p.checked).map((p) => p.label),
         }),
-      })
+      });
 
       if (res.status === 201) {
-        router.push("/success")
-        return
+        router.push("/success");
+        return;
       }
 
-      setError(await appErrorFromResponse(res))
+      setError(await appErrorFromResponse(res));
     } catch {
-      setError(appErrorFromNetwork())
+      setError(appErrorFromNetwork());
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <PageShell>
@@ -217,7 +219,10 @@ export function JoinForm({ type }: JoinFormProps) {
                   initial={reduceMotion ? false : "hidden"}
                   animate="visible"
                 >
-                  <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                  <motion.div
+                    variants={formFieldEntry}
+                    className="flex flex-col gap-2"
+                  >
                     <Label htmlFor="name" className="text-white/80">
                       Full Name
                     </Label>
@@ -234,7 +239,10 @@ export function JoinForm({ type }: JoinFormProps) {
                     />
                   </motion.div>
 
-                  <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                  <motion.div
+                    variants={formFieldEntry}
+                    className="flex flex-col gap-2"
+                  >
                     <Label htmlFor="email" className="text-white/80">
                       Email Address
                     </Label>
@@ -251,7 +259,10 @@ export function JoinForm({ type }: JoinFormProps) {
                     />
                   </motion.div>
 
-                  <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                  <motion.div
+                    variants={formFieldEntry}
+                    className="flex flex-col gap-2"
+                  >
                     <Label className="text-white/80">University</Label>
                     <Select
                       value={formData.university}
@@ -259,7 +270,9 @@ export function JoinForm({ type }: JoinFormProps) {
                         setFormData((d) => ({ ...d, university: v }))
                       }
                     >
-                      <SelectTrigger className={cn(fieldClass, "w-full text-left")}>
+                      <SelectTrigger
+                        className={cn(fieldClass, "w-full text-left")}
+                      >
                         <SelectValue placeholder="Select your university" />
                       </SelectTrigger>
                       <SelectContent className={selectContentClass}>
@@ -277,7 +290,10 @@ export function JoinForm({ type }: JoinFormProps) {
                   </motion.div>
 
                   {isBuyer ? (
-                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                    <motion.div
+                      variants={formFieldEntry}
+                      className="flex flex-col gap-2"
+                    >
                       <Label className="text-white/80">Academic Level</Label>
                       <Select
                         value={formData.academicLevel}
@@ -285,7 +301,9 @@ export function JoinForm({ type }: JoinFormProps) {
                           setFormData((d) => ({ ...d, academicLevel: v }))
                         }
                       >
-                        <SelectTrigger className={cn(fieldClass, "w-full text-left")}>
+                        <SelectTrigger
+                          className={cn(fieldClass, "w-full text-left")}
+                        >
                           <SelectValue placeholder="Select your level" />
                         </SelectTrigger>
                         <SelectContent className={selectContentClass}>
@@ -302,7 +320,10 @@ export function JoinForm({ type }: JoinFormProps) {
                       </Select>
                     </motion.div>
                   ) : (
-                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
+                    <motion.div
+                      variants={formFieldEntry}
+                      className="flex flex-col gap-2"
+                    >
                       <Label htmlFor="sellCategory" className="text-white/80">
                         What do you sell?
                       </Label>
@@ -323,8 +344,13 @@ export function JoinForm({ type }: JoinFormProps) {
                   )}
 
                   {isBuyer ? (
-                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
-                      <Label className="text-white/80">Interested Categories</Label>
+                    <motion.div
+                      variants={formFieldEntry}
+                      className="flex flex-col gap-2"
+                    >
+                      <Label className="text-white/80">
+                        Interested Categories
+                      </Label>
                       <div className="flex flex-wrap gap-2">
                         {categories.map((cat, i) => (
                           <Chip
@@ -337,15 +363,22 @@ export function JoinForm({ type }: JoinFormProps) {
                       </div>
                     </motion.div>
                   ) : (
-                    <motion.div variants={formFieldEntry} className="flex flex-col gap-2">
-                      <Label className="text-white/80">How often would you sell?</Label>
+                    <motion.div
+                      variants={formFieldEntry}
+                      className="flex flex-col gap-2"
+                    >
+                      <Label className="text-white/80">
+                        How often would you sell?
+                      </Label>
                       <Select
                         value={formData.sellFrequency}
                         onValueChange={(v) =>
                           setFormData((d) => ({ ...d, sellFrequency: v }))
                         }
                       >
-                        <SelectTrigger className={cn(fieldClass, "w-full text-left")}>
+                        <SelectTrigger
+                          className={cn(fieldClass, "w-full text-left")}
+                        >
                           <SelectValue placeholder="Select frequency" />
                         </SelectTrigger>
                         <SelectContent className={selectContentClass}>
@@ -363,14 +396,20 @@ export function JoinForm({ type }: JoinFormProps) {
                     </motion.div>
                   )}
 
-                  <motion.div variants={formFieldEntry} className="flex flex-col gap-4 pt-2">
+                  <motion.div
+                    variants={formFieldEntry}
+                    className="flex flex-col gap-4 pt-2"
+                  >
                     <Label className="text-base text-white/90">
                       {isBuyer
                         ? "What matters most to you as a buyer?"
                         : "What matters most to you as a seller?"}
                     </Label>
                     {poll.map((option, i) => (
-                      <div key={option.label} className="flex items-center gap-4">
+                      <div
+                        key={option.label}
+                        className="flex items-center gap-4"
+                      >
                         <Checkbox
                           id={`poll-${i}`}
                           checked={option.checked}
@@ -389,7 +428,10 @@ export function JoinForm({ type }: JoinFormProps) {
 
                   {error ? (
                     <motion.div variants={formFieldEntry}>
-                      <ErrorMessage error={error} onDismiss={() => setError(null)} />
+                      <ErrorMessage
+                        error={error}
+                        onDismiss={() => setError(null)}
+                      />
                     </motion.div>
                   ) : null}
 
@@ -415,5 +457,5 @@ export function JoinForm({ type }: JoinFormProps) {
         </div>
       </div>
     </PageShell>
-  )
+  );
 }
