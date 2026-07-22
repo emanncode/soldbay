@@ -65,7 +65,7 @@ export function SiteNav() {
                 : "glass-nav"
             }`}
           >
-          <Link href="/" className="flex items-center" aria-label="Soldbay home">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center" aria-label="Soldbay home">
             <Image
               src="/logo.svg"
               alt="Soldbay"

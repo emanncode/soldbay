@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -222,8 +221,9 @@ export function JoinForm({ type }: JoinFormProps) {
                     <Label htmlFor="name" className="text-white/80">
                       Full Name
                     </Label>
-                    <Input
+                    <input
                       id="name"
+                      type="text"
                       placeholder="Enter your full name"
                       required
                       value={formData.name}
@@ -238,7 +238,7 @@ export function JoinForm({ type }: JoinFormProps) {
                     <Label htmlFor="email" className="text-white/80">
                       Email Address
                     </Label>
-                    <Input
+                    <input
                       id="email"
                       type="email"
                       placeholder="you@university.edu.ng"
@@ -306,8 +306,9 @@ export function JoinForm({ type }: JoinFormProps) {
                       <Label htmlFor="sellCategory" className="text-white/80">
                         What do you sell?
                       </Label>
-                      <Input
+                      <input
                         id="sellCategory"
+                        type="text"
                         placeholder="e.g. textbooks, gadgets, fashion, snacks"
                         value={formData.sellCategory}
                         onChange={(e) =>
