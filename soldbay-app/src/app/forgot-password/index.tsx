@@ -43,7 +43,9 @@ export default function ForgotPasswordScreen() {
     await new Promise((r) => setTimeout(r, 1200));
     setLoading(false);
     setSubmitted(true);
-    router.push("/forgot-password/code-sent");
+    router.push(
+      `/forgot-password/code-sent?email=${encodeURIComponent(email)}`,
+    );
   }
 
   return (

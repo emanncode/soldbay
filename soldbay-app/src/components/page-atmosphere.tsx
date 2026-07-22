@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { View, Dimensions, type ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { BlurView } from "expo-blur";
 
 interface PageAtmosphereProps {
   style?: ViewStyle;
@@ -28,19 +29,6 @@ export function PageAtmosphere({
       ]}
       className={className}
     >
-      <LinearGradient
-        colors={["#0b0b10", "#0a0818", "#07060f"]}
-        locations={[0, 0.4, 1]}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-        pointerEvents="none"
-      />
-
       <View
         style={{
           position: "absolute",
@@ -49,7 +37,7 @@ export function PageAtmosphere({
           width: SCREEN_W * 0.9,
           height: SCREEN_H * 0.6,
           borderRadius: SCREEN_W * 0.45,
-          backgroundColor: "rgba(91, 61, 240, 0.18)",
+          backgroundColor: "rgba(91, 61, 240, 0.35)",
         }}
         pointerEvents="none"
       />
@@ -62,7 +50,7 @@ export function PageAtmosphere({
           width: SCREEN_W * 0.7,
           height: SCREEN_H * 0.5,
           borderRadius: SCREEN_W * 0.35,
-          backgroundColor: "rgba(69, 39, 200, 0.12)",
+          backgroundColor: "rgba(69, 39, 200, 0.2)",
         }}
         pointerEvents="none"
       />
@@ -75,7 +63,32 @@ export function PageAtmosphere({
           width: SCREEN_W * 0.5,
           height: SCREEN_H * 0.4,
           borderRadius: SCREEN_W * 0.25,
-          backgroundColor: "rgba(46, 31, 141, 0.15)",
+          backgroundColor: "rgba(46, 31, 141, 0.25)",
+        }}
+        pointerEvents="none"
+      />
+
+      <BlurView
+        intensity={32}
+        tint="dark"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+        pointerEvents="none"
+      />
+
+      <LinearGradient
+        colors={["#0b0b1080", "#0a081833", "#07060f00"]}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
         }}
         pointerEvents="none"
       />
