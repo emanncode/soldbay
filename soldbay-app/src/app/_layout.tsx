@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import {
+  BricolageGrotesque_500Medium,
   BricolageGrotesque_600SemiBold,
   BricolageGrotesque_700Bold,
   BricolageGrotesque_800ExtraBold,
@@ -24,6 +25,7 @@ export default function RootLayout() {
     async function loadFonts() {
       try {
         await Font.loadAsync({
+          "BricolageGrotesque-Medium": BricolageGrotesque_500Medium,
           "BricolageGrotesque-SemiBold": BricolageGrotesque_600SemiBold,
           "BricolageGrotesque-Bold": BricolageGrotesque_700Bold,
           "BricolageGrotesque-ExtraBold": BricolageGrotesque_800ExtraBold,
