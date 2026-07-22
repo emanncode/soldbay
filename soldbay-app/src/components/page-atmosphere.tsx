@@ -22,6 +22,7 @@ export function PageAtmosphere({
           flex: 1,
           backgroundColor: "#07060f",
           overflow: "hidden",
+          position: 'relative'
         },
         style,
       ]}

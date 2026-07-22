@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { PageAtmosphere } from "../components/page-atmosphere";
-import { GlassPanel } from "../components/glass-panel";
+import { PageAtmosphere } from "@/components/page-atmosphere";
+import { GlassPanel } from "@/components/glass-panel";
 
 export default function DevGlassTest() {
   return (
