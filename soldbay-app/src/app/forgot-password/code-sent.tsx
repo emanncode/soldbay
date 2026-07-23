@@ -151,9 +151,8 @@ export default function CodeSentScreen() {
               </View>
             </GlassPanel>
 
-            <TouchableOpacity
-              onPress={() => router.push("/login")}
-              style={{ paddingVertical: 24, alignItems: "center" }}
+            <View
+              style={{ paddingVertical: 24, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 4 }}
             >
               <Text
                 style={{
@@ -162,17 +161,20 @@ export default function CodeSentScreen() {
                   color: "#ffffff80",
                 }}
               >
-                Remember your password?{" "}
+                Remember your password?
+              </Text>
+              <TouchableOpacity onPress={() => router.push("/login")}>
                 <Text
                   style={{
                     fontFamily: "Inter-SemiBold",
+                    fontSize: 14,
                     color: "#ffffffcc",
                   }}
                 >
                   Log in
                 </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
