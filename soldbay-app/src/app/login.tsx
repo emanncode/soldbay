@@ -14,6 +14,8 @@ import { GlassPanel } from "@/components/glass-panel";
 import { LogoWordmark } from "@/components/logo-wordmark";
 import { GlassFormField } from "@/components/glass-form-field";
 import { PrimaryButton } from "@/components/primary-button";
+import { login, ApiError } from "@/lib/api";
+import { saveToken } from "@/lib/auth-storage";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -44,6 +46,7 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+  const [formError, setFormError] = useState<string | null>(null);
 
   function validate() {
     const e: typeof errors = {};
@@ -57,8 +60,22 @@ export default function LoginScreen() {
   async function handleLogin() {
     if (!validate()) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setLoading(false);
+    setFormError(null);
+    try {
+      const res = await login({ email: email.trim(), password });
+      await saveToken(res.token);
+      router.replace("/");
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        setFormError("Invalid email or password.");
+      } else if (err instanceof ApiError) {
+        setFormError(err.message);
+      } else {
+        setFormError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -137,6 +154,19 @@ export default function LoginScreen() {
                     Forgot password?
                   </Text>
                 </TouchableOpacity>
+
+                {formError && (
+                  <Text
+                    style={{
+                      fontFamily: "Inter-Regular",
+                      fontSize: 13,
+                      color: "#dc2626",
+                      textAlign: "center",
+                    }}
+                  >
+                    {formError}
+                  </Text>
+                )}
 
                 <PrimaryButton
                   label="Log in"

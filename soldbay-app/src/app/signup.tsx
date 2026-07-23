@@ -16,6 +16,8 @@ import { LogoWordmark } from "@/components/logo-wordmark";
 import { GlassFormField } from "@/components/glass-form-field";
 import { PrimaryButton } from "@/components/primary-button";
 import { RoleCard } from "@/components/role-card";
+import { signup, login, ApiError } from "@/lib/api";
+import { saveToken } from "@/lib/auth-storage";
 
 type Role = "buyer" | "seller";
 
@@ -49,6 +51,7 @@ export default function SignupScreen() {
   const [role, setRole] = useState<Role>("buyer");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState<string | null>(null);
 
   function clearError(field: string) {
     setErrors((e) => {
@@ -75,8 +78,39 @@ export default function SignupScreen() {
   async function handleSignup() {
     if (!validate()) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setLoading(false);
+    setFormError(null);
+    try {
+      await signup({
+        email: email.trim(),
+        password,
+        name: name.trim(),
+        role: role === "buyer" ? "BUYER" : "SELLER",
+        universityId: university.trim(),
+      });
+      const loginRes = await login({ email: email.trim(), password });
+      await saveToken(loginRes.token);
+      router.replace("/");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        switch (err.status) {
+          case 409:
+            setFormError("An account with this email already exists.");
+            break;
+          case 404:
+            setFormError("Please select a valid university.");
+            break;
+          case 400:
+            setFormError(err.message);
+            break;
+          default:
+            setFormError(err.message);
+        }
+      } else {
+        setFormError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -209,6 +243,19 @@ export default function SignupScreen() {
                       too
                     </Text>
                   </View>
+                )}
+
+                {formError && (
+                  <Text
+                    style={{
+                      fontFamily: "Inter-Regular",
+                      fontSize: 13,
+                      color: "#dc2626",
+                      textAlign: "center",
+                    }}
+                  >
+                    {formError}
+                  </Text>
                 )}
 
                 <PrimaryButton
