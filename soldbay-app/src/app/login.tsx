@@ -176,9 +176,8 @@ export default function LoginScreen() {
               </View>
             </GlassPanel>
 
-            <TouchableOpacity
-              onPress={() => router.push("/signup")}
-              style={{ paddingVertical: 24, alignItems: "center" }}
+            <View
+              style={{ paddingVertical: 24, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 4 }}
             >
               <Text
                 style={{
@@ -187,14 +186,16 @@ export default function LoginScreen() {
                   color: "#ffffff80",
                 }}
               >
-                Don't have an account?{" "}
+                Don't have an account?
+              </Text>
+              <TouchableOpacity onPress={() => router.push("/signup")}>
                 <Text
-                  style={{ fontFamily: "Inter-SemiBold", color: "#ffffffcc" }}
+                  style={{ fontFamily: "Inter-SemiBold", fontSize: 14, color: "#ffffffcc" }}
                 >
                   Sign up
                 </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
