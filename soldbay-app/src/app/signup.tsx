@@ -115,7 +115,7 @@ export default function SignupScreen() {
 
   return (
     <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
@@ -266,9 +266,8 @@ export default function SignupScreen() {
               </View>
             </GlassPanel>
 
-            <TouchableOpacity
-              onPress={() => router.push("/login")}
-              style={{ paddingVertical: 24, alignItems: "center" }}
+            <View
+              style={{ paddingVertical: 24, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 4 }}
             >
               <Text
                 style={{
@@ -277,14 +276,16 @@ export default function SignupScreen() {
                   color: "#ffffff80",
                 }}
               >
-                Already have an account?{" "}
+                Already have an account?
+              </Text>
+              <TouchableOpacity onPress={() => router.push("/login")}>
                 <Text
-                  style={{ fontFamily: "Inter-SemiBold", color: "#ffffffcc" }}
+                  style={{ fontFamily: "Inter-SemiBold", fontSize: 14, color: "#ffffffcc" }}
                 >
                   Log in
                 </Text>
-              </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
