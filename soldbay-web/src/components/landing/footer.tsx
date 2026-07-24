@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { motion, useReducedMotion } from "framer-motion"
-import { AnimatedSection } from "@/components/animated-section"
-import { scaleInVariants, scrollViewport } from "@/lib/motion"
+import Link from "next/link";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+import { AnimatedSection } from "@/components/animated-section";
+import { scaleInVariants, scrollViewport } from "@/lib/motion";
 
 const socials = [
   {
@@ -22,10 +22,10 @@ const socials = [
     handle: "09048801668",
     href: "https://wa.me/2349048801668",
   },
-] as const
+] as const;
 
 export function Footer() {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotion();
 
   return (
     <AnimatedSection className="border-t border-white/10 py-16">
@@ -41,14 +41,16 @@ export function Footer() {
             <div className="flex max-w-xs flex-col gap-4">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/logo.svg"
+                  src="/logo.png"
                   alt="Soldbay"
                   width={140}
                   height={56}
-                  className="h-10 w-auto brightness-0 invert sm:h-12"
+                  className="h-10 w-auto sm:h-12"
                 />
               </Link>
-              <p className="text-body-s text-white/50">The student marketplace.</p>
+              <p className="text-body-s text-white/50">
+                The student marketplace.
+              </p>
               <p className="text-caption text-white/35">
                 &copy; {new Date().getFullYear()} Soldbay. All rights reserved.
               </p>
@@ -56,7 +58,9 @@ export function Footer() {
 
             <div className="flex gap-16">
               <div className="flex flex-col gap-4">
-                <span className="text-body-s font-semibold text-white">For Students</span>
+                <span className="text-body-s font-semibold text-white">
+                  For Students
+                </span>
                 <Link
                   href="/join/buyer"
                   className="cursor-pointer text-body-s text-white/50 transition-colors hover:text-white"
@@ -71,9 +75,15 @@ export function Footer() {
                 </Link>
               </div>
               <div className="flex flex-col gap-4">
-                <span className="text-body-s font-semibold text-white">Company</span>
-                <span className="text-body-s text-white/50">Privacy Policy</span>
-                <span className="text-body-s text-white/50">Terms of Service</span>
+                <span className="text-body-s font-semibold text-white">
+                  Company
+                </span>
+                <span className="text-body-s text-white/50">
+                  Privacy Policy
+                </span>
+                <span className="text-body-s text-white/50">
+                  Terms of Service
+                </span>
               </div>
             </div>
           </div>
@@ -82,7 +92,9 @@ export function Footer() {
             <p className="text-caption font-medium tracking-wide text-white/40 uppercase">
               Built by
             </p>
-            <p className="mt-2 font-display text-heading-s text-white">emanncode</p>
+            <p className="mt-2 font-display text-heading-s text-white">
+              emanncode
+            </p>
             <div className="mt-4 flex flex-wrap items-center gap-4">
               {socials.map((s) => (
                 <a
@@ -101,5 +113,5 @@ export function Footer() {
         </motion.div>
       </div>
     </AnimatedSection>
-  )
+  );
 }

@@ -1,40 +1,40 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { soldbayEase } from "@/lib/motion"
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { soldbayEase } from "@/lib/motion";
 
 const links = [
   { href: "/join/buyer", label: "Buyers" },
   { href: "/join/seller", label: "Sellers" },
   { href: "/#faq", label: "FAQ" },
   { href: "/#questions", label: "Questions" },
-] as const
+] as const;
 
 export function SiteNav() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = ""
-    }
-  }, [menuOpen])
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <motion.header
@@ -58,26 +58,34 @@ export function SiteNav() {
       </AnimatePresence>
 
       <div className="container-page relative z-10 py-4">
-          <div
-            className={`flex items-center justify-between rounded-full px-4 py-2 sm:px-6 sm:py-2 transition-colors duration-300 ${
-              scrolled
-                ? "border border-white/14 bg-[#07060f]/70 shadow-[inset_0_1px_0_rgb(255_255_255/0.1)] backdrop-blur-2xl saturate-[1.6]"
-                : "glass-nav"
-            }`}
+        <div
+          className={`flex items-center justify-between rounded-full px-4 py-2 sm:px-6 sm:py-2 transition-colors duration-300 ${
+            scrolled
+              ? "border border-white/14 bg-[#07060f]/70 shadow-[inset_0_1px_0_rgb(255_255_255/0.1)] backdrop-blur-2xl saturate-[1.6]"
+              : "glass-nav"
+          }`}
+        >
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center"
+            aria-label="Soldbay home"
           >
-          <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center" aria-label="Soldbay home">
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               alt="Soldbay"
               width={180}
               height={72}
-              className="h-14 w-auto brightness-0 invert sm:h-16"
+              className="h-14 w-auto sm:h-16"
               priority
             />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-4 sm:gap-8 md:flex" aria-label="Primary">
+          <nav
+            className="hidden items-center gap-4 sm:gap-8 md:flex"
+            aria-label="Primary"
+          >
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -126,7 +134,10 @@ export function SiteNav() {
               transition={{ duration: 0.25, ease: soldbayEase }}
               className="glass-nav mt-2 rounded-2xl px-6 py-6 md:hidden"
             >
-              <nav className="flex flex-col gap-4" aria-label="Mobile navigation">
+              <nav
+                className="flex flex-col gap-4"
+                aria-label="Mobile navigation"
+              >
                 <span className="text-xs font-semibold uppercase tracking-widest text-white/50">
                   Join as
                 </span>
@@ -150,5 +161,5 @@ export function SiteNav() {
         </AnimatePresence>
       </div>
     </motion.header>
-  )
+  );
 }
