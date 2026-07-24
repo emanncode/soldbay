@@ -8,6 +8,8 @@ const { auth } = NextAuth(authConfig)
 /**
  * Seller-only protection:
  * - POST /api/listings
+ * - POST /api/sellers/verify
+ * - GET /api/sellers/me
  * - /seller/* pages
  *
  * Auth is either/or:
@@ -20,9 +22,11 @@ export default auth(async (req) => {
   const { pathname } = req.nextUrl
   const method = req.method
   const isSellerApiPost = pathname === "/api/listings" && method === "POST"
+  const isSellerVerify = pathname === "/api/sellers/verify" && method === "POST"
+  const isSellerMe = pathname === "/api/sellers/me" && method === "GET"
   const isSellerPage = pathname.startsWith("/seller")
 
-  if (!isSellerApiPost && !isSellerPage) {
+  if (!isSellerApiPost && !isSellerVerify && !isSellerMe && !isSellerPage) {
     return NextResponse.next()
   }
 
@@ -54,5 +58,5 @@ export default auth(async (req) => {
 })
 
 export const config = {
-  matcher: ["/api/listings", "/seller/:path*"],
+  matcher: ["/api/listings", "/api/sellers/verify", "/api/sellers/me", "/seller/:path*"],
 }
