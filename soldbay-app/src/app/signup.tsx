@@ -18,7 +18,10 @@ import { PrimaryButton } from "@/components/primary-button";
 import { RoleCard } from "@/components/role-card";
 import { signup, login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
-import { UniversityPicker, type University } from "@/components/university-picker";
+import {
+  UniversityPicker,
+  type University,
+} from "@/components/university-picker";
 
 type Role = "buyer" | "seller";
 
@@ -71,7 +74,8 @@ export default function SignupScreen() {
     if (!password) e.password = "Password is required";
     else if (password.length < 8) e.password = "Must be 8+ characters";
     if (!confirmPassword) e.confirmPassword = "Confirm your password";
-    else if (password !== confirmPassword) e.confirmPassword = "Passwords do not match";
+    else if (password !== confirmPassword)
+      e.confirmPassword = "Passwords do not match";
     setErrors(e);
     return Object.keys(e).length === 0;
   }
@@ -154,7 +158,10 @@ export default function SignupScreen() {
                   label="Full name"
                   placeholder="Enter your full name"
                   value={name}
-                  onChangeText={(t) => { setName(t); clearError("name"); }}
+                  onChangeText={(t) => {
+                    setName(t);
+                    clearError("name");
+                  }}
                   error={errors.name}
                   autoCapitalize="words"
                 />
@@ -163,7 +170,10 @@ export default function SignupScreen() {
                   label="Email"
                   placeholder="name@university.edu"
                   value={email}
-                  onChangeText={(t) => { setEmail(t); clearError("email"); }}
+                  onChangeText={(t) => {
+                    setEmail(t);
+                    clearError("email");
+                  }}
                   error={errors.email}
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -171,7 +181,10 @@ export default function SignupScreen() {
 
                 <UniversityPicker
                   value={university}
-                  onSelect={(u) => { setUniversity(u); clearError("university"); }}
+                  onSelect={(u) => {
+                    setUniversity(u);
+                    clearError("university");
+                  }}
                   error={errors.university}
                 />
 
@@ -179,7 +192,10 @@ export default function SignupScreen() {
                   label="Password"
                   placeholder="Create a password"
                   value={password}
-                  onChangeText={(t) => { setPassword(t); clearError("password"); }}
+                  onChangeText={(t) => {
+                    setPassword(t);
+                    clearError("password");
+                  }}
                   error={errors.password}
                   secureTextEntry={!showPassword}
                   rightElement={
@@ -194,13 +210,18 @@ export default function SignupScreen() {
                   label="Confirm password"
                   placeholder="Re-enter your password"
                   value={confirmPassword}
-                  onChangeText={(t) => { setConfirmPassword(t); clearError("confirmPassword"); }}
+                  onChangeText={(t) => {
+                    setConfirmPassword(t);
+                    clearError("confirmPassword");
+                  }}
                   error={errors.confirmPassword}
                   secureTextEntry={!showConfirmPassword}
                   rightElement={
                     <EyeToggle
                       showing={showConfirmPassword}
-                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     />
                   }
                 />
@@ -270,7 +291,13 @@ export default function SignupScreen() {
             </GlassPanel>
 
             <View
-              style={{ paddingVertical: 24, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 4 }}
+              style={{
+                paddingVertical: 24,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 4,
+              }}
             >
               <Text
                 style={{
@@ -283,7 +310,11 @@ export default function SignupScreen() {
               </Text>
               <TouchableOpacity onPress={() => router.push("/login")}>
                 <Text
-                  style={{ fontFamily: "Inter-SemiBold", fontSize: 14, color: "#ffffffcc" }}
+                  style={{
+                    fontFamily: "Inter-SemiBold",
+                    fontSize: 14,
+                    color: "#ffffffcc",
+                  }}
                 >
                   Log in
                 </Text>

@@ -62,21 +62,13 @@ export function UniversityPicker({
             value={value?.name ?? ""}
             error={error}
             autoCapitalize="none"
-          />
-        </View>
-        <View
-          style={{
-            position: "absolute",
-            right: 14,
-            top: 0,
-            bottom: 0,
-            justifyContent: "center",
-          }}
-        >
-          <Ionicons
-            name="chevron-down"
-            size={18}
-            color="rgba(255,255,255,0.6)"
+            rightElement={
+              <Ionicons
+                name="chevron-down"
+                size={18}
+                color="rgba(255,255,255,0.6)"
+              />
+            }
           />
         </View>
       </TouchableOpacity>
@@ -88,7 +80,12 @@ export function UniversityPicker({
         onRequestClose={() => setOpen(false)}
       >
         <TouchableOpacity
-          style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.7)", justifyContent: "center", paddingHorizontal: 24 }}
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.7)",
+            justifyContent: "center",
+            paddingHorizontal: 24,
+          }}
           activeOpacity={1}
           onPress={() => setOpen(false)}
         >
@@ -125,7 +122,11 @@ export function UniversityPicker({
                 Select University
               </Text>
               <TouchableOpacity onPress={() => setOpen(false)} hitSlop={8}>
-                <Ionicons name="close" size={22} color="rgba(255,255,255,0.6)" />
+                <Ionicons
+                  name="close"
+                  size={22}
+                  color="rgba(255,255,255,0.6)"
+                />
               </TouchableOpacity>
             </View>
 
@@ -151,10 +152,7 @@ export function UniversityPicker({
                       style={{
                         fontFamily: "Inter-Regular",
                         fontSize: 15,
-                        color:
-                          value?.id === item.id
-                            ? "#e1261c"
-                            : "#ffffffcc",
+                        color: value?.id === item.id ? "#e1261c" : "#ffffffcc",
                       }}
                     >
                       {item.name}
