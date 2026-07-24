@@ -18,6 +18,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { RoleCard } from "@/components/role-card";
 import { signup, login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
+import { UniversityPicker, type University } from "@/components/university-picker";
 
 type Role = "buyer" | "seller";
 
@@ -43,7 +44,7 @@ export default function SignupScreen() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [university, setUniversity] = useState("");
+  const [university, setUniversity] = useState<University | null>(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -66,7 +67,7 @@ export default function SignupScreen() {
     if (!name.trim()) e.name = "Name is required";
     if (!email.trim()) e.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Enter a valid email";
-    if (!university.trim()) e.university = "University is required";
+    if (!university) e.university = "University is required";
     if (!password) e.password = "Password is required";
     else if (password.length < 8) e.password = "Must be 8+ characters";
     if (!confirmPassword) e.confirmPassword = "Confirm your password";
@@ -85,12 +86,13 @@ export default function SignupScreen() {
         password,
         name: name.trim(),
         role: role === "buyer" ? "BUYER" : "SELLER",
-        universityId: university.trim(),
+        universityId: university.id,
       });
       const loginRes = await login({ email: email.trim(), password });
       await saveToken(loginRes.token);
       router.replace("/");
     } catch (err) {
+      console.error("Signup error:", err);
       if (err instanceof ApiError) {
         switch (err.status) {
           case 409:
@@ -163,13 +165,10 @@ export default function SignupScreen() {
                   autoCapitalize="none"
                 />
 
-                <GlassFormField
-                  label="University"
-                  placeholder="Select your university"
+                <UniversityPicker
                   value={university}
-                  onChangeText={(t) => { setUniversity(t); clearError("university"); }}
+                  onSelect={(u) => { setUniversity(u); clearError("university"); }}
                   error={errors.university}
-                  autoCapitalize="words"
                 />
 
                 <GlassFormField

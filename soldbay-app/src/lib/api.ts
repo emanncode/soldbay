@@ -1,4 +1,4 @@
-const BASE_URL =
+export const BASE_URL =
   process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
 
 class ApiError extends Error {

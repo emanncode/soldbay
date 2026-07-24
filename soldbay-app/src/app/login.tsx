@@ -66,6 +66,7 @@ export default function LoginScreen() {
       await saveToken(res.token);
       router.replace("/");
     } catch (err) {
+      console.error("Login error:", err);
       if (err instanceof ApiError && err.status === 401) {
         setFormError("Invalid email or password.");
       } else if (err instanceof ApiError) {
