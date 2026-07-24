@@ -8,7 +8,8 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "seed:admin": "npx tsx prisma/seed-admin.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -23,6 +24,7 @@
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.42.2",
     "jose": "^6.2.3",
