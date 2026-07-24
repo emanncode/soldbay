@@ -114,6 +114,7 @@ model SellerProfile {
   businessName  String?
   bio           String?
   walletBalance Decimal   @default(0)
+  idImageUrl    String?
   verifiedAt    DateTime?
   listings      Listing[]
 }
