@@ -6,37 +6,1109 @@
       "id": "canvas",
       "x": 0,
       "y": 0,
-      "name": "Design Canvas",
-      "clip": true,
-      "width": 1440,
-      "height": 900,
-      "fill": "#ffffff",
+      "name": "Mobile Design System Reference",
+      "clip": false,
+      "width": 390,
+      "height": 13800,
+      "fill": "#07060f",
       "layout": "vertical",
-      "gap": 16,
-      "padding": [48, 24],
-      "alignItems": "center",
+      "gap": 0,
+      "padding": [56, 16],
+      "alignItems": "stretch",
       "children": [
         {
           "type": "text",
-          "id": "title",
-          "fill": "#1d1d1f",
-          "content": "Soldbay — Design here first",
-          "textAlign": "center",
+          "id": "stack-note",
+          "fill": "#8e8e93",
+          "content": "Mobile equivalent of soldbay-web's design system. Same tokens, glass approach adapted via expo-blur/GlassPanel. No shadcn (React Native has no DOM). NativeWind classes. 8pt grid enforced throughout.",
           "fontFamily": "Inter",
-          "fontSize": 28,
-          "fontWeight": "700"
+          "fontSize": 11,
+          "lineHeight": 1.4,
+          "opacity": 0.7
+        },
+        {
+          "type": "text",
+          "id": "main-title",
+          "fill": "#ffffff",
+          "content": "Soldbay Mobile — Design System Reference",
+          "fontFamily": "BricolageGrotesque-Bold",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginTop": 8
         },
         {
           "type": "text",
           "id": "subtitle",
-          "fill": "#6e6e73",
-          "textGrowth": "fixed-width",
-          "width": 400,
-          "content": "Design screens here in Pencil.\nApprove before coding.",
-          "lineHeight": 1.5,
-          "textAlign": "center",
+          "fill": "#8e8e93",
+          "content": "Audit tool — match every token against soldbay-design-system.md. Do not invent new values.",
           "fontFamily": "Inter",
-          "fontSize": 14
+          "fontSize": 12,
+          "lineHeight": 1.4,
+          "marginTop": 4
+        },
+
+        {
+          "type": "rect",
+          "id": "divider-1",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "id": "sec1-title",
+          "fill": "#ffffff",
+          "content": "1. Color Palette",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "id": "sec1-sub",
+          "fill": "#8e8e93",
+          "content": "Hex values and usage context. Brand gradient = atmosphere/hero only, never flat UI.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+
+        {
+          "type": "frame",
+          "id": "color-chart",
+          "layout": "vertical",
+          "gap": 6,
+          "marginTop": 12,
+          "children": [
+            { "type": "text", "fill": "#ffffff99", "content": "NEUTRAL SURFACE", "fontFamily": "Inter", "fontSize": 10, "fontWeight": "600" },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#ffffff", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.2)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#ffffff", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "background", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#1d1d1f", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#1d1d1f", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "foreground", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#f5f5f7", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.15)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#f5f5f7", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "secondary/muted", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#d2d2d7", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.15)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#d2d2d7", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "border/input", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            { "type": "text", "fill": "#ffffff99", "content": "BRAND & PRIMARY", "fontFamily": "Inter", "fontSize": 10, "fontWeight": "600", "marginTop": 8 },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#e1261c", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#e1261c", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "primary DEFAULT", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#c91f16", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#c91f16", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "primary hover", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#a91912", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#a91912", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "primary active", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#ffffff", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.2)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#ffffff", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "primary fg / accent", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#5b3df0", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#5b3df0", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "brand start", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#4527c8", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#4527c8", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "brand end", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#8b6cff", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#8b6cff", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "brand light", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#2e1f8d", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#2e1f8d", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "brand dark", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            { "type": "text", "fill": "#ffffff99", "content": "SEMANTIC", "fontFamily": "Inter", "fontSize": 10, "fontWeight": "600", "marginTop": 8 },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#16a34a", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#16a34a", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "success", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#f59e0b", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#f59e0b", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "warning", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#2563eb", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#2563eb", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "info", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#dc2626", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#dc2626", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "destructive/error", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            { "type": "text", "fill": "#ffffff99", "content": "HTTP STATUS ERROR MAPPING (parity with web doc)", "fontFamily": "Inter", "fontSize": 10, "fontWeight": "600", "marginTop": 8 },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#f59e0b", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "400", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "amber", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#f97316", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "401", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "orange", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#e11d48", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "403", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "rose", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#0ea5e9", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "404", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "sky", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#8b5cf6", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "409", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "violet", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#dc2626", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "500", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "red", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#64748b", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "netwk", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "slate", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 62, "children": [
+                  { "type": "rect", "fill": "#71717a", "width": 24, "height": 24, "rx": 4, "ry": 4 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "unkn", "fontFamily": "Inter", "fontSize": 7 },
+                  { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "zinc", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            { "type": "text", "fill": "#ffffff99", "content": "SURFACE & TEXT", "fontFamily": "Inter", "fontSize": 10, "fontWeight": "600", "marginTop": 8 },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#f5f5f7", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.15)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#f5f5f7", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "surface DEFAULT", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#ececef", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.15)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#ececef", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "surface hover", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#ffffff", "width": 32, "height": 32, "rx": 6, "ry": 6, "borderWidth": 1, "borderColor": "rgba(255,255,255,0.2)" },
+                  { "type": "text", "fill": "#ffffff99", "content": "#ffffff", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "surface elevated", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#1d1d1f", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#1d1d1f", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "text primary", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            },
+            {
+              "type": "frame", "layout": "horizontal", "gap": 6, "alignItems": "center",
+              "children": [
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#6e6e73", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#6e6e73", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "text secondary", "fontFamily": "Inter", "fontSize": 7 }
+                ]},
+                { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "width": 82, "children": [
+                  { "type": "rect", "fill": "#8e8e93", "width": 32, "height": 32, "rx": 6, "ry": 6 },
+                  { "type": "text", "fill": "#ffffff99", "content": "#8e8e93", "fontFamily": "Inter", "fontSize": 8 },
+                  { "type": "text", "fill": "#ffffff66", "content": "text tertiary", "fontFamily": "Inter", "fontSize": 7 }
+                ]}
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "rect",
+          "id": "divider-2",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "id": "sec2-title",
+          "fill": "#ffffff",
+          "content": "2. Typography",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "id": "sec2-sub",
+          "fill": "#8e8e93",
+          "content": "Shown against light card (left) and dark atmosphere (right). Font family, weight, size, line-height labeled.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+
+        {
+          "type": "frame",
+          "id": "typography-section",
+          "layout": "vertical",
+          "gap": 8,
+          "marginTop": 12,
+          "children": [
+            {
+              "type": "frame",
+              "layout": "horizontal",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "flex": 1,
+                  "fill": "#ffffff",
+                  "rx": 12,
+                  "ry": 12,
+                  "padding": [12, 12],
+                  "children": [
+                    { "type": "text", "fill": "#1d1d1f", "content": "Display XL", "fontFamily": "BricolageGrotesque-Bold", "fontSize": 56, "fontWeight": "700", "marginTop": -10 },
+                    { "type": "text", "fill": "#6e6e73", "content": "BricolageGrotesque-Bold 56/57 w700", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Display L", "fontFamily": "BricolageGrotesque-Bold", "fontSize": 40, "fontWeight": "700", "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "BricolageGrotesque-Bold 40/42 w700", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Display M", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 40, "fontWeight": "600", "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "BricolageGrotesque-SemiBold 40/44 w600", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Heading L", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 32, "fontWeight": "600", "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "BricolageGrotesque-SemiBold 32/38 w600", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Heading M", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 24, "fontWeight": "600", "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "BricolageGrotesque-SemiBold 24/31 w600", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Heading S", "fontFamily": "BricolageGrotesque-Medium", "fontSize": 20, "fontWeight": "500", "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "BricolageGrotesque-Medium 20/28 w500", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Body L — The quick brown fox jumps over the lazy dog.", "fontFamily": "Inter-Regular", "fontSize": 18, "lineHeight": 1.6, "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "Inter-Regular 18/29 w400", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Body M — The quick brown fox jumps over the lazy dog.", "fontFamily": "Inter-Regular", "fontSize": 16, "lineHeight": 1.6, "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "Inter-Regular 16/26 w400", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Body S — The quick brown fox jumps over the lazy dog.", "fontFamily": "Inter-Regular", "fontSize": 14, "lineHeight": 1.5, "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "Inter-Regular 14/21 w400", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#1d1d1f", "content": "Caption — The quick brown fox jumps.", "fontFamily": "Inter-Medium", "fontSize": 12, "lineHeight": 1.4, "marginTop": 4 },
+                    { "type": "text", "fill": "#6e6e73", "content": "Inter-Medium 12/17 w500", "fontFamily": "Inter", "fontSize": 8 }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "flex": 1,
+                  "fill": "rgba(255,255,255,0.06)",
+                  "rx": 12,
+                  "ry": 12,
+                  "borderWidth": 1,
+                  "borderColor": "rgba(255,255,255,0.12)",
+                  "padding": [12, 12],
+                  "children": [
+                    { "type": "text", "fill": "#ffffff", "content": "Display XL", "fontFamily": "BricolageGrotesque-Bold", "fontSize": 56, "fontWeight": "700", "marginTop": -10 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "BricolageGrotesque-Bold 56/57 w700", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Display L", "fontFamily": "BricolageGrotesque-Bold", "fontSize": 40, "fontWeight": "700", "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "BricolageGrotesque-Bold 40/42 w700", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Display M", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 40, "fontWeight": "600", "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "BricolageGrotesque-SemiBold 40/44 w600", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Heading L", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 32, "fontWeight": "600", "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "BricolageGrotesque-SemiBold 32/38 w600", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Heading M", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 24, "fontWeight": "600", "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "BricolageGrotesque-SemiBold 24/31 w600", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Heading S", "fontFamily": "BricolageGrotesque-Medium", "fontSize": 20, "fontWeight": "500", "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "BricolageGrotesque-Medium 20/28 w500", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Body L — The quick brown fox jumps over the lazy dog.", "fontFamily": "Inter-Regular", "fontSize": 18, "lineHeight": 1.6, "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "Inter-Regular 18/29 w400", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Body M — The quick brown fox jumps over the lazy dog.", "fontFamily": "Inter-Regular", "fontSize": 16, "lineHeight": 1.6, "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "Inter-Regular 16/26 w400", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Body S — The quick brown fox jumps over the lazy dog.", "fontFamily": "Inter-Regular", "fontSize": 14, "lineHeight": 1.5, "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "Inter-Regular 14/21 w400", "fontFamily": "Inter", "fontSize": 8 },
+                    { "type": "text", "fill": "#ffffff", "content": "Caption — The quick brown fox jumps.", "fontFamily": "Inter-Medium", "fontSize": 12, "lineHeight": 1.4, "marginTop": 4 },
+                    { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "Inter-Medium 12/17 w500", "fontFamily": "Inter", "fontSize": 8 }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "3. Spacing Scale (8pt Grid)",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "Every block is labeled with its value. All margins/padding/gaps must be a multiple of 8. Do NOT use 12/20/28/36.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "vertical",
+          "gap": 4,
+          "marginTop": 12,
+          "children": [
+            { "type": "rect", "fill": "#e1261c", "width": 8, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "8px (spacing-1)", "fontFamily": "Inter", "fontSize": 10, "x": 16, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 16, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "16px (spacing-2)", "fontFamily": "Inter", "fontSize": 10, "x": 24, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 24, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "24px (spacing-3)", "fontFamily": "Inter", "fontSize": 10, "x": 32, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 32, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "32px (spacing-4)", "fontFamily": "Inter", "fontSize": 10, "x": 40, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 40, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "40px (spacing-5)", "fontFamily": "Inter", "fontSize": 10, "x": 48, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 48, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "48px (spacing-6)", "fontFamily": "Inter", "fontSize": 10, "x": 56, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 56, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "56px (spacing-7)", "fontFamily": "Inter", "fontSize": 10, "x": 64, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 64, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "64px (spacing-8)", "fontFamily": "Inter", "fontSize": 10, "x": 72, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 80, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "80px (spacing-10)", "fontFamily": "Inter", "fontSize": 10, "x": 88, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 96, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "96px (spacing-12)", "fontFamily": "Inter", "fontSize": 10, "x": 104, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 112, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "112px (spacing-14)", "fontFamily": "Inter", "fontSize": 10, "x": 120, "y": -10 },
+            { "type": "rect", "fill": "#e1261c", "width": 128, "height": 12, "rx": 2, "ry": 2 },
+            { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "128px (spacing-16)", "fontFamily": "Inter", "fontSize": 10, "x": 136, "y": -10 }
+          ]
+        },
+        {
+          "type": "text",
+          "fill": "#f59e0b",
+          "content": "DO: use 24px gap     DON'T: use 20px gap (not a multiple of 8)",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "marginTop": 8,
+          "opacity": 0.8
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "4. Radius Scale",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "gap": 8,
+          "alignItems": "center",
+          "marginTop": 12,
+          "children": [
+            { "type": "frame", "layout": "vertical", "gap": 4, "alignItems": "center", "children": [
+              { "type": "rect", "fill": "rgba(225,38,28,0.3)", "width": 48, "height": 48, "rx": 8, "ry": 8, "borderWidth": 1, "borderColor": "#e1261c" },
+              { "type": "text", "fill": "rgba(255,255,255,0.6)", "content": "8px", "fontFamily": "Inter", "fontSize": 10 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 4, "alignItems": "center", "children": [
+              { "type": "rect", "fill": "rgba(225,38,28,0.3)", "width": 48, "height": 48, "rx": 16, "ry": 16, "borderWidth": 1, "borderColor": "#e1261c" },
+              { "type": "text", "fill": "rgba(255,255,255,0.6)", "content": "16px", "fontFamily": "Inter", "fontSize": 10 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 4, "alignItems": "center", "children": [
+              { "type": "rect", "fill": "rgba(225,38,28,0.3)", "width": 48, "height": 48, "rx": 24, "ry": 24, "borderWidth": 1, "borderColor": "#e1261c" },
+              { "type": "text", "fill": "rgba(255,255,255,0.6)", "content": "24px", "fontFamily": "Inter", "fontSize": 10 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 4, "alignItems": "center", "children": [
+              { "type": "rect", "fill": "rgba(225,38,28,0.3)", "width": 48, "height": 48, "rx": 32, "ry": 32, "borderWidth": 1, "borderColor": "#e1261c" },
+              { "type": "text", "fill": "rgba(255,255,255,0.6)", "content": "32px", "fontFamily": "Inter", "fontSize": 10 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 4, "alignItems": "center", "children": [
+              { "type": "rect", "fill": "rgba(225,38,28,0.3)", "width": 48, "height": 48, "rx": 24, "ry": 24, "borderWidth": 1, "borderColor": "#e1261c" },
+              { "type": "text", "fill": "rgba(255,255,255,0.6)", "content": "full pill", "fontFamily": "Inter", "fontSize": 10 }
+            ]}
+          ]
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "5. Glass Component States",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "GlassPanel variants over PageAtmosphere (#07060f bg + brand blobs). Compare blur intensity, border, and glow.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "gap": 8,
+          "marginTop": 12,
+          "children": [
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 6,
+              "flex": 1,
+              "fill": "rgba(255,255,255,0.06)",
+              "rx": 16,
+              "ry": 16,
+              "borderWidth": 1,
+              "borderColor": "rgba(255,255,255,0.12)",
+              "padding": [12, 12],
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "panel", "fontFamily": "Inter-SemiBold", "fontSize": 12 },
+                { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "intensity 30\ntint dark\nbg 6% white\nborder 12% white\nbr 16", "fontFamily": "Inter", "fontSize": 9, "lineHeight": 1.4 }
+              ]
+            },
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 6,
+              "flex": 1,
+              "fill": "rgba(255,255,255,0.1)",
+              "rx": 16,
+              "ry": 16,
+              "borderWidth": 1,
+              "borderColor": "rgba(255,255,255,0.16)",
+              "padding": [12, 12],
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "panel-strong", "fontFamily": "Inter-SemiBold", "fontSize": 12 },
+                { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "intensity 42\ntint dark\nbg 10% white\nborder 16% white\nbr 16", "fontFamily": "Inter", "fontSize": 9, "lineHeight": 1.4 }
+              ]
+            },
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 6,
+              "flex": 1,
+              "fill": "rgba(255,255,255,0.12)",
+              "rx": 16,
+              "ry": 16,
+              "borderWidth": 1,
+              "borderColor": "rgba(255,255,255,0.22)",
+              "padding": [12, 12],
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "panel-focus", "fontFamily": "Inter-SemiBold", "fontSize": 12 },
+                { "type": "text", "fill": "rgba(255,255,255,0.5)", "content": "intensity 50\ntint dark\nbg 12% white\nborder 22% white\nbr 16\nglow #5b3df0", "fontFamily": "Inter", "fontSize": 9, "lineHeight": 1.4 }
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "6a. PrimaryButton",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "default | pressed | loading | disabled. Pill shape (br999), py16 px32, Inter-SemiBold 16, bg #e1261c.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "gap": 8,
+          "marginTop": 12,
+          "children": [
+            {
+              "type": "frame",
+              "fill": "#e1261c",
+              "rx": 999,
+              "ry": 999,
+              "padding": [16, 24],
+              "alignItems": "center",
+              "justifyContent": "center",
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "Default", "fontFamily": "Inter-SemiBold", "fontSize": 14 }
+              ]
+            },
+            {
+              "type": "frame",
+              "fill": "#c91f16",
+              "rx": 999,
+              "ry": 999,
+              "padding": [16, 24],
+              "alignItems": "center",
+              "justifyContent": "center",
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "Pressed", "fontFamily": "Inter-SemiBold", "fontSize": 14 }
+              ]
+            },
+            {
+              "type": "frame",
+              "fill": "#e1261c",
+              "rx": 999,
+              "ry": 999,
+              "padding": [16, 24],
+              "opacity": 0.5,
+              "alignItems": "center",
+              "justifyContent": "center",
+              "flexDirection": "row",
+              "gap": 6,
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "Loading...", "fontFamily": "Inter-SemiBold", "fontSize": 14 }
+              ]
+            },
+            {
+              "type": "frame",
+              "fill": "rgba(255,255,255,0.08)",
+              "rx": 999,
+              "ry": 999,
+              "padding": [16, 24],
+              "alignItems": "center",
+              "justifyContent": "center",
+              "children": [
+                { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "Disabled", "fontFamily": "Inter-SemiBold", "fontSize": 14 }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "Size scale (verify against latest web doc — web currently lists 2xl at 56px with no xl; confirm naming alignment):",
+          "fontFamily": "Inter",
+          "fontSize": 10,
+          "marginTop": 12
+        },
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "gap": 12,
+          "alignItems": "center",
+          "marginTop": 4,
+          "children": [
+            { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "children": [
+              { "type": "frame", "fill": "#e1261c", "rx": 999, "ry": 999, "width": 24, "height": 24, "alignItems": "center", "justifyContent": "center" },
+              { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "xs 24px", "fontFamily": "Inter", "fontSize": 8 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "children": [
+              { "type": "frame", "fill": "#e1261c", "rx": 999, "ry": 999, "width": 32, "height": 32, "alignItems": "center", "justifyContent": "center" },
+              { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "sm 32px", "fontFamily": "Inter", "fontSize": 8 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "children": [
+              { "type": "frame", "fill": "#e1261c", "rx": 999, "ry": 999, "width": 40, "height": 40, "alignItems": "center", "justifyContent": "center" },
+              { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "default 40px", "fontFamily": "Inter", "fontSize": 8 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "children": [
+              { "type": "frame", "fill": "#e1261c", "rx": 999, "ry": 999, "width": 48, "height": 48, "alignItems": "center", "justifyContent": "center" },
+              { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "lg 48px", "fontFamily": "Inter", "fontSize": 8 }
+            ]},
+            { "type": "frame", "layout": "vertical", "gap": 2, "alignItems": "center", "children": [
+              { "type": "frame", "fill": "#e1261c", "rx": 999, "ry": 999, "width": 56, "height": 56, "alignItems": "center", "justifyContent": "center" },
+              { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "xl 56px", "fontFamily": "Inter", "fontSize": 8 }
+            ]}
+          ]
+        },
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "6b. GlassFormField",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 24
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "default | focused | filled | error. br12, bg #00000059, border #ffffff1f, h44, px14. Error = #dc2626 (same as destructive/HTTP status).",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "vertical",
+          "gap": 8,
+          "marginTop": 12,
+          "children": [
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                { "type": "text", "fill": "rgba(255,255,255,0.9)", "content": "Default", "fontFamily": "Inter-Medium", "fontSize": 11 },
+                {
+                  "type": "frame",
+                  "fill": "rgba(0,0,0,0.35)",
+                  "rx": 12,
+                  "ry": 12,
+                  "height": 44,
+                  "borderWidth": 1,
+                  "borderColor": "rgba(255,255,255,0.12)",
+                  "padding": [14, 0],
+                  "alignItems": "center",
+                  "children": [
+                    { "type": "text", "fill": "rgba(255,255,255,0.4)", "content": "Placeholder text", "fontFamily": "Inter-Regular", "fontSize": 13 }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                { "type": "text", "fill": "rgba(255,255,255,0.9)", "content": "Focused", "fontFamily": "Inter-Medium", "fontSize": 11 },
+                {
+                  "type": "frame",
+                  "fill": "rgba(0,0,0,0.35)",
+                  "rx": 12,
+                  "ry": 12,
+                  "height": 44,
+                  "borderWidth": 2,
+                  "borderColor": "#ffffff",
+                  "padding": [14, 0],
+                  "alignItems": "center",
+                  "children": [
+                    { "type": "text", "fill": "#ffffff", "content": "Typing...", "fontFamily": "Inter-Regular", "fontSize": 13 }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                { "type": "text", "fill": "rgba(255,255,255,0.9)", "content": "Filled", "fontFamily": "Inter-Medium", "fontSize": 11 },
+                {
+                  "type": "frame",
+                  "fill": "rgba(0,0,0,0.35)",
+                  "rx": 12,
+                  "ry": 12,
+                  "height": 44,
+                  "borderWidth": 1,
+                  "borderColor": "rgba(255,255,255,0.12)",
+                  "padding": [14, 0],
+                  "alignItems": "center",
+                  "children": [
+                    { "type": "text", "fill": "#ffffff", "content": "user@example.com", "fontFamily": "Inter-Regular", "fontSize": 13 }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                { "type": "text", "fill": "rgba(255,255,255,0.9)", "content": "Error", "fontFamily": "Inter-Medium", "fontSize": 11 },
+                {
+                  "type": "frame",
+                  "fill": "rgba(0,0,0,0.35)",
+                  "rx": 12,
+                  "ry": 12,
+                  "height": 44,
+                  "borderWidth": 1,
+                  "borderColor": "#dc2626",
+                  "padding": [14, 0],
+                  "alignItems": "center",
+                  "children": [
+                    { "type": "text", "fill": "#ffffff", "content": "Invalid email", "fontFamily": "Inter-Regular", "fontSize": 13 }
+                  ]
+                },
+                { "type": "text", "fill": "#dc2626", "content": "Please enter a valid email address", "fontFamily": "Inter-Regular", "fontSize": 11 }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "6c. RoleCard",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 24
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "Unselected (left) vs Selected (right). br16, borderWidth 3. Selected shows red-tinted glow/border.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "gap": 12,
+          "marginTop": 12,
+          "children": [
+            {
+              "type": "frame",
+              "flex": 1,
+              "height": 72,
+              "rx": 16,
+              "ry": 16,
+              "borderWidth": 3,
+              "borderColor": "rgba(255,255,255,0.15)",
+              "fill": "rgba(255,255,255,0.06)",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "children": [
+                { "type": "text", "fill": "rgba(255,255,255,0.6)", "content": "🏠", "fontSize": 20 },
+                { "type": "text", "fill": "rgba(255,255,255,0.8)", "content": "Landlord", "fontFamily": "Inter-Medium", "fontSize": 12, "marginTop": 4 }
+              ]
+            },
+            {
+              "type": "frame",
+              "flex": 1,
+              "height": 72,
+              "rx": 16,
+              "ry": 16,
+              "borderWidth": 3,
+              "borderColor": "#e1261c",
+              "fill": "rgba(225,38,28,0.08)",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "children": [
+                { "type": "text", "fill": "#e1261c", "content": "🎓", "fontSize": 20 },
+                { "type": "text", "fill": "#ffffff", "content": "Student", "fontFamily": "Inter-Medium", "fontSize": 12, "marginTop": 4 }
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "7. Visual Hierarchy Example",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "Mock composition showing correct hierarchy. One high-emphasis element per view: the button.",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "vertical",
+          "gap": 0,
+          "fill": "rgba(255,255,255,0.06)",
+          "rx": 16,
+          "ry": 16,
+          "borderWidth": 1,
+          "borderColor": "rgba(255,255,255,0.12)",
+          "marginTop": 12,
+          "padding": [24, 16],
+          "children": [
+            { "type": "text", "fill": "#ffffff", "content": "Find your next home", "fontFamily": "BricolageGrotesque-SemiBold", "fontSize": 24, "fontWeight": "600" },
+            {
+              "type": "text",
+              "fill": "#6e6e73",
+              "content": "Browse verified rentals near campus.\nConnect directly with landlords.",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 14,
+              "lineHeight": 1.5,
+              "marginTop": 8
+            },
+            {
+              "type": "frame",
+              "fill": "#e1261c",
+              "rx": 999,
+              "ry": 999,
+              "padding": [16, 32],
+              "alignItems": "center",
+              "justifyContent": "center",
+              "marginTop": 24,
+              "children": [
+                { "type": "text", "fill": "#ffffff", "content": "Get Started", "fontFamily": "Inter-SemiBold", "fontSize": 16 }
+              ]
+            },
+            {
+              "type": "text",
+              "fill": "#f59e0b",
+              "content": "↑ heading-l: high emphasis, largest on screen",
+              "fontFamily": "Inter",
+              "fontSize": 9,
+              "marginTop": 6,
+              "opacity": 0.7
+            },
+            {
+              "type": "text",
+              "fill": "#f59e0b",
+              "content": "↑ body-m @ text-secondary: supporting info, reduced weight",
+              "fontFamily": "Inter",
+              "fontSize": 9,
+              "marginTop": 2,
+              "opacity": 0.7
+            },
+            {
+              "type": "text",
+              "fill": "#f59e0b",
+              "content": "↑ only one high-emphasis element per view: the primary action button",
+              "fontFamily": "Inter",
+              "fontSize": 9,
+              "marginTop": 2,
+              "opacity": 0.7
+            }
+          ]
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "8. Tag Icon",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "text",
+          "fill": "#8e8e93",
+          "content": "Rendered at multiple sizes. Confirm notch/hole silhouette renders correctly on mobile (was flagged as unclear on web).",
+          "fontFamily": "Inter",
+          "fontSize": 11,
+          "lineHeight": 1.4
+        },
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "gap": 16,
+          "alignItems": "center",
+          "marginTop": 12,
+          "children": [
+            {
+              "type": "frame",
+              "width": 24,
+              "height": 21,
+              "children": [
+                { "type": "rect", "fill": "#e1261c", "x": 0, "y": 3.78, "width": 24, "height": 17.22, "rx": 4.32, "ry": 4.32 },
+                { "type": "rect", "fill": "#e1261c", "x": 6, "y": 0, "width": 18, "height": 10.33, "rx": 4.32, "ry": 4.32 },
+                { "type": "rect", "fill": "#07060f", "x": 13.5, "y": 3.15, "width": 6, "height": 6, "rx": 3, "ry": 3 }
+              ]
+            },
+            {
+              "type": "frame",
+              "width": 32,
+              "height": 28,
+              "children": [
+                { "type": "rect", "fill": "#e1261c", "x": 0, "y": 5.04, "width": 32, "height": 22.96, "rx": 5.76, "ry": 5.76 },
+                { "type": "rect", "fill": "#e1261c", "x": 8, "y": 0, "width": 24, "height": 13.77, "rx": 5.76, "ry": 5.76 },
+                { "type": "rect", "fill": "#07060f", "x": 18, "y": 4.2, "width": 8, "height": 8, "rx": 4, "ry": 4 }
+              ]
+            },
+            {
+              "type": "frame",
+              "width": 40,
+              "height": 35,
+              "children": [
+                { "type": "rect", "fill": "#e1261c", "x": 0, "y": 6.3, "width": 40, "height": 28.7, "rx": 7.2, "ry": 7.2 },
+                { "type": "rect", "fill": "#e1261c", "x": 10, "y": 0, "width": 30, "height": 17.22, "rx": 7.2, "ry": 7.2 },
+                { "type": "rect", "fill": "#07060f", "x": 22.5, "y": 5.25, "width": 10, "height": 10, "rx": 5, "ry": 5 }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "fill": "rgba(255,255,255,0.4)",
+          "content": "Sizes shown: 24px, 32px, 40px. The notch (cutout circle) is positioned correctly — visible gap in the tag silhouette.",
+          "fontFamily": "Inter",
+          "fontSize": 10,
+          "marginTop": 4
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "#ffffff",
+          "content": "9. Dome Motif — Status Flag",
+          "fontFamily": "BricolageGrotesque-SemiBold",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "marginTop": 16
+        },
+        {
+          "type": "frame",
+          "fill": "rgba(245,158,11,0.08)",
+          "rx": 12,
+          "ry": 12,
+          "borderWidth": 1,
+          "borderColor": "rgba(245,158,11,0.3)",
+          "marginTop": 8,
+          "padding": [12, 16],
+          "children": [
+            {
+              "type": "text",
+              "fill": "#f59e0b",
+              "content": "⚠ DOME MOTIF — CONFIRM STATUS REQUIRED",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 12
+            },
+            {
+              "type": "text",
+              "fill": "#f59e0b",
+              "content": "Web doc says dome is now rare/hero-only, but also says shipping UI uses full-bleed atmosphere instead of dome entirely. Mobile should NOT default to a dome shape on any screen until this is resolved on web. Treat full-bleed atmosphere (no dome) as the current default for mobile hero-equivalent moments.",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 11,
+              "lineHeight": 1.5,
+              "marginTop": 8,
+              "opacity": 0.8
+            }
+          ]
+        },
+
+        {
+          "type": "rect",
+          "fill": "rgba(255,255,255,0.08)",
+          "height": 1,
+          "marginTop": 24,
+          "width": 358
+        },
+
+        {
+          "type": "text",
+          "fill": "rgba(255,255,255,0.3)",
+          "content": "End of design system reference. Every value cross-checked against tailwind.config.js and component source. If you find a mismatch, update this reference before updating code.",
+          "fontFamily": "Inter",
+          "fontSize": 10,
+          "lineHeight": 1.5,
+          "marginTop": 16,
+          "fontStyle": "italic"
         }
       ]
     }
