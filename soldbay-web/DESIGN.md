@@ -293,7 +293,7 @@ Shared API: `src/lib/motion.ts`
 
 ### Breakpoints
 
-Tailwind defaults: `sm 640` · `md 768` · `lg 1024` · `xl 1280`.
+Tailwind defaults: `sm 640` · `md 768` · `lg 1024` · `xl 1280`.Business Analyst (BA)
 
 ### Dome motif (from original system)
 
@@ -324,7 +324,7 @@ Installed under `src/components/ui/`. Extend via **variants** and `className`, n
 | `sm` | 32 |
 | `default` | 40 |
 | `lg` | 48 |
-| `2xl` | 56 |
+| `xl` | 56 |
 | `icon*` | 24–40 square |
 
 Always **pill** (`rounded-4xl` / full). Always **`cursor-pointer`** (disabled → `not-allowed`).

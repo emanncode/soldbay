@@ -278,7 +278,7 @@ export function AskQuestion() {
                         <Button
                           type="submit"
                           variant="glass-primary"
-                          size="2xl"
+                          size="xl"
                           className="w-full font-semibold"
                           disabled={submitting}
                         >

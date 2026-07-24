@@ -439,7 +439,7 @@ export function JoinForm({ type }: JoinFormProps) {
                     <Button
                       type="submit"
                       variant="glass-primary"
-                      size="2xl"
+                      size="xl"
                       className="mt-0 w-full font-semibold"
                       disabled={submitting}
                     >

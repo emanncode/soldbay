@@ -82,7 +82,7 @@ export function Hero() {
               <Button
                 asChild
                 variant="glass-primary"
-                size="2xl"
+                size="xl"
                 className="w-full font-semibold sm:flex-1"
               >
                 <Link href="/join/buyer">Join as a Buyer</Link>
@@ -90,7 +90,7 @@ export function Hero() {
               <Button
                 asChild
                 variant="glass"
-                size="2xl"
+                size="xl"
                 className="w-full font-semibold sm:flex-1"
               >
                 <Link href="/join/seller">Become a Seller</Link>
