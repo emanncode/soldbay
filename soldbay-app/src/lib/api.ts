@@ -1,7 +1,9 @@
+import { getToken } from "./auth-storage";
+
 export const BASE_URL =
   process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
 
-class ApiError extends Error {
+export class ApiError extends Error {
   status: number;
   constructor(message: string, status: number) {
     super(message);
@@ -10,14 +12,24 @@ class ApiError extends Error {
   }
 }
 
+async function authHeaders(): Promise<Record<string, string>> {
+  const token = await getToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 async function request<T>(
   method: string,
   path: string,
   body?: object,
 ): Promise<T> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(await authHeaders()),
+  };
+
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -74,4 +86,47 @@ export function signup(payload: SignupPayload) {
   return request<SignupResponse>("POST", "/api/auth/signup", payload);
 }
 
-export { ApiError };
+export interface SellerMeResponse {
+  verified: boolean;
+  verifiedAt: string | null;
+  idImageUrl: string | null;
+}
+
+export function getSellerMe() {
+  return request<SellerMeResponse>("GET", "/api/sellers/me");
+}
+
+export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImageUrl: string }> {
+  const token = await getToken();
+
+  const formData = new FormData();
+  const filename = uri.split("/").pop() ?? "id-photo.jpg";
+  const match = /\.(\w+)$/.exec(filename);
+  const ext = match?.[1]?.toLowerCase() ?? "jpeg";
+  const mimeType = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+
+  formData.append("image", {
+    uri,
+    name: filename,
+    type: mimeType,
+  } as unknown as Blob);
+
+  const res = await fetch(`${BASE_URL}/api/sellers/verify`, {
+    method: "POST",
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: formData,
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new ApiError(
+      data.error ?? "Upload failed. Please try again.",
+      res.status,
+    );
+  }
+
+  return data;
+}

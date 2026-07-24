@@ -3,4 +3,9 @@ const { withNativeWind } = require("nativewind/metro");
 
 const config = getDefaultConfig(__dirname);
 
-module.exports = withNativeWind(config, { input: "./src/app/global.css" });
+const wrapped = withNativeWind(config, { input: "./src/app/global.css" });
+
+// Disable package exports to fix resolution of expo-image-picker subpath imports
+wrapped.resolver.unstable_enablePackageExports = false;
+
+module.exports = wrapped;

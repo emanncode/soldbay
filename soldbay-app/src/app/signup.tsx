@@ -77,7 +77,7 @@ export default function SignupScreen() {
   }
 
   async function handleSignup() {
-    if (!validate()) return;
+    if (!validate() || !university) return;
     setLoading(true);
     setFormError(null);
     try {
@@ -90,7 +90,11 @@ export default function SignupScreen() {
       });
       const loginRes = await login({ email: email.trim(), password });
       await saveToken(loginRes.token);
-      router.replace("/");
+      if (role === "seller") {
+        router.replace("/seller/verify");
+      } else {
+        router.replace("/");
+      }
     } catch (err) {
       console.error("Signup error:", err);
       if (err instanceof ApiError) {
