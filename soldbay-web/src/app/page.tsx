@@ -5,6 +5,7 @@ import { FAQ } from "@/components/landing/faq"
 import { AskQuestion } from "@/components/landing/ask-question"
 import { Footer } from "@/components/landing/footer"
 import { PageShell } from "@/components/page-shell"
+import { SiteNav } from "@/components/site-nav"
 import { prisma } from "@/lib/prisma"
 
 async function getWaitlistCount(): Promise<number> {
@@ -21,6 +22,7 @@ export default async function Home() {
 
   return (
     <PageShell>
+      <SiteNav />
       <main>
         <Hero />
         <HowItWorks />

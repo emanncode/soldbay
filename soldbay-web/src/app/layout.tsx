@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { SiteNav } from "@/components/site-nav";
+import { AuthProvider } from "@/components/auth-provider";
 
 const display = Bricolage_Grotesque({
   variable: "--font-display",
@@ -23,8 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${display.variable} ${inter.variable} min-h-screen bg-[#07060f] font-sans text-white antialiased`}
       >
-        <SiteNav />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
