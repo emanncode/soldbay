@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import { signIn } from "next-auth/react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
-import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { Eye, EyeOff } from "lucide-react";
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [touched, setTouched] = useState({ email: false, password: false })
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
+  const [touched, setTouched] = useState({ email: false, password: false });
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const fieldErrors = {
     email: !email.trim()
@@ -30,44 +30,44 @@ export default function LoginPage() {
         ? "Enter a valid email address."
         : "",
     password: !password ? "Password is required." : "",
-  }
+  };
 
-  const showEmailError = touched.email && fieldErrors.email
-  const showPasswordError = touched.password && fieldErrors.password
+  const showEmailError = touched.email && fieldErrors.email;
+  const showPasswordError = touched.password && fieldErrors.password;
 
   function handleBlur(field: "email" | "password") {
-    setTouched((t) => ({ ...t, [field]: true }))
+    setTouched((t) => ({ ...t, [field]: true }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError(null)
-    setTouched({ email: true, password: true })
-    setSubmitted(true)
+    e.preventDefault();
+    setError(null);
+    setTouched({ email: true, password: true });
+    setSubmitted(true);
 
-    if (fieldErrors.email || fieldErrors.password) return
+    if (fieldErrors.email || fieldErrors.password) return;
 
-    setSubmitting(true)
+    setSubmitting(true);
     try {
       const res = await signIn("credentials", {
         email: email.trim().toLowerCase(),
         password,
         redirect: false,
-      })
+      });
       if (res?.error) {
-        setError("Invalid email or password.")
+        setError("Invalid email or password.");
       } else {
-        router.push("/")
-        router.refresh()
+        router.push("/");
+        router.refresh();
       }
     } catch {
-      setError("Something went wrong. Please try again.")
+      setError("Something went wrong. Please try again.");
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
 
-  const canSubmit = email.trim() && password && !submitting
+  const canSubmit = email.trim() && password && !submitting;
 
   return (
     <div className="page-atmosphere relative flex min-h-screen flex-col items-center justify-center px-4 py-16">
@@ -85,7 +85,7 @@ export default function LoginPage() {
           priority
         />
 
-        <div className="glass-panel-focus relative z-10 w-full max-w-sm rounded-xl p-8">
+        <div className="glass-panel-strong relative z-10 w-full max-w-md rounded-xl p-8">
           <h1 className="mb-8 text-heading-l text-white">Admin login</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -113,7 +113,7 @@ export default function LoginPage() {
                 aria-invalid={showEmailError ? true : undefined}
                 className={cn(
                   "h-12 rounded-xl glass-input px-4 text-white placeholder:text-white/40 focus-visible:border-white/30 focus-visible:ring-white/20",
-                  showEmailError && "border-red-400/60 ring-red-400/20"
+                  showEmailError && "border-red-400/60 ring-red-400/20",
                 )}
               />
               {showEmailError && (
@@ -137,7 +137,7 @@ export default function LoginPage() {
                   aria-invalid={showPasswordError ? true : undefined}
                   className={cn(
                     "h-12 rounded-xl glass-input px-4 pr-11 text-white placeholder:text-white/40 focus-visible:border-white/30 focus-visible:ring-white/20",
-                    showPasswordError && "border-red-400/60 ring-red-400/20"
+                    showPasswordError && "border-red-400/60 ring-red-400/20",
                   )}
                 />
                 <button
@@ -155,7 +155,9 @@ export default function LoginPage() {
                 </button>
               </div>
               {showPasswordError && (
-                <p className="text-body-s text-red-300">{fieldErrors.password}</p>
+                <p className="text-body-s text-red-300">
+                  {fieldErrors.password}
+                </p>
               )}
             </div>
 
@@ -171,5 +173,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
