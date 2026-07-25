@@ -33,9 +33,23 @@ export async function POST(request: Request) {
         },
       })
 
+      const rawSlug = body.name
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, "")
+        .replace(/\s+/g, "")
+
+      let username = rawSlug
+      let suffix = 2
+      while (await tx.sellerProfile.findUnique({ where: { username } })) {
+        username = `${rawSlug}${suffix}`
+        suffix++
+      }
+
       const profile = await tx.sellerProfile.create({
         data: {
           userId: user.id,
+          username,
           businessName: body.businessName || null,
           bio: body.bio || null,
         },

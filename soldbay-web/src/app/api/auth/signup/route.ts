@@ -5,6 +5,26 @@ import { UserRole } from "@/generated/prisma/enums"
 
 const VALID_ROLES = new Set<string>([UserRole.BUYER, UserRole.SELLER])
 
+function slugifyName(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, "")
+}
+
+async function generateUsername(tx: { sellerProfile: { findUnique: (args: { where: { username: string } }) => Promise<unknown> } }, baseSlug: string): Promise<string> {
+  let username = baseSlug
+  let suffix = 2
+  let existing = await tx.sellerProfile.findUnique({ where: { username } })
+  while (existing) {
+    username = `${baseSlug}${suffix}`
+    suffix++
+    existing = await tx.sellerProfile.findUnique({ where: { username } })
+  }
+  return username
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -27,22 +47,23 @@ export async function POST(request: Request) {
         { status: 400 },
       )
     }
-    if (!body.universityId || typeof body.universityId !== "string") {
-      return NextResponse.json({ error: "University ID is required." }, { status: 400 })
-    }
-
-    const university = await prisma.university.findUnique({
-      where: { id: body.universityId },
-    })
-    if (!university) {
-      return NextResponse.json({ error: "University not found." }, { status: 404 })
+    // universityId is optional — collected on a follow-up screen after signup
+    if (body.universityId && typeof body.universityId === "string") {
+      const university = await prisma.university.findUnique({
+        where: { id: body.universityId },
+      })
+      if (!university) {
+        return NextResponse.json({ error: "University not found." }, { status: 404 })
+      }
     }
 
     const email = body.email.trim().toLowerCase()
     const hashedPassword = await bcrypt.hash(body.password, 12)
     const role = body.role as UserRole
+    const rawSlug = slugifyName(body.name)
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(
+      async (tx) => {
       const user = await tx.user.create({
         data: {
           email,
@@ -50,16 +71,20 @@ export async function POST(request: Request) {
           name: body.name.trim(),
           phone: typeof body.phone === "string" ? body.phone : null,
           role,
-          universityId: body.universityId,
+          ...(body.universityId && typeof body.universityId === "string"
+            ? { university: { connect: { id: body.universityId } } }
+            : {}),
           level: typeof body.level === "string" ? body.level : null,
         },
       })
 
       let profileId: string | undefined
       if (role === UserRole.SELLER) {
+        const username = await generateUsername(tx, rawSlug)
         const profile = await tx.sellerProfile.create({
           data: {
             userId: user.id,
+            username,
             businessName:
               typeof body.businessName === "string" ? body.businessName : null,
             bio: typeof body.bio === "string" ? body.bio : null,
@@ -69,7 +94,7 @@ export async function POST(request: Request) {
       }
 
       return { user, profileId }
-    })
+    }, { timeout: 30000, maxWait: 15000 })
 
     return NextResponse.json(
       {

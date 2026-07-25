@@ -34,6 +34,7 @@ export async function GET(request: Request) {
       where: { userId },
       select: {
         id: true,
+        username: true,
         verifiedAt: true,
         idImageUrl: true,
       },
@@ -47,6 +48,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json({
+      username: profile.username,
       verified: profile.verifiedAt !== null,
       verifiedAt: profile.verifiedAt,
       idImageUrl: profile.idImageUrl,

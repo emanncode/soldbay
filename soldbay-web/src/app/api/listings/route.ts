@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       where,
       include: {
         seller: {
-          select: { businessName: true },
+          select: { username: true, businessName: true },
         },
         category: {
           select: { name: true, slug: true },
