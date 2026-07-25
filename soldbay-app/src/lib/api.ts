@@ -99,34 +99,38 @@ export function getSellerMe() {
 export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImageUrl: string }> {
   const token = await getToken();
 
-  const formData = new FormData();
   const filename = uri.split("/").pop() ?? "id-photo.jpg";
   const match = /\.(\w+)$/.exec(filename);
   const ext = match?.[1]?.toLowerCase() ?? "jpeg";
   const mimeType = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
 
-  formData.append("image", {
-    uri,
-    name: filename,
-    type: mimeType,
-  } as unknown as Blob);
+  const formData = new FormData();
+  formData.append("image", { uri, name: filename, type: mimeType } as unknown as Blob);
 
-  const res = await fetch(`${BASE_URL}/api/sellers/verify`, {
-    method: "POST",
-    headers: {
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: formData,
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${BASE_URL}/api/sellers/verify`);
+    if (token) {
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    }
+
+    xhr.onload = () => {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(data);
+        } else {
+          reject(new ApiError(data.error ?? "Upload failed. Please try again.", xhr.status));
+        }
+      } catch {
+        reject(new Error(`Server returned ${xhr.status} with no valid JSON body`));
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error("Network error: could not reach server"));
+    };
+
+    xhr.send(formData);
   });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new ApiError(
-      data.error ?? "Upload failed. Please try again.",
-      res.status,
-    );
-  }
-
-  return data;
 }

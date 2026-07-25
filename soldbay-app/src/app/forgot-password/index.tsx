@@ -160,7 +160,7 @@ export default function ForgotPasswordScreen() {
                   style={{
                     fontFamily: "Inter-SemiBold",
                     fontSize: 14,
-                    color: "#e1261c",
+                    color: "#ffffffcc",
                   }}
                 >
                   Log in
@@ -266,10 +266,7 @@ export default function ForgotPasswordScreen() {
                 >
                   Didn't get it?{" "}
                 </Text>
-                <TouchableOpacity
-                  onPress={handleResend}
-                  disabled={resending}
-                >
+                <TouchableOpacity onPress={handleResend} disabled={resending}>
                   <Text
                     style={{
                       fontFamily: "Inter-SemiBold",

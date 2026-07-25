@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -69,6 +70,10 @@ export default function VerifySellerScreen() {
       setScreenState("pending");
     } catch (err) {
       if (err instanceof ApiError) {
+        setFormError(err.message);
+      } else if (err instanceof TypeError) {
+        setFormError(`Network error: ${err.message}`);
+      } else if (err instanceof Error) {
         setFormError(err.message);
       } else {
         setFormError("Upload failed. Please try again.");
@@ -222,89 +227,44 @@ export default function VerifySellerScreen() {
                 height: 200,
                 justifyContent: "center",
                 alignItems: "center",
+                overflow: "hidden",
               }}
             >
               {imageUri && (
-                <View style={{ alignItems: "center", gap: 8 }}>
-                  <View
-                    style={{
-                      width: 160,
-                      height: 110,
-                      borderRadius: 12,
-                      backgroundColor: "rgba(255,255,255,0.06)",
-                      borderWidth: 1,
-                      borderColor: "#ffffff1f",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 8,
-                      padding: 16,
-                    }}
-                  >
-                    <View
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 6,
-                        backgroundColor: "rgba(255,255,255,0.1)",
-                      }}
-                    />
-                    <View
-                      style={{
-                        width: 100,
-                        height: 8,
-                        borderRadius: 4,
-                        backgroundColor: "#ffffff1f",
-                      }}
-                    />
-                    <View
-                      style={{
-                        width: 80,
-                        height: 6,
-                        borderRadius: 3,
-                        backgroundColor: "#ffffff14",
-                      }}
-                    />
-                    <View
-                      style={{
-                        width: 60,
-                        height: 6,
-                        borderRadius: 3,
-                        backgroundColor: "#ffffff14",
-                      }}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      position: "absolute",
-                      top: 6,
-                      right: 22,
-                      width: 28,
-                      height: 28,
-                      borderRadius: 14,
-                      backgroundColor: "#16a34a",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Ionicons name="checkmark" size={16} color="#ffffff" />
-                  </View>
-                </View>
+                <Image
+                  source={{ uri: imageUri }}
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="cover"
+                />
               )}
 
-              <TouchableOpacity
-                onPress={pickImage}
-                style={{ marginTop: 8 }}
+              <View
+                style={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  width: 28,
+                  height: 28,
+                  borderRadius: 14,
+                  backgroundColor: "#16a34a",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                <Text
-                  style={{
-                    fontFamily: "Inter-Regular",
-                    fontSize: 13,
-                    color: "#ffffff66",
-                  }}
-                >
-                  Tap to change photo
-                </Text>
-              </TouchableOpacity>
+                <Ionicons name="checkmark" size={16} color="#ffffff" />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={pickImage} style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  fontFamily: "Inter-Regular",
+                  fontSize: 13,
+                  color: "#ffffff66",
+                }}
+              >
+                Tap to change photo
+              </Text>
             </TouchableOpacity>
 
             <Text
