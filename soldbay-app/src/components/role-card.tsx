@@ -14,16 +14,16 @@ export function RoleCard({ icon, label, selected, onPress }: RoleCardProps) {
       activeOpacity={0.7}
       style={{
         flex: 1,
-        height: 80,
+        height: 72,
         borderRadius: 16,
-        borderWidth: 3,
-        borderColor: selected ? "#e1261c" : "rgba(255,255,255,0.15)",
+        borderWidth: 1,
+        borderColor: selected ? "#e1261c" : "rgba(255,255,255,0.12)",
         backgroundColor: selected
           ? "rgba(225,38,28,0.08)"
           : "rgba(255,255,255,0.06)",
         justifyContent: "center",
         alignItems: "center",
-        gap: 8,
+        gap: 6,
         ...(selected
           ? {
               shadowColor: "rgba(225,38,28,0.3)",
@@ -37,7 +37,7 @@ export function RoleCard({ icon, label, selected, onPress }: RoleCardProps) {
     >
       <Text
         style={{
-          fontSize: 22,
+          fontSize: 20,
           color: selected ? "#e1261c" : "rgba(255,255,255,0.6)",
         }}
       >

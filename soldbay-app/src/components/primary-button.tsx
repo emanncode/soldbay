@@ -31,7 +31,7 @@ export function PrimaryButton({
         justifyContent: "center",
         flexDirection: "row",
         gap: 8,
-        opacity: loading ? 0.5 : 1,
+        opacity: loading ? 0.7 : 1,
       }}
     >
       {loading && <ActivityIndicator color="#ffffff" size="small" />}
