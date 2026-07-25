@@ -71,7 +71,7 @@ export interface SignupPayload {
   password: string;
   name: string;
   role: Role;
-  universityId: string;
+  universityId?: string;
   level?: string;
 }
 

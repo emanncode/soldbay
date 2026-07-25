@@ -18,10 +18,6 @@ import { PrimaryButton } from "@/components/primary-button";
 import { RoleCard } from "@/components/role-card";
 import { signup, login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
-import {
-  UniversityPicker,
-  type University,
-} from "@/components/university-picker";
 
 type Role = "buyer" | "seller";
 
@@ -47,7 +43,6 @@ export default function SignupScreen() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [university, setUniversity] = useState<University | null>(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -70,7 +65,6 @@ export default function SignupScreen() {
     if (!name.trim()) e.name = "Name is required";
     if (!email.trim()) e.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Enter a valid email";
-    if (!university) e.university = "University is required";
     if (!password) e.password = "Password is required";
     else if (password.length < 8) e.password = "Must be 8+ characters";
     if (!confirmPassword) e.confirmPassword = "Confirm your password";
@@ -81,19 +75,22 @@ export default function SignupScreen() {
   }
 
   async function handleSignup() {
-    if (!validate() || !university) return;
+    if (!validate()) return;
     setLoading(true);
     setFormError(null);
     try {
+      // Signup without university — collected on a follow-up screen
       await signup({
         email: email.trim(),
         password,
         name: name.trim(),
         role: role === "buyer" ? "BUYER" : "SELLER",
-        universityId: university.id,
       });
+      // Login immediately after signup to get a token
       const loginRes = await login({ email: email.trim(), password });
       await saveToken(loginRes.token);
+      // TODO: Route to university selection screen once it exists
+      // For now, sellers go to verify, buyers to home
       if (role === "seller") {
         router.replace("/seller/verify");
       } else {
@@ -105,9 +102,6 @@ export default function SignupScreen() {
         switch (err.status) {
           case 409:
             setFormError("An account with this email already exists.");
-            break;
-          case 404:
-            setFormError("Please select a valid university.");
             break;
           case 400:
             setFormError(err.message);
@@ -168,7 +162,7 @@ export default function SignupScreen() {
 
                 <GlassFormField
                   label="Email"
-                  placeholder="name@university.edu"
+                  placeholder="you@email.com"
                   value={email}
                   onChangeText={(t) => {
                     setEmail(t);
@@ -177,15 +171,6 @@ export default function SignupScreen() {
                   error={errors.email}
                   keyboardType="email-address"
                   autoCapitalize="none"
-                />
-
-                <UniversityPicker
-                  value={university}
-                  onSelect={(u) => {
-                    setUniversity(u);
-                    clearError("university");
-                  }}
-                  error={errors.university}
                 />
 
                 <GlassFormField
