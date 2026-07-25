@@ -16,6 +16,7 @@ import { GlassFormField } from "@/components/glass-form-field";
 import { PrimaryButton } from "@/components/primary-button";
 import { login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
+import { ErrorBanner } from "@/components/error-banner";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -156,21 +157,10 @@ export default function LoginScreen() {
                   </Text>
                 </TouchableOpacity>
 
-                {formError && (
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Regular",
-                      fontSize: 13,
-                      color: "#dc2626",
-                      textAlign: "center",
-                    }}
-                  >
-                    {formError}
-                  </Text>
-                )}
+                {formError && <ErrorBanner message={formError} />}
 
                 <PrimaryButton
-                  label="Log in"
+                  label={loading ? "Logging in" : "Log in"}
                   loading={loading}
                   onPress={handleLogin}
                 />
