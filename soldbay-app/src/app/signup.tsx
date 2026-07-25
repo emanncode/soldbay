@@ -18,6 +18,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { RoleCard } from "@/components/role-card";
 import { signup, login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
+import { ErrorBanner } from "@/components/error-banner";
 
 type Role = "buyer" | "seller";
 
@@ -128,7 +129,7 @@ export default function SignupScreen() {
             contentContainerStyle={{
               flexGrow: 1,
               justifyContent: "center",
-              paddingHorizontal: 24,
+              padding: 24,
             }}
             keyboardShouldPersistTaps="handled"
           >
@@ -137,7 +138,7 @@ export default function SignupScreen() {
             </View>
 
             <GlassPanel variant="panel" style={{ borderRadius: 24 }}>
-              <View style={{ padding: 28, gap: 20 }}>
+              <View style={{ padding: 28, gap: 16 }}>
                 <Text
                   style={{
                     fontFamily: "BricolageGrotesque-SemiBold",
@@ -231,21 +232,37 @@ export default function SignupScreen() {
                     style={{
                       flexDirection: "row",
                       gap: 6,
-                      alignItems: "flex-start",
+                      alignItems: "center",
                     }}
                   >
-                    <Text
-                      style={{ fontSize: 14, color: "#ffffff80", marginTop: 1 }}
+                    <View
+                      style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 8,
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
                     >
-                      ⓘ
-                    </Text>
+                      <Text
+                        style={{
+                          fontFamily: "Inter-Medium",
+                          fontSize: 10,
+                          color: "rgba(255,255,255,0.4)",
+                          fontWeight: "700",
+                        }}
+                      >
+                        i
+                      </Text>
+                    </View>
                     <Text
                       style={{
                         fontFamily: "Inter-Regular",
-                        fontSize: 13,
-                        color: "#ffffff80",
+                        fontSize: 12,
+                        color: "rgba(255,255,255,0.4)",
                         flex: 1,
-                        lineHeight: 18,
+                        lineHeight: 16,
                       }}
                     >
                       You can always browse as a buyer even if you plan to sell
@@ -254,21 +271,10 @@ export default function SignupScreen() {
                   </View>
                 )}
 
-                {formError && (
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Regular",
-                      fontSize: 13,
-                      color: "#dc2626",
-                      textAlign: "center",
-                    }}
-                  >
-                    {formError}
-                  </Text>
-                )}
+                {formError && <ErrorBanner message={formError} />}
 
                 <PrimaryButton
-                  label="Create account"
+                  label={loading ? "Creating account" : "Create account"}
                   loading={loading}
                   onPress={handleSignup}
                 />
@@ -298,7 +304,7 @@ export default function SignupScreen() {
                   style={{
                     fontFamily: "Inter-SemiBold",
                     fontSize: 14,
-                    color: "#ffffffcc",
+                    color: "#e1261c",
                   }}
                 >
                   Log in
