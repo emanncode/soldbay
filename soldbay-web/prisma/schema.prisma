@@ -62,8 +62,8 @@ model User {
   name          String
   phone         String?
   role          UserRole
-  universityId  String
-  university    University     @relation(fields: [universityId], references: [id])
+  universityId  String?
+  university    University?    @relation(fields: [universityId], references: [id])
   level         String?
   verified      Boolean        @default(false)
   createdAt     DateTime       @default(now())
@@ -111,6 +111,7 @@ model SellerProfile {
   id            String    @id @default(cuid())
   userId        String    @unique
   user          User      @relation(fields: [userId], references: [id])
+  username      String    @unique
   businessName  String?
   bio           String?
   walletBalance Decimal   @default(0)
