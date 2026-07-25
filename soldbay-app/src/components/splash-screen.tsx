@@ -39,27 +39,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
             paddingBottom: 60,
           }}
         >
-          <LogoWordmark height={78} />Design the login screen for Soldbay's mobile app, matching the established dark glassmorphic system (PageAtmosphere background, GlassPanel card, GlassFormField inputs, PrimaryButton) — same visual language as the splash screen, so the transition between them feels continuous.
-
-Layout:
-
-PageAtmosphere background, full screen
-Logo (white/light variant) centered above the card
-GlassPanel card, centered, containing the form
-Heading "Welcome back" (heading-l, white)
-Email field (GlassFormField)
-Password field (GlassFormField) with an eye-icon toggle for visibility
-"Forgot password?" link, right-aligned beneath the password field, muted white/secondary tone
-"Log in" button (PrimaryButton, full-width, red, loading state on submit)
-Below the card: "Don't have an account? Sign up" — plain text + red link
-
-States to show as separate small variants:
-
-Password field with visibility toggled on (plain text visible)
-An inline error banner above the form: "Invalid email or password" (using the destructive token, legible against the glass/dark background)
-The "Log in" button in a loading state
-
-Keep this screen calm and functional — no scroll animation or decorative motion, consistent with how the splash and prior auth screens were kept simple.
+          <LogoWordmark height={78} />
 
           <View
             style={{
