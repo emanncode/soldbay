@@ -77,21 +77,21 @@ export default function CodeSentScreen() {
               <View style={{ padding: 28, gap: 20, alignItems: "center" }}>
                 <View
                   style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 24,
-                    backgroundColor: "rgba(225,38,28,0.15)",
+                    width: 64,
+                    height: 64,
+                    borderRadius: 32,
+                    backgroundColor: "rgba(225,38,28,0.1)",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  <Ionicons name="mail" size={24} color="#e1261c" />
+                  <Ionicons name="mail" size={32} color="#e1261c" />
                 </View>
 
                 <Text
                   style={{
                     fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 28,
+                    fontSize: 24,
                     color: "#ffffff",
                     textAlign: "center",
                   }}
@@ -102,20 +102,20 @@ export default function CodeSentScreen() {
                 <Text
                   style={{
                     fontFamily: "Inter-Regular",
-                    fontSize: 13,
-                    color: "#ffffff99",
+                    fontSize: 14,
+                    color: "#ffffff80",
                     textAlign: "center",
-                    lineHeight: 18,
+                    lineHeight: 20,
                   }}
                 >
-                  We sent a 6-digit reset code to
+                  We've sent a 6-digit verification code to
                 </Text>
 
                 <Text
                   style={{
                     fontFamily: "Inter-SemiBold",
-                    fontSize: 14,
-                    color: "#ffffffe6",
+                    fontSize: 15,
+                    color: "#ffffff",
                     textAlign: "center",
                   }}
                 >
@@ -124,7 +124,7 @@ export default function CodeSentScreen() {
 
                 <View style={{ width: "100%" }}>
                   <PrimaryButton
-                    label="Enter Code"
+                    label="Continue"
                     onPress={() =>
                       router.push(
                         `/forgot-password/enter-code?email=${encodeURIComponent(displayEmail)}`,
@@ -133,21 +133,37 @@ export default function CodeSentScreen() {
                   />
                 </View>
 
-                <TouchableOpacity
-                  onPress={handleResend}
-                  disabled={resending}
-                  style={{ alignItems: "center" }}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: 4,
+                  }}
                 >
                   <Text
                     style={{
-                      fontFamily: "Inter-Medium",
+                      fontFamily: "Inter-Regular",
                       fontSize: 13,
-                      color: resending ? "#ffffff50" : "#ffffff99",
+                      color: "#ffffff66",
                     }}
                   >
-                    {resending ? "Resending..." : "Didn't get it? Resend"}
+                    Didn't get it?{" "}
                   </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={handleResend}
+                    disabled={resending}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Inter-SemiBold",
+                        fontSize: 13,
+                        color: resending ? "#ffffff50" : "#e1261c",
+                      }}
+                    >
+                      {resending ? "Resending..." : "Resend"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </GlassPanel>
 

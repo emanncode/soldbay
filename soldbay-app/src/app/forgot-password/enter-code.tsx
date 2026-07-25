@@ -114,42 +114,43 @@ export default function EnterCodeScreen() {
             </View>
 
             <GlassPanel variant="panel" style={{ borderRadius: 24 }}>
-              <View style={{ padding: 28, gap: 20 }}>
-                <Text
-                  style={{
-                    fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 28,
-                    color: "#ffffff",
-                  }}
-                >
-                  Enter reset code
-                </Text>
+              <View style={{ padding: 28, gap: 32 }}>
+                <View style={{ gap: 8 }}>
+                  <Text
+                    style={{
+                      fontFamily: "BricolageGrotesque-SemiBold",
+                      fontSize: 28,
+                      color: "#ffffff",
+                    }}
+                  >
+                    Enter verification code
+                  </Text>
 
-                <Text
-                  style={{
-                    fontFamily: "Inter-Regular",
-                    fontSize: 13,
-                    color: "#ffffff99",
-                    lineHeight: 18,
-                  }}
-                >
-                  Enter the 6-digit code sent to
-                </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Inter-Regular",
+                      fontSize: 15,
+                      color: "#ffffff80",
+                    }}
+                  >
+                    We sent a 6-digit code to
+                  </Text>
 
-                <Text
-                  style={{
-                    fontFamily: "Inter-SemiBold",
-                    fontSize: 14,
-                    color: "#ffffffe6",
-                  }}
-                >
-                  {displayEmail}
-                </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Inter-SemiBold",
+                      fontSize: 15,
+                      color: "#ffffff",
+                    }}
+                  >
+                    {displayEmail}
+                  </Text>
+                </View>
 
                 <View
                   style={{
                     flexDirection: "row",
-                    gap: 8,
+                    gap: 12,
                     justifyContent: "center",
                   }}
                 >
@@ -157,8 +158,8 @@ export default function EnterCodeScreen() {
                     <View
                       key={i}
                       style={{
-                        width: 38,
-                        height: 48,
+                        width: 48,
+                        height: 56,
                         borderRadius: 12,
                         backgroundColor: "#00000059",
                         borderWidth: 1,
@@ -181,7 +182,7 @@ export default function EnterCodeScreen() {
                           height: "100%",
                           textAlign: "center",
                           fontFamily: "Inter-SemiBold",
-                          fontSize: 20,
+                          fontSize: 24,
                           color: "#ffffff",
                           padding: 0,
                           outline: "none",
@@ -198,25 +199,33 @@ export default function EnterCodeScreen() {
                   onPress={handleVerify}
                 />
 
-                <Text
+                <View
                   style={{
-                    fontFamily: "Inter-Regular",
-                    fontSize: 13,
-                    color: "#ffffff80",
-                    textAlign: "center",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: 4,
                   }}
                 >
-                  Didn't get it?{" "}
+                  <Text
+                    style={{
+                      fontFamily: "Inter-Regular",
+                      fontSize: 14,
+                      color: "#ffffff80",
+                    }}
+                  >
+                    Didn't receive a code?{" "}
+                  </Text>
                   <Text
                     onPress={handleResend}
                     style={{
                       fontFamily: "Inter-SemiBold",
+                      fontSize: 14,
                       color: resending ? "#ffffff50" : "#e1261c",
                     }}
                   >
                     {resending ? "Resending..." : "Resend Code"}
                   </Text>
-                </Text>
+                </View>
               </View>
 
               {showToast && (
@@ -225,25 +234,22 @@ export default function EnterCodeScreen() {
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 8,
-                    paddingHorizontal: 16,
+                    paddingHorizontal: 20,
                     paddingVertical: 12,
-                    backgroundColor: "rgba(34,197,94,0.12)",
-                    borderBottomLeftRadius: 24,
-                    borderBottomRightRadius: 24,
-                    borderTopWidth: 1,
-                    borderTopColor: "rgba(225,38,28,0.2)",
+                    backgroundColor: "#16a34a",
+                    borderRadius: 12,
+                    marginTop: 4,
                   }}
                 >
-                  <Ionicons name="checkmark-circle" size={20} color="#22c55e" />
+                  <Ionicons name="checkmark-circle" size={16} color="#ffffff" />
                   <Text
                     style={{
                       fontFamily: "Inter-Medium",
                       fontSize: 14,
-                      color: "#ffffffe6",
-                      flex: 1,
+                      color: "#ffffff",
                     }}
                   >
-                    Code resent! Check your email
+                    Code resent!
                   </Text>
                 </View>
               )}

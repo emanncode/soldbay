@@ -89,32 +89,32 @@ export default function ForgotPasswordScreen() {
               </Text>
             </TouchableOpacity>
 
-            <View style={{ alignItems: "center", paddingBottom: 24 }}>
+              <View style={{ alignItems: "center", paddingBottom: 24 }}>
               <LogoWordmark height={78} />
             </View>
 
             <GlassPanel variant="panel" style={{ borderRadius: 24 }}>
-              <View style={{ padding: 28, gap: 20 }}>
+              <View style={{ padding: 28, gap: 24 }}>
                 <Text
                   style={{
                     fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 32,
+                    fontSize: 28,
                     color: "#ffffff",
                   }}
                 >
-                  Forgot password
+                  Reset your password
                 </Text>
 
                 <Text
                   style={{
                     fontFamily: "Inter-Regular",
-                    fontSize: 13,
-                    color: "#ffffff99",
-                    lineHeight: 18,
+                    fontSize: 15,
+                    color: "#ffffff80",
+                    lineHeight: 22,
                   }}
                 >
-                  Enter your email address and we'll send you a code to reset
-                  your password.
+                  Enter the email associated with your account and we'll send
+                  you a verification code.
                 </Text>
 
                 <GlassFormField
@@ -148,14 +148,14 @@ export default function ForgotPasswordScreen() {
                   color: "#ffffff80",
                 }}
               >
-                Remember your password?
+                Back to
               </Text>
               <TouchableOpacity onPress={() => router.push("/login")}>
                 <Text
                   style={{
                     fontFamily: "Inter-SemiBold",
                     fontSize: 14,
-                    color: "#ffffffcc",
+                    color: "#e1261c",
                   }}
                 >
                   Log in
