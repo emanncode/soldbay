@@ -11,10 +11,7 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassPanel } from "@/components/glass-panel";
-import { LogoWordmark } from "@/components/logo-wordmark";
 import { PrimaryButton } from "@/components/primary-button";
-
 import { Ionicons } from "@expo/vector-icons";
 
 const OTP_LENGTH = 6;
@@ -58,6 +55,7 @@ export default function EnterCodeScreen() {
     setVerifying(true);
     await new Promise((r) => setTimeout(r, 1200));
     setVerifying(false);
+    router.push(`/forgot-password/new-password?email=${encodeURIComponent(displayEmail)}`);
   }
 
   async function handleResend() {
@@ -78,185 +76,164 @@ export default function EnterCodeScreen() {
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
-              justifyContent: "center",
-              paddingHorizontal: 24,
             }}
             keyboardShouldPersistTaps="handled"
           >
-            <TouchableOpacity
-              onPress={() => router.back()}
+            <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: 6,
-                marginBottom: 8,
-                alignSelf: "flex-start",
+                gap: 12,
+                paddingTop: 52,
+                paddingHorizontal: 24,
+                paddingBottom: 32,
               }}
             >
-              <Ionicons
-                name="chevron-back"
-                size={20}
-                color="rgba(255,255,255,0.6)"
-              />
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="arrow-back" size={22} color="#ffffff" />
+              </TouchableOpacity>
               <Text
                 style={{
-                  fontFamily: "Inter-Medium",
-                  fontSize: 14,
-                  color: "rgba(255,255,255,0.6)",
+                  fontFamily: "Inter-SemiBold",
+                  fontSize: 17,
+                  color: "#ffffff",
                 }}
               >
-                Back
+                Reset password
               </Text>
-            </TouchableOpacity>
-
-            <View style={{ alignItems: "center", paddingBottom: 24 }}>
-              <LogoWordmark height={78} />
             </View>
 
-            <GlassPanel variant="panel" style={{ borderRadius: 24 }}>
-              <View style={{ padding: 28, gap: 32 }}>
-                <View style={{ gap: 8 }}>
-                  <Text
-                    style={{
-                      fontFamily: "BricolageGrotesque-SemiBold",
-                      fontSize: 28,
-                      color: "#ffffff",
-                    }}
-                  >
-                    Enter verification code
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Regular",
-                      fontSize: 15,
-                      color: "#ffffff80",
-                    }}
-                  >
-                    We sent a 6-digit code to
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontFamily: "Inter-SemiBold",
-                      fontSize: 15,
-                      color: "#ffffff",
-                    }}
-                  >
-                    {displayEmail}
-                  </Text>
-                </View>
-
-                <View
+            <View
+              style={{
+                paddingHorizontal: 24,
+                paddingBottom: 24,
+                gap: 32,
+              }}
+            >
+              <View style={{ gap: 8 }}>
+                <Text
                   style={{
-                    flexDirection: "row",
-                    gap: 12,
-                    justifyContent: "center",
+                    fontFamily: "BricolageGrotesque-SemiBold",
+                    fontSize: 28,
+                    color: "#ffffff",
                   }}
                 >
-                  {otp.map((digit, i) => (
-                    <View
-                      key={i}
-                      style={{
-                        width: 48,
-                        height: 56,
-                        borderRadius: 12,
-                        backgroundColor: "#00000059",
-                        borderWidth: 1,
-                        borderColor: digit ? "#e1261c" : "#ffffff1f",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <TextInput
-                        ref={refs.current[i]}
-                        value={digit}
-                        onChangeText={(t) => handleOtpChange(t, i)}
-                        onKeyPress={({ nativeEvent }) =>
-                          handleOtpKeyPress(nativeEvent.key, i)
-                        }
-                        keyboardType="number-pad"
-                        maxLength={1}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          textAlign: "center",
-                          fontFamily: "Inter-SemiBold",
-                          fontSize: 24,
-                          color: "#ffffff",
-                          padding: 0,
-                          outline: "none",
-                        }}
-                      />
-                    </View>
-                  ))}
-                </View>
+                  Enter verification code
+                </Text>
 
-                <PrimaryButton
-                  label="Verify Code"
-                  loading={verifying}
-                  disabled={!isComplete}
-                  onPress={handleVerify}
-                />
-
-                <View
+                <Text
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    gap: 4,
+                    fontFamily: "Inter-Regular",
+                    fontSize: 15,
+                    color: "#ffffff80",
                   }}
                 >
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Regular",
-                      fontSize: 14,
-                      color: "#ffffff80",
-                    }}
-                  >
-                    Didn't receive a code?{" "}
-                  </Text>
-                  <Text
-                    onPress={handleResend}
-                    style={{
-                      fontFamily: "Inter-SemiBold",
-                      fontSize: 14,
-                      color: resending ? "#ffffff50" : "#e1261c",
-                    }}
-                  >
-                    {resending ? "Resending..." : "Resend Code"}
-                  </Text>
-                </View>
+                  We sent a 6-digit code to
+                </Text>
+
+                <Text
+                  style={{
+                    fontFamily: "Inter-SemiBold",
+                    fontSize: 15,
+                    color: "#ffffff",
+                  }}
+                >
+                  {displayEmail}
+                </Text>
               </View>
 
-              {showToast && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 8,
-                    paddingHorizontal: 20,
-                    paddingVertical: 12,
-                    backgroundColor: "#16a34a",
-                    borderRadius: 12,
-                    marginTop: 4,
-                  }}
-                >
-                  <Ionicons name="checkmark-circle" size={16} color="#ffffff" />
-                  <Text
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 12,
+                  justifyContent: "center",
+                }}
+              >
+                {otp.map((digit, i) => (
+                  <View
+                    key={i}
                     style={{
-                      fontFamily: "Inter-Medium",
-                      fontSize: 14,
-                      color: "#ffffff",
+                      width: 48,
+                      height: 56,
+                      borderRadius: 12,
+                      backgroundColor: "#00000059",
+                      borderWidth: i === 0 && !digit ? 2 : 1,
+                      borderColor:
+                        digit || (i === 0 && !digit)
+                          ? "#e1261c"
+                          : "#ffffff1f",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    Code resent!
-                  </Text>
-                </View>
-              )}
-            </GlassPanel>
+                    <TextInput
+                      ref={refs.current[i]}
+                      value={digit}
+                      onChangeText={(t) => handleOtpChange(t, i)}
+                      onKeyPress={({ nativeEvent }) =>
+                        handleOtpKeyPress(nativeEvent.key, i)
+                      }
+                      keyboardType="number-pad"
+                      maxLength={1}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        fontFamily: "Inter-SemiBold",
+                        fontSize: 24,
+                        color: "#ffffff",
+                        padding: 0,
+                        outline: "none",
+                      }}
+                    />
+                  </View>
+                ))}
+              </View>
+
+              <PrimaryButton
+                label="Verify Code"
+                loading={verifying}
+                disabled={!isComplete}
+                onPress={handleVerify}
+              />
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  gap: 4,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Inter-Regular",
+                    fontSize: 14,
+                    color: "#ffffff80",
+                  }}
+                >
+                  Didn't receive a code?{" "}
+                </Text>
+                <Text
+                  onPress={handleResend}
+                  style={{
+                    fontFamily: "Inter-SemiBold",
+                    fontSize: 14,
+                    color: resending ? "#ffffff50" : "#e1261c",
+                  }}
+                >
+                  {resending ? "Resending..." : "Resend Code"}
+                </Text>
+              </View>
+            </View>
 
             <View
-              style={{ paddingVertical: 24, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 4 }}
+              style={{
+                paddingVertical: 24,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 4,
+              }}
             >
               <Text
                 style={{
@@ -280,6 +257,34 @@ export default function EnterCodeScreen() {
               </TouchableOpacity>
             </View>
           </ScrollView>
+
+          {showToast && (
+            <View
+              style={{
+                position: "absolute",
+                bottom: 84,
+                alignSelf: "center",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 8,
+                paddingHorizontal: 20,
+                paddingVertical: 12,
+                backgroundColor: "#16a34a",
+                borderRadius: 12,
+              }}
+            >
+              <Ionicons name="checkmark-circle" size={16} color="#ffffff" />
+              <Text
+                style={{
+                  fontFamily: "Inter-Medium",
+                  fontSize: 14,
+                  color: "#ffffff",
+                }}
+              >
+                Code resent!
+              </Text>
+            </View>
+          )}
         </KeyboardAvoidingView>
       </SafeAreaView>
     </PageAtmosphere>
