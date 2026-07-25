@@ -22,7 +22,7 @@ const OTP_LENGTH = 6;
 export default function EnterCodeScreen() {
   const router = useRouter();
   const { email } = useLocalSearchParams<{ email?: string }>();
-  const displayEmail = email || "name@university.edu";
+  const displayEmail = email || "you@email.com";
 
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [verifying, setVerifying] = useState(false);

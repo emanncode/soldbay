@@ -19,7 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function CodeSentScreen() {
   const router = useRouter();
   const { email } = useLocalSearchParams<{ email?: string }>();
-  const displayEmail = email || "name@university.edu";
+  const displayEmail = email || "you@email.com";
   const [resending, setResending] = useState(false);
 
   async function handleResend() {

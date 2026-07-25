@@ -119,7 +119,7 @@ export default function ForgotPasswordScreen() {
 
                 <GlassFormField
                   label="Email"
-                  placeholder="name@university.edu"
+                  placeholder="you@email.com"
                   value={email}
                   onChangeText={(t) => {
                     setEmail(t);
