@@ -86,6 +86,28 @@ export function signup(payload: SignupPayload) {
   return request<SignupResponse>("POST", "/api/auth/signup", payload);
 }
 
+export interface UserMeResponse {
+  id: string;
+  email: string;
+  name: string;
+  role: Role;
+  universityId: string | null;
+  level: string | null;
+}
+
+export function getMe() {
+  return request<UserMeResponse>("GET", "/api/users/me");
+}
+
+export interface UpdateUserPayload {
+  universityId?: string;
+  level?: string;
+}
+
+export function updateUserProfile(payload: UpdateUserPayload) {
+  return request<UserMeResponse>("PATCH", "/api/users/me", payload);
+}
+
 export interface SellerMeResponse {
   verified: boolean;
   verifiedAt: string | null;

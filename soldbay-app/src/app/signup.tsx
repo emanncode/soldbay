@@ -90,13 +90,7 @@ export default function SignupScreen() {
       // Login immediately after signup to get a token
       const loginRes = await login({ email: email.trim(), password });
       await saveToken(loginRes.token);
-      // TODO: Route to university selection screen once it exists
-      // For now, sellers go to verify, buyers to home
-      if (role === "seller") {
-        router.replace("/seller/verify");
-      } else {
-        router.replace("/");
-      }
+      router.replace("/select-university");
     } catch (err) {
       console.error("Signup error:", err);
       if (err instanceof ApiError) {

@@ -61,6 +61,7 @@ export default function RootLayout() {
       <Stack.Screen name="forgot-password/enter-code" />
       <Stack.Screen name="forgot-password/new-password" />
       <Stack.Screen name="forgot-password/success" />
+      <Stack.Screen name="select-university" />
       <Stack.Screen name="seller/verify" />
     </Stack>
   );
