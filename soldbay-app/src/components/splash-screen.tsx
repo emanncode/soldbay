@@ -1,26 +1,71 @@
 import { useEffect, useRef } from "react";
-import { View, Animated, Dimensions } from "react-native";
+import { View, Animated, Dimensions, Easing, Image, StyleSheet } from "react-native";
 import { PageAtmosphere } from "@/components/page-atmosphere";
-import { LogoWordmark } from "@/components/logo-wordmark";
 
-const { width: SCREEN_W } = Dimensions.get("window");
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
+
+const FULL_H = 78;
+const FULL_W = FULL_H * (810 / 258);
+const ICON_W = FULL_H * (191 / 258);
+const SHIFT = (FULL_W - ICON_W) / 2;
+
+const ICON_START_X = (FULL_W - ICON_W) / 2;
+const ICON_END_X = 0;
+
+const CENTER_Y = (SCREEN_H - FULL_H) / 2;
 
 interface SplashScreenProps {
   onFinish: () => void;
 }
 
 export function SplashScreen({ onFinish }: SplashScreenProps) {
-  const opacity = useRef(new Animated.Value(0)).current;
+  const dropY = useRef(new Animated.Value(-SCREEN_H * 0.4)).current;
+  const scale = useRef(new Animated.Value(0.3)).current;
+  const shiftX = useRef(new Animated.Value(0)).current;
+  const revealW = useRef(new Animated.Value(ICON_W)).current;
+  const iconOp = useRef(new Animated.Value(1)).current;
+  const containerOp = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.sequence([
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-      Animated.delay(1400),
-      Animated.timing(opacity, {
+      Animated.parallel([
+        Animated.timing(dropY, {
+          toValue: 0,
+          duration: 600,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 600,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(shiftX, {
+          toValue: -SHIFT,
+          duration: 500,
+          easing: Easing.inOut(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(revealW, {
+          toValue: FULL_W,
+          duration: 500,
+          easing: Easing.inOut(Easing.cubic),
+          useNativeDriver: false,
+        }),
+        Animated.sequence([
+          Animated.delay(150),
+          Animated.timing(iconOp, {
+            toValue: 0,
+            duration: 350,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]),
+      Animated.delay(400),
+      Animated.timing(containerOp, {
         toValue: 0,
         duration: 350,
         useNativeDriver: true,
@@ -29,29 +74,37 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   }, []);
 
   return (
-    <Animated.View style={{ flex: 1, opacity }}>
+    <Animated.View style={[styles.container, { opacity: containerOp }]}>
       <PageAtmosphere>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            paddingBottom: 60,
-          }}
-        >
-          <LogoWordmark height={78} />
+        <View style={styles.centerWrapper}>
+          <View style={styles.logoArea}>
+            <Animated.View style={[
+              styles.revealWrapper,
+              { width: revealW },
+            ]}>
+              <Image
+                source={require("../../assets/logo.png")}
+                style={styles.fullLogo}
+                resizeMode="contain"
+              />
+            </Animated.View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 6,
-              marginTop: 32,
-              alignItems: "center",
-            }}
-          >
-            {[0, 1, 2].map((i) => (
-              <PulsingDot key={i} delay={i * 200} />
-            ))}
+            <Animated.Image
+              source={require("../../assets/logo2.png")}
+              style={[
+                styles.icon,
+                {
+                  left: ICON_START_X,
+                  opacity: iconOp,
+                  transform: [
+                    { translateY: dropY },
+                    { scale },
+                    { translateX: shiftX },
+                  ],
+                },
+              ]}
+              resizeMode="contain"
+            />
           </View>
         </View>
       </PageAtmosphere>
@@ -59,38 +112,35 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   );
 }
 
-function PulsingDot({ delay }: { delay: number }) {
-  const opacity = useRef(new Animated.Value(0.3)).current;
-
-  useEffect(() => {
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.delay(delay),
-        Animated.timing(opacity, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(opacity, {
-          toValue: 0.3,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-      ]),
-    );
-    loop.start();
-    return () => loop.stop();
-  }, []);
-
-  return (
-    <Animated.View
-      style={{
-        width: 5,
-        height: 5,
-        borderRadius: 2.5,
-        backgroundColor: "#ffffff",
-        opacity,
-      }}
-    />
-  );
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  centerWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logoArea: {
+    position: "relative",
+    width: FULL_W,
+    height: FULL_H,
+  },
+  revealWrapper: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    height: FULL_H,
+    overflow: "hidden",
+  },
+  fullLogo: {
+    height: FULL_H,
+    width: FULL_W,
+  },
+  icon: {
+    position: "absolute",
+    top: 0,
+    height: FULL_H,
+    width: ICON_W,
+  },
+});
