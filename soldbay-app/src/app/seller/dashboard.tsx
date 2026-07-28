@@ -89,7 +89,9 @@ export default function SellerDashboardScreen() {
     return (
       <PageAtmosphere>
         <SafeAreaView style={{ flex: 1 }}>
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
             <ActivityIndicator color="#e1261c" size="large" />
           </View>
         </SafeAreaView>
@@ -114,12 +116,14 @@ export default function SellerDashboardScreen() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              paddingTop: 52,
+              paddingTop: 12,
               paddingHorizontal: 24,
-              paddingBottom: 24,
+              paddingBottom: 14,
             }}
           >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
               <LogoMark />
               <Text
                 style={{
@@ -250,7 +254,9 @@ export default function SellerDashboardScreen() {
               </View>
 
               {listings.length === 0 ? (
-                <EmptyState onAdd={() => setToast("Create listing coming soon")} />
+                <EmptyState
+                  onAdd={() => setToast("Create listing coming soon")}
+                />
               ) : (
                 <View style={{ gap: 12 }}>
                   {listings.map((listing) => (
@@ -449,7 +455,9 @@ function ListingCard({ listing, statusStyle, statusLabel }: ListingCardProps) {
             >
               {listing.title}
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 6 }}
+            >
               <Ionicons name="pricetag" size={12} color="#e1261c" />
               <Text
                 style={{
