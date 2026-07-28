@@ -12,8 +12,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { GlassPanel } from "@/components/glass-panel";
-import { TagIcon } from "@/components/tag-icon";
 import { getSellerMe, ApiError, type SellerMeResponse } from "@/lib/api";
+
+const logo2 = require("../../../assets/logo2.png");
 
 export default function SellerDashboardScreen() {
   const router = useRouter();
@@ -135,7 +136,9 @@ export default function SellerDashboardScreen() {
                 width: 36,
                 height: 36,
                 borderRadius: 18,
-                backgroundColor: "#e1261c",
+                backgroundColor: "#ffffff1a",
+                borderWidth: 1,
+                borderColor: "#ffffff1f",
                 alignItems: "center",
                 justifyContent: "center",
               }}
@@ -160,7 +163,7 @@ export default function SellerDashboardScreen() {
                   style={{
                     fontFamily: "Inter-Medium",
                     fontSize: 13,
-                    color: "#ffffff99",
+                    color: "#ffffff80",
                     textTransform: "uppercase",
                     letterSpacing: 0.5,
                   }}
@@ -172,6 +175,7 @@ export default function SellerDashboardScreen() {
                     fontFamily: "BricolageGrotesque-Bold",
                     fontSize: 32,
                     color: "#ffffff",
+                    fontWeight: "700",
                   }}
                 >
                   {formatNaira(data.walletBalance)}
@@ -184,10 +188,10 @@ export default function SellerDashboardScreen() {
                     style={{
                       fontFamily: "Inter-Medium",
                       fontSize: 13,
-                      color: "#ffffff66",
+                      color: "#ffffff33",
                     }}
                   >
-                    Request payout →
+                    Request payout
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -206,7 +210,7 @@ export default function SellerDashboardScreen() {
                 <Text
                   style={{
                     fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 20,
+                    fontSize: 22,
                     color: "#ffffff",
                   }}
                 >
@@ -224,7 +228,15 @@ export default function SellerDashboardScreen() {
                     borderRadius: 999,
                   }}
                 >
-                  <Ionicons name="add" size={16} color="#ffffff" />
+                  <Text
+                    style={{
+                      fontFamily: "Inter-SemiBold",
+                      fontSize: 14,
+                      color: "#ffffff",
+                    }}
+                  >
+                    +
+                  </Text>
                   <Text
                     style={{
                       fontFamily: "Inter-SemiBold",
@@ -294,28 +306,23 @@ export default function SellerDashboardScreen() {
 
 function LogoMark() {
   return (
-    <View
-      style={{
-        width: 28,
-        height: 28,
-        borderRadius: 8,
-        backgroundColor: "#e1261c",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <TagIcon size={16} fill="#ffffff" />
-    </View>
+    <Image
+      source={logo2}
+      style={{ width: 32, height: 32, borderRadius: 8 }}
+      resizeMode="contain"
+    />
   );
 }
 
 function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
-    <GlassPanel variant="panel" style={{ borderRadius: 20 }}>
+    <GlassPanel variant="panel" style={{ borderRadius: 20, height: 300 }}>
       <View
         style={{
+          flex: 1,
           padding: 32,
           alignItems: "center",
+          justifyContent: "center",
           gap: 16,
         }}
       >
@@ -329,7 +336,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
             justifyContent: "center",
           }}
         >
-          <Ionicons name="pricetags-outline" size={28} color="#ffffff33" />
+          <Ionicons name="cube-outline" size={28} color="#ffffff33" />
         </View>
         <Text
           style={{
@@ -366,7 +373,15 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
             marginTop: 4,
           }}
         >
-          <Ionicons name="add" size={18} color="#ffffff" />
+          <Text
+            style={{
+              fontFamily: "Inter-SemiBold",
+              fontSize: 16,
+              color: "#ffffff",
+            }}
+          >
+            +
+          </Text>
           <Text
             style={{
               fontFamily: "Inter-SemiBold",
@@ -435,7 +450,7 @@ function ListingCard({ listing, statusStyle, statusLabel }: ListingCardProps) {
               {listing.title}
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-              <TagIcon size={14} fill="#e1261c" />
+              <Ionicons name="pricetag" size={12} color="#e1261c" />
               <Text
                 style={{
                   fontFamily: "Inter-SemiBold",
