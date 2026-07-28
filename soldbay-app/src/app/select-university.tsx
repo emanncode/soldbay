@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { ErrorBanner } from "@/components/error-banner";
-import { BASE_URL, updateUserProfile, ApiError } from "@/lib/api";
+import { BASE_URL, updateUserProfile, getMe, ApiError } from "@/lib/api";
 import type { University } from "@/components/university-picker";
 
 export default function SelectUniversityScreen() {
@@ -44,7 +44,8 @@ export default function SelectUniversityScreen() {
     setError(null);
     try {
       await updateUserProfile({ universityId: university.id });
-      router.replace("/seller/verify");
+      const me = await getMe();
+      router.replace(me.role === "SELLER" ? "/seller/verify" : "/buyer/home");
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);
