@@ -35,8 +35,27 @@ export async function GET(request: Request) {
       select: {
         id: true,
         username: true,
+        walletBalance: true,
         verifiedAt: true,
         idImageUrl: true,
+        user: {
+          select: { name: true },
+        },
+        listings: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+            images: true,
+            stock: true,
+            status: true,
+            createdAt: true,
+            category: {
+              select: { name: true, slug: true },
+            },
+          },
+          orderBy: { createdAt: "desc" },
+        },
       },
     })
 
@@ -49,9 +68,12 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       username: profile.username,
+      name: profile.user.name,
+      walletBalance: profile.walletBalance,
       verified: profile.verifiedAt !== null,
       verifiedAt: profile.verifiedAt,
       idImageUrl: profile.idImageUrl,
+      listings: profile.listings,
     })
   } catch (error) {
     console.error("Get seller me error:", error)
