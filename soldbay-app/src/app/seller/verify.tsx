@@ -423,6 +423,11 @@ export default function VerifySellerScreen() {
               Your seller account is approved. You can start creating listings
               now.
             </Text>
+
+            <PrimaryButton
+              label="Go to dashboard"
+              onPress={() => router.replace("/seller/dashboard")}
+            />
           </View>
         );
     }
