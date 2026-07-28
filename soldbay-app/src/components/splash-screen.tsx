@@ -25,7 +25,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   const shiftX = useRef(new Animated.Value(0)).current;
   const letterProgress = useRef(new Animated.Value(0)).current;
   const containerOp = useRef(new Animated.Value(1)).current;
-  const textY = useRef(new Animated.Value(FULL_H / 2)).current;
+  const revealW = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.sequence([
@@ -51,11 +51,11 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
           easing: Easing.inOut(Easing.cubic),
           useNativeDriver: true,
         }),
-        Animated.timing(textY, {
-          toValue: 0,
-          duration: 400,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
+        Animated.timing(revealW, {
+          toValue: FULL_W - ICON_W - 6,
+          duration: 600,
+          easing: Easing.linear,
+          useNativeDriver: false,
         }),
         Animated.timing(letterProgress, {
           toValue: LETTER_COUNT,
@@ -93,7 +93,6 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
                 styles.icon,
                 {
                   left: SHIFT,
-                  top: -FULL_H / 2 - 16,
                   transform: [
                     { translateY: dropY },
                     { scale },
@@ -105,8 +104,8 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
             />
 
             <Animated.View style={[
-              styles.textWrapper,
-              { transform: [{ translateY: textY }] },
+              styles.textReveal,
+              { width: revealW },
             ]}>
               <View style={styles.textContainer}>
                 {TEXT.split("").map((char, i) => (
@@ -158,16 +157,16 @@ const styles = StyleSheet.create({
     height: FULL_H,
     width: ICON_W,
   },
-  textWrapper: {
+  textReveal: {
     position: "absolute",
-    left: 0,
-    top: FULL_H / 2 + 8,
-    width: FULL_W,
+    left: ICON_W + 6,
+    top: 0,
+    height: FULL_H,
     overflow: "hidden",
   },
   textContainer: {
     flexDirection: "row",
-    marginLeft: ICON_W + 6,
+    marginTop: 0,
   },
   letter: {
     fontFamily: "BricolageGrotesque-ExtraBold",
