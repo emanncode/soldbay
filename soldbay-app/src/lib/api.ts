@@ -108,10 +108,25 @@ export function updateUserProfile(payload: UpdateUserPayload) {
   return request<UserMeResponse>("PATCH", "/api/users/me", payload);
 }
 
+export interface SellerListing {
+  id: string;
+  title: string;
+  price: string;
+  images: string[];
+  stock: number;
+  status: string;
+  createdAt: string;
+  category: { name: string; slug: string };
+}
+
 export interface SellerMeResponse {
+  username: string;
+  name: string;
+  walletBalance: string;
   verified: boolean;
   verifiedAt: string | null;
   idImageUrl: string | null;
+  listings: SellerListing[];
 }
 
 export function getSellerMe() {
