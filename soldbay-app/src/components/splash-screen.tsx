@@ -12,6 +12,9 @@ const SHIFT = (FULL_W - ICON_W) / 2;
 const TEXT = "soldbay";
 const LETTER_COUNT = TEXT.length;
 
+const PURPLE = "#5b3df0";
+const WHITE = "#ffffff";
+
 interface SplashScreenProps {
   onFinish: () => void;
 }
@@ -21,7 +24,6 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   const scale = useRef(new Animated.Value(0.3)).current;
   const shiftX = useRef(new Animated.Value(0)).current;
   const letterProgress = useRef(new Animated.Value(0)).current;
-  const iconOp = useRef(new Animated.Value(1)).current;
   const containerOp = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -54,14 +56,6 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
           easing: Easing.linear,
           useNativeDriver: false,
         }),
-        Animated.sequence([
-          Animated.delay(300),
-          Animated.timing(iconOp, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: true,
-          }),
-        ]),
       ]),
       Animated.delay(500),
       Animated.timing(containerOp, {
@@ -92,7 +86,6 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
                 styles.icon,
                 {
                   left: SHIFT,
-                  opacity: iconOp,
                   transform: [
                     { translateY: dropY },
                     { scale },
@@ -110,6 +103,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
                   style={[
                     styles.letter,
                     {
+                      color: i >= 4 ? PURPLE : WHITE,
                       opacity: letterAnimations[i],
                       transform: [
                         { translateY: letterAnimations[i].interpolate({
@@ -152,12 +146,12 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: "row",
-    marginLeft: ICON_W + 8,
+    marginLeft: ICON_W + 6,
   },
   letter: {
     fontFamily: "BricolageGrotesque-ExtraBold",
-    fontSize: 32,
-    color: "#ffffff",
+    fontSize: 36,
+    color: WHITE,
     lineHeight: FULL_H,
   },
 });
