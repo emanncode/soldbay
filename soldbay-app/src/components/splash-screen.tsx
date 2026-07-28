@@ -25,6 +25,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   const shiftX = useRef(new Animated.Value(0)).current;
   const letterProgress = useRef(new Animated.Value(0)).current;
   const containerOp = useRef(new Animated.Value(1)).current;
+  const textY = useRef(new Animated.Value(FULL_H / 2)).current;
 
   useEffect(() => {
     Animated.sequence([
@@ -42,12 +43,18 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
           useNativeDriver: true,
         }),
       ]),
-      Animated.delay(150),
+      Animated.delay(100),
       Animated.parallel([
         Animated.timing(shiftX, {
           toValue: -SHIFT,
           duration: 600,
           easing: Easing.inOut(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(textY, {
+          toValue: 0,
+          duration: 400,
+          easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
         Animated.timing(letterProgress, {
@@ -86,6 +93,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
                 styles.icon,
                 {
                   left: SHIFT,
+                  top: -FULL_H / 2 - 16,
                   transform: [
                     { translateY: dropY },
                     { scale },
@@ -96,28 +104,33 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
               resizeMode="contain"
             />
 
-            <View style={styles.textContainer}>
-              {TEXT.split("").map((char, i) => (
-                <Animated.Text
-                  key={i}
-                  style={[
-                    styles.letter,
-                    {
-                      color: i >= 4 ? PURPLE : WHITE,
-                      opacity: letterAnimations[i],
-                      transform: [
-                        { translateY: letterAnimations[i].interpolate({
-                            inputRange: [0, 0.3, 1],
-                            outputRange: [20, 0, 0],
-                          }) },
-                      ],
-                    },
-                  ]}
-                >
-                  {char}
-                </Animated.Text>
-              ))}
-            </View>
+            <Animated.View style={[
+              styles.textWrapper,
+              { transform: [{ translateY: textY }] },
+            ]}>
+              <View style={styles.textContainer}>
+                {TEXT.split("").map((char, i) => (
+                  <Animated.Text
+                    key={i}
+                    style={[
+                      styles.letter,
+                      {
+                        color: i >= 4 ? PURPLE : WHITE,
+                        opacity: letterAnimations[i],
+                        transform: [
+                          { translateY: letterAnimations[i].interpolate({
+                              inputRange: [0, 0.3, 1],
+                              outputRange: [16, 0, 0],
+                            }) },
+                        ],
+                      },
+                    ]}
+                  >
+                    {char}
+                  </Animated.Text>
+                ))}
+              </View>
+            </Animated.View>
           </View>
         </View>
       </PageAtmosphere>
@@ -135,14 +148,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoArea: {
-    flexDirection: "row",
+    position: "relative",
+    width: FULL_W,
+    height: FULL_H,
     alignItems: "center",
-    justifyContent: "center",
   },
   icon: {
     position: "absolute",
     height: FULL_H,
     width: ICON_W,
+  },
+  textWrapper: {
+    position: "absolute",
+    left: 0,
+    top: FULL_H / 2 + 8,
+    width: FULL_W,
+    overflow: "hidden",
   },
   textContainer: {
     flexDirection: "row",
@@ -150,8 +171,8 @@ const styles = StyleSheet.create({
   },
   letter: {
     fontFamily: "BricolageGrotesque-ExtraBold",
-    fontSize: 36,
+    fontSize: 42,
     color: WHITE,
-    lineHeight: FULL_H,
+    lineHeight: 48,
   },
 });
