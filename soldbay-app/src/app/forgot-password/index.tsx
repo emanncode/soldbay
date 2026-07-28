@@ -128,6 +128,7 @@ export default function ForgotPasswordScreen() {
                 error={error}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                disabled={loading}
               />
 
               <PrimaryButton

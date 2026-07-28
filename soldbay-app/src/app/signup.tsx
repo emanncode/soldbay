@@ -153,6 +153,7 @@ export default function SignupScreen() {
                   }}
                   error={errors.name}
                   autoCapitalize="words"
+                  disabled={loading}
                 />
 
                 <GlassFormField
@@ -166,6 +167,7 @@ export default function SignupScreen() {
                   error={errors.email}
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  disabled={loading}
                 />
 
                 <GlassFormField
@@ -178,6 +180,7 @@ export default function SignupScreen() {
                   }}
                   error={errors.password}
                   secureTextEntry={!showPassword}
+                  disabled={loading}
                   rightElement={
                     <EyeToggle
                       showing={showPassword}
@@ -196,6 +199,7 @@ export default function SignupScreen() {
                   }}
                   error={errors.confirmPassword}
                   secureTextEntry={!showConfirmPassword}
+                  disabled={loading}
                   rightElement={
                     <EyeToggle
                       showing={showConfirmPassword}
@@ -212,12 +216,14 @@ export default function SignupScreen() {
                     label="I'm a Buyer"
                     selected={role === "buyer"}
                     onPress={() => setRole("buyer")}
+                    disabled={loading}
                   />
                   <RoleCard
                     icon="📦"
                     label="I'm a Seller"
                     selected={role === "seller"}
                     onPress={() => setRole("seller")}
+                    disabled={loading}
                   />
                 </View>
 

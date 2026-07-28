@@ -113,6 +113,7 @@ export default function NewPasswordScreen() {
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
+                disabled={saving}
                 rightElement={
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
@@ -134,6 +135,7 @@ export default function NewPasswordScreen() {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={!showConfirmPassword}
+                disabled={saving}
                 rightElement={
                   <TouchableOpacity
                     onPress={() =>
