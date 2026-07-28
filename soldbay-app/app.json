@@ -34,9 +34,10 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "backgroundColor": "#07060f",
+          "image": "./assets/logo2.png",
+          "imageWidth": 120,
+          "resizeMode": "contain"
         }
       ],
       "expo-web-browser",
@@ -51,7 +52,6 @@
       "eas": {
         "projectId": "5b2b1062-8877-4109-a8fa-6e46f226334a"
       }
-    },
-    "owner": "emanncode"
+    }
   }
 }

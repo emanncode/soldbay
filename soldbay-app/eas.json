@@ -23,7 +23,7 @@
         "buildType": "apk"
       },
       "env": {
-        // "EXPO_PUBLIC_API_URL": "https://soldbay.vercel.app" //?change domain when you get your own domain
+        "EXPO_PUBLIC_API_URL": "https://soldbay.vercel.app"
       }
     }
   },
