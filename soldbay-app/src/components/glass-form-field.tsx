@@ -11,6 +11,7 @@ interface GlassFormFieldProps {
   keyboardType?: TextInputProps["keyboardType"];
   autoCapitalize?: TextInputProps["autoCapitalize"];
   rightElement?: ReactNode;
+  disabled?: boolean;
 }
 
 export function GlassFormField({
@@ -23,6 +24,7 @@ export function GlassFormField({
   keyboardType,
   autoCapitalize,
   rightElement,
+  disabled,
 }: GlassFormFieldProps) {
   return (
     <View style={{ gap: 6 }}>
@@ -39,7 +41,7 @@ export function GlassFormField({
       )}
       <View
         style={{
-          backgroundColor: "#00000059",
+          backgroundColor: disabled ? "#00000030" : "#00000059",
           borderWidth: 1,
           borderColor: error ? "#dc2626" : "#ffffff1f",
           borderRadius: 12,
@@ -47,6 +49,7 @@ export function GlassFormField({
           paddingHorizontal: 14,
           flexDirection: "row",
           alignItems: "center",
+          opacity: disabled ? 0.5 : 1,
         }}
       >
         <TextInput
@@ -57,6 +60,8 @@ export function GlassFormField({
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
+          editable={!disabled}
+          selectTextOnFocus={!disabled}
           style={{
             fontFamily: "Inter-Regular",
             fontSize: 14,

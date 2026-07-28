@@ -5,13 +5,15 @@ interface RoleCardProps {
   label: string;
   selected: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }
 
-export function RoleCard({ icon, label, selected, onPress }: RoleCardProps) {
+export function RoleCard({ icon, label, selected, onPress, disabled }: RoleCardProps) {
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.7}
+      disabled={disabled}
       style={{
         flex: 1,
         height: 72,
@@ -24,6 +26,7 @@ export function RoleCard({ icon, label, selected, onPress }: RoleCardProps) {
         justifyContent: "center",
         alignItems: "center",
         gap: 6,
+        opacity: disabled ? 0.5 : 1,
         ...(selected
           ? {
               shadowColor: "rgba(225,38,28,0.3)",
