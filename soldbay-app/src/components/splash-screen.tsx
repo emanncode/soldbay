@@ -23,7 +23,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   const dropY = useRef(new Animated.Value(-SCREEN_H * 0.4)).current;
   const scale = useRef(new Animated.Value(0.3)).current;
   const shiftX = useRef(new Animated.Value(0)).current;
-  const letterProgress = useRef(new Animated.Value(0)).current;
+  const revealProgress = useRef(new Animated.Value(0)).current;
   const containerOp = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -50,8 +50,8 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
           easing: Easing.inOut(Easing.cubic),
           useNativeDriver: true,
         }),
-        Animated.timing(letterProgress, {
-          toValue: LETTER_COUNT,
+        Animated.timing(revealProgress, {
+          toValue: 1,
           duration: 600,
           easing: Easing.linear,
           useNativeDriver: false,
@@ -66,13 +66,9 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
     ]).start(() => onFinish());
   }, []);
 
-  const letterAnimations = TEXT.split("").map((_, i) => {
-    const inputRange = [i, i + 1];
-    return letterProgress.interpolate({
-      inputRange,
-      outputRange: [0, 1],
-      extrapolate: "clamp",
-    });
+  const textRevealWidth = revealProgress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, FULL_W - ICON_W - 6],
   });
 
   return (
@@ -80,31 +76,27 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
       <PageAtmosphere>
         <View style={styles.centerWrapper}>
           <View style={styles.logoArea}>
-            {/* Text layer - behind logo, full width */}
-            <View style={styles.textContainer}>
-              {TEXT.split("").map((char, i) => (
-                <Animated.Text
-                  key={i}
-                  style={[
-                    styles.letter,
-                    {
-                      color: i >= 4 ? PURPLE : WHITE,
-                      opacity: letterAnimations[i],
-                      transform: [
-                        { translateY: letterAnimations[i].interpolate({
-                            inputRange: [0, 0.3, 1],
-                            outputRange: [16, 0, 0],
-                          }) },
-                      ],
-                    },
-                  ]}
-                >
-                  {char}
-                </Animated.Text>
-              ))}
-            </View>
+            {/* Text layer - behind logo, vertically centered, revealed by mask */}
+            <Animated.View style={[
+              styles.textMask,
+              { width: textRevealWidth },
+            ]}>
+              <View style={styles.textContainer}>
+                {TEXT.split("").map((char, i) => (
+                  <Text
+                    key={i}
+                    style={[
+                      styles.letter,
+                      { color: i >= 4 ? PURPLE : WHITE },
+                    ]}
+                  >
+                    {char}
+                  </Text>
+                ))}
+              </View>
+            </Animated.View>
 
-            {/* Logo layer - on top (z-index via render order), shifts left revealing text */}
+            {/* Logo layer - on top, drops, scales, shifts left */}
             <Animated.Image
               source={require("../../assets/logo2.png")}
               style={[
@@ -148,13 +140,17 @@ const styles = StyleSheet.create({
     width: ICON_W,
     zIndex: 10,
   },
-  textContainer: {
+  textMask: {
     position: "absolute",
     left: ICON_W + 6,
     top: 0,
     height: FULL_H,
+    overflow: "hidden",
+    justifyContent: "center",
+  },
+  textContainer: {
     flexDirection: "row",
-    zIndex: 1,
+    justifyContent: "flex-start",
   },
   letter: {
     fontFamily: "BricolageGrotesque-ExtraBold",
