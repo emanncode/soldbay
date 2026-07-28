@@ -133,6 +133,37 @@ export function getSellerMe() {
   return request<SellerMeResponse>("GET", "/api/sellers/me");
 }
 
+export interface PublicListing {
+  id: string;
+  sellerId: string;
+  categoryId: string;
+  title: string;
+  description: string;
+  price: string;
+  images: string[];
+  stock: number;
+  status: string;
+  createdAt: string;
+  seller: { username: string; businessName: string | null };
+  category: { name: string; slug: string };
+}
+
+export function getListings(categorySlug?: string) {
+  const query = categorySlug ? `?category=${encodeURIComponent(categorySlug)}` : "";
+  return request<PublicListing[]>("GET", `/api/listings${query}`);
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  commissionRate: string;
+}
+
+export function getCategories() {
+  return request<Category[]>("GET", "/api/categories");
+}
+
 export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImageUrl: string }> {
   const token = await getToken();
 
