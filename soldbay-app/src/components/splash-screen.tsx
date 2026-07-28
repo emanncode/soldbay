@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { View, Animated, Dimensions, Easing, Image, StyleSheet } from "react-native";
+import { View, Animated, Dimensions, Easing, Image, Text, StyleSheet } from "react-native";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
@@ -9,10 +9,8 @@ const FULL_W = FULL_H * (810 / 258);
 const ICON_W = FULL_H * (191 / 258);
 const SHIFT = (FULL_W - ICON_W) / 2;
 
-const ICON_START_X = (FULL_W - ICON_W) / 2;
-const ICON_END_X = 0;
-
-const CENTER_Y = (SCREEN_H - FULL_H) / 2;
+const TEXT = "soldbay";
+const LETTER_COUNT = TEXT.length;
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -22,7 +20,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   const dropY = useRef(new Animated.Value(-SCREEN_H * 0.4)).current;
   const scale = useRef(new Animated.Value(0.3)).current;
   const shiftX = useRef(new Animated.Value(0)).current;
-  const revealW = useRef(new Animated.Value(ICON_W)).current;
+  const letterProgress = useRef(new Animated.Value(0)).current;
   const iconOp = useRef(new Animated.Value(1)).current;
   const containerOp = useRef(new Animated.Value(1)).current;
 
@@ -31,70 +29,69 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
       Animated.parallel([
         Animated.timing(dropY, {
           toValue: 0,
-          duration: 600,
+          duration: 700,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
         Animated.timing(scale, {
           toValue: 1,
-          duration: 600,
+          duration: 700,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
       ]),
+      Animated.delay(150),
       Animated.parallel([
         Animated.timing(shiftX, {
           toValue: -SHIFT,
-          duration: 500,
+          duration: 600,
           easing: Easing.inOut(Easing.cubic),
           useNativeDriver: true,
         }),
-        Animated.timing(revealW, {
-          toValue: FULL_W,
-          duration: 500,
-          easing: Easing.inOut(Easing.cubic),
+        Animated.timing(letterProgress, {
+          toValue: LETTER_COUNT,
+          duration: 600,
+          easing: Easing.linear,
           useNativeDriver: false,
         }),
         Animated.sequence([
-          Animated.delay(150),
+          Animated.delay(300),
           Animated.timing(iconOp, {
             toValue: 0,
-            duration: 350,
+            duration: 200,
             useNativeDriver: true,
           }),
         ]),
       ]),
-      Animated.delay(400),
+      Animated.delay(500),
       Animated.timing(containerOp, {
         toValue: 0,
-        duration: 350,
+        duration: 400,
         useNativeDriver: true,
       }),
     ]).start(() => onFinish());
   }, []);
+
+  const letterAnimations = TEXT.split("").map((_, i) => {
+    const inputRange = [i, i + 1];
+    return letterProgress.interpolate({
+      inputRange,
+      outputRange: [0, 1],
+      extrapolate: "clamp",
+    });
+  });
 
   return (
     <Animated.View style={[styles.container, { opacity: containerOp }]}>
       <PageAtmosphere>
         <View style={styles.centerWrapper}>
           <View style={styles.logoArea}>
-            <Animated.View style={[
-              styles.revealWrapper,
-              { width: revealW },
-            ]}>
-              <Image
-                source={require("../../assets/logo.png")}
-                style={styles.fullLogo}
-                resizeMode="contain"
-              />
-            </Animated.View>
-
             <Animated.Image
               source={require("../../assets/logo2.png")}
               style={[
                 styles.icon,
                 {
-                  left: ICON_START_X,
+                  left: SHIFT,
                   opacity: iconOp,
                   transform: [
                     { translateY: dropY },
@@ -105,6 +102,28 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
               ]}
               resizeMode="contain"
             />
+
+            <View style={styles.textContainer}>
+              {TEXT.split("").map((char, i) => (
+                <Animated.Text
+                  key={i}
+                  style={[
+                    styles.letter,
+                    {
+                      opacity: letterAnimations[i],
+                      transform: [
+                        { translateY: letterAnimations[i].interpolate({
+                            inputRange: [0, 0.3, 1],
+                            outputRange: [20, 0, 0],
+                          }) },
+                      ],
+                    },
+                  ]}
+                >
+                  {char}
+                </Animated.Text>
+              ))}
+            </View>
           </View>
         </View>
       </PageAtmosphere>
@@ -122,25 +141,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoArea: {
-    position: "relative",
-    width: FULL_W,
-    height: FULL_H,
-  },
-  revealWrapper: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    height: FULL_H,
-    overflow: "hidden",
-  },
-  fullLogo: {
-    height: FULL_H,
-    width: FULL_W,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   icon: {
     position: "absolute",
-    top: 0,
     height: FULL_H,
     width: ICON_W,
+  },
+  textContainer: {
+    flexDirection: "row",
+    marginLeft: ICON_W + 8,
+  },
+  letter: {
+    fontFamily: "BricolageGrotesque-ExtraBold",
+    fontSize: 32,
+    color: "#ffffff",
+    lineHeight: FULL_H,
   },
 });
