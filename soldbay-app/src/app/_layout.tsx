@@ -57,6 +57,7 @@ export default function RootLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="login" />
       <Stack.Screen name="signup" />
+      <Stack.Screen name="select-role" />
       <Stack.Screen name="forgot-password/index" />
       <Stack.Screen name="forgot-password/enter-code" />
       <Stack.Screen name="forgot-password/new-password" />
