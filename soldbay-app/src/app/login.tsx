@@ -65,7 +65,7 @@ export default function LoginScreen() {
     try {
       const res = await login({ email: email.trim(), password });
       await saveToken(res.token);
-      router.replace(res.user.role === "SELLER" ? "/seller/dashboard" : "/");
+      router.replace(res.user.role === "SELLER" ? "/seller/dashboard" : "/buyer/home");
     } catch (err) {
       console.error("Login error:", err);
       if (err instanceof ApiError && err.status === 401) {
