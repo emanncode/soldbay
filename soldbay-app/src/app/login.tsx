@@ -65,7 +65,7 @@ export default function LoginScreen() {
     try {
       const res = await login({ email: email.trim(), password });
       await saveToken(res.token);
-      router.replace("/");
+      router.replace(res.user.role === "SELLER" ? "/seller/dashboard" : "/");
     } catch (err) {
       console.error("Login error:", err);
       if (err instanceof ApiError && err.status === 401) {
@@ -122,6 +122,7 @@ export default function LoginScreen() {
                   error={errors.email}
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  disabled={loading}
                 />
 
                 <GlassFormField
@@ -134,6 +135,7 @@ export default function LoginScreen() {
                   }}
                   error={errors.password}
                   secureTextEntry={!showPassword}
+                  disabled={loading}
                   rightElement={
                     <EyeToggle
                       showing={showPassword}
