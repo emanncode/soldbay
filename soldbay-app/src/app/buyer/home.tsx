@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  ActivityIndicator,
-  FlatList,
+  Animated,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +20,14 @@ import {
 } from "@/lib/api";
 
 const logo2 = require("../../../assets/logo2.png");
+
+const CATEGORY_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+  textbooks: "book-outline",
+  electronics: "phone-portrait-outline",
+  fashion: "shirt-outline",
+  food: "restaurant-outline",
+  services: "construct-outline",
+};
 
 export default function BuyerHomeScreen() {
   const router = useRouter();
@@ -47,7 +54,7 @@ export default function BuyerHomeScreen() {
       setCategories(cats);
       setListings(list);
     } catch {
-      // silently fail — empty state will show
+      // silently fail
     } finally {
       setLoading(false);
     }
@@ -68,11 +75,6 @@ export default function BuyerHomeScreen() {
       )
     : listings;
 
-  function formatPrice(price: string): string {
-    const num = parseFloat(price) || 0;
-    return "₦" + num.toLocaleString("en-NG");
-  }
-
   return (
     <PageAtmosphere>
       <SafeAreaView style={{ flex: 1 }}>
@@ -80,14 +82,14 @@ export default function BuyerHomeScreen() {
           contentContainerStyle={{ paddingBottom: 40 }}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Top bar */}
+          {/* ── Top bar ── */}
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
               paddingTop: 12,
-              paddingHorizontal: 24,
+              paddingHorizontal: 20,
               paddingBottom: 14,
             }}
           >
@@ -96,26 +98,36 @@ export default function BuyerHomeScreen() {
               style={{ width: 32, height: 32, borderRadius: 8 }}
               resizeMode="contain"
             />
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
-              <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
-                <Ionicons name="search" size={22} color="#ffffff" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
-                <Ionicons name="notifications-outline" size={22} color="#ffffff" />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => {}}
+              activeOpacity={0.7}
+              hitSlop={8}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: "rgba(255,255,255,0.1)",
+                borderWidth: 1,
+                borderColor: "rgba(255,255,255,0.15)",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="heart-outline" size={18} color="#ffffff" />
+            </TouchableOpacity>
           </View>
 
-          <View style={{ paddingHorizontal: 24, gap: 20 }}>
-            {/* Search input */}
+          <View style={{ paddingHorizontal: 20, gap: 20 }}>
+            {/* ── Search row ── */}
             <View
               style={{
                 backgroundColor: "#00000059",
                 borderWidth: 1,
                 borderColor: "#ffffff1f",
-                borderRadius: 12,
+                borderRadius: 999,
                 height: 44,
-                paddingHorizontal: 14,
+                paddingLeft: 16,
+                paddingRight: 6,
                 flexDirection: "row",
                 alignItems: "center",
                 gap: 10,
@@ -138,80 +150,57 @@ export default function BuyerHomeScreen() {
                   outline: "none",
                 }}
               />
-              {searchQuery.length > 0 && (
+              {searchQuery.length > 0 ? (
                 <TouchableOpacity
                   onPress={() => setSearchQuery("")}
                   hitSlop={8}
-                  style={{ padding: 4 }}
+                  style={{ padding: 8 }}
                 >
                   <Ionicons name="close-circle" size={18} color="#ffffff66" />
                 </TouchableOpacity>
-              )}
+              ) : null}
+              <View
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Ionicons name="options-outline" size={16} color="#ffffff99" />
+              </View>
             </View>
 
-            {/* Category chips */}
+            {/* ── Category pills with icons ── */}
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 8 }}
+              contentContainerStyle={{ gap: 10 }}
             >
-              <TouchableOpacity
+              <CategoryPill
+                label="All"
+                icon="apps-outline"
+                selected={selectedCategory === null}
                 onPress={() => setSelectedCategory(null)}
-                activeOpacity={0.7}
-                style={{
-                  backgroundColor: selectedCategory === null ? "#e1261c1a" : "transparent",
-                  borderWidth: 1,
-                  borderColor: selectedCategory === null ? "#e1261c4d" : "#ffffff1f",
-                  borderRadius: 999,
-                  paddingHorizontal: 16,
-                  paddingVertical: 8,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Inter-Medium",
-                    fontSize: 13,
-                    color: selectedCategory === null ? "#ffffff" : "#ffffff80",
-                  }}
-                >
-                  All
-                </Text>
-              </TouchableOpacity>
+              />
               {categories.map((cat) => (
-                <TouchableOpacity
+                <CategoryPill
                   key={cat.id}
+                  label={cat.name}
+                  icon={CATEGORY_ICONS[cat.slug] ?? "pricetag-outline"}
+                  selected={selectedCategory === cat.slug}
                   onPress={() =>
                     setSelectedCategory(
                       selectedCategory === cat.slug ? null : cat.slug,
                     )
                   }
-                  activeOpacity={0.7}
-                  style={{
-                    backgroundColor:
-                      selectedCategory === cat.slug ? "#e1261c1a" : "transparent",
-                    borderWidth: 1,
-                    borderColor:
-                      selectedCategory === cat.slug ? "#e1261c4d" : "#ffffff1f",
-                    borderRadius: 999,
-                    paddingHorizontal: 16,
-                    paddingVertical: 8,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Medium",
-                      fontSize: 13,
-                      color:
-                        selectedCategory === cat.slug ? "#ffffff" : "#ffffff80",
-                    }}
-                  >
-                    {cat.name}
-                  </Text>
-                </TouchableOpacity>
+                />
               ))}
             </ScrollView>
 
-            {/* Section header */}
+            {/* ── Section header ── */}
             <View
               style={{
                 flexDirection: "row",
@@ -222,7 +211,7 @@ export default function BuyerHomeScreen() {
               <Text
                 style={{
                   fontFamily: "BricolageGrotesque-SemiBold",
-                  fontSize: 22,
+                  fontSize: 20,
                   color: "#ffffff",
                 }}
               >
@@ -231,24 +220,22 @@ export default function BuyerHomeScreen() {
                     "Results"
                   : "Trending near you"}
               </Text>
-              {selectedCategory && (
+              <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
                 <Text
                   style={{
-                    fontFamily: "Inter-Regular",
+                    fontFamily: "Inter-Medium",
                     fontSize: 13,
-                    color: "#ffffff66",
+                    color: "#ffffff50",
                   }}
                 >
-                  {filteredListings.length} result{filteredListings.length !== 1 ? "s" : ""}
+                  See all
                 </Text>
-              )}
+              </TouchableOpacity>
             </View>
 
-            {/* Listing grid or empty state */}
+            {/* ── Listing grid or empty state ── */}
             {loading ? (
-              <View style={{ alignItems: "center", paddingVertical: 40 }}>
-                <ActivityIndicator color="#e1261c" />
-              </View>
+              <LoadingGrid />
             ) : filteredListings.length === 0 ? (
               <EmptyState
                 category={selectedCategory}
@@ -273,37 +260,77 @@ export default function BuyerHomeScreen() {
   );
 }
 
-/* ─── Helpers ─────────────────────────────────────────── */
+/* ─── Sub-components ─────────────────────────────── */
 
-function chunk<T>(arr: T[], size: number): T[][] {
-  const result: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
+function CategoryPill({
+  label,
+  icon,
+  selected,
+  onPress,
+}: {
+  label: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  selected: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 6,
+        backgroundColor: selected ? "#e1261c" : "transparent",
+        borderWidth: 1,
+        borderColor: selected ? "#e1261c" : "rgba(255,255,255,0.15)",
+        borderRadius: 999,
+        paddingHorizontal: 14,
+        paddingVertical: 8,
+      }}
+    >
+      <Ionicons
+        name={icon}
+        size={15}
+        color={selected ? "#ffffff" : "#ffffff80"}
+      />
+      <Text
+        style={{
+          fontFamily: "Inter-Medium",
+          fontSize: 13,
+          color: selected ? "#ffffff" : "#ffffffcc",
+        }}
+      >
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
 }
 
-/* ─── Sub-components ─────────────────────────────────── */
-
 function ListingCard({ listing }: { listing: PublicListing }) {
+  const router = useRouter();
   const sellerName = listing.seller.businessName || `@${listing.seller.username}`;
 
   return (
-    <TouchableOpacity activeOpacity={0.7} style={{ flex: 1 }}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={{ flex: 1 }}
+      onPress={() => router.push(`/buyer/listing-detail?id=${listing.id}`)}
+    >
       <View
         style={{
-          backgroundColor: "#ffffff0f",
+          backgroundColor: "rgba(255,255,255,0.06)",
           borderWidth: 1,
-          borderColor: "#ffffff1f",
+          borderColor: "rgba(255,255,255,0.1)",
           borderRadius: 16,
           overflow: "hidden",
         }}
       >
-        {/* Thumbnail */}
+        {/* Image */}
         <View
           style={{
             width: "100%",
-            height: 100,
+            height: 120,
             backgroundColor: "#1a1a2e",
             justifyContent: "center",
             alignItems: "center",
@@ -316,12 +343,29 @@ function ListingCard({ listing }: { listing: PublicListing }) {
               resizeMode="cover"
             />
           ) : (
-            <Ionicons name="image-outline" size={20} color="#ffffff1f" />
+            <Ionicons name="image-outline" size={24} color="#ffffff1f" />
           )}
+
+          {/* Heart icon (glass circle, top-right) */}
+          <View
+            style={{
+              position: "absolute",
+              top: 6,
+              right: 6,
+              width: 26,
+              height: 26,
+              borderRadius: 13,
+              backgroundColor: "rgba(0,0,0,0.45)",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Ionicons name="heart-outline" size={13} color="#ffffff" />
+          </View>
         </View>
 
         {/* Info */}
-        <View style={{ padding: 10, gap: 3 }}>
+        <View style={{ padding: 10, gap: 4 }}>
           <Text
             style={{
               fontFamily: "Inter-SemiBold",
@@ -337,7 +381,7 @@ function ListingCard({ listing }: { listing: PublicListing }) {
             <Text
               style={{
                 fontFamily: "Inter-SemiBold",
-                fontSize: 12,
+                fontSize: 13,
                 color: "#e1261c",
               }}
             >
@@ -360,11 +404,6 @@ function ListingCard({ listing }: { listing: PublicListing }) {
   );
 }
 
-function formatPrice(price: string): string {
-  const num = parseFloat(price) || 0;
-  return "₦" + num.toLocaleString("en-NG");
-}
-
 function EmptyState({
   category,
   onBrowseAll,
@@ -379,22 +418,22 @@ function EmptyState({
   return (
     <View
       style={{
-        height: 360,
+        height: 320,
         justifyContent: "center",
         alignItems: "center",
-        gap: 16,
+        gap: 14,
       }}
     >
-      <Ionicons name="cube-outline" size={64} color="#ffffff1f" />
+      <Ionicons name="pricetag-outline" size={56} color="#ffffff1f" />
       <Text
         style={{
           fontFamily: "BricolageGrotesque-SemiBold",
-          fontSize: 20,
+          fontSize: 18,
           color: "#ffffff",
           textAlign: "center",
         }}
       >
-        No listings here yet
+        Nothing here yet
       </Text>
       <Text
         style={{
@@ -436,4 +475,82 @@ function EmptyState({
       )}
     </View>
   );
+}
+
+/* ─── Loading skeleton grid ─────────────────────── */
+
+function LoadingGrid() {
+  const pulse = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const anim = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulse, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulse, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    anim.start();
+    return () => anim.stop();
+  }, []);
+
+  const opacity = pulse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.3, 0.6],
+  });
+
+  const S = ({ w, h, r = 8 }: { w: number | string; h: number; r?: number }) => (
+    <Animated.View
+      style={{
+        width: w as any,
+        height: h,
+        borderRadius: r,
+        backgroundColor: "rgba(255,255,255,0.1)",
+        opacity,
+      }}
+    />
+  );
+
+  return (
+    <View style={{ gap: 12 }}>
+      {[0, 1].map((row) => (
+        <View key={row} style={{ flexDirection: "row", gap: 12 }}>
+          <View style={{ flex: 1, gap: 8 }}>
+            <S w="100%" h={120} r={16} />
+            <S w="80%" h={12} />
+            <S w="50%" h={12} />
+            <S w="60%" h={10} />
+          </View>
+          <View style={{ flex: 1, gap: 8 }}>
+            <S w="100%" h={120} r={16} />
+            <S w="80%" h={12} />
+            <S w="50%" h={12} />
+            <S w="60%" h={10} />
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+/* ─── Helpers ────────────────────────────────────── */
+
+function chunk<T>(arr: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
+
+function formatPrice(price: string): string {
+  const num = parseFloat(price) || 0;
+  return "₦" + num.toLocaleString("en-NG");
 }
