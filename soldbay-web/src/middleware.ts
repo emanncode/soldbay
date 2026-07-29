@@ -51,11 +51,12 @@ export default auth(async (req) => {
   }
 
   const isSellerApiPost = pathname === "/api/listings" && method === "POST"
+  const isSellerApiDelete = /^\/api\/listings\/[^/]+$/.test(pathname) && method === "DELETE"
   const isSellerVerify = pathname === "/api/sellers/verify" && method === "POST"
   const isSellerMe = pathname === "/api/sellers/me" && method === "GET"
   const isSellerPage = pathname.startsWith("/seller")
 
-  if (!isSellerApiPost && !isSellerVerify && !isSellerMe && !isSellerPage) {
+  if (!isSellerApiPost && !isSellerApiDelete && !isSellerVerify && !isSellerMe && !isSellerPage) {
     return isApiRoute(pathname)
       ? withCors(NextResponse.next())
       : NextResponse.next()
