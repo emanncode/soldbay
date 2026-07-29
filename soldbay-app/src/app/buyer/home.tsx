@@ -36,12 +36,17 @@ export default function BuyerHomeScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const initialLoad = useRef(true);
 
   useEffect(() => {
     loadInitial();
   }, []);
 
   useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      return;
+    }
     loadListings();
   }, [selectedCategory]);
 
@@ -61,11 +66,14 @@ export default function BuyerHomeScreen() {
   }
 
   async function loadListings() {
+    setLoading(true);
     try {
       const list = await getListings(selectedCategory ?? undefined);
       setListings(list);
     } catch {
       setListings([]);
+    } finally {
+      setLoading(false);
     }
   }
 
