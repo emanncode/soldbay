@@ -240,6 +240,10 @@ export function createListing(payload: CreateListingPayload) {
   return request<{ id: string }>("POST", "/api/listings", payload);
 }
 
+export function deleteListing(id: string) {
+  return request<{ ok: boolean }>("DELETE", `/api/listings/${id}`);
+}
+
 export async function uploadListingImages(
   uris: string[],
 ): Promise<string[]> {
