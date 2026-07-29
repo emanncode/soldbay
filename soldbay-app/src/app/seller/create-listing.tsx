@@ -28,6 +28,9 @@ import {
 } from "@/lib/api";
 
 const MAX_IMAGES = 4;
+const IMAGE_MIN_DIMENSION = 400;
+const IMAGE_MAX_DIMENSION = 4096;
+const IMAGE_MAX_FILE_SIZE = 5 * 1024 * 1024;
 const CATEGORIES: { slug: string; label: string }[] = [
   { slug: "textbooks", label: "Textbooks" },
   { slug: "electronics", label: "Electronics" },
@@ -95,14 +98,38 @@ export default function CreateListingScreen() {
       quality: 0.8,
     });
 
-    if (!result.canceled && result.assets[0]) {
-      setImages((prev) => {
-        const next = [...prev];
-        next[slotIndex] = { uri: result.assets[0].uri };
-        return next;
-      });
-      clearError("images");
+    if (result.canceled || !result.assets[0]) return;
+
+    const asset = result.assets[0];
+
+    if (asset.fileSize && asset.fileSize > IMAGE_MAX_FILE_SIZE) {
+      setFormError(`Image must be under 5 MB.`);
+      return;
     }
+
+    const shortest = Math.min(asset.width, asset.height);
+    const longest = Math.max(asset.width, asset.height);
+
+    if (shortest < IMAGE_MIN_DIMENSION) {
+      setFormError(
+        `Image is too small (${shortest}px). Minimum ${IMAGE_MIN_DIMENSION}px on the shortest side.`,
+      );
+      return;
+    }
+
+    if (longest > IMAGE_MAX_DIMENSION) {
+      setFormError(
+        `Image is too large (${longest}px). Maximum ${IMAGE_MAX_DIMENSION}px on the longest side.`,
+      );
+      return;
+    }
+
+    setImages((prev) => {
+      const next = [...prev];
+      next[slotIndex] = { uri: asset.uri };
+      return next;
+    });
+    clearError("images");
   }
 
   function removeImage(slotIndex: number) {
@@ -230,6 +257,16 @@ export default function CreateListingScreen() {
                   }}
                 >
                   Photos
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Inter-Regular",
+                    fontSize: 11,
+                    color: "#ffffff50",
+                    marginBottom: 10,
+                  }}
+                >
+                  Min {IMAGE_MIN_DIMENSION}px · Max {IMAGE_MAX_DIMENSION}px · Under 5 MB
                 </Text>
                 <ScrollView
                   horizontal
