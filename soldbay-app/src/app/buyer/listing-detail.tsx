@@ -163,6 +163,7 @@ export default function ListingDetailScreen() {
                   scrollEventThrottle={16}
                   snapToInterval={IMAGE_W}
                   decelerationRate="fast"
+                  nestedScrollEnabled
                   keyExtractor={(_, i) => String(i)}
                   renderItem={({ item }) => (
                     <View style={{ width: IMAGE_W, height: IMAGE_W }}>
@@ -175,28 +176,30 @@ export default function ListingDetailScreen() {
                   )}
                 />
 
-                {/* Condition pill (bottom-left overlay) */}
-                <View
-                  style={{
-                    position: "absolute",
-                    bottom: 10,
-                    left: 10,
-                    backgroundColor: "rgba(0,0,0,0.6)",
-                    borderRadius: 999,
-                    paddingHorizontal: 10,
-                    paddingVertical: 4,
-                  }}
-                >
-                  <Text
+                {/* Position indicator (bottom-left overlay) */}
+                {images.length > 1 && (
+                  <View
                     style={{
-                      fontFamily: "Inter-Medium",
-                      fontSize: 11,
-                      color: "#ffffff",
+                      position: "absolute",
+                      bottom: 10,
+                      left: 10,
+                      backgroundColor: "rgba(0,0,0,0.6)",
+                      borderRadius: 999,
+                      paddingHorizontal: 10,
+                      paddingVertical: 4,
                     }}
                   >
-                    New
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        fontFamily: "Inter-Medium",
+                        fontSize: 11,
+                        color: "#ffffff",
+                      }}
+                    >
+                      {activeIdx + 1}/{images.length}
+                    </Text>
+                  </View>
+                )}
               </View>
 
               {/* Dot indicators */}
@@ -345,12 +348,12 @@ export default function ListingDetailScreen() {
                   color: "#ffffff",
                 }}
               >
-                Message seller
+                Ask question
               </Text>
             </TouchableOpacity>
             <View style={{ flex: 1.5 }}>
               <PrimaryButton
-                label={soldOut ? "Sold out" : "Buy now"}
+                label={soldOut ? "Sold out" : "Add to cart"}
                 disabled={soldOut}
                 onPress={() => {}}
               />
