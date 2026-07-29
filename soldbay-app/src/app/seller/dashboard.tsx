@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { GlassPanel } from "@/components/glass-panel";
-import { getSellerMe, ApiError, type SellerMeResponse } from "@/lib/api";
+import { getSellerMe, deleteListing, ApiError, type SellerMeResponse } from "@/lib/api";
 
 const logo2 = require("../../../assets/logo2.png");
 
@@ -264,6 +265,30 @@ export default function SellerDashboardScreen() {
                       listing={listing}
                       statusStyle={getStatusColor(listing.status)}
                       statusLabel={getStatusLabel(listing.status)}
+                      onEdit={() =>
+                        router.push(`/seller/create-listing?id=${listing.id}`)
+                      }
+                      onDelete={async () => {
+                        Alert.alert(
+                          "Delete listing",
+                          `Delete "${listing.title}"? This can't be undone.`,
+                          [
+                            { text: "Cancel", style: "cancel" },
+                            {
+                              text: "Delete",
+                              style: "destructive",
+                              onPress: async () => {
+                                try {
+                                  await deleteListing(listing.id);
+                                  await loadDashboard();
+                                } catch {
+                                  setToast("Failed to delete listing");
+                                }
+                              },
+                            },
+                          ],
+                        );
+                      }}
                     />
                   ))}
                 </View>
@@ -406,74 +431,75 @@ interface ListingCardProps {
   listing: SellerMeResponse["listings"][number];
   statusStyle: { bg: string; text: string };
   statusLabel: string;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-function ListingCard({ listing, statusStyle, statusLabel }: ListingCardProps) {
+function ListingCard({ listing, statusStyle, statusLabel, onEdit, onDelete }: ListingCardProps) {
   return (
-    <TouchableOpacity activeOpacity={0.7}>
-      <GlassPanel variant="panel" style={{ borderRadius: 16 }}>
-        <View style={{ flexDirection: "row", padding: 12, gap: 12 }}>
-          {/* Thumbnail */}
-          <View
-            style={{
-              width: 72,
-              height: 72,
-              borderRadius: 12,
-              backgroundColor: "rgba(255,255,255,0.06)",
-              overflow: "hidden",
-            }}
-          >
-            {listing.images[0] ? (
-              <Image
-                source={{ uri: listing.images[0] }}
-                style={{ width: "100%", height: "100%" }}
-                resizeMode="cover"
-              />
-            ) : (
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Ionicons name="image-outline" size={24} color="#ffffff22" />
-              </View>
-            )}
-          </View>
+    <GlassPanel variant="panel" style={{ borderRadius: 16 }}>
+      <View style={{ flexDirection: "row", padding: 12, gap: 12 }}>
+        {/* Thumbnail */}
+        <View
+          style={{
+            width: 72,
+            height: 72,
+            borderRadius: 12,
+            backgroundColor: "rgba(255,255,255,0.06)",
+            overflow: "hidden",
+          }}
+        >
+          {listing.images[0] ? (
+            <Image
+              source={{ uri: listing.images[0] }}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+            />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="image-outline" size={24} color="#ffffff22" />
+            </View>
+          )}
+        </View>
 
-          {/* Info */}
-          <View style={{ flex: 1, justifyContent: "center", gap: 4 }}>
+        {/* Info */}
+        <View style={{ flex: 1, justifyContent: "center", gap: 4 }}>
+          <Text
+            style={{
+              fontFamily: "Inter-SemiBold",
+              fontSize: 15,
+              color: "#ffffff",
+            }}
+            numberOfLines={1}
+          >
+            {listing.title}
+          </Text>
+          <View
+            style={{ flexDirection: "row", alignItems: "center", gap: 6 }}
+          >
+            <Ionicons name="pricetag" size={12} color="#e1261c" />
             <Text
               style={{
                 fontFamily: "Inter-SemiBold",
-                fontSize: 15,
-                color: "#ffffff",
+                fontSize: 14,
+                color: "#ffffffcc",
               }}
-              numberOfLines={1}
             >
-              {listing.title}
+              ₦{parseFloat(listing.price).toLocaleString("en-NG")}
             </Text>
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 6 }}
-            >
-              <Ionicons name="pricetag" size={12} color="#e1261c" />
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 14,
-                  color: "#ffffffcc",
-                }}
-              >
-                ₦{parseFloat(listing.price).toLocaleString("en-NG")}
-              </Text>
-            </View>
           </View>
+        </View>
 
-          {/* Status badge */}
+        {/* Status badge + UD actions */}
+        <View style={{ alignItems: "flex-end", gap: 8 }}>
           <View
             style={{
-              alignSelf: "center",
               backgroundColor: statusStyle.bg,
               paddingHorizontal: 10,
               paddingVertical: 4,
@@ -490,8 +516,40 @@ function ListingCard({ listing, statusStyle, statusLabel }: ListingCardProps) {
               {statusLabel}
             </Text>
           </View>
+          <View style={{ flexDirection: "row", gap: 6 }}>
+            <TouchableOpacity
+              onPress={onEdit}
+              activeOpacity={0.7}
+              hitSlop={6}
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                backgroundColor: "rgba(255,255,255,0.08)",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="pencil" size={14} color="#ffffff99" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onDelete}
+              activeOpacity={0.7}
+              hitSlop={6}
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                backgroundColor: "rgba(225,38,28,0.15)",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="trash-outline" size={14} color="#e1261c" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </GlassPanel>
-    </TouchableOpacity>
+      </View>
+    </GlassPanel>
   );
 }
