@@ -5,8 +5,30 @@ import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
 
 const { auth } = NextAuth(authConfig)
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+}
+
+function handleCors(req: Request): NextResponse | null {
+  if (req.method === "OPTIONS") {
+    return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
+  }
+  return null
+}
+
+function withCors(res: NextResponse): NextResponse {
+  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.headers.set(k, v))
+  return res
+}
+
+function isApiRoute(pathname: string): boolean {
+  return pathname.startsWith("/api/")
+}
+
 /**
- * Seller-only protection:
+ * CORS + Seller-only protection:
  * - POST /api/listings
  * - POST /api/sellers/verify
  * - GET /api/sellers/me
@@ -21,13 +43,22 @@ const { auth } = NextAuth(authConfig)
 export default auth(async (req) => {
   const { pathname } = req.nextUrl
   const method = req.method
+
+  // Handle CORS preflight for all API routes
+  if (isApiRoute(pathname)) {
+    const corsResponse = handleCors(req)
+    if (corsResponse) return corsResponse
+  }
+
   const isSellerApiPost = pathname === "/api/listings" && method === "POST"
   const isSellerVerify = pathname === "/api/sellers/verify" && method === "POST"
   const isSellerMe = pathname === "/api/sellers/me" && method === "GET"
   const isSellerPage = pathname.startsWith("/seller")
 
   if (!isSellerApiPost && !isSellerVerify && !isSellerMe && !isSellerPage) {
-    return NextResponse.next()
+    return isApiRoute(pathname)
+      ? withCors(NextResponse.next())
+      : NextResponse.next()
   }
 
   // --- Mobile Bearer JWT path ---
@@ -35,28 +66,28 @@ export default auth(async (req) => {
   if (bearer) {
     const mobileUser = await verifyMobileToken(bearer)
     if (!mobileUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+      return withCors(NextResponse.json({ error: "Unauthorized" }, { status: 401 }))
     }
     if (mobileUser.role !== "SELLER") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+      return withCors(NextResponse.json({ error: "Forbidden" }, { status: 403 }))
     }
-    return NextResponse.next()
+    return withCors(NextResponse.next())
   }
 
   // --- Web NextAuth cookie session path (unchanged) ---
   const session = req.auth
 
   if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    return withCors(NextResponse.json({ error: "Unauthorized" }, { status: 401 }))
   }
 
   if (session.user.role !== "SELLER") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    return withCors(NextResponse.json({ error: "Forbidden" }, { status: 403 }))
   }
 
-  return NextResponse.next()
+  return withCors(NextResponse.next())
 })
 
 export const config = {
-  matcher: ["/api/listings", "/api/sellers/verify", "/api/sellers/me", "/seller/:path*"],
+  matcher: ["/api/:path*", "/seller/:path*"],
 }

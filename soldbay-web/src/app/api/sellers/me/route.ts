@@ -67,6 +67,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json({
+      sellerProfileId: profile.id,
       username: profile.username,
       name: profile.user.name,
       walletBalance: profile.walletBalance,
