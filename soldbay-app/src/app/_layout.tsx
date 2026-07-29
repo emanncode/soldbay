@@ -65,7 +65,9 @@ export default function RootLayout() {
       <Stack.Screen name="select-university" />
       <Stack.Screen name="seller/verify" />
       <Stack.Screen name="seller/dashboard" />
+      <Stack.Screen name="seller/create-listing" />
       <Stack.Screen name="buyer/home" />
+      <Stack.Screen name="buyer/listing-detail" />
     </Stack>
   );
 }

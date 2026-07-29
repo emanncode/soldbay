@@ -221,6 +221,7 @@ export default function SellerDashboardScreen() {
                   Your listings
                 </Text>
                 <TouchableOpacity
+                  onPress={() => router.push("/seller/create-listing")}
                   activeOpacity={0.7}
                   style={{
                     flexDirection: "row",
@@ -254,9 +255,7 @@ export default function SellerDashboardScreen() {
               </View>
 
               {listings.length === 0 ? (
-                <EmptyState
-                  onAdd={() => setToast("Create listing coming soon")}
-                />
+                <EmptyState onAdd={() => router.push("/seller/create-listing")} />
               ) : (
                 <View style={{ gap: 12 }}>
                   {listings.map((listing) => (
