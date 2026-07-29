@@ -105,20 +105,8 @@ export function GlassPanel({
       <View
         style={{
           flex: 1,
-          backgroundColor: config.bgOverlay,
         }}
       >
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 1,
-            backgroundColor: `rgba(255,255,255,${config.highlightOpacity})`,
-          }}
-          pointerEvents="none"
-        />
         {children}
       </View>
     </BlurView>

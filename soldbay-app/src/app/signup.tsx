@@ -304,7 +304,7 @@ export default function SignupScreen() {
                   style={{
                     fontFamily: "Inter-SemiBold",
                     fontSize: 14,
-                    color: "#e1261c",
+                    color: "#ffffffcc",
                   }}
                 >
                   Log in
