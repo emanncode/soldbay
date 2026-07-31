@@ -4,10 +4,10 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -339,7 +339,7 @@ function LogoMark() {
     <Image
       source={logo2}
       style={{ width: 32, height: 32, borderRadius: 8 }}
-      resizeMode="contain"
+      contentFit="contain"
     />
   );
 }
@@ -453,7 +453,11 @@ function ListingCard({ listing, statusStyle, statusLabel, onEdit, onDelete }: Li
             <Image
               source={{ uri: listing.images[0] }}
               style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
+              contentFit="cover"
+              transition={150}
+              cachePolicy="memory-disk"
+              recyclingKey={listing.images[0]}
+              allowDownscaling
             />
           ) : (
             <View

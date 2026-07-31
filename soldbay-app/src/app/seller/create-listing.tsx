@@ -4,11 +4,11 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Image,
   TextInput,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
@@ -294,7 +294,7 @@ export default function CreateListingScreen() {
                               height: "100%",
                               borderRadius: 12,
                             }}
-                            resizeMode="cover"
+                            contentFit="cover"
                           />
                           {/* Remove button */}
                           <TouchableOpacity

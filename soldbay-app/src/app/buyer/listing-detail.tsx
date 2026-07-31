@@ -4,12 +4,12 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Image,
   FlatList,
   Dimensions,
   Animated,
   Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -170,7 +170,11 @@ export default function ListingDetailScreen() {
                       <Image
                         source={{ uri: item }}
                         style={{ width: "100%", height: "100%" }}
-                        resizeMode="cover"
+                        contentFit="cover"
+                        transition={200}
+                        cachePolicy="memory-disk"
+                        recyclingKey={item}
+                        allowDownscaling
                       />
                     </View>
                   )}
