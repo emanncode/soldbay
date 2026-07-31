@@ -1,17 +1,33 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
+const DEFAULT_LIMIT = 20
+const MAX_LIMIT = 100
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const categorySlug = searchParams.get("category")
+    const search = searchParams.get("search")?.trim() ?? ""
+    const cursor = searchParams.get("cursor")
+    const parsedLimit = Number(searchParams.get("limit"))
+    const limit =
+      Number.isInteger(parsedLimit) && parsedLimit > 0
+        ? Math.min(parsedLimit, MAX_LIMIT)
+        : DEFAULT_LIMIT
 
     const where: Record<string, unknown> = { status: "ACTIVE" }
     if (categorySlug) {
       where.category = { slug: categorySlug }
     }
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ]
+    }
 
-    const listings = await prisma.listing.findMany({
+    const items = await prisma.listing.findMany({
       where,
       include: {
         seller: {
@@ -21,10 +37,16 @@ export async function GET(request: NextRequest) {
           select: { name: true, slug: true },
         },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      take: limit + 1,
+      ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
     })
 
-    return NextResponse.json(listings)
+    const hasMore = items.length > limit
+    const pageItems = hasMore ? items.slice(0, limit) : items
+    const nextCursor = hasMore ? pageItems[pageItems.length - 1].id : null
+
+    return NextResponse.json({ items: pageItems, nextCursor, hasMore })
   } catch (error) {
     console.error("List listings error:", error)
     return NextResponse.json(

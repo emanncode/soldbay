@@ -7,6 +7,9 @@ function getPrisma() {
   if (!globalForPrisma.prisma) {
     const adapter = new PrismaPg({
       connectionString: process.env.DATABASE_URL,
+      max: 10,
+      idleTimeoutMillis: 20_000,
+      connectionTimeoutMillis: 5_000,
     })
     globalForPrisma.prisma = new PrismaClient({ adapter })
   }
