@@ -141,4 +141,8 @@ model Listing {
   stock       Int           @default(1)
   status      String        @default("ACTIVE")
   createdAt   DateTime      @default(now())
+
+  @@index([sellerId])
+  @@index([status, createdAt(sort: Desc)])
+  @@index([categoryId, status, createdAt(sort: Desc)])
 }
