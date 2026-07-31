@@ -149,9 +149,27 @@ export interface PublicListing {
   category: { name: string; slug: string };
 }
 
-export function getListings(categorySlug?: string) {
-  const query = categorySlug ? `?category=${encodeURIComponent(categorySlug)}` : "";
-  return request<PublicListing[]>("GET", `/api/listings${query}`);
+export interface ListingPage {
+  items: PublicListing[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
+
+export function getListings(
+  params: {
+    categorySlug?: string;
+    search?: string;
+    cursor?: string;
+    limit?: number;
+  } = {},
+) {
+  const query = new URLSearchParams();
+  if (params.categorySlug) query.set("category", params.categorySlug);
+  if (params.search) query.set("search", params.search);
+  if (params.cursor) query.set("cursor", params.cursor);
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+  return request<ListingPage>("GET", `/api/listings${qs ? `?${qs}` : ""}`);
 }
 
 export interface ListingDetail extends PublicListing {
@@ -244,69 +262,89 @@ export function deleteListing(id: string) {
   return request<{ ok: boolean }>("DELETE", `/api/listings/${id}`);
 }
 
+function buildNativeFormData(
+  uri: string,
+  field = "image",
+): FormData {
+  const filename = uri.split("/").pop() ?? "listing-photo.jpg";
+  const match = /\.(\w+)$/.exec(filename);
+  const ext = match?.[1]?.toLowerCase() ?? "jpeg";
+  const mimeType =
+    ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+
+  const formData = new FormData();
+  formData.append(
+    field,
+    { uri, name: filename, type: mimeType } as unknown as Blob,
+  );
+
+  return formData;
+}
+
+function postImage(
+  endpoint: string,
+  formData: FormData,
+  token: string | null,
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${BASE_URL}${endpoint}`);
+    if (token) {
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    }
+
+    xhr.onload = () => {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(data.url);
+        } else {
+          reject(
+            new ApiError(
+              data.error ?? "Image upload failed.",
+              xhr.status,
+            ),
+          );
+        }
+      } catch {
+        reject(
+          new Error(`Server returned ${xhr.status} with no valid JSON body`),
+        );
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error("Network error: could not reach server"));
+    };
+
+    xhr.send(formData);
+  });
+}
+
 export async function uploadListingImages(
   uris: string[],
 ): Promise<string[]> {
   const token = await getToken();
-  const urls: string[] = [];
 
-  for (const uri of uris) {
+  const uploads = uris.map((uri) => {
     const filename = uri.split("/").pop() ?? "listing-photo.jpg";
-    const match = /\.(\w+)$/.exec(filename);
-    const ext = match?.[1]?.toLowerCase() ?? "jpeg";
-    const mimeType =
-      ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
-
-    const formData = new FormData();
 
     if (typeof window !== "undefined" && typeof fetch !== "undefined") {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      const file = new File([blob], filename, { type: mimeType });
-      formData.append("image", file);
-    } else {
-      formData.append(
-        "image",
-        { uri, name: filename, type: mimeType } as unknown as Blob,
-      );
+      // Web path: fetch the URI as a blob, then append as a File
+      return (async () => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const mimeType =
+          /\.png$/i.test(filename) ? "image/png" : /\.webp$/i.test(filename) ? "image/webp" : "image/jpeg";
+        const formData = new FormData();
+        formData.append("image", new File([blob], filename, { type: mimeType }));
+        return postImage("/api/upload/listing-image", formData, token);
+      })();
     }
 
-    const url = await new Promise<string>((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", `${BASE_URL}/api/upload/listing-image`);
-      if (token) {
-        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-      }
+    const formData = buildNativeFormData(uri);
+    return postImage("/api/upload/listing-image", formData, token);
+  });
 
-      xhr.onload = () => {
-        try {
-          const data = JSON.parse(xhr.responseText);
-          if (xhr.status >= 200 && xhr.status < 300) {
-            resolve(data.url);
-          } else {
-            reject(
-              new ApiError(
-                data.error ?? "Image upload failed.",
-                xhr.status,
-              ),
-            );
-          }
-        } catch {
-          reject(
-            new Error(`Server returned ${xhr.status} with no valid JSON body`),
-          );
-        }
-      };
-
-      xhr.onerror = () => {
-        reject(new Error("Network error: could not reach server"));
-      };
-
-      xhr.send(formData);
-    });
-
-    urls.push(url);
-  }
-
-  return urls;
+  return Promise.all(uploads);
 }
