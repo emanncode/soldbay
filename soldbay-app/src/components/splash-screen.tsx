@@ -12,7 +12,7 @@ const SHIFT = (FULL_W - ICON_W) / 2;
 const TEXT = "soldbay";
 const LETTER_COUNT = TEXT.length;
 
-const PURPLE = "#5b3df0";
+const ORANGE = "#ff4f18";
 const WHITE = "#ffffff";
 
 interface SplashScreenProps {
@@ -87,7 +87,7 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
                     key={i}
                     style={[
                       styles.letter,
-                      { color: i >= 4 ? PURPLE : WHITE },
+                      { color: i >= 4 ? ORANGE : WHITE },
                     ]}
                   >
                     {char}

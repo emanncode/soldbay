@@ -21,7 +21,7 @@ export function PageAtmosphere({
       style={[
         {
           flex: 1,
-          backgroundColor: "#07060f",
+          backgroundColor: "#070606", // Rich deep warm black
           overflow: "hidden",
           position: 'relative'
         },
@@ -29,32 +29,35 @@ export function PageAtmosphere({
       ]}
       className={className}
     >
+      {/* Top right orange/amber glow */}
       <View
         style={{
           position: "absolute",
           top: -SCREEN_H * 0.1,
-          left: SCREEN_W * 0.05,
-          width: SCREEN_W * 0.9,
-          height: SCREEN_H * 0.6,
-          borderRadius: SCREEN_W * 0.45,
-          backgroundColor: "rgba(91, 61, 240, 0.35)",
+          right: -SCREEN_W * 0.1,
+          width: SCREEN_W * 1.1,
+          height: SCREEN_H * 0.65,
+          borderRadius: SCREEN_W * 0.55,
+          backgroundColor: "rgba(255, 79, 24, 0.22)", // Warm orange glow
         }}
         pointerEvents="none"
       />
 
+      {/* Middle right warm bronze/brown glow */}
       <View
         style={{
           position: "absolute",
           top: SCREEN_H * 0.2,
-          right: -SCREEN_W * 0.15,
-          width: SCREEN_W * 0.7,
+          right: -SCREEN_W * 0.2,
+          width: SCREEN_W * 0.8,
           height: SCREEN_H * 0.5,
-          borderRadius: SCREEN_W * 0.35,
-          backgroundColor: "rgba(69, 39, 200, 0.2)",
+          borderRadius: SCREEN_W * 0.4,
+          backgroundColor: "rgba(120, 53, 4, 0.18)", // Warm bronze/amber glow
         }}
         pointerEvents="none"
       />
 
+      {/* Bottom left subtle amber glow */}
       <View
         style={{
           position: "absolute",
@@ -63,7 +66,7 @@ export function PageAtmosphere({
           width: SCREEN_W * 0.5,
           height: SCREEN_H * 0.4,
           borderRadius: SCREEN_W * 0.25,
-          backgroundColor: "rgba(46, 31, 141, 0.25)",
+          backgroundColor: "rgba(194, 65, 12, 0.12)", // Soft amber glow
         }}
         pointerEvents="none"
       />
@@ -82,7 +85,7 @@ export function PageAtmosphere({
       />
 
       <LinearGradient
-        colors={["#0b0b1080", "#0a081833", "#07060f00"]}
+        colors={["#0b0a0a80", "#0a080833", "#07060600"]}
         style={{
           position: "absolute",
           top: 0,

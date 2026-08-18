@@ -128,7 +128,7 @@ export default function SignupScreen() {
             keyboardShouldPersistTaps="handled"
           >
             <View style={{ alignItems: "center", paddingBottom: 24 }}>
-              <LogoWordmark height={78} />
+              <LogoWordmark height={105} />
             </View>
 
             <GlassPanel variant="panel" style={{ borderRadius: 24 }}>
@@ -304,7 +304,7 @@ export default function SignupScreen() {
                   style={{
                     fontFamily: "Inter-SemiBold",
                     fontSize: 14,
-                    color: "#ffffffcc",
+                    color: "#ff4f18",
                   }}
                 >
                   Log in

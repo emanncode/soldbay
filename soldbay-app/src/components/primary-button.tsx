@@ -23,10 +23,10 @@ export function PrimaryButton({
       style={{
         backgroundColor: isDisabled
           ? "rgba(255,255,255,0.08)"
-          : "#e1261c",
+          : "#ff4f18",
         paddingVertical: 16,
         paddingHorizontal: 32,
-        borderRadius: 999,
+        borderRadius: 12, // Update border radius to match mock (12px instead of pill shape)
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",

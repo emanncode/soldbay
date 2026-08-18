@@ -78,9 +78,9 @@
   --color-foreground: #1d1d1f;
 
   /* Primary Brand (CTA) */
-  --color-primary: #e1261c;
-  --color-primary-hover: #c91f16;
-  --color-primary-active: #a91912;
+  --color-primary: #ff4f18;
+  --color-primary-hover: #e03f0d;
+  --color-primary-active: #c53408;
   --color-primary-foreground: #ffffff;
 
   /* Secondary */
@@ -89,7 +89,7 @@
   --color-secondary-foreground: #1d1d1f;
 
   /* Accent */
-  --color-accent: #e1261c;
+  --color-accent: #ff4f18;
   --color-accent-foreground: #ffffff;
 
   /* Muted */
@@ -106,7 +106,7 @@
   /* Form */
   --color-border: #d2d2d7;
   --color-input: #d2d2d7;
-  --color-ring: #e1261c;
+  --color-ring: #ff4f18;
 
   /* Status Colors */
   --color-success: #16a34a;
@@ -142,6 +142,7 @@
   /* Fonts */
   --font-display: var(--font-display), "Bricolage Grotesque", sans-serif;
   --font-sans: var(--font-sans), "Inter", sans-serif;
+  --font-satisfy: var(--font-satisfy), cursive;
 
   /* Radii — 8-point friendly */
   --radius-sm: 8px;
@@ -315,12 +316,12 @@
 /* Fixed full-page Soldbay atmosphere (purple brand, image-2 style composition) */
 @utility page-atmosphere {
   overflow-x: clip;
-  background-color: #07060f;
+  background-color: #070606;
   background-image:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgb(91 61 240 / 0.45) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 80% 40%, rgb(69 39 200 / 0.25) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 15% 70%, rgb(46 31 141 / 0.35) 0%, transparent 55%),
-    linear-gradient(180deg, #0b0b10 0%, #0a0818 40%, #07060f 100%);
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgb(255 79 24 / 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 40%, rgb(120 53 4 / 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 15% 70%, rgb(194 65 12 / 0.15) 0%, transparent 55%),
+    linear-gradient(180deg, #0b0a0a 0%, #0a0808 40%, #070606 100%);
   background-attachment: fixed;
 }
 

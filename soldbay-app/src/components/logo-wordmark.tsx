@@ -6,7 +6,7 @@ interface LogoWordmarkProps {
 
 const LOGO_ASPECT = 707 / 353;
 
-export function LogoWordmark({ height = 34 }: LogoWordmarkProps) {
+export function LogoWordmark({ height = 78 }: LogoWordmarkProps) {
   return (
     <Image
       source={require("../../assets/logo.png")}

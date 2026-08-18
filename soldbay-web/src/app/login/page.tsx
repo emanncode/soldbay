@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [touched, setTouched] = useState({ email: false, password: false });
-  const [submitted, setSubmitted] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -43,7 +44,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setTouched({ email: true, password: true });
-    setSubmitted(true);
+
 
     if (fieldErrors.email || fieldErrors.password) return;
 
@@ -78,15 +79,15 @@ export default function LoginPage() {
 
         <Image
           src="/logo.png"
-          alt="Soldbay"
-          width={180}
-          height={72}
-          className="relative z-10 mb-8 h-15 w-auto"
+          alt="SoldBay"
+          width={220}
+          height={110}
+          className="relative z-10 mb-8 h-22 w-auto"
           priority
         />
 
         <div className="glass-panel-strong relative z-10 w-full max-w-md rounded-xl p-8">
-          <h1 className="mb-8 text-heading-l text-white">Admin login</h1>
+          <h1 className="mb-8 text-heading-l text-white">Sign in to SoldBay</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {error && (

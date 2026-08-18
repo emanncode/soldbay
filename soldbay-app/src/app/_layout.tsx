@@ -13,6 +13,7 @@ import {
   Inter_500Medium,
   Inter_600SemiBold,
 } from "@expo-google-fonts/inter";
+import { Satisfy_400Regular } from "@expo-google-fonts/satisfy";
 import { SplashScreen as BrandSplash } from "@/components/splash-screen";
 
 import "./global.css";
@@ -34,6 +35,7 @@ export default function RootLayout() {
           "Inter-Regular": Inter_400Regular,
           "Inter-Medium": Inter_500Medium,
           "Inter-SemiBold": Inter_600SemiBold,
+          "Satisfy-Regular": Satisfy_400Regular,
         });
       } finally {
         setFontsLoaded(true);
