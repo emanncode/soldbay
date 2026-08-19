@@ -6,19 +6,17 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassPanel } from "@/components/glass-panel";
-import { LogoWordmark } from "@/components/logo-wordmark";
-import { GlassFormField } from "@/components/glass-form-field";
-import { PrimaryButton } from "@/components/primary-button";
-import { RoleCard } from "@/components/role-card";
 import { signup, login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
-import { ErrorBanner } from "@/components/error-banner";
+import { SoldBayInputField } from "@/components/soldbay-input-field";
+import { PrimaryButton } from "@/components/primary-button";
 
 type Role = "buyer" | "seller";
 
@@ -34,7 +32,7 @@ function EyeToggle({
       <Ionicons
         name={showing ? "eye-off-outline" : "eye-outline"}
         size={20}
-        color="rgba(255,255,255,0.6)"
+        color="rgba(0,0,0,0.4)"
       />
     </TouchableOpacity>
   );
@@ -49,6 +47,7 @@ export default function SignupScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [role, setRole] = useState<Role>("buyer");
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -71,6 +70,7 @@ export default function SignupScreen() {
     if (!confirmPassword) e.confirmPassword = "Confirm your password";
     else if (password !== confirmPassword)
       e.confirmPassword = "Passwords do not match";
+    if (!agreeToTerms) e.terms = "You must agree to the terms";
     setErrors(e);
     return Object.keys(e).length === 0;
   }
@@ -113,74 +113,77 @@ export default function SignupScreen() {
   }
 
   return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
+    <PageAtmosphere theme="green">
+      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
           <ScrollView
-            contentContainerStyle={{
-              flexGrow: 1,
-              justifyContent: "center",
-              padding: 24,
-            }}
+            contentContainerStyle={styles.scrollContent}
+            bounces={false}
             keyboardShouldPersistTaps="handled"
           >
-            <View style={{ alignItems: "center", paddingBottom: 24 }}>
-              <LogoWordmark height={105} />
+            {/* Header section on green background */}
+            <View style={styles.headerContainer}>
+              <Text style={styles.brandName}>SoldBay</Text>
+              <Image
+                source={require("../../assets/soldbay_logo.png")}
+                style={styles.logo}
+                resizeMode="contain"
+              />
             </View>
 
-            <GlassPanel variant="panel" style={{ borderRadius: 24 }}>
-              <View style={{ padding: 28, gap: 16 }}>
-                <Text
-                  style={{
-                    fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 32,
-                    color: "#ffffff",
-                  }}
-                >
-                  Create your account
-                </Text>
+            {/* White card container */}
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>Register</Text>
+              <Text style={styles.cardSubtitle}>
+                Buy and sell items with verified students at your university
+              </Text>
 
-                <GlassFormField
-                  label="Full name"
-                  placeholder="Enter your full name"
+              {/* Form Fields */}
+              <View style={styles.formContainer}>
+                <SoldBayInputField
+                  label="Name"
+                  icon="person-outline"
+                  placeholder="Johan Mandela"
                   value={name}
                   onChangeText={(t) => {
                     setName(t);
                     clearError("name");
                   }}
                   error={errors.name}
-                  autoCapitalize="words"
                   disabled={loading}
+                  autoCapitalize="words"
                 />
 
-                <GlassFormField
+                <SoldBayInputField
                   label="Email"
-                  placeholder="you@email.com"
+                  icon="mail-outline"
+                  placeholder="brittnilonda5487@gmail.com"
                   value={email}
                   onChangeText={(t) => {
                     setEmail(t);
                     clearError("email");
                   }}
                   error={errors.email}
+                  disabled={loading}
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  disabled={loading}
                 />
 
-                <GlassFormField
+                <SoldBayInputField
                   label="Password"
-                  placeholder="Create a password"
+                  icon="lock-closed-outline"
+                  placeholder="password"
                   value={password}
                   onChangeText={(t) => {
                     setPassword(t);
                     clearError("password");
                   }}
                   error={errors.password}
-                  secureTextEntry={!showPassword}
                   disabled={loading}
+                  secureTextEntry={!showPassword}
                   rightElement={
                     <EyeToggle
                       showing={showPassword}
@@ -189,17 +192,18 @@ export default function SignupScreen() {
                   }
                 />
 
-                <GlassFormField
-                  label="Confirm password"
-                  placeholder="Re-enter your password"
+                <SoldBayInputField
+                  label="Confirm Password"
+                  icon="lock-closed-outline"
+                  placeholder="password"
                   value={confirmPassword}
                   onChangeText={(t) => {
                     setConfirmPassword(t);
                     clearError("confirmPassword");
                   }}
                   error={errors.confirmPassword}
-                  secureTextEntry={!showConfirmPassword}
                   disabled={loading}
+                  secureTextEntry={!showConfirmPassword}
                   rightElement={
                     <EyeToggle
                       showing={showConfirmPassword}
@@ -210,106 +214,96 @@ export default function SignupScreen() {
                   }
                 />
 
-                <View style={{ flexDirection: "row", gap: 12 }}>
-                  <RoleCard
-                    icon="🛍"
-                    label="I'm a Buyer"
-                    selected={role === "buyer"}
-                    onPress={() => setRole("buyer")}
-                    disabled={loading}
-                  />
-                  <RoleCard
-                    icon="📦"
-                    label="I'm a Seller"
-                    selected={role === "seller"}
-                    onPress={() => setRole("seller")}
-                    disabled={loading}
-                  />
-                </View>
-
-                {role === "seller" && (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 6,
-                      alignItems: "center",
-                    }}
-                  >
-                    <View
-                      style={{
-                        width: 16,
-                        height: 16,
-                        borderRadius: 8,
-                        backgroundColor: "rgba(255,255,255,0.1)",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
+                {/* Role Selector styled as clean pill buttons */}
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Choose your account type</Text>
+                  <View style={styles.roleContainer}>
+                    <TouchableOpacity
+                      style={[
+                        styles.roleBtn,
+                        role === "buyer" && styles.roleBtnSelected,
+                      ]}
+                      onPress={() => setRole("buyer")}
+                      activeOpacity={0.8}
                     >
                       <Text
-                        style={{
-                          fontFamily: "Inter-Medium",
-                          fontSize: 10,
-                          color: "rgba(255,255,255,0.4)",
-                          fontWeight: "700",
-                        }}
+                        style={[
+                          styles.roleBtnText,
+                          role === "buyer" && styles.roleBtnTextSelected,
+                        ]}
                       >
-                        i
+                        {"🛍 I'm a Buyer"}
                       </Text>
-                    </View>
-                    <Text
-                      style={{
-                        fontFamily: "Inter-Regular",
-                        fontSize: 12,
-                        color: "rgba(255,255,255,0.4)",
-                        flex: 1,
-                        lineHeight: 16,
-                      }}
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.roleBtn,
+                        role === "seller" && styles.roleBtnSelected,
+                      ]}
+                      onPress={() => setRole("seller")}
+                      activeOpacity={0.8}
                     >
-                      You can always browse as a buyer even if you plan to sell
-                      too
+                      <Text
+                        style={[
+                          styles.roleBtnText,
+                          role === "seller" && styles.roleBtnTextSelected,
+                        ]}
+                      >
+                        {"📦 I'm a Seller"}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {/* Terms agreement checkbox */}
+                <View style={styles.termsRow}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setAgreeToTerms(!agreeToTerms);
+                      clearError("terms");
+                    }}
+                    style={styles.checkboxContainer}
+                    activeOpacity={0.8}
+                  >
+                    <Ionicons
+                      name={agreeToTerms ? "checkbox" : "square-outline"}
+                      size={20}
+                      color={agreeToTerms ? "#3ba53b" : "rgba(0,0,0,0.3)"}
+                    />
+                    <Text style={styles.checkboxText}>
+                      I agree to the Term & Condition and Privacy
                     </Text>
+                  </TouchableOpacity>
+                </View>
+                {errors.terms && (
+                  <Text style={[styles.errorText, { marginTop: -12 }]}>
+                    {errors.terms}
+                  </Text>
+                )}
+
+                {/* General form errors */}
+                {formError && (
+                  <View style={styles.formErrorContainer}>
+                    <Ionicons name="alert-circle" size={16} color="#ef4444" />
+                    <Text style={styles.formErrorText}>{formError}</Text>
                   </View>
                 )}
 
-                {formError && <ErrorBanner message={formError} />}
-
+                {/* Sign Up Button with Green-to-Gold Gradient */}
                 <PrimaryButton
-                  label={loading ? "Creating account" : "Create account"}
+                  label={loading ? "Creating account" : "Sign up"}
                   loading={loading}
                   onPress={handleSignup}
                 />
               </View>
-            </GlassPanel>
 
-            <View
-              style={{
-                paddingVertical: 24,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 4,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 14,
-                  color: "#ffffff80",
-                }}
-              >
-                Already have an account?
-              </Text>
-              <TouchableOpacity onPress={() => router.push("/login")}>
-                <Text
-                  style={{
-                    fontFamily: "Inter-SemiBold",
-                    fontSize: 14,
-                    color: "#ff4f18",
-                  }}
-                >
-                  Log in
-                </Text>
-              </TouchableOpacity>
+              {/* Footer link to sign in */}
+              <View style={styles.footer}>
+                <Text style={styles.footerMuted}>Already have an account? </Text>
+                <TouchableOpacity onPress={() => router.push("/login")}>
+                  <Text style={styles.footerLink}>Sign in</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -317,3 +311,191 @@ export default function SignupScreen() {
     </PageAtmosphere>
   );
 }
+
+const styles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+    backgroundColor: "transparent",
+  },
+  headerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 30,
+    paddingBottom: 20,
+  },
+  logo: {
+    width: 110,
+    height: 110,
+    marginTop: 10,
+  },
+  brandName: {
+    fontFamily: "BricolageGrotesque-SemiBold",
+    fontSize: 24,
+    color: "#000000",
+    letterSpacing: 0.5,
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    flex: 1,
+    paddingHorizontal: 28,
+    paddingTop: 32,
+    paddingBottom: 40,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  cardTitle: {
+    fontFamily: "BricolageGrotesque-Bold",
+    fontSize: 26,
+    color: "#000000",
+    textAlign: "center",
+    marginBottom: 6,
+  },
+  cardSubtitle: {
+    fontFamily: "Inter-Regular",
+    fontSize: 13,
+    color: "rgba(0, 0, 0, 0.45)",
+    textAlign: "center",
+    lineHeight: 18,
+    marginBottom: 24,
+    paddingHorizontal: 10,
+  },
+  formContainer: {
+    gap: 16,
+  },
+  inputGroup: {
+    gap: 6,
+  },
+  inputLabel: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 13,
+    color: "#222222",
+    paddingLeft: 4,
+  },
+  inputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 26,
+    height: 50,
+    paddingHorizontal: 16,
+  },
+  wrapperError: {
+    borderColor: "#ef4444",
+    backgroundColor: "rgba(239, 68, 68, 0.02)",
+  },
+  separator: {
+    width: 1,
+    height: 18,
+    backgroundColor: "#cbd5e1",
+    marginHorizontal: 12,
+  },
+  textInput: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "#000000",
+    padding: 0,
+    flex: 1,
+  },
+  errorText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 11,
+    color: "#ef4444",
+    paddingLeft: 4,
+    marginTop: 2,
+  },
+  roleContainer: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  roleBtn: {
+    flex: 1,
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 22,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  roleBtnSelected: {
+    backgroundColor: "rgba(59, 165, 59, 0.08)",
+    borderColor: "#3ba53b",
+  },
+  roleBtnText: {
+    fontFamily: "Inter-Medium",
+    fontSize: 13,
+    color: "rgba(0,0,0,0.6)",
+  },
+  roleBtnTextSelected: {
+    fontFamily: "Inter-Bold",
+    color: "#3ba53b",
+  },
+  termsRow: {
+    marginTop: 4,
+    paddingHorizontal: 4,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  checkboxText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 13,
+    color: "rgba(0,0,0,0.6)",
+  },
+  formErrorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: "rgba(239, 68, 68, 0.05)",
+    borderWidth: 1,
+    borderColor: "rgba(239, 68, 68, 0.15)",
+    padding: 12,
+    borderRadius: 12,
+  },
+  formErrorText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 12,
+    color: "#ef4444",
+    flex: 1,
+  },
+  signUpBtnContainer: {
+    marginTop: 8,
+    borderRadius: 26,
+    overflow: "hidden",
+  },
+  signUpGradient: {
+    height: 52,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  signUpBtnText: {
+    fontFamily: "Inter-Bold",
+    fontSize: 15,
+    color: "#000000",
+  },
+  footer: {
+    marginTop: 28,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  footerMuted: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "rgba(0, 0, 0, 0.5)",
+  },
+  footerLink: {
+    fontFamily: "Inter-Bold",
+    fontSize: 14,
+    color: "#000000",
+  },
+});

@@ -9,7 +9,7 @@ export default function Index() {
     let cancelled = false;
 
     async function checkAuth() {
-      const token = await getToken();
+      await getToken();
       // Placeholder: once real destinations exist, route based on token
       // e.g. token ? "/seller/dashboard" : "/login"
       // For now, always route to /login
@@ -23,7 +23,7 @@ export default function Index() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [router]);
 
   return null;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import {
   View,
   Text,
@@ -9,14 +9,13 @@ import {
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassPanel } from "@/components/glass-panel";
 import { PrimaryButton } from "@/components/primary-button";
 
 type Role = "seller" | "buyer";
 
 const ROLES: {
   id: Role;
-  icon: string;
+  icon: ComponentProps<typeof Ionicons>["name"];
   label: string;
   description: string;
   cta: string;
@@ -46,7 +45,8 @@ export default function SelectRoleScreen() {
     if (!selectedRole) return;
     setLoading(true);
     try {
-      await router.replace(`/${selectedRole}/dashboard`);
+      const targetRoute = selectedRole === "seller" ? "/seller/dashboard" as const : "/buyer/home" as const;
+      await router.replace(targetRoute);
     } finally {
       setLoading(false);
     }
@@ -126,15 +126,16 @@ export default function SelectRoleScreen() {
             </View>
 
             {/* Continue button */}
-            <PrimaryButton
-              label={selectedRole
-                ? ROLES.find((r) => r.id === selectedRole)?.cta || "Continue"
-                : "Continue"}
-              onPress={continueToDashboard}
-              loading={loading}
-              disabled={!selectedRole}
-              style={{ marginTop: 8 }}
-            />
+            <View style={{ marginTop: 8 }}>
+              <PrimaryButton
+                label={selectedRole
+                  ? ROLES.find((r) => r.id === selectedRole)?.cta || "Continue"
+                  : "Continue"}
+                onPress={continueToDashboard}
+                loading={loading}
+                disabled={!selectedRole}
+              />
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
