@@ -1,4 +1,4 @@
-import { Image } from "react-native";
+import { Image } from "expo-image";
 
 interface LogoWordmarkProps {
   height?: number;
