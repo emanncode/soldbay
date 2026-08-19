@@ -36,7 +36,6 @@ const CATEGORY_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
 };
 
 export default function BuyerHomeScreen() {
-  const router = useRouter();
   const [listings, setListings] = useState<PublicListing[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -127,7 +126,10 @@ export default function BuyerHomeScreen() {
         // silently fail
       }
     })();
-    loadFirstPage();
+    const timer = setTimeout(() => {
+      loadFirstPage();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [loadFirstPage]);
 
   // Debounce search input
@@ -178,14 +180,20 @@ export default function BuyerHomeScreen() {
           placeholderTextColor="#ffffff66"
           autoCapitalize="none"
           autoCorrect={false}
-          style={{
-            fontFamily: "Inter-Regular",
-            fontSize: 14,
-            color: "#ffffff",
-            flex: 1,
-            padding: 0,
-            outline: "none",
-          }}
+          style={[
+            {
+              fontFamily: "Inter-Regular",
+              fontSize: 14,
+              color: "#ffffff",
+              flex: 1,
+              padding: 0,
+            },
+            Platform.OS === "web" && {
+              outlineStyle: "none" as any,
+              outlineWidth: 0 as any,
+              boxShadow: "none" as any,
+            },
+          ]}
         />
         {searchQuery.length > 0 ? (
           <TouchableOpacity
@@ -591,7 +599,7 @@ function EmptyState({
 /* ─── Loading skeleton grid ─────────────────────── */
 
 function LoadingGrid() {
-  const pulse = useRef(new Animated.Value(0)).current;
+  const [pulse] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     const anim = Animated.loop(
@@ -610,14 +618,14 @@ function LoadingGrid() {
     );
     anim.start();
     return () => anim.stop();
-  }, []);
+  }, [pulse]);
 
   const opacity = pulse.interpolate({
     inputRange: [0, 1],
     outputRange: [0.3, 0.6],
   });
 
-  const S = ({ w, h, r = 8 }: { w: number | string; h: number; r?: number }) => (
+  const renderSkeleton = (w: number | string, h: number, r = 8) => (
     <Animated.View
       style={{
         width: w as any,
@@ -634,16 +642,16 @@ function LoadingGrid() {
       {[0, 1].map((row) => (
         <View key={row} style={{ flexDirection: "row", gap: 12 }}>
           <View style={{ flex: 1, gap: 8 }}>
-            <S w="100%" h={120} r={16} />
-            <S w="80%" h={12} />
-            <S w="50%" h={12} />
-            <S w="60%" h={10} />
+            {renderSkeleton("100%", 120, 16)}
+            {renderSkeleton("80%", 12)}
+            {renderSkeleton("50%", 12)}
+            {renderSkeleton("60%", 10)}
           </View>
           <View style={{ flex: 1, gap: 8 }}>
-            <S w="100%" h={120} r={16} />
-            <S w="80%" h={12} />
-            <S w="50%" h={12} />
-            <S w="60%" h={10} />
+            {renderSkeleton("100%", 120, 16)}
+            {renderSkeleton("80%", 12)}
+            {renderSkeleton("50%", 12)}
+            {renderSkeleton("60%", 10)}
           </View>
         </View>
       ))}

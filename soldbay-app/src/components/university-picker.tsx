@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -33,8 +33,9 @@ export function UniversityPicker({
   const [universities, setUniversities] = useState<University[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (open && universities.length === 0) {
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+    if (universities.length === 0) {
       setLoading(true);
       fetch(`${BASE_URL}/api/universities`)
         .then((res) => res.json())
@@ -42,7 +43,7 @@ export function UniversityPicker({
         .catch(() => {})
         .finally(() => setLoading(false));
     }
-  }, [open, universities.length]);
+  }, [universities.length]);
 
   const handleSelect = useCallback(
     (u: University) => {
@@ -54,7 +55,7 @@ export function UniversityPicker({
 
   return (
     <>
-      <TouchableOpacity onPress={() => setOpen(true)} activeOpacity={0.7}>
+      <TouchableOpacity onPress={handleOpen} activeOpacity={0.7}>
         <View pointerEvents="none">
           <GlassFormField
             label="University"

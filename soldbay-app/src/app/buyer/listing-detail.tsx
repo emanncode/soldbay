@@ -43,7 +43,7 @@ export default function ListingDetailScreen() {
         setLoading(false);
       }
     })();
-  }, [id]);
+  }, [id, router]);
 
   const images = listing?.images?.length ? listing.images : [];
 
@@ -461,7 +461,7 @@ function formatPrice(price: string): string {
 /* ─── Loading skeleton ──────────────────────────── */
 
 function LoadingSkeleton() {
-  const pulse = useRef(new Animated.Value(0)).current;
+  const [pulse] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     const anim = Animated.loop(
@@ -480,22 +480,18 @@ function LoadingSkeleton() {
     );
     anim.start();
     return () => anim.stop();
-  }, []);
+  }, [pulse]);
 
   const opacity = pulse.interpolate({
     inputRange: [0, 1],
     outputRange: [0.3, 0.6],
   });
 
-  const S = ({
-    w,
-    h,
+  const renderSkeleton = (
+    w: number | string,
+    h: number,
     r = 8,
-  }: {
-    w: number | string;
-    h: number;
-    r?: number;
-  }) => (
+  ) => (
     <Animated.View
       style={{
         width: w as any,
@@ -523,8 +519,8 @@ function LoadingSkeleton() {
             paddingTop: 50,
           }}
         >
-          <S w={36} h={36} r={18} />
-          <S w={36} h={36} r={18} />
+          {renderSkeleton(36, 36, 18)}
+          {renderSkeleton(36, 36, 18)}
         </View>
 
         <ScrollView
@@ -532,7 +528,7 @@ function LoadingSkeleton() {
           showsVerticalScrollIndicator={false}
         >
           <View style={{ paddingTop: 56, paddingHorizontal: IMAGE_PAD }}>
-            <S w="100%" h={IMAGE_W} r={IMAGE_RADIUS} />
+            {renderSkeleton("100%", IMAGE_W, IMAGE_RADIUS)}
           </View>
 
           <View
@@ -552,12 +548,12 @@ function LoadingSkeleton() {
                 gap: 14,
               }}
             >
-              <S w="100%" h={24} />
-              <S w={80} h={20} r={999} />
-              <S w="55%" h={14} />
-              <S w="100%" h={14} />
-              <S w="100%" h={14} />
-              <S w="100%" h={14} />
+              {renderSkeleton("100%", 24)}
+              {renderSkeleton(80, 20, 999)}
+              {renderSkeleton("55%", 14)}
+              {renderSkeleton("100%", 14)}
+              {renderSkeleton("100%", 14)}
+              {renderSkeleton("100%", 14)}
             </View>
           </View>
         </ScrollView>

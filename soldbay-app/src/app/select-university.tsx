@@ -86,7 +86,7 @@ export default function SelectUniversityScreen() {
                 marginTop: 8,
               }}
             >
-              This helps us show you what's happening on your campus
+              {"This helps us show you what's happening on your campus"}
             </Text>
           </View>
 
@@ -116,14 +116,20 @@ export default function SelectUniversityScreen() {
               placeholderTextColor="#ffffff66"
               autoCapitalize="none"
               autoCorrect={false}
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 14,
-                color: "#ffffff",
-                flex: 1,
-                padding: 0,
-                outline: "none",
-              }}
+              style={[
+                {
+                  fontFamily: "Inter-Regular",
+                  fontSize: 14,
+                  color: "#ffffff",
+                  flex: 1,
+                  padding: 0,
+                },
+                Platform.OS === "web" && {
+                  outlineStyle: "none" as any,
+                  outlineWidth: 0 as any,
+                  boxShadow: "none" as any,
+                },
+              ]}
             />
             {query.length > 0 && (
               <TouchableOpacity
