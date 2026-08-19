@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
     color: "rgba(0, 0, 0, 0.5)",
   },
   footerLink: {
-    fontFamily: "Inter-Bold",
+    fontFamily: "Inter-SemiBold",
     fontSize: 14,
     color: "#000000",
   },
