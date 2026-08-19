@@ -276,7 +276,7 @@ export default function SignupScreen() {
                   </TouchableOpacity>
                 </View>
                 {errors.terms && (
-                  <Text style={[styles.errorText, { marginTop: -12 }]}>
+                  <Text style={[styles.errorText, { position: "absolute", bottom: -16, left: 4, marginTop: 0 }]}>
                     {errors.terms}
                   </Text>
                 )}
@@ -440,6 +440,7 @@ const styles = StyleSheet.create({
   termsRow: {
     marginTop: 4,
     paddingHorizontal: 4,
+    position: "relative",
   },
   checkboxContainer: {
     flexDirection: "row",

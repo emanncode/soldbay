@@ -86,6 +86,7 @@ export function SoldBayInputField({
 const styles = StyleSheet.create({
   inputGroup: {
     gap: 6,
+    position: "relative",
   },
   inputLabel: {
     fontFamily: "Inter-SemiBold",
@@ -129,6 +130,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#ef4444",
     paddingLeft: 4,
-    marginTop: 2,
+    position: "absolute",
+    bottom: -16,
+    left: 0,
   },
 });
