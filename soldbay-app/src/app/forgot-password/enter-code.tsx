@@ -1,4 +1,4 @@
-import { useState, useRef, createRef } from "react";
+import { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Image,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,9 +28,7 @@ export default function EnterCodeScreen() {
   const [showToast, setShowToast] = useState(false);
   const [resending, setResending] = useState(false);
 
-  const refs = useRef(
-    Array.from({ length: OTP_LENGTH }, () => createRef<TextInput>()),
-  );
+  const textInputRefs = useRef<(TextInput | null)[]>([]);
 
   function handleOtpChange(text: string, index: number) {
     const digit = text.replace(/[^0-9]/g, "").slice(-1);
@@ -37,13 +37,13 @@ export default function EnterCodeScreen() {
     setOtp(next);
 
     if (digit && index < OTP_LENGTH - 1) {
-      refs.current[index + 1].current?.focus();
+      textInputRefs.current[index + 1]?.focus();
     }
   }
 
   function handleOtpKeyPress(key: string, index: number) {
     if (key === "Backspace" && !otp[index] && index > 0) {
-      refs.current[index - 1].current?.focus();
+      textInputRefs.current[index - 1]?.focus();
     }
   }
 
@@ -67,107 +67,57 @@ export default function EnterCodeScreen() {
   }
 
   return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
+    <PageAtmosphere theme="green">
+      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
           <ScrollView
-            contentContainerStyle={{
-              flexGrow: 1,
-            }}
+            contentContainerStyle={styles.scrollContent}
+            bounces={false}
             keyboardShouldPersistTaps="handled"
           >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 12,
-                paddingTop: 52,
-                paddingHorizontal: 24,
-                paddingBottom: 32,
-              }}
-            >
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="arrow-back" size={22} color="#ffffff" />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 17,
-                  color: "#ffffff",
-                }}
-              >
-                Reset password
-              </Text>
+            {/* Header / Logo section on green gradient */}
+            <View style={styles.headerContainer}>
+              <Text style={styles.brandName}>SoldBay</Text>
+              <Image
+                source={require("../../../assets/soldbay_logo.png")}
+                style={styles.logo}
+                resizeMode="contain"
+              />
             </View>
 
-            <View
-              style={{
-                paddingHorizontal: 24,
-                paddingBottom: 24,
-                gap: 32,
-              }}
-            >
-              <View style={{ gap: 8 }}>
-                <Text
-                  style={{
-                    fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 28,
-                    color: "#ffffff",
-                  }}
-                >
-                  Enter verification code
-                </Text>
+            {/* White card container */}
+            <View style={styles.card}>
+              <View style={styles.backRow}>
+                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                  <Ionicons name="arrow-back" size={22} color="#000000" />
+                </TouchableOpacity>
+                <Text style={styles.backTitle}>Reset password</Text>
+              </View>
 
-                <Text
-                  style={{
-                    fontFamily: "Inter-Regular",
-                    fontSize: 15,
-                    color: "#ffffff80",
-                  }}
-                >
-                  We sent a 6-digit code to
-                </Text>
-
-                <Text
-                  style={{
-                    fontFamily: "Inter-SemiBold",
-                    fontSize: 15,
-                    color: "#ffffff",
-                  }}
-                >
-                  {displayEmail}
+              <Text style={styles.cardTitle}>Enter verification code</Text>
+              <View style={styles.subtitleContainer}>
+                <Text style={styles.cardSubtitle}>
+                  {"We sent a 6-digit code to "}
+                  <Text style={styles.boldEmail}>{displayEmail}</Text>
                 </Text>
               </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 12,
-                  justifyContent: "center",
-                }}
-              >
+              <View style={styles.otpWrapper}>
                 {otp.map((digit, i) => (
                   <View
                     key={i}
-                    style={{
-                      width: 48,
-                      height: 56,
-                      borderRadius: 12,
-                      backgroundColor: "#00000059",
-                      borderWidth: i === 0 && !digit ? 2 : 1,
-                      borderColor:
-                        digit || (i === 0 && !digit)
-                          ? "#e1261c"
-                          : "#ffffff1f",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
+                    style={[
+                      styles.otpBox,
+                      (digit || (i === 0 && !digit)) && styles.otpBoxActive,
+                    ]}
                   >
                     <TextInput
-                      ref={refs.current[i]}
+                      ref={(el) => {
+                        textInputRefs.current[i] = el;
+                      }}
                       value={digit}
                       onChangeText={(t) => handleOtpChange(t, i)}
                       onKeyPress={({ nativeEvent }) =>
@@ -175,114 +125,50 @@ export default function EnterCodeScreen() {
                       }
                       keyboardType="number-pad"
                       maxLength={1}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        fontFamily: "Inter-SemiBold",
-                        fontSize: 24,
-                        color: "#ffffff",
-                        padding: 0,
-                        outline: "none",
-                      }}
+                      style={[
+                        styles.otpInput,
+                        Platform.OS === "web" && {
+                          outlineStyle: "none" as any,
+                          outlineWidth: 0 as any,
+                          boxShadow: "none" as any,
+                        },
+                      ]}
                     />
                   </View>
                 ))}
               </View>
 
-              <PrimaryButton
-                label="Verify Code"
-                loading={verifying}
-                disabled={!isComplete}
-                onPress={handleVerify}
-              />
+              <View style={styles.actionContainer}>
+                <PrimaryButton
+                  label="Verify Code"
+                  loading={verifying}
+                  disabled={!isComplete}
+                  onPress={handleVerify}
+                />
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  gap: 4,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Inter-Regular",
-                    fontSize: 14,
-                    color: "#ffffff80",
-                  }}
-                >
-                  Didn't receive a code?{" "}
-                </Text>
-                <Text
-                  onPress={handleResend}
-                  style={{
-                    fontFamily: "Inter-SemiBold",
-                    fontSize: 14,
-                    color: resending ? "#ffffff50" : "#e1261c",
-                  }}
-                >
-                  {resending ? "Resending..." : "Resend Code"}
-                </Text>
+                <View style={styles.resendRow}>
+                  <Text style={styles.resendText}>{"Didn't receive a code? "}</Text>
+                  <TouchableOpacity onPress={handleResend} disabled={resending}>
+                    <Text style={styles.resendButton}>
+                      {resending ? "Resending..." : "Resend Code"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
 
-            <View
-              style={{
-                paddingVertical: 24,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 4,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 14,
-                  color: "#ffffff80",
-                }}
-              >
-                Remember your password?
-              </Text>
-              <TouchableOpacity onPress={() => router.push("/login")}>
-                <Text
-                  style={{
-                    fontFamily: "Inter-SemiBold",
-                    fontSize: 14,
-                    color: "#ffffffcc",
-                  }}
-                >
-                  Log in
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.loginLinkRow}>
+                <Text style={styles.loginLinkText}>Remember your password?</Text>
+                <TouchableOpacity onPress={() => router.push("/login")}>
+                  <Text style={styles.loginLinkButton}>Log in</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </ScrollView>
 
           {showToast && (
-            <View
-              style={{
-                position: "absolute",
-                bottom: 84,
-                alignSelf: "center",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 8,
-                paddingHorizontal: 20,
-                paddingVertical: 12,
-                backgroundColor: "#16a34a",
-                borderRadius: 12,
-              }}
-            >
+            <View style={styles.toastContainer}>
               <Ionicons name="checkmark-circle" size={16} color="#ffffff" />
-              <Text
-                style={{
-                  fontFamily: "Inter-Medium",
-                  fontSize: 14,
-                  color: "#ffffff",
-                }}
-              >
-                Code resent!
-              </Text>
+              <Text style={styles.toastText}>Code resent!</Text>
             </View>
           )}
         </KeyboardAvoidingView>
@@ -290,3 +176,165 @@ export default function EnterCodeScreen() {
     </PageAtmosphere>
   );
 }
+
+const styles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+    backgroundColor: "transparent",
+  },
+  headerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 40,
+    paddingBottom: 30,
+  },
+  logo: {
+    width: 130,
+    height: 130,
+    marginTop: 12,
+  },
+  brandName: {
+    fontFamily: "BricolageGrotesque-SemiBold",
+    fontSize: 24,
+    color: "#000000",
+    letterSpacing: 0.5,
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    flex: 1,
+    paddingHorizontal: 28,
+    paddingTop: 36,
+    paddingBottom: 40,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  backRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 24,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#f1f5f9",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backTitle: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 16,
+    color: "#000000",
+  },
+  cardTitle: {
+    fontFamily: "BricolageGrotesque-Bold",
+    fontSize: 26,
+    color: "#000000",
+  },
+  subtitleContainer: {
+    marginTop: 8,
+    marginBottom: 32,
+  },
+  cardSubtitle: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "#64748b",
+    lineHeight: 20,
+  },
+  boldEmail: {
+    fontFamily: "Inter-SemiBold",
+    color: "#000000",
+  },
+  otpWrapper: {
+    flexDirection: "row",
+    gap: 8,
+    justifyContent: "space-between",
+    marginBottom: 32,
+  },
+  otpBox: {
+    flex: 1,
+    height: 56,
+    borderRadius: 12,
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  otpBoxActive: {
+    borderColor: "#e1261c",
+    borderWidth: 2,
+    backgroundColor: "#ffffff",
+  },
+  otpInput: {
+    width: "100%",
+    height: "100%",
+    textAlign: "center",
+    fontFamily: "Inter-SemiBold",
+    fontSize: 24,
+    color: "#000000",
+    padding: 0,
+  },
+  actionContainer: {
+    gap: 20,
+    marginBottom: 24,
+  },
+  resendRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 4,
+  },
+  resendText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "#64748b",
+  },
+  resendButton: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 14,
+    color: "#e1261c",
+  },
+  loginLinkRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 4,
+  },
+  loginLinkText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "#64748b",
+  },
+  loginLinkButton: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 14,
+    color: "#e1261c",
+  },
+  toastContainer: {
+    position: "absolute",
+    bottom: 84,
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    backgroundColor: "#16a34a",
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  toastText: {
+    fontFamily: "Inter-Medium",
+    fontSize: 14,
+    color: "#ffffff",
+  },
+});

@@ -6,13 +6,33 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Image,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassFormField } from "@/components/glass-form-field";
+import { SoldBayInputField } from "@/components/soldbay-input-field";
 import { PrimaryButton } from "@/components/primary-button";
 import { Ionicons } from "@expo/vector-icons";
+
+function EyeToggle({
+  showing,
+  onPress,
+}: {
+  showing: boolean;
+  onPress: () => void;
+}) {
+  return (
+    <TouchableOpacity onPress={onPress} hitSlop={8} style={{ padding: 4 }}>
+      <Ionicons
+        name={showing ? "eye-off-outline" : "eye-outline"}
+        size={20}
+        color="rgba(0,0,0,0.35)"
+      />
+    </TouchableOpacity>
+  );
+}
 
 export default function NewPasswordScreen() {
   const router = useRouter();
@@ -36,130 +56,86 @@ export default function NewPasswordScreen() {
   }
 
   return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
+    <PageAtmosphere theme="green">
+      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
           <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
+            contentContainerStyle={styles.scrollContent}
+            bounces={false}
             keyboardShouldPersistTaps="handled"
           >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 12,
-                paddingTop: 52,
-                paddingHorizontal: 24,
-                paddingBottom: 32,
-              }}
-            >
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="arrow-back" size={22} color="#ffffff" />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 17,
-                  color: "#ffffff",
-                }}
-              >
-                Reset password
-              </Text>
+            {/* Header / Logo section on green gradient */}
+            <View style={styles.headerContainer}>
+              <Text style={styles.brandName}>SoldBay</Text>
+              <Image
+                source={require("../../../assets/soldbay_logo.png")}
+                style={styles.logo}
+                resizeMode="contain"
+              />
             </View>
 
-            <View
-              style={{
-                paddingHorizontal: 24,
-                paddingBottom: 24,
-                gap: 24,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "BricolageGrotesque-SemiBold",
-                  fontSize: 28,
-                  color: "#ffffff",
-                }}
-              >
-                Set a new password
-              </Text>
+            {/* White card container */}
+            <View style={styles.card}>
+              <View style={styles.backRow}>
+                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                  <Ionicons name="arrow-back" size={22} color="#000000" />
+                </TouchableOpacity>
+                <Text style={styles.backTitle}>Reset password</Text>
+              </View>
 
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 15,
-                  color: "#ffffff80",
-                }}
-              >
-                Create a new password for
-              </Text>
+              <Text style={styles.cardTitle}>Set a new password</Text>
+              <View style={styles.subtitleContainer}>
+                <Text style={styles.cardSubtitle}>
+                  {"Create a new password for "}
+                  <Text style={styles.boldEmail}>{displayEmail}</Text>
+                </Text>
+              </View>
 
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 15,
-                  color: "#ffffff",
-                }}
-              >
-                {displayEmail}
-              </Text>
-
-              <GlassFormField
-                label="New password"
-                placeholder="Create a password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                disabled={saving}
-                rightElement={
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    hitSlop={8}
-                    style={{ padding: 4 }}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye-off-outline" : "eye-outline"}
-                      size={20}
-                      color="rgba(255,255,255,0.6)"
+              {/* Form Fields */}
+              <View style={styles.formContainer}>
+                <SoldBayInputField
+                  label="New password"
+                  icon="lock-closed-outline"
+                  placeholder="Create a password"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  disabled={saving}
+                  rightElement={
+                    <EyeToggle
+                      showing={showPassword}
+                      onPress={() => setShowPassword(!showPassword)}
                     />
-                  </TouchableOpacity>
-                }
-              />
+                  }
+                />
 
-              <GlassFormField
-                label="Confirm password"
-                placeholder="Re-enter your password"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry={!showConfirmPassword}
-                disabled={saving}
-                rightElement={
-                  <TouchableOpacity
-                    onPress={() =>
-                      setShowConfirmPassword(!showConfirmPassword)
-                    }
-                    hitSlop={8}
-                    style={{ padding: 4 }}
-                  >
-                    <Ionicons
-                      name={
-                        showConfirmPassword ? "eye-off-outline" : "eye-outline"
+                <SoldBayInputField
+                  label="Confirm password"
+                  icon="lock-closed-outline"
+                  placeholder="Re-enter your password"
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry={!showConfirmPassword}
+                  disabled={saving}
+                  rightElement={
+                    <EyeToggle
+                      showing={showConfirmPassword}
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
                       }
-                      size={20}
-                      color="rgba(255,255,255,0.6)"
                     />
-                  </TouchableOpacity>
-                }
-              />
+                  }
+                />
 
-              <PrimaryButton
-                label={saving ? "Saving" : "Save Password"}
-                loading={saving}
-                onPress={handleSave}
-              />
+                <PrimaryButton
+                  label={saving ? "Saving" : "Save Password"}
+                  loading={saving}
+                  onPress={handleSave}
+                />
+              </View>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -167,3 +143,82 @@ export default function NewPasswordScreen() {
     </PageAtmosphere>
   );
 }
+
+const styles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+    backgroundColor: "transparent",
+  },
+  headerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 40,
+    paddingBottom: 30,
+  },
+  logo: {
+    width: 130,
+    height: 130,
+    marginTop: 12,
+  },
+  brandName: {
+    fontFamily: "BricolageGrotesque-SemiBold",
+    fontSize: 24,
+    color: "#000000",
+    letterSpacing: 0.5,
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    flex: 1,
+    paddingHorizontal: 28,
+    paddingTop: 36,
+    paddingBottom: 40,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  backRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 24,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#f1f5f9",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backTitle: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 16,
+    color: "#000000",
+  },
+  cardTitle: {
+    fontFamily: "BricolageGrotesque-Bold",
+    fontSize: 26,
+    color: "#000000",
+  },
+  subtitleContainer: {
+    marginTop: 8,
+    marginBottom: 32,
+  },
+  cardSubtitle: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "#64748b",
+    lineHeight: 20,
+  },
+  boldEmail: {
+    fontFamily: "Inter-SemiBold",
+    color: "#000000",
+  },
+  formContainer: {
+    gap: 20,
+  },
+});

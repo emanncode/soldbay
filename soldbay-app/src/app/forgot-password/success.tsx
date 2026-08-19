@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function SuccessScreen() {
   const router = useRouter();
-  const progress = new Animated.Value(0);
+  const [progress] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     Animated.timing(progress, {
@@ -17,7 +17,7 @@ export default function SuccessScreen() {
     }).start(() => {
       router.replace("/login");
     });
-  }, []);
+  }, [progress, router]);
 
   const progressWidth = progress.interpolate({
     inputRange: [0, 1],
@@ -25,20 +25,24 @@ export default function SuccessScreen() {
   });
 
   return (
-    <PageAtmosphere>
+    <PageAtmosphere theme="green">
       <SafeAreaView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: 24 }}
       >
         <View
           style={{
-            width: 342,
-            backgroundColor: "#ffffff0f",
+            width: "100%",
+            maxWidth: 342,
+            backgroundColor: "#ffffff",
             borderRadius: 24,
-            borderWidth: 1,
-            borderColor: "rgba(22,163,74,0.3)",
             padding: 40,
             gap: 20,
             alignItems: "center",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 12,
+            elevation: 5,
           }}
         >
           <View
@@ -58,7 +62,7 @@ export default function SuccessScreen() {
             style={{
               fontFamily: "BricolageGrotesque-SemiBold",
               fontSize: 24,
-              color: "#ffffff",
+              color: "#000000",
               textAlign: "center",
             }}
           >
@@ -69,7 +73,7 @@ export default function SuccessScreen() {
             style={{
               fontFamily: "Inter-Regular",
               fontSize: 14,
-              color: "#ffffff80",
+              color: "#64748b",
               textAlign: "center",
             }}
           >
@@ -81,7 +85,7 @@ export default function SuccessScreen() {
               width: "100%",
               height: 4,
               borderRadius: 2,
-              backgroundColor: "#ffffff0d",
+              backgroundColor: "#f1f5f9",
               overflow: "hidden",
             }}
           >
