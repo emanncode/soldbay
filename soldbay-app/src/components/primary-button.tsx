@@ -1,4 +1,12 @@
-import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import React from "react";
+import {
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  View,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface PrimaryButtonProps {
   onPress?: () => void;
@@ -19,31 +27,54 @@ export function PrimaryButton({
     <TouchableOpacity
       onPress={onPress}
       disabled={isDisabled}
-      activeOpacity={0.8}
-      style={{
-        backgroundColor: isDisabled
-          ? "rgba(255,255,255,0.08)"
-          : "#ff4f18",
-        paddingVertical: 16,
-        paddingHorizontal: 32,
-        borderRadius: 12, // Update border radius to match mock (12px instead of pill shape)
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        gap: 8,
-        opacity: loading ? 0.7 : 1,
-      }}
+      activeOpacity={0.9}
+      style={[styles.btnContainer, isDisabled && styles.btnDisabled]}
     >
-      {loading && <ActivityIndicator color="#ffffff" size="small" />}
-      <Text
-        style={{
-          fontFamily: "Inter-SemiBold",
-          fontSize: 16,
-          color: isDisabled ? "rgba(255,255,255,0.4)" : "#ffffff",
-        }}
+      <LinearGradient
+        colors={isDisabled ? ["#cccccc", "#dddddd"] : ["#82df42", "#ebc948"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.gradient}
       >
-        {loading ? `${label}...` : label}
-      </Text>
+        <View style={styles.contentRow}>
+          {loading && <ActivityIndicator color="#000000" size="small" />}
+          <Text
+            style={[
+              styles.btnText,
+              isDisabled && { color: "rgba(0, 0, 0, 0.35)" },
+            ]}
+          >
+            {label}
+          </Text>
+        </View>
+      </LinearGradient>
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  btnContainer: {
+    borderRadius: 26,
+    height: 52,
+    overflow: "hidden",
+  },
+  btnDisabled: {
+    opacity: 0.6,
+  },
+  gradient: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contentRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  btnText: {
+    fontFamily: "BricolageGrotesque-SemiBold",
+    fontSize: 16,
+    color: "#000000",
+  },
+});

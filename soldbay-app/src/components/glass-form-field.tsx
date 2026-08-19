@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { View, Text, TextInput, type TextInputProps } from "react-native";
+import { View, Text, TextInput, Platform, type TextInputProps } from "react-native";
 
 interface GlassFormFieldProps {
   label?: string;
@@ -62,14 +62,20 @@ export function GlassFormField({
           autoCapitalize={autoCapitalize}
           editable={!disabled}
           selectTextOnFocus={!disabled}
-          style={{
-            fontFamily: "Inter-Regular",
-            fontSize: 14,
-            color: "#ffffff",
-            padding: 0,
-            flex: 1,
-            outline: "none",
-          }}
+          style={[
+            {
+              fontFamily: "Inter-Regular",
+              fontSize: 14,
+              color: "#ffffff",
+              padding: 0,
+              flex: 1,
+            },
+            Platform.OS === "web" && {
+              outlineStyle: "none" as any,
+              outlineWidth: 0 as any,
+              boxShadow: "none" as any,
+            },
+          ]}
         />
         {rightElement}
       </View>

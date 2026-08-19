@@ -7,6 +7,7 @@ interface PageAtmosphereProps {
   style?: ViewStyle;
   className?: string;
   children: ReactNode;
+  theme?: "dark" | "green";
 }
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
@@ -15,7 +16,40 @@ export function PageAtmosphere({
   style,
   className,
   children,
+  theme = "dark",
 }: PageAtmosphereProps) {
+  if (theme === "green") {
+    return (
+      <View
+        style={[
+          {
+            flex: 1,
+            backgroundColor: "#2B8721",
+            overflow: "hidden",
+            position: 'relative'
+          },
+          style,
+        ]}
+        className={className}
+      >
+        <LinearGradient
+          colors={["#aee572", "#47a331", "#216e18"]}
+          locations={[0, 0.5, 1]}
+          start={{ x: 0.1, y: 0.1 }}
+          end={{ x: 0.9, y: 0.9 }}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+        />
+        {children}
+      </View>
+    );
+  }
+
   return (
     <View
       style={[
