@@ -25,10 +25,6 @@ export default function VerifySellerScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
-  useEffect(() => {
-    checkStatus();
-  }, []);
-
   async function checkStatus() {
     try {
       const me = await getSellerMe();
@@ -43,6 +39,13 @@ export default function VerifySellerScreen() {
       setScreenState("upload");
     }
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkStatus();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   async function pickImage() {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -178,8 +181,7 @@ export default function VerifySellerScreen() {
                 lineHeight: 18,
               }}
             >
-              Your ID is only used for verification and isn't shared with
-              buyers.
+              {"Your ID is only used for verification and isn't shared with buyers."}
             </Text>
 
             <View style={{ opacity: 0.4 }}>
@@ -276,8 +278,7 @@ export default function VerifySellerScreen() {
                 lineHeight: 18,
               }}
             >
-              Your ID is only used for verification and isn't shared with
-              buyers.
+              {"Your ID is only used for verification and isn't shared with buyers."}
             </Text>
 
             {formError && <ErrorBanner message={formError} />}
@@ -326,7 +327,7 @@ export default function VerifySellerScreen() {
                 textAlign: "center",
               }}
             >
-              We're reviewing your ID
+              {"We're reviewing your ID"}
             </Text>
 
             <Text
@@ -338,8 +339,7 @@ export default function VerifySellerScreen() {
                 lineHeight: 20,
               }}
             >
-              This usually takes about a day. We'll notify you once you're
-              approved.
+              {"This usually takes about a day. We'll notify you once you're approved."}
             </Text>
 
             <View
@@ -408,7 +408,7 @@ export default function VerifySellerScreen() {
                 textAlign: "center",
               }}
             >
-              You're verified!
+              {"You're verified!"}
             </Text>
 
             <Text

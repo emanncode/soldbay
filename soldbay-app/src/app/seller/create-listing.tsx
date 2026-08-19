@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -14,20 +14,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassPanel } from "@/components/glass-panel";
 import { GlassFormField } from "@/components/glass-form-field";
 import { PrimaryButton } from "@/components/primary-button";
 import { ErrorBanner } from "@/components/error-banner";
 import {
   getSellerMe,
-  getCategories,
   createListing,
   uploadListingImages,
   ApiError,
-  type Category,
 } from "@/lib/api";
 
-const MAX_IMAGES = 4;
 const IMAGE_MIN_DIMENSION = 400;
 const IMAGE_MAX_DIMENSION = 4096;
 const IMAGE_MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -66,11 +62,7 @@ export default function CreateListingScreen() {
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
-  async function loadProfile() {
+  const loadProfile = useCallback(async () => {
     try {
       const me = await getSellerMe();
       setSellerProfileId(me.sellerProfileId);
@@ -79,7 +71,14 @@ export default function CreateListingScreen() {
     } finally {
       setLoadingProfile(false);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadProfile();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [loadProfile]);
 
   function clearError(field: string) {
     setErrors((e) => {
@@ -409,14 +408,20 @@ export default function CreateListingScreen() {
                     multiline
                     textAlignVertical="top"
                     editable={!submitting}
-                    style={{
-                      fontFamily: "Inter-Regular",
-                      fontSize: 14,
-                      color: "#ffffff",
-                      padding: 0,
-                      minHeight: 76,
-                      outline: "none",
-                    }}
+                    style={[
+                      {
+                        fontFamily: "Inter-Regular",
+                        fontSize: 14,
+                        color: "#ffffff",
+                        padding: 0,
+                        minHeight: 76,
+                      },
+                      Platform.OS === "web" && {
+                        outlineStyle: "none" as any,
+                        outlineWidth: 0 as any,
+                        boxShadow: "none" as any,
+                      },
+                    ]}
                   />
                 </View>
                 {errors.description && (
@@ -560,14 +565,20 @@ export default function CreateListingScreen() {
                     placeholderTextColor="#ffffff66"
                     keyboardType="decimal-pad"
                     editable={!submitting}
-                    style={{
-                      fontFamily: "Inter-Regular",
-                      fontSize: 14,
-                      color: "#ffffff",
-                      padding: 0,
-                      flex: 1,
-                      outline: "none",
-                    }}
+                    style={[
+                      {
+                        fontFamily: "Inter-Regular",
+                        fontSize: 14,
+                        color: "#ffffff",
+                        padding: 0,
+                        flex: 1,
+                      },
+                      Platform.OS === "web" && {
+                        outlineStyle: "none" as any,
+                        outlineWidth: 0 as any,
+                        boxShadow: "none" as any,
+                      },
+                    ]}
                   />
                 </View>
                 {errors.price && (

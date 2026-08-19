@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -23,17 +23,7 @@ export default function SellerDashboardScreen() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadDashboard();
-  }, []);
-
-  useEffect(() => {
-    if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2500);
-    return () => clearTimeout(t);
-  }, [toast]);
-
-  async function loadDashboard() {
+  const loadDashboard = useCallback(async () => {
     try {
       const me = await getSellerMe();
       if (!me.verified) {
@@ -49,7 +39,20 @@ export default function SellerDashboardScreen() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadDashboard();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [loadDashboard]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 2500);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   function formatNaira(amount: string): string {
     const num = parseFloat(amount) || 0;
@@ -376,7 +379,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
             textAlign: "center",
           }}
         >
-          You haven't listed anything yet
+          {"You haven't listed anything yet"}
         </Text>
         <Text
           style={{
