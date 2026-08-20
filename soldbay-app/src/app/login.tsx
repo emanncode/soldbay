@@ -65,6 +65,14 @@ export default function LoginScreen() {
   const [cardOpacity] = useState(() => new Animated.Value(0));
   const [cardTranslateY] = useState(() => new Animated.Value(150));
 
+  // Staggered list items inside the card (Title/subtitle, Email, Password, Options, Buttons, Footer)
+  const [itemAnims] = useState(() =>
+    Array.from({ length: 6 }, () => ({
+      opacity: new Animated.Value(0),
+      translateY: new Animated.Value(30),
+    }))
+  );
+
   useEffect(() => {
     // 1. Fade in the logo initially
     Animated.timing(logoOpacity, {
@@ -105,6 +113,24 @@ export default function LoginScreen() {
     const pulseLoop = Animated.loop(singleCycle, { iterations: 4 });
     pulseLoop.start();
 
+    // Compile staggered items animations
+    const staggerAnimations = itemAnims.map((anim) =>
+      Animated.parallel([
+        Animated.timing(anim.opacity, {
+          toValue: 1,
+          duration: 500,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(anim.translateY, {
+          toValue: 0,
+          duration: 650,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
     // 3. After 4 cycles (2.4s), slide the logo up and fade/slide in other elements
     const timer = setTimeout(() => {
       pulseLoop.stop();
@@ -112,34 +138,39 @@ export default function LoginScreen() {
       Animated.parallel([
         Animated.timing(logoTranslateY, {
           toValue: 0,
-          duration: 900,
+          duration: 1100,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
         Animated.timing(logoScale, {
           toValue: 1.0,
-          duration: 900,
+          duration: 1100,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
         Animated.timing(brandOpacity, {
           toValue: 1,
-          duration: 800,
+          duration: 900,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
         Animated.timing(cardOpacity, {
           toValue: 1,
-          duration: 900,
+          duration: 1200,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
         Animated.timing(cardTranslateY, {
           toValue: 0,
-          duration: 1000,
+          duration: 1200,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
+        // Stagger inner card fields after a short delay
+        Animated.sequence([
+          Animated.delay(180),
+          Animated.stagger(110, staggerAnimations),
+        ]),
       ]).start(() => {
         setSplashActive(false);
       });
@@ -149,7 +180,7 @@ export default function LoginScreen() {
       clearTimeout(timer);
       pulseLoop.stop();
     };
-  }, [brandOpacity, cardOpacity, cardTranslateY, logoOpacity, logoScale, logoTranslateY, splashOffsetY]);
+  }, [brandOpacity, cardOpacity, cardTranslateY, logoOpacity, logoScale, logoTranslateY, splashOffsetY, itemAnims]);
 
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
@@ -241,109 +272,153 @@ export default function LoginScreen() {
               ]}
               pointerEvents={splashActive ? "none" : "auto"}
             >
-              <Text style={styles.cardTitle}>Welcome back</Text>
-              <Text style={styles.cardSubtitle}>
-                Buy and sell items with verified students at your university
-              </Text>
+              {/* Item 0: Title and Subtitle */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[0].opacity,
+                  transform: [{ translateY: itemAnims[0].translateY }],
+                }}
+              >
+                <Text style={styles.cardTitle}>Welcome back</Text>
+                <Text style={styles.cardSubtitle}>
+                  Buy and sell items with verified students at your university
+                </Text>
+              </Animated.View>
 
               {/* Form Fields */}
               <View style={styles.formContainer}>
-                <SoldBayInputField
-                  label="Email"
-                  icon="mail-outline"
-                  placeholder="brittnilonda5487@gmail.com"
-                  value={email}
-                  onChangeText={(t) => {
-                    setEmail(t);
-                    setErrors((e) => ({ ...e, email: undefined }));
-                    setFormError(null);
+                {/* Item 1: Email Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[1].opacity,
+                    transform: [{ translateY: itemAnims[1].translateY }],
                   }}
-                  error={errors.email}
-                  disabled={loading}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  rightElement={
-                    isEmailValid && !errors.email ? (
-                      <Ionicons
-                        name="checkmark-circle"
-                        size={18}
-                        color="#4BB543"
-                        style={{ marginLeft: 8 }}
+                >
+                  <SoldBayInputField
+                    label="Email"
+                    icon="mail-outline"
+                    placeholder="brittnilonda5487@gmail.com"
+                    value={email}
+                    onChangeText={(t) => {
+                      setEmail(t);
+                      setErrors((e) => ({ ...e, email: undefined }));
+                      setFormError(null);
+                    }}
+                    error={errors.email}
+                    disabled={loading}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    rightElement={
+                      isEmailValid && !errors.email ? (
+                        <Ionicons
+                          name="checkmark-circle"
+                          size={18}
+                          color="#4BB543"
+                          style={{ marginLeft: 8 }}
+                        />
+                      ) : undefined
+                    }
+                  />
+                </Animated.View>
+
+                {/* Item 2: Password Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[2].opacity,
+                    transform: [{ translateY: itemAnims[2].translateY }],
+                  }}
+                >
+                  <SoldBayInputField
+                    label="Password"
+                    icon="lock-closed-outline"
+                    placeholder="password"
+                    value={password}
+                    onChangeText={(t) => {
+                      setPassword(t);
+                      setErrors((e) => ({ ...e, password: undefined }));
+                      setFormError(null);
+                    }}
+                    error={errors.password}
+                    disabled={loading}
+                    secureTextEntry={!showPassword}
+                    rightElement={
+                      <EyeToggle
+                        showing={showPassword}
+                        onPress={() => setShowPassword(!showPassword)}
                       />
-                    ) : undefined
-                  }
-                />
+                    }
+                  />
+                </Animated.View>
 
-                <SoldBayInputField
-                  label="Password"
-                  icon="lock-closed-outline"
-                  placeholder="password"
-                  value={password}
-                  onChangeText={(t) => {
-                    setPassword(t);
-                    setErrors((e) => ({ ...e, password: undefined }));
-                    setFormError(null);
+                {/* Item 3: Remember me & Forgot password row */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[3].opacity,
+                    transform: [{ translateY: itemAnims[3].translateY }],
                   }}
-                  error={errors.password}
-                  disabled={loading}
-                  secureTextEntry={!showPassword}
-                  rightElement={
-                    <EyeToggle
-                      showing={showPassword}
-                      onPress={() => setShowPassword(!showPassword)}
-                    />
-                  }
-                />
+                >
+                  <View style={styles.optionsRow}>
+                    <TouchableOpacity
+                      onPress={() => setRememberMe(!rememberMe)}
+                      style={styles.checkboxContainer}
+                      activeOpacity={0.8}
+                    >
+                      <Ionicons
+                        name={rememberMe ? "checkbox" : "square-outline"}
+                        size={20}
+                        color={rememberMe ? "#3ba53b" : "rgba(0,0,0,0.3)"}
+                      />
+                      <Text style={styles.checkboxText}>Remember me</Text>
+                    </TouchableOpacity>
 
-                {/* Remember me & Forgot password row */}
-                <View style={styles.optionsRow}>
-                  <TouchableOpacity
-                    onPress={() => setRememberMe(!rememberMe)}
-                    style={styles.checkboxContainer}
-                    activeOpacity={0.8}
-                  >
-                    <Ionicons
-                      name={rememberMe ? "checkbox" : "square-outline"}
-                      size={20}
-                      color={rememberMe ? "#3ba53b" : "rgba(0,0,0,0.3)"}
-                    />
-                    <Text style={styles.checkboxText}>Remember me</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => router.push("/forgot-password")}
+                    >
+                      <Text style={styles.forgotPasswordText}>
+                        Forgot Password?
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </Animated.View>
 
-                  <TouchableOpacity
-                    onPress={() => router.push("/forgot-password")}
-                  >
-                    <Text style={styles.forgotPasswordText}>
-                      Forgot Password?
-                    </Text>
+                {/* Item 4: General form errors and Log In Button */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[4].opacity,
+                    transform: [{ translateY: itemAnims[4].translateY }],
+                  }}
+                >
+                  {formError && (
+                    <View style={styles.formErrorContainer}>
+                      <Ionicons name="alert-circle" size={16} color="#ef4444" />
+                      <Text style={styles.formErrorText}>{formError}</Text>
+                    </View>
+                  )}
+
+                  <PrimaryButton
+                    label={loading ? "Logging in" : "Log in"}
+                    loading={loading}
+                    onPress={handleLogin}
+                  />
+                </Animated.View>
+              </View>
+
+              {/* Item 5: Footer link to sign up */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[5].opacity,
+                  transform: [{ translateY: itemAnims[5].translateY }],
+                }}
+              >
+                <View style={styles.footer}>
+                  <Text style={styles.footerMuted}>
+                    {"Don't have an account? "}
+                  </Text>
+                  <TouchableOpacity onPress={() => router.push("/signup")}>
+                    <Text style={styles.footerLink}>Sign up</Text>
                   </TouchableOpacity>
                 </View>
-
-                {/* General form errors */}
-                {formError && (
-                  <View style={styles.formErrorContainer}>
-                    <Ionicons name="alert-circle" size={16} color="#ef4444" />
-                    <Text style={styles.formErrorText}>{formError}</Text>
-                  </View>
-                )}
-
-                {/* Log In Button with Green-to-Gold Gradient */}
-                <PrimaryButton
-                  label={loading ? "Logging in" : "Log in"}
-                  loading={loading}
-                  onPress={handleLogin}
-                />
-              </View>
-
-              {/* Footer link to sign up */}
-              <View style={styles.footer}>
-                <Text style={styles.footerMuted}>
-                  {"Don't have an account? "}
-                </Text>
-                <TouchableOpacity onPress={() => router.push("/signup")}>
-                  <Text style={styles.footerLink}>Sign up</Text>
-                </TouchableOpacity>
-              </View>
+              </Animated.View>
             </Animated.View>
           </ScrollView>
         </KeyboardAvoidingView>
