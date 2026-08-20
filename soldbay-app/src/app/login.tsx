@@ -112,31 +112,31 @@ export default function LoginScreen() {
       Animated.parallel([
         Animated.timing(logoTranslateY, {
           toValue: 0,
-          duration: 500,
+          duration: 900,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
         Animated.timing(logoScale, {
           toValue: 1.0,
-          duration: 500,
+          duration: 900,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
         Animated.timing(brandOpacity, {
           toValue: 1,
-          duration: 400,
+          duration: 800,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
         Animated.timing(cardOpacity, {
           toValue: 1,
-          duration: 500,
+          duration: 900,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
         Animated.timing(cardTranslateY, {
           toValue: 0,
-          duration: 500,
+          duration: 1000,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
