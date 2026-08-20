@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   Modal,
   StyleSheet,
   Image,
+  Animated,
+  Easing,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +26,56 @@ export default function ForgotPasswordScreen() {
   const [error, setError] = useState<string | undefined>();
   const [showSentModal, setShowSentModal] = useState(false);
   const [resending, setResending] = useState(false);
+
+  // Card layout animation
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(50));
+
+  // Staggered list items (5 items)
+  const [itemAnims] = useState(() =>
+    Array.from({ length: 5 }, () => ({
+      opacity: new Animated.Value(0),
+      translateY: new Animated.Value(20),
+    }))
+  );
+
+  useEffect(() => {
+    const staggerAnimations = itemAnims.map((anim) =>
+      Animated.parallel([
+        Animated.timing(anim.opacity, {
+          toValue: 1,
+          duration: 400,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(anim.translateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    Animated.parallel([
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 600,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardTranslateY, {
+        toValue: 0,
+        duration: 600,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.delay(100),
+        Animated.stagger(80, staggerAnimations),
+      ]),
+    ]).start();
+  }, [cardOpacity, cardTranslateY, itemAnims]);
 
   function validate() {
     if (!email.trim()) {
@@ -75,50 +127,98 @@ export default function ForgotPasswordScreen() {
             </View>
 
             {/* White card container */}
-            <View style={styles.card}>
-              <View style={styles.backRow}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                  <Ionicons name="arrow-back" size={22} color="#000000" />
-                </TouchableOpacity>
-                <Text style={styles.backTitle}>Reset password</Text>
-              </View>
+            <Animated.View
+              style={[
+                styles.card,
+                {
+                  opacity: cardOpacity,
+                  transform: [{ translateY: cardTranslateY }],
+                },
+              ]}
+            >
+              {/* Item 0: Back Row */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[0].opacity,
+                  transform: [{ translateY: itemAnims[0].translateY }],
+                }}
+              >
+                <View style={styles.backRow}>
+                  <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                    <Ionicons name="arrow-back" size={22} color="#000000" />
+                  </TouchableOpacity>
+                  <Text style={styles.backTitle}>Reset password</Text>
+                </View>
+              </Animated.View>
 
-              <Text style={styles.cardTitle}>Reset your password</Text>
-              <Text style={styles.cardSubtitle}>
-                {"Enter the email associated with your account and we'll send you a verification code."}
-              </Text>
+              {/* Item 1: Card Title & Subtitle */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[1].opacity,
+                  transform: [{ translateY: itemAnims[1].translateY }],
+                }}
+              >
+                <Text style={styles.cardTitle}>Reset your password</Text>
+                <Text style={styles.cardSubtitle}>
+                  {"Enter the email associated with your account and we'll send you a verification code."}
+                </Text>
+              </Animated.View>
 
               {/* Form Fields */}
               <View style={styles.formContainer}>
-                <SoldBayInputField
-                  label="Email"
-                  icon="mail-outline"
-                  placeholder="you@email.com"
-                  value={email}
-                  onChangeText={(t) => {
-                    setEmail(t);
-                    setError(undefined);
+                {/* Item 2: Email Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[2].opacity,
+                    transform: [{ translateY: itemAnims[2].translateY }],
                   }}
-                  error={error}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  disabled={loading}
-                />
+                >
+                  <SoldBayInputField
+                    label="Email"
+                    icon="mail-outline"
+                    placeholder="you@email.com"
+                    value={email}
+                    onChangeText={(t) => {
+                      setEmail(t);
+                      setError(undefined);
+                    }}
+                    error={error}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    disabled={loading}
+                  />
+                </Animated.View>
 
-                <PrimaryButton
-                  label="Send Reset Code"
-                  loading={loading}
-                  onPress={handleSendCode}
-                />
+                {/* Item 3: Send Reset Code Button */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[3].opacity,
+                    transform: [{ translateY: itemAnims[3].translateY }],
+                  }}
+                >
+                  <PrimaryButton
+                    label="Send Reset Code"
+                    loading={loading}
+                    onPress={handleSendCode}
+                  />
+                </Animated.View>
 
-                <View style={styles.loginLinkRow}>
-                  <Text style={styles.loginLinkText}>Back to</Text>
-                  <TouchableOpacity onPress={() => router.push("/login")}>
-                    <Text style={styles.loginLinkButton}>Log in</Text>
-                  </TouchableOpacity>
-                </View>
+                {/* Item 4: Login Link Row */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[4].opacity,
+                    transform: [{ translateY: itemAnims[4].translateY }],
+                  }}
+                >
+                  <View style={styles.loginLinkRow}>
+                    <Text style={styles.loginLinkText}>Back to</Text>
+                    <TouchableOpacity onPress={() => router.push("/login")}>
+                      <Text style={styles.loginLinkButton}>Log in</Text>
+                    </TouchableOpacity>
+                  </View>
+                </Animated.View>
               </View>
-            </View>
+            </Animated.View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

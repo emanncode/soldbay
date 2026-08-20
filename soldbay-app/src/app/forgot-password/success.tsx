@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Animated } from "react-native";
+import { View, Text, Animated, Easing } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
@@ -8,16 +8,32 @@ import { Ionicons } from "@expo/vector-icons";
 export default function SuccessScreen() {
   const router = useRouter();
   const [progress] = useState(() => new Animated.Value(0));
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(50));
 
   useEffect(() => {
-    Animated.timing(progress, {
-      toValue: 1,
-      duration: 2000,
-      useNativeDriver: false,
-    }).start(() => {
+    Animated.parallel([
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 600,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardTranslateY, {
+        toValue: 0,
+        duration: 600,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.timing(progress, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: false,
+      }),
+    ]).start(() => {
       router.replace("/login");
     });
-  }, [progress, router]);
+  }, [cardOpacity, cardTranslateY, progress, router]);
 
   const progressWidth = progress.interpolate({
     inputRange: [0, 1],
@@ -29,7 +45,7 @@ export default function SuccessScreen() {
       <SafeAreaView
         style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: 24 }}
       >
-        <View
+        <Animated.View
           style={{
             width: "100%",
             maxWidth: 342,
@@ -43,6 +59,8 @@ export default function SuccessScreen() {
             shadowOpacity: 0.1,
             shadowRadius: 12,
             elevation: 5,
+            opacity: cardOpacity,
+            transform: [{ translateY: cardTranslateY }],
           }}
         >
           <View
@@ -98,7 +116,7 @@ export default function SuccessScreen() {
               }}
             />
           </View>
-        </View>
+        </Animated.View>
       </SafeAreaView>
     </PageAtmosphere>
   );

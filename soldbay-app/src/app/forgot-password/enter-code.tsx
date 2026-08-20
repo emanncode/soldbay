@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   Platform,
   StyleSheet,
   Image,
+  Animated,
+  Easing,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,6 +29,56 @@ export default function EnterCodeScreen() {
   const [verifying, setVerifying] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [resending, setResending] = useState(false);
+
+  // Card layout animation
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(50));
+
+  // Staggered list items (5 items)
+  const [itemAnims] = useState(() =>
+    Array.from({ length: 5 }, () => ({
+      opacity: new Animated.Value(0),
+      translateY: new Animated.Value(20),
+    }))
+  );
+
+  useEffect(() => {
+    const staggerAnimations = itemAnims.map((anim) =>
+      Animated.parallel([
+        Animated.timing(anim.opacity, {
+          toValue: 1,
+          duration: 400,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(anim.translateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    Animated.parallel([
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 600,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardTranslateY, {
+        toValue: 0,
+        duration: 600,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.delay(100),
+        Animated.stagger(80, staggerAnimations),
+      ]),
+    ]).start();
+  }, [cardOpacity, cardTranslateY, itemAnims]);
 
   const textInputRefs = useRef<(TextInput | null)[]>([]);
 
@@ -89,80 +141,128 @@ export default function EnterCodeScreen() {
             </View>
 
             {/* White card container */}
-            <View style={styles.card}>
-              <View style={styles.backRow}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                  <Ionicons name="arrow-back" size={22} color="#000000" />
-                </TouchableOpacity>
-                <Text style={styles.backTitle}>Reset password</Text>
-              </View>
+            <Animated.View
+              style={[
+                styles.card,
+                {
+                  opacity: cardOpacity,
+                  transform: [{ translateY: cardTranslateY }],
+                },
+              ]}
+            >
+              {/* Item 0: Back Row */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[0].opacity,
+                  transform: [{ translateY: itemAnims[0].translateY }],
+                }}
+              >
+                <View style={styles.backRow}>
+                  <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                    <Ionicons name="arrow-back" size={22} color="#000000" />
+                  </TouchableOpacity>
+                  <Text style={styles.backTitle}>Reset password</Text>
+                </View>
+              </Animated.View>
 
-              <Text style={styles.cardTitle}>Enter verification code</Text>
-              <View style={styles.subtitleContainer}>
-                <Text style={styles.cardSubtitle}>
-                  {"We sent a 6-digit code to "}
-                  <Text style={styles.boldEmail}>{displayEmail}</Text>
-                </Text>
-              </View>
+              {/* Item 1: Card Title & Subtitle */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[1].opacity,
+                  transform: [{ translateY: itemAnims[1].translateY }],
+                }}
+              >
+                <Text style={styles.cardTitle}>Enter verification code</Text>
+                <View style={styles.subtitleContainer}>
+                  <Text style={styles.cardSubtitle}>
+                    {"We sent a 6-digit code to "}
+                    <Text style={styles.boldEmail}>{displayEmail}</Text>
+                  </Text>
+                </View>
+              </Animated.View>
 
-              <View style={styles.otpWrapper}>
-                {otp.map((digit, i) => (
-                  <View
-                    key={i}
-                    style={[
-                      styles.otpBox,
-                      (digit || (i === 0 && !digit)) && styles.otpBoxActive,
-                    ]}
-                  >
-                    <TextInput
-                      ref={(el) => {
-                        textInputRefs.current[i] = el;
-                      }}
-                      value={digit}
-                      onChangeText={(t) => handleOtpChange(t, i)}
-                      onKeyPress={({ nativeEvent }) =>
-                        handleOtpKeyPress(nativeEvent.key, i)
-                      }
-                      keyboardType="number-pad"
-                      maxLength={1}
+              {/* Item 2: OTP inputs */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[2].opacity,
+                  transform: [{ translateY: itemAnims[2].translateY }],
+                }}
+              >
+                <View style={styles.otpWrapper}>
+                  {otp.map((digit, i) => (
+                    <View
+                      key={i}
                       style={[
-                        styles.otpInput,
-                        Platform.OS === "web" && {
-                          outlineStyle: "none" as any,
-                          outlineWidth: 0 as any,
-                          boxShadow: "none" as any,
-                        },
+                        styles.otpBox,
+                        (digit || (i === 0 && !digit)) && styles.otpBoxActive,
                       ]}
-                    />
+                    >
+                      <TextInput
+                        ref={(el) => {
+                          textInputRefs.current[i] = el;
+                        }}
+                        value={digit}
+                        onChangeText={(t) => handleOtpChange(t, i)}
+                        onKeyPress={({ nativeEvent }) =>
+                          handleOtpKeyPress(nativeEvent.key, i)
+                        }
+                        keyboardType="number-pad"
+                        maxLength={1}
+                        style={[
+                          styles.otpInput,
+                          Platform.OS === "web" && {
+                            outlineStyle: "none" as any,
+                            outlineWidth: 0 as any,
+                            boxShadow: "none" as any,
+                          },
+                        ]}
+                      />
+                    </View>
+                  ))}
+                </View>
+              </Animated.View>
+
+              {/* Item 3: Action container */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[3].opacity,
+                  transform: [{ translateY: itemAnims[3].translateY }],
+                }}
+              >
+                <View style={styles.actionContainer}>
+                  <PrimaryButton
+                    label="Verify Code"
+                    loading={verifying}
+                    disabled={!isComplete}
+                    onPress={handleVerify}
+                  />
+
+                  <View style={styles.resendRow}>
+                    <Text style={styles.resendText}>{"Didn't receive a code? "}</Text>
+                    <TouchableOpacity onPress={handleResend} disabled={resending}>
+                      <Text style={styles.resendButton}>
+                        {resending ? "Resending..." : "Resend Code"}
+                      </Text>
+                    </TouchableOpacity>
                   </View>
-                ))}
-              </View>
+                </View>
+              </Animated.View>
 
-              <View style={styles.actionContainer}>
-                <PrimaryButton
-                  label="Verify Code"
-                  loading={verifying}
-                  disabled={!isComplete}
-                  onPress={handleVerify}
-                />
-
-                <View style={styles.resendRow}>
-                  <Text style={styles.resendText}>{"Didn't receive a code? "}</Text>
-                  <TouchableOpacity onPress={handleResend} disabled={resending}>
-                    <Text style={styles.resendButton}>
-                      {resending ? "Resending..." : "Resend Code"}
-                    </Text>
+              {/* Item 4: Login link row */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[4].opacity,
+                  transform: [{ translateY: itemAnims[4].translateY }],
+                }}
+              >
+                <View style={styles.loginLinkRow}>
+                  <Text style={styles.loginLinkText}>Remember your password?</Text>
+                  <TouchableOpacity onPress={() => router.push("/login")}>
+                    <Text style={styles.loginLinkButton}>Log in</Text>
                   </TouchableOpacity>
                 </View>
-              </View>
-
-              <View style={styles.loginLinkRow}>
-                <Text style={styles.loginLinkText}>Remember your password?</Text>
-                <TouchableOpacity onPress={() => router.push("/login")}>
-                  <Text style={styles.loginLinkButton}>Log in</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+              </Animated.View>
+            </Animated.View>
           </ScrollView>
 
           {showToast && (

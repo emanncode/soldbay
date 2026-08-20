@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   Platform,
   StyleSheet,
   Image,
+  Animated,
+  Easing,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -45,6 +47,56 @@ export default function NewPasswordScreen() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Card layout animation
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(50));
+
+  // Staggered list items (5 items)
+  const [itemAnims] = useState(() =>
+    Array.from({ length: 5 }, () => ({
+      opacity: new Animated.Value(0),
+      translateY: new Animated.Value(20),
+    }))
+  );
+
+  useEffect(() => {
+    const staggerAnimations = itemAnims.map((anim) =>
+      Animated.parallel([
+        Animated.timing(anim.opacity, {
+          toValue: 1,
+          duration: 400,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(anim.translateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    Animated.parallel([
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 600,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardTranslateY, {
+        toValue: 0,
+        duration: 600,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.delay(100),
+        Animated.stagger(80, staggerAnimations),
+      ]),
+    ]).start();
+  }, [cardOpacity, cardTranslateY, itemAnims]);
+
   function handleSave() {
     setSaving(true);
     setTimeout(() => {
@@ -78,65 +130,113 @@ export default function NewPasswordScreen() {
             </View>
 
             {/* White card container */}
-            <View style={styles.card}>
-              <View style={styles.backRow}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                  <Ionicons name="arrow-back" size={22} color="#000000" />
-                </TouchableOpacity>
-                <Text style={styles.backTitle}>Reset password</Text>
-              </View>
+            <Animated.View
+              style={[
+                styles.card,
+                {
+                  opacity: cardOpacity,
+                  transform: [{ translateY: cardTranslateY }],
+                },
+              ]}
+            >
+              {/* Item 0: Back Row */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[0].opacity,
+                  transform: [{ translateY: itemAnims[0].translateY }],
+                }}
+              >
+                <View style={styles.backRow}>
+                  <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                    <Ionicons name="arrow-back" size={22} color="#000000" />
+                  </TouchableOpacity>
+                  <Text style={styles.backTitle}>Reset password</Text>
+                </View>
+              </Animated.View>
 
-              <Text style={styles.cardTitle}>Set a new password</Text>
-              <View style={styles.subtitleContainer}>
-                <Text style={styles.cardSubtitle}>
-                  {"Create a new password for "}
-                  <Text style={styles.boldEmail}>{displayEmail}</Text>
-                </Text>
-              </View>
+              {/* Item 1: Card Title & Subtitle */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[1].opacity,
+                  transform: [{ translateY: itemAnims[1].translateY }],
+                }}
+              >
+                <Text style={styles.cardTitle}>Set a new password</Text>
+                <View style={styles.subtitleContainer}>
+                  <Text style={styles.cardSubtitle}>
+                    {"Create a new password for "}
+                    <Text style={styles.boldEmail}>{displayEmail}</Text>
+                  </Text>
+                </View>
+              </Animated.View>
 
               {/* Form Fields */}
               <View style={styles.formContainer}>
-                <SoldBayInputField
-                  label="New password"
-                  icon="lock-closed-outline"
-                  placeholder="Create a password"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
-                  disabled={saving}
-                  rightElement={
-                    <EyeToggle
-                      showing={showPassword}
-                      onPress={() => setShowPassword(!showPassword)}
-                    />
-                  }
-                />
+                {/* Item 2: New password input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[2].opacity,
+                    transform: [{ translateY: itemAnims[2].translateY }],
+                  }}
+                >
+                  <SoldBayInputField
+                    label="New password"
+                    icon="lock-closed-outline"
+                    placeholder="Create a password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
+                    disabled={saving}
+                    rightElement={
+                      <EyeToggle
+                        showing={showPassword}
+                        onPress={() => setShowPassword(!showPassword)}
+                      />
+                    }
+                  />
+                </Animated.View>
 
-                <SoldBayInputField
-                  label="Confirm password"
-                  icon="lock-closed-outline"
-                  placeholder="Re-enter your password"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry={!showConfirmPassword}
-                  disabled={saving}
-                  rightElement={
-                    <EyeToggle
-                      showing={showConfirmPassword}
-                      onPress={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    />
-                  }
-                />
+                {/* Item 3: Confirm password input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[3].opacity,
+                    transform: [{ translateY: itemAnims[3].translateY }],
+                  }}
+                >
+                  <SoldBayInputField
+                    label="Confirm password"
+                    icon="lock-closed-outline"
+                    placeholder="Re-enter your password"
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    secureTextEntry={!showConfirmPassword}
+                    disabled={saving}
+                    rightElement={
+                      <EyeToggle
+                        showing={showConfirmPassword}
+                        onPress={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      />
+                    }
+                  />
+                </Animated.View>
 
-                <PrimaryButton
-                  label={saving ? "Saving" : "Save Password"}
-                  loading={saving}
-                  onPress={handleSave}
-                />
+                {/* Item 4: Save password PrimaryButton */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[4].opacity,
+                    transform: [{ translateY: itemAnims[4].translateY }],
+                  }}
+                >
+                  <PrimaryButton
+                    label={saving ? "Saving" : "Save Password"}
+                    loading={saving}
+                    onPress={handleSave}
+                  />
+                </Animated.View>
               </View>
-            </View>
+            </Animated.View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

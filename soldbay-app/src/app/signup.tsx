@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Image,
   Animated,
+  Easing,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -53,6 +53,57 @@ export default function SignupScreen() {
 
   const [slideAnim] = useState(() => new Animated.Value(role === "buyer" ? 0 : 1));
   const [containerWidth, setContainerWidth] = useState(0);
+
+  // Card layout animation
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(60));
+
+  // Staggered list items
+  const [itemAnims] = useState(() =>
+    Array.from({ length: 9 }, () => ({
+      opacity: new Animated.Value(0),
+      translateY: new Animated.Value(20),
+    }))
+  );
+
+  useEffect(() => {
+    // Staggered animations compilation
+    const staggerAnimations = itemAnims.map((anim) =>
+      Animated.parallel([
+        Animated.timing(anim.opacity, {
+          toValue: 1,
+          duration: 400,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(anim.translateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    Animated.parallel([
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 700,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(cardTranslateY, {
+        toValue: 0,
+        duration: 700,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.delay(100),
+        Animated.stagger(80, staggerAnimations),
+      ]),
+    ]).start();
+  }, [cardOpacity, cardTranslateY, itemAnims]);
 
   useEffect(() => {
     Animated.timing(slideAnim, {
@@ -147,202 +198,278 @@ export default function SignupScreen() {
             </View>
 
             {/* White card container */}
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>Register</Text>
-              <Text style={styles.cardSubtitle}>
-                Buy and sell items with verified students at your university
-              </Text>
+            <Animated.View
+              style={[
+                styles.card,
+                {
+                  opacity: cardOpacity,
+                  transform: [{ translateY: cardTranslateY }],
+                },
+              ]}
+            >
+              {/* Item 0: Title and Subtitle */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[0].opacity,
+                  transform: [{ translateY: itemAnims[0].translateY }],
+                }}
+              >
+                <Text style={styles.cardTitle}>Register</Text>
+                <Text style={styles.cardSubtitle}>
+                  Buy and sell items with verified students at your university
+                </Text>
+              </Animated.View>
 
               {/* Form Fields */}
               <View style={styles.formContainer}>
-                <SoldBayInputField
-                  label="Name"
-                  icon="person-outline"
-                  placeholder="Johan Mandela"
-                  value={name}
-                  onChangeText={(t) => {
-                    setName(t);
-                    clearError("name");
+                {/* Item 1: Name Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[1].opacity,
+                    transform: [{ translateY: itemAnims[1].translateY }],
                   }}
-                  error={errors.name}
-                  disabled={loading}
-                  autoCapitalize="words"
-                />
+                >
+                  <SoldBayInputField
+                    label="Name"
+                    icon="person-outline"
+                    placeholder="Johan Mandela"
+                    value={name}
+                    onChangeText={(t) => {
+                      setName(t);
+                      clearError("name");
+                    }}
+                    error={errors.name}
+                    disabled={loading}
+                    autoCapitalize="words"
+                  />
+                </Animated.View>
 
-                <SoldBayInputField
-                  label="Email"
-                  icon="mail-outline"
-                  placeholder="brittnilonda5487@gmail.com"
-                  value={email}
-                  onChangeText={(t) => {
-                    setEmail(t);
-                    clearError("email");
+                {/* Item 2: Email Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[2].opacity,
+                    transform: [{ translateY: itemAnims[2].translateY }],
                   }}
-                  error={errors.email}
-                  disabled={loading}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
+                >
+                  <SoldBayInputField
+                    label="Email"
+                    icon="mail-outline"
+                    placeholder="brittnilonda5487@gmail.com"
+                    value={email}
+                    onChangeText={(t) => {
+                      setEmail(t);
+                      clearError("email");
+                    }}
+                    error={errors.email}
+                    disabled={loading}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                  />
+                </Animated.View>
 
-                <SoldBayInputField
-                  label="Password"
-                  icon="lock-closed-outline"
-                  placeholder="password"
-                  value={password}
-                  onChangeText={(t) => {
-                    setPassword(t);
-                    clearError("password");
+                {/* Item 3: Password Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[3].opacity,
+                    transform: [{ translateY: itemAnims[3].translateY }],
                   }}
-                  error={errors.password}
-                  disabled={loading}
-                  secureTextEntry={!showPassword}
-                  rightElement={
-                    <EyeToggle
-                      showing={showPassword}
-                      onPress={() => setShowPassword(!showPassword)}
-                    />
-                  }
-                />
-
-                <SoldBayInputField
-                  label="Confirm Password"
-                  icon="lock-closed-outline"
-                  placeholder="password"
-                  value={confirmPassword}
-                  onChangeText={(t) => {
-                    setConfirmPassword(t);
-                    clearError("confirmPassword");
-                  }}
-                  error={errors.confirmPassword}
-                  disabled={loading}
-                  secureTextEntry={!showConfirmPassword}
-                  rightElement={
-                    <EyeToggle
-                      showing={showConfirmPassword}
-                      onPress={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    />
-                  }
-                />
-
-                 {/* Role Selector styled as clean pill buttons */}
-                <View style={styles.inputGroup}>
-                  <Text style={styles.inputLabel}>Choose your account type</Text>
-                  <View 
-                    style={styles.roleContainer}
-                    onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
-                  >
-                    {/* Animated Sliding Pill Highlight */}
-                    {containerWidth > 0 && (
-                      <Animated.View
-                        style={[
-                          styles.roleIndicator,
-                          {
-                            width: containerWidth / 2 - 6,
-                            left: slideAnim.interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [4, containerWidth / 2 + 2],
-                            }),
-                          },
-                        ]}
+                >
+                  <SoldBayInputField
+                    label="Password"
+                    icon="lock-closed-outline"
+                    placeholder="password"
+                    value={password}
+                    onChangeText={(t) => {
+                      setPassword(t);
+                      clearError("password");
+                    }}
+                    error={errors.password}
+                    disabled={loading}
+                    secureTextEntry={!showPassword}
+                    rightElement={
+                      <EyeToggle
+                        showing={showPassword}
+                        onPress={() => setShowPassword(!showPassword)}
                       />
-                    )}
+                    }
+                  />
+                </Animated.View>
+
+                {/* Item 4: Confirm Password Input */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[4].opacity,
+                    transform: [{ translateY: itemAnims[4].translateY }],
+                  }}
+                >
+                  <SoldBayInputField
+                    label="Confirm Password"
+                    icon="lock-closed-outline"
+                    placeholder="password"
+                    value={confirmPassword}
+                    onChangeText={(t) => {
+                      setConfirmPassword(t);
+                      clearError("confirmPassword");
+                    }}
+                    error={errors.confirmPassword}
+                    disabled={loading}
+                    secureTextEntry={!showConfirmPassword}
+                    rightElement={
+                      <EyeToggle
+                        showing={showConfirmPassword}
+                        onPress={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      />
+                    }
+                  />
+                </Animated.View>
+
+                {/* Item 5: Role Selector */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[5].opacity,
+                    transform: [{ translateY: itemAnims[5].translateY }],
+                  }}
+                >
+                  {/* Role Selector styled as clean pill buttons */}
+                  <View style={styles.inputGroup}>
+                    <Text style={styles.inputLabel}>Choose your account type</Text>
+                    <View 
+                      style={styles.roleContainer}
+                      onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
+                    >
+                      {/* Animated Sliding Pill Highlight */}
+                      {containerWidth > 0 && (
+                        <Animated.View
+                          style={[
+                            styles.roleIndicator,
+                            {
+                              width: containerWidth / 2 - 6,
+                              left: slideAnim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [4, containerWidth / 2 + 2],
+                              }),
+                            },
+                          ]}
+                        />
+                      )}
+                      <TouchableOpacity
+                        style={styles.roleBtn}
+                        onPress={() => setRole("buyer")}
+                        activeOpacity={0.9}
+                        disabled={loading}
+                      >
+                        <Ionicons
+                          name="cart-outline"
+                          size={18}
+                          color={role === "buyer" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
+                          style={{ marginRight: 6 }}
+                        />
+                        <Text
+                          style={[
+                            styles.roleBtnText,
+                            role === "buyer" && styles.roleBtnTextSelected,
+                          ]}
+                        >
+                          {"I'm a Buyer"}
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.roleBtn}
+                        onPress={() => setRole("seller")}
+                        activeOpacity={0.9}
+                        disabled={loading}
+                      >
+                        <Ionicons
+                          name="cube-outline"
+                          size={18}
+                          color={role === "seller" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
+                          style={{ marginRight: 6 }}
+                        />
+                        <Text
+                          style={[
+                            styles.roleBtnText,
+                            role === "seller" && styles.roleBtnTextSelected,
+                          ]}
+                        >
+                          {"I'm a Seller"}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Animated.View>
+
+                {/* Item 6: Terms and Conditions checkbox */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[6].opacity,
+                    transform: [{ translateY: itemAnims[6].translateY }],
+                  }}
+                >
+                  <View style={styles.termsRow}>
                     <TouchableOpacity
-                      style={styles.roleBtn}
-                      onPress={() => setRole("buyer")}
-                      activeOpacity={0.9}
-                      disabled={loading}
+                      onPress={() => {
+                        setAgreeToTerms(!agreeToTerms);
+                        clearError("terms");
+                      }}
+                      style={styles.checkboxContainer}
+                      activeOpacity={0.8}
                     >
                       <Ionicons
-                        name="cart-outline"
-                        size={18}
-                        color={role === "buyer" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
-                        style={{ marginRight: 6 }}
+                        name={agreeToTerms ? "checkbox" : "square-outline"}
+                        size={20}
+                        color={agreeToTerms ? "#3ba53b" : "rgba(0,0,0,0.3)"}
                       />
-                      <Text
-                        style={[
-                          styles.roleBtnText,
-                          role === "buyer" && styles.roleBtnTextSelected,
-                        ]}
-                      >
-                        {"I'm a Buyer"}
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.roleBtn}
-                      onPress={() => setRole("seller")}
-                      activeOpacity={0.9}
-                      disabled={loading}
-                    >
-                      <Ionicons
-                        name="cube-outline"
-                        size={18}
-                        color={role === "seller" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
-                        style={{ marginRight: 6 }}
-                      />
-                      <Text
-                        style={[
-                          styles.roleBtnText,
-                          role === "seller" && styles.roleBtnTextSelected,
-                        ]}
-                      >
-                        {"I'm a Seller"}
+                      <Text style={styles.checkboxText}>
+                        I agree to the Term & Condition and Privacy
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </View>
-
-                {/* Terms agreement checkbox */}
-                <View style={styles.termsRow}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setAgreeToTerms(!agreeToTerms);
-                      clearError("terms");
-                    }}
-                    style={styles.checkboxContainer}
-                    activeOpacity={0.8}
-                  >
-                    <Ionicons
-                      name={agreeToTerms ? "checkbox" : "square-outline"}
-                      size={20}
-                      color={agreeToTerms ? "#3ba53b" : "rgba(0,0,0,0.3)"}
-                    />
-                    <Text style={styles.checkboxText}>
-                      I agree to the Term & Condition and Privacy
+                  {errors.terms && (
+                    <Text style={[styles.errorText, { position: "absolute", bottom: -16, left: 4, marginTop: 0 }]}>
+                      {errors.terms}
                     </Text>
+                  )}
+                </Animated.View>
+
+                {/* Item 7: General form errors and Sign Up Button */}
+                <Animated.View
+                  style={{
+                    opacity: itemAnims[7].opacity,
+                    transform: [{ translateY: itemAnims[7].translateY }],
+                  }}
+                >
+                  {formError && (
+                    <View style={styles.formErrorContainer}>
+                      <Ionicons name="alert-circle" size={16} color="#ef4444" />
+                      <Text style={styles.formErrorText}>{formError}</Text>
+                    </View>
+                  )}
+
+                  <PrimaryButton
+                    label={loading ? "Creating account" : "Sign up"}
+                    loading={loading}
+                    onPress={handleSignup}
+                  />
+                </Animated.View>
+              </View>
+
+              {/* Item 8: Footer link to sign in */}
+              <Animated.View
+                style={{
+                  opacity: itemAnims[8].opacity,
+                  transform: [{ translateY: itemAnims[8].translateY }],
+                }}
+              >
+                <View style={styles.footer}>
+                  <Text style={styles.footerMuted}>Already have an account? </Text>
+                  <TouchableOpacity onPress={() => router.push("/login")}>
+                    <Text style={styles.footerLink}>Sign in</Text>
                   </TouchableOpacity>
                 </View>
-                {errors.terms && (
-                  <Text style={[styles.errorText, { position: "absolute", bottom: -16, left: 4, marginTop: 0 }]}>
-                    {errors.terms}
-                  </Text>
-                )}
-
-                {/* General form errors */}
-                {formError && (
-                  <View style={styles.formErrorContainer}>
-                    <Ionicons name="alert-circle" size={16} color="#ef4444" />
-                    <Text style={styles.formErrorText}>{formError}</Text>
-                  </View>
-                )}
-
-                {/* Sign Up Button with Green-to-Gold Gradient */}
-                <PrimaryButton
-                  label={loading ? "Creating account" : "Sign up"}
-                  loading={loading}
-                  onPress={handleSignup}
-                />
-              </View>
-
-              {/* Footer link to sign in */}
-              <View style={styles.footer}>
-                <Text style={styles.footerMuted}>Already have an account? </Text>
-                <TouchableOpacity onPress={() => router.push("/login")}>
-                  <Text style={styles.footerLink}>Sign in</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+              </Animated.View>
+            </Animated.View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
