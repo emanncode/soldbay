@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,8 +7,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Image,
+  Animated,
+  Dimensions,
+  Easing,
 } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
@@ -49,6 +52,104 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+
+  // Animation layout values
+  const { height: SCREEN_H } = Dimensions.get("window");
+  const splashOffsetY = (SCREEN_H / 2) - 239;
+
+  const [splashActive, setSplashActive] = useState(true);
+  const [logoOpacity] = useState(() => new Animated.Value(0));
+  const [logoScale] = useState(() => new Animated.Value(1.15));
+  const [logoTranslateY] = useState(() => new Animated.Value(splashOffsetY));
+  const [brandOpacity] = useState(() => new Animated.Value(0));
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(150));
+
+  useEffect(() => {
+    // 1. Fade in the logo initially
+    Animated.timing(logoOpacity, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    }).start();
+
+    // 2. Play 4 fast pulse loops (grow -> return -> shrink -> return)
+    const singleCycle = Animated.sequence([
+      Animated.timing(logoScale, {
+        toValue: 1.21,
+        duration: 150,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+      Animated.timing(logoScale, {
+        toValue: 1.15,
+        duration: 150,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+      Animated.timing(logoScale, {
+        toValue: 1.09,
+        duration: 150,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+      Animated.timing(logoScale, {
+        toValue: 1.15,
+        duration: 150,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+    ]);
+
+    const pulseLoop = Animated.loop(singleCycle, { iterations: 4 });
+    pulseLoop.start();
+
+    // 3. After 4 cycles (2.4s), slide the logo up and fade/slide in other elements
+    const timer = setTimeout(() => {
+      pulseLoop.stop();
+
+      Animated.parallel([
+        Animated.timing(logoTranslateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(logoScale, {
+          toValue: 1.0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(brandOpacity, {
+          toValue: 1,
+          duration: 400,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(cardOpacity, {
+          toValue: 1,
+          duration: 500,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(cardTranslateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        setSplashActive(false);
+      });
+    }, 2400);
+
+    return () => {
+      clearTimeout(timer);
+      pulseLoop.stop();
+    };
+  }, [brandOpacity, cardOpacity, cardTranslateY, logoOpacity, logoScale, logoTranslateY, splashOffsetY]);
 
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
@@ -103,20 +204,43 @@ export default function LoginScreen() {
           <ScrollView
             contentContainerStyle={styles.scrollContent}
             bounces={false}
+            scrollEnabled={!splashActive}
             keyboardShouldPersistTaps="handled"
           >
             {/* Header / Logo section on green gradient */}
             <View style={styles.headerContainer}>
-              <Text style={styles.brandName}>SoldBay</Text>
-              <Image
-                source={require("../../assets/soldbay_logo.png")}
-                style={styles.logo}
-                resizeMode="contain"
-              />
+              <Animated.Text style={[styles.brandName, { opacity: brandOpacity }]}>
+                SoldBay
+              </Animated.Text>
+              <Animated.View
+                style={{
+                  transform: [
+                    { translateY: logoTranslateY },
+                    { scale: logoScale },
+                  ],
+                  opacity: logoOpacity,
+                }}
+              >
+                <Image
+                  source={require("../../assets/soldbay_logo.png")}
+                  style={styles.logo}
+                  contentFit="contain"
+                  transition={0}
+                />
+              </Animated.View>
             </View>
 
             {/* White card container */}
-            <View style={styles.card}>
+            <Animated.View
+              style={[
+                styles.card,
+                {
+                  opacity: cardOpacity,
+                  transform: [{ translateY: cardTranslateY }],
+                },
+              ]}
+              pointerEvents={splashActive ? "none" : "auto"}
+            >
               <Text style={styles.cardTitle}>Welcome back</Text>
               <Text style={styles.cardSubtitle}>
                 Buy and sell items with verified students at your university
@@ -220,7 +344,7 @@ export default function LoginScreen() {
                   <Text style={styles.footerLink}>Sign up</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </Animated.View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>

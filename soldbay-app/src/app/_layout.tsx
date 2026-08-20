@@ -14,15 +14,12 @@ import {
   Inter_600SemiBold,
 } from "@expo-google-fonts/inter";
 import { Satisfy_400Regular } from "@expo-google-fonts/satisfy";
-import { SplashScreen as BrandSplash } from "@/components/splash-screen";
-
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -50,9 +47,6 @@ export default function RootLayout() {
     return null;
   }
 
-  if (!splashDone) {
-    return <BrandSplash onFinish={() => setSplashDone(true)} />;
-  }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
