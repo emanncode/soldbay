@@ -254,13 +254,19 @@ export default function SignupScreen() {
                       activeOpacity={0.9}
                       disabled={loading}
                     >
+                      <Ionicons
+                        name="cart-outline"
+                        size={18}
+                        color={role === "buyer" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
+                        style={{ marginRight: 6 }}
+                      />
                       <Text
                         style={[
                           styles.roleBtnText,
                           role === "buyer" && styles.roleBtnTextSelected,
                         ]}
                       >
-                        {"🛍 I'm a Buyer"}
+                        {"I'm a Buyer"}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -269,13 +275,19 @@ export default function SignupScreen() {
                       activeOpacity={0.9}
                       disabled={loading}
                     >
+                      <Ionicons
+                        name="cube-outline"
+                        size={18}
+                        color={role === "seller" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
+                        style={{ marginRight: 6 }}
+                      />
                       <Text
                         style={[
                           styles.roleBtnText,
                           role === "seller" && styles.roleBtnTextSelected,
                         ]}
                       >
-                        {"📦 I'm a Seller"}
+                        {"I'm a Seller"}
                       </Text>
                     </TouchableOpacity>
                   </View>
