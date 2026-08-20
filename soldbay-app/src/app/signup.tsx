@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Image,
   Animated,
