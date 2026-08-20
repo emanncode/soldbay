@@ -10,11 +10,11 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
   
   // Bag animation states
   const [bagOpacity] = useState(() => new Animated.Value(0));
-  const [bagScale] = useState(() => new Animated.Value(0.6));
+  const [bagScale] = useState(() => new Animated.Value(0));
 
   // Cap animation states
   const [capOpacity] = useState(() => new Animated.Value(0));
-  const [capTranslateY] = useState(() => new Animated.Value(-120)); // drops down 120px
+  const [capTranslateY] = useState(() => new Animated.Value(-200)); // drops down 200px
 
   useEffect(() => {
     Animated.sequence([
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    overflow: "visible",
   },
   logoContainer: {
     width: 240,
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     position: "relative",
     justifyContent: "center",
     alignItems: "center",
+    overflow: "visible",
   },
   logoBag: {
     width: 140,
