@@ -12,7 +12,7 @@ import {
   Animated,
   Easing,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { SoldBayInputField } from "@/components/soldbay-input-field";
@@ -21,6 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function ForgotPasswordScreen() {
   const router = useRouter();
+  const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
@@ -40,42 +41,55 @@ export default function ForgotPasswordScreen() {
   );
 
   useEffect(() => {
-    const staggerAnimations = itemAnims.map((anim) =>
+    const unsubscribe = navigation.addListener("focus", () => {
+      // Reset card and items values
+      cardOpacity.setValue(0);
+      cardTranslateY.setValue(50);
+      itemAnims.forEach((anim) => {
+        anim.opacity.setValue(0);
+        anim.translateY.setValue(20);
+      });
+
+      // Compile staggered items animations
+      const staggerAnimations = itemAnims.map((anim) =>
+        Animated.parallel([
+          Animated.timing(anim.opacity, {
+            toValue: 1,
+            duration: 400,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: true,
+          }),
+          Animated.timing(anim.translateY, {
+            toValue: 0,
+            duration: 500,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+        ])
+      );
+
       Animated.parallel([
-        Animated.timing(anim.opacity, {
+        Animated.timing(cardOpacity, {
           toValue: 1,
-          duration: 400,
+          duration: 600,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
-        Animated.timing(anim.translateY, {
+        Animated.timing(cardTranslateY, {
           toValue: 0,
-          duration: 500,
+          duration: 600,
           easing: Easing.out(Easing.cubic),
           useNativeDriver: true,
         }),
-      ])
-    );
+        Animated.sequence([
+          Animated.delay(100),
+          Animated.stagger(80, staggerAnimations),
+        ]),
+      ]).start();
+    });
 
-    Animated.parallel([
-      Animated.timing(cardOpacity, {
-        toValue: 1,
-        duration: 600,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: true,
-      }),
-      Animated.timing(cardTranslateY, {
-        toValue: 0,
-        duration: 600,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-      Animated.sequence([
-        Animated.delay(100),
-        Animated.stagger(80, staggerAnimations),
-      ]),
-    ]).start();
-  }, [cardOpacity, cardTranslateY, itemAnims]);
+    return unsubscribe;
+  }, [navigation, cardOpacity, cardTranslateY, itemAnims]);
 
   function validate() {
     if (!email.trim()) {

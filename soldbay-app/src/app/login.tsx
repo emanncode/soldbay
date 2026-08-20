@@ -12,7 +12,7 @@ import {
   Easing,
 } from "react-native";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { useRouter, useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { login, ApiError } from "@/lib/api";
@@ -43,6 +43,7 @@ let hasPlayedSplash = false;
 
 export default function LoginScreen() {
   const router = useRouter();
+  const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -76,6 +77,65 @@ export default function LoginScreen() {
   );
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (hasPlayedSplash) {
+        // Reset card values
+        cardOpacity.setValue(0);
+        cardTranslateY.setValue(60);
+        // Reset staggered item values
+        itemAnims.forEach((anim) => {
+          anim.opacity.setValue(0);
+          anim.translateY.setValue(20);
+        });
+
+        // Compile staggered items animations
+        const staggerAnimations = itemAnims.map((anim) =>
+          Animated.parallel([
+            Animated.timing(anim.opacity, {
+              toValue: 1,
+              duration: 400,
+              easing: Easing.out(Easing.quad),
+              useNativeDriver: true,
+            }),
+            Animated.timing(anim.translateY, {
+              toValue: 0,
+              duration: 500,
+              easing: Easing.out(Easing.cubic),
+              useNativeDriver: true,
+            }),
+          ])
+        );
+
+        // Play card slide up and fields stagger
+        Animated.parallel([
+          Animated.timing(cardOpacity, {
+            toValue: 1,
+            duration: 700,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: true,
+          }),
+          Animated.timing(cardTranslateY, {
+            toValue: 0,
+            duration: 700,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+          Animated.sequence([
+            Animated.delay(100),
+            Animated.stagger(80, staggerAnimations),
+          ]),
+        ]).start();
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, cardOpacity, cardTranslateY, itemAnims]);
+
+  useEffect(() => {
+    if (hasPlayedSplash) {
+      return;
+    }
+
     // Compile staggered items animations
     const staggerAnimations = itemAnims.map((anim) =>
       Animated.parallel([
@@ -93,29 +153,6 @@ export default function LoginScreen() {
         }),
       ])
     );
-
-    if (hasPlayedSplash) {
-      // Direct login card entry slide-up & stagger
-      Animated.parallel([
-        Animated.timing(cardOpacity, {
-          toValue: 1,
-          duration: 700,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(cardTranslateY, {
-          toValue: 0,
-          duration: 700,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-        Animated.sequence([
-          Animated.delay(100),
-          Animated.stagger(80, staggerAnimations),
-        ]),
-      ]).start();
-      return;
-    }
 
     hasPlayedSplash = true;
 
