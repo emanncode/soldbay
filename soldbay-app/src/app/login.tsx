@@ -39,6 +39,8 @@ function EyeToggle({
   );
 }
 
+let hasPlayedSplash = false;
+
 export default function LoginScreen() {
   const router = useRouter();
 
@@ -57,23 +59,28 @@ export default function LoginScreen() {
   const { height: SCREEN_H } = Dimensions.get("window");
   const splashOffsetY = (SCREEN_H / 2) - 239;
 
-  const [splashActive, setSplashActive] = useState(true);
-  const [logoOpacity] = useState(() => new Animated.Value(0));
-  const [logoScale] = useState(() => new Animated.Value(1.15));
-  const [logoTranslateY] = useState(() => new Animated.Value(splashOffsetY));
-  const [brandOpacity] = useState(() => new Animated.Value(0));
-  const [cardOpacity] = useState(() => new Animated.Value(0));
-  const [cardTranslateY] = useState(() => new Animated.Value(150));
+  const [splashActive, setSplashActive] = useState(!hasPlayedSplash);
+  const [logoOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
+  const [logoScale] = useState(() => new Animated.Value(hasPlayedSplash ? 1.0 : 1.15));
+  const [logoTranslateY] = useState(() => new Animated.Value(hasPlayedSplash ? 0 : splashOffsetY));
+  const [brandOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
+  const [cardOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
+  const [cardTranslateY] = useState(() => new Animated.Value(hasPlayedSplash ? 0 : 150));
 
   // Staggered list items inside the card (Title/subtitle, Email, Password, Options, Buttons, Footer)
   const [itemAnims] = useState(() =>
     Array.from({ length: 6 }, () => ({
-      opacity: new Animated.Value(0),
-      translateY: new Animated.Value(30),
+      opacity: new Animated.Value(hasPlayedSplash ? 1 : 0),
+      translateY: new Animated.Value(hasPlayedSplash ? 0 : 30),
     }))
   );
 
   useEffect(() => {
+    if (hasPlayedSplash) {
+      return;
+    }
+    hasPlayedSplash = true;
+
     // 1. Fade in the logo initially
     Animated.timing(logoOpacity, {
       toValue: 1,
