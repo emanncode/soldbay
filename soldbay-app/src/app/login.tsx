@@ -64,21 +64,59 @@ export default function LoginScreen() {
   const [logoScale] = useState(() => new Animated.Value(hasPlayedSplash ? 1.0 : 1.15));
   const [logoTranslateY] = useState(() => new Animated.Value(hasPlayedSplash ? 0 : splashOffsetY));
   const [brandOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
-  const [cardOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
-  const [cardTranslateY] = useState(() => new Animated.Value(hasPlayedSplash ? 0 : 150));
+  const [cardOpacity] = useState(() => new Animated.Value(0));
+  const [cardTranslateY] = useState(() => new Animated.Value(60));
 
   // Staggered list items inside the card (Title/subtitle, Email, Password, Options, Buttons, Footer)
   const [itemAnims] = useState(() =>
     Array.from({ length: 6 }, () => ({
-      opacity: new Animated.Value(hasPlayedSplash ? 1 : 0),
-      translateY: new Animated.Value(hasPlayedSplash ? 0 : 30),
+      opacity: new Animated.Value(0),
+      translateY: new Animated.Value(20),
     }))
   );
 
   useEffect(() => {
+    // Compile staggered items animations
+    const staggerAnimations = itemAnims.map((anim) =>
+      Animated.parallel([
+        Animated.timing(anim.opacity, {
+          toValue: 1,
+          duration: 400,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(anim.translateY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
     if (hasPlayedSplash) {
+      // Direct login card entry slide-up & stagger
+      Animated.parallel([
+        Animated.timing(cardOpacity, {
+          toValue: 1,
+          duration: 700,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.timing(cardTranslateY, {
+          toValue: 0,
+          duration: 700,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.sequence([
+          Animated.delay(100),
+          Animated.stagger(80, staggerAnimations),
+        ]),
+      ]).start();
       return;
     }
+
     hasPlayedSplash = true;
 
     // 1. Fade in the logo initially
@@ -119,24 +157,6 @@ export default function LoginScreen() {
 
     const pulseLoop = Animated.loop(singleCycle, { iterations: 4 });
     pulseLoop.start();
-
-    // Compile staggered items animations
-    const staggerAnimations = itemAnims.map((anim) =>
-      Animated.parallel([
-        Animated.timing(anim.opacity, {
-          toValue: 1,
-          duration: 500,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(anim.translateY, {
-          toValue: 0,
-          duration: 650,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-      ])
-    );
 
     // 3. After 4 cycles (2.4s), slide the logo up and fade/slide in other elements
     const timer = setTimeout(() => {
