@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Platform,
   StyleSheet,
   Image,
+  Animated,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -49,6 +50,17 @@ export default function SignupScreen() {
   const [role, setRole] = useState<Role>("buyer");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [slideAnim] = useState(() => new Animated.Value(role === "buyer" ? 0 : 1));
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: role === "buyer" ? 0 : 1,
+      duration: 250,
+      useNativeDriver: false,
+    }).start();
+  }, [role, slideAnim]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -214,17 +226,33 @@ export default function SignupScreen() {
                   }
                 />
 
-                {/* Role Selector styled as clean pill buttons */}
+                 {/* Role Selector styled as clean pill buttons */}
                 <View style={styles.inputGroup}>
                   <Text style={styles.inputLabel}>Choose your account type</Text>
-                  <View style={styles.roleContainer}>
+                  <View 
+                    style={styles.roleContainer}
+                    onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
+                  >
+                    {/* Animated Sliding Pill Highlight */}
+                    {containerWidth > 0 && (
+                      <Animated.View
+                        style={[
+                          styles.roleIndicator,
+                          {
+                            width: containerWidth / 2 - 6,
+                            left: slideAnim.interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [4, containerWidth / 2 + 2],
+                            }),
+                          },
+                        ]}
+                      />
+                    )}
                     <TouchableOpacity
-                      style={[
-                        styles.roleBtn,
-                        role === "buyer" && styles.roleBtnSelected,
-                      ]}
+                      style={styles.roleBtn}
                       onPress={() => setRole("buyer")}
-                      activeOpacity={0.8}
+                      activeOpacity={0.9}
+                      disabled={loading}
                     >
                       <Text
                         style={[
@@ -236,12 +264,10 @@ export default function SignupScreen() {
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={[
-                        styles.roleBtn,
-                        role === "seller" && styles.roleBtnSelected,
-                      ]}
+                      style={styles.roleBtn}
                       onPress={() => setRole("seller")}
-                      activeOpacity={0.8}
+                      activeOpacity={0.9}
+                      disabled={loading}
                     >
                       <Text
                         style={[
@@ -412,25 +438,34 @@ const styles = StyleSheet.create({
   },
   roleContainer: {
     flexDirection: "row",
-    gap: 12,
-  },
-  roleBtn: {
-    flex: 1,
     backgroundColor: "#f8fafc",
     borderWidth: 1,
     borderColor: "#e2e8f0",
+    borderRadius: 26,
+    height: 52,
+    padding: 4,
+    position: "relative",
+    alignItems: "center",
+  },
+  roleIndicator: {
+    position: "absolute",
+    top: 4,
+    bottom: 4,
     borderRadius: 22,
-    height: 44,
+    backgroundColor: "rgba(59, 165, 59, 0.08)",
+    borderWidth: 1,
+    borderColor: "#3ba53b",
+  },
+  roleBtn: {
+    flex: 1,
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
-  },
-  roleBtnSelected: {
-    backgroundColor: "rgba(59, 165, 59, 0.08)",
-    borderColor: "#3ba53b",
+    flexDirection: "row",
   },
   roleBtnText: {
     fontFamily: "Inter-Medium",
-    fontSize: 13,
+    fontSize: 14,
     color: "rgba(0,0,0,0.6)",
   },
   roleBtnTextSelected: {
