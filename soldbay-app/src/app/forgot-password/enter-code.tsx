@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   otpBoxActive: {
-    borderColor: "#e1261c",
+    borderColor: "#3ba53b",
     borderWidth: 2,
     backgroundColor: "#ffffff",
   },
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   resendButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#e1261c",
+    color: "#3ba53b",
   },
   loginLinkRow: {
     flexDirection: "row",
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   loginLinkButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#e1261c",
+    color: "#000000",
   },
   toastContainer: {
     position: "absolute",

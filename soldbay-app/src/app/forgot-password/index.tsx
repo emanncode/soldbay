@@ -242,7 +242,7 @@ export default function ForgotPasswordScreen() {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <View style={styles.modalIconContainer}>
-                <Ionicons name="mail" size={32} color="#e1261c" />
+                <Ionicons name="mail" size={32} color="#16a34a" />
               </View>
 
               <Text style={styles.modalTitle}>Check your email</Text>
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   loginLinkButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#e1261c",
+    color: "#000000",
   },
   modalOverlay: {
     flex: 1,
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: "rgba(225,38,28,0.1)",
+    backgroundColor: "rgba(22,163,74,0.1)",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -430,6 +430,6 @@ const styles = StyleSheet.create({
   resendButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 13,
-    color: "#e1261c",
+    color: "#3ba53b",
   },
 });

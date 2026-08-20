@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     borderRadius: 26,
     height: 52,
+    width: "100%",
     overflow: "hidden",
   },
   btnDisabled: {
