@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Animated, Easing, StyleSheet } from "react-native";
 import { PageAtmosphere } from "@/components/page-atmosphere";
+import { Image } from "expo-image";
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -9,48 +10,64 @@ interface SplashScreenProps {
 export function SplashScreen({ onFinish }: SplashScreenProps) {
   const [containerOp] = useState(() => new Animated.Value(1));
   const [logoOpacity] = useState(() => new Animated.Value(0));
-  const [logoScale] = useState(() => new Animated.Value(0.95));
+  const [logoScale] = useState(() => new Animated.Value(1.0));
 
   useEffect(() => {
-    // 1. Fade in the logo over 500ms
+    // 1. Fade in the logo over 300ms
     Animated.timing(logoOpacity, {
       toValue: 1,
-      duration: 500,
+      duration: 300,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: true,
     }).start();
 
-    // 2. Start a continuous, gentle pulse animation loop
-    const pulseLoop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(logoScale, {
-          toValue: 1.05,
-          duration: 1100,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(logoScale, {
-          toValue: 0.95,
-          duration: 1100,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ])
-    );
-    
+    // 2. Define the Grow -> Return -> Shrink -> Return cycle (800ms total)
+    const singleCycle = Animated.sequence([
+      // Grow from 1.0 to 1.06
+      Animated.timing(logoScale, {
+        toValue: 1.06,
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+      // Return to 1.0
+      Animated.timing(logoScale, {
+        toValue: 1.0,
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+      // Shrink from 1.0 to 0.94
+      Animated.timing(logoScale, {
+        toValue: 0.94,
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+      // Return to 1.0
+      Animated.timing(logoScale, {
+        toValue: 1.0,
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }),
+    ]);
+
+    // Loop the cycle exactly 4 times
+    const pulseLoop = Animated.loop(singleCycle, { iterations: 4 });
     pulseLoop.start();
 
-    // 3. Keep the splash screen active for 2.6 seconds, then fade out the container
+    // 3. Fade out splash screen container after 4 iterations (3.2s)
     const timer = setTimeout(() => {
       Animated.timing(containerOp, {
         toValue: 0,
-        duration: 500,
+        duration: 400,
         useNativeDriver: true,
       }).start(() => {
         pulseLoop.stop();
         onFinish();
       });
-    }, 2600);
+    }, 3200);
 
     return () => clearTimeout(timer);
   }, [containerOp, logoOpacity, logoScale, onFinish]);
@@ -59,17 +76,14 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
     <Animated.View style={[styles.container, { opacity: containerOp }]}>
       <PageAtmosphere theme="green">
         <View style={styles.centerWrapper}>
-          <Animated.Image
-            source={require("../../assets/soldbay_logo.png")}
-            style={[
-              styles.logo,
-              {
-                opacity: logoOpacity,
-                transform: [{ scale: logoScale }],
-              },
-            ]}
-            resizeMode="contain"
-          />
+          <Animated.View style={{ transform: [{ scale: logoScale }], opacity: logoOpacity }}>
+            <Image
+              source={require("../../assets/soldbay_logo.png")}
+              style={styles.logo}
+              contentFit="contain"
+              transition={0}
+            />
+          </Animated.View>
         </View>
       </PageAtmosphere>
     </Animated.View>
