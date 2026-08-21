@@ -149,15 +149,13 @@ export default function SignupScreen() {
     } catch (err) {
       console.error("Signup error:", err);
       if (err instanceof ApiError) {
-        switch (err.code) {
-          case "EMAIL_ALREADY_EXISTS":
-            setErrors((prev) => ({
-              ...prev,
-              email: "This email is already registered",
-            }));
-            break;
-          default:
-            setFormError(err.message);
+        if (err.status === 409 || err.message.toLowerCase().includes("exist") || err.message.toLowerCase().includes("registered")) {
+          setErrors((prev) => ({
+            ...prev,
+            email: "This email is already registered",
+          }));
+        } else {
+          setFormError(err.message);
         }
       } else {
         setFormError("Something went wrong. Please try again.");
@@ -308,7 +306,6 @@ export default function SignupScreen() {
                       width: containerWidth / 2 - 6,
                       left: slideAnim.interpolate({
                         inputRange: [0, 1],
-                        borderColor: ["#3ba53b"],
                         outputRange: [4, containerWidth / 2 + 2],
                       }),
                     },
