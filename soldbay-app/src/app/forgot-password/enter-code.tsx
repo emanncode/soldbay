@@ -172,6 +172,7 @@ export default function EnterCodeScreen() {
             loading={verifying}
             disabled={!isComplete}
             onPress={handleVerify}
+            dense
           />
 
           <View style={styles.resendRow}>
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   },
   subtitleContainer: {
     alignItems: "center",
-    marginBottom: 28,
+    marginBottom: 20,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
@@ -238,12 +239,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 8,
-    marginBottom: 28,
+    marginBottom: 20,
   },
   otpBox: {
     flex: 1,
-    height: 56,
-    borderRadius: 12,
+    height: 48,
+    borderRadius: 10,
     backgroundColor: "#f8fafc",
     borderWidth: 1,
     borderColor: "#e2e8f0",
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   actionContainer: {
-    gap: 20,
+    gap: 14,
     marginBottom: 24,
   },
   resendRow: {

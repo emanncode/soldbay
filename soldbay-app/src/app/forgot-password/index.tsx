@@ -119,6 +119,7 @@ export default function ForgotPasswordScreen() {
             keyboardType="email-address"
             autoCapitalize="none"
             disabled={loading}
+            dense
           />
         </Animated.View>
 
@@ -133,6 +134,7 @@ export default function ForgotPasswordScreen() {
             label="Send Reset Code"
             loading={loading}
             onPress={handleSendCode}
+            dense
           />
         </Animated.View>
 
@@ -174,6 +176,7 @@ export default function ForgotPasswordScreen() {
                     `/forgot-password/enter-code?email=${encodeURIComponent(email)}`,
                   );
                 }}
+                dense
               />
 
               <View style={styles.resendRow}>
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   formContainer: {
-    gap: 20,
+    gap: 14,
   },
   loginLinkRow: {
     flexDirection: "row",

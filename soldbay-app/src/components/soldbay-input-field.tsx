@@ -23,6 +23,7 @@ interface SoldBayInputFieldProps {
   disabled?: boolean;
   onBlur?: () => void;
   maxLength?: number;
+  dense?: boolean;
 }
 
 export function SoldBayInputField({
@@ -39,6 +40,7 @@ export function SoldBayInputField({
   disabled,
   onBlur,
   maxLength,
+  dense,
 }: SoldBayInputFieldProps) {
   return (
     <View style={styles.inputGroup}>
@@ -46,6 +48,7 @@ export function SoldBayInputField({
       <View
         style={[
           styles.inputWrapper,
+          dense ? styles.denseWrapper : null,
           error ? styles.wrapperError : null,
           disabled ? styles.wrapperDisabled : null,
         ]}
@@ -103,6 +106,10 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     height: 52,
     paddingHorizontal: 16,
+  },
+  denseWrapper: {
+    height: 44,
+    borderRadius: 22,
   },
   wrapperError: {
     borderColor: "#ef4444",

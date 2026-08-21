@@ -117,6 +117,7 @@ export default function NewPasswordScreen() {
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
             disabled={saving}
+            dense
             rightElement={
               <EyeToggle
                 showing={showPassword}
@@ -141,6 +142,7 @@ export default function NewPasswordScreen() {
             onChangeText={setConfirmPassword}
             secureTextEntry={!showConfirmPassword}
             disabled={saving}
+            dense
             rightElement={
               <EyeToggle
                 showing={showConfirmPassword}
@@ -163,6 +165,7 @@ export default function NewPasswordScreen() {
             label={saving ? "Saving" : "Save Password"}
             loading={saving}
             onPress={handleSave}
+            dense
           />
         </Animated.View>
       </View>
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
   },
   subtitleContainer: {
     alignItems: "center",
-    marginBottom: 28,
+    marginBottom: 20,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
@@ -195,6 +198,6 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   formContainer: {
-    gap: 20,
+    gap: 14,
   },
 });
