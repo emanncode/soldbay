@@ -1,25 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Animated,
-  Dimensions,
   Easing,
 } from "react-native";
-import { Image } from "expo-image";
-import { useRouter, useNavigation } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { PageAtmosphere } from "@/components/page-atmosphere";
+import { useRouter } from "expo-router";
 import { login, ApiError } from "@/lib/api";
 import { saveToken } from "@/lib/auth-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { SoldBayInputField } from "@/components/soldbay-input-field";
 import { PrimaryButton } from "@/components/primary-button";
+import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 
 function EyeToggle({
   showing,
@@ -39,11 +33,8 @@ function EyeToggle({
   );
 }
 
-let hasPlayedSplash = false;
-
 export default function LoginScreen() {
   const router = useRouter();
-  const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,18 +47,6 @@ export default function LoginScreen() {
     {},
   );
 
-  // Animation layout values
-  const { height: SCREEN_H } = Dimensions.get("window");
-  const splashOffsetY = (SCREEN_H / 2) - 162;
-
-  const [splashActive, setSplashActive] = useState(!hasPlayedSplash);
-  const [logoOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
-  const [logoScale] = useState(() => new Animated.Value(hasPlayedSplash ? 1.0 : 1.15));
-  const [logoTranslateY] = useState(() => new Animated.Value(hasPlayedSplash ? 0 : splashOffsetY));
-  const [brandOpacity] = useState(() => new Animated.Value(hasPlayedSplash ? 1 : 0));
-  const [cardOpacity] = useState(() => new Animated.Value(0));
-  const [cardTranslateY] = useState(() => new Animated.Value(60));
-
   // Staggered list items inside the card (Title/subtitle, Email, Password, Options, Buttons, Footer)
   const [itemAnims] = useState(() =>
     Array.from({ length: 6 }, () => ({
@@ -76,175 +55,23 @@ export default function LoginScreen() {
     }))
   );
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      if (hasPlayedSplash) {
-        // Reset card values
-        cardOpacity.setValue(0);
-        cardTranslateY.setValue(60);
-        // Reset staggered item values
-        itemAnims.forEach((anim) => {
-          anim.opacity.setValue(0);
-          anim.translateY.setValue(20);
-        });
-
-        // Compile staggered items animations
-        const staggerAnimations = itemAnims.map((anim) =>
-          Animated.parallel([
-            Animated.timing(anim.opacity, {
-              toValue: 1,
-              duration: 400,
-              easing: Easing.out(Easing.quad),
-              useNativeDriver: true,
-            }),
-            Animated.timing(anim.translateY, {
-              toValue: 0,
-              duration: 500,
-              easing: Easing.out(Easing.cubic),
-              useNativeDriver: true,
-            }),
-          ])
-        );
-
-        // Play card slide up and fields stagger
-        Animated.parallel([
-          Animated.timing(cardOpacity, {
-            toValue: 1,
-            duration: 700,
-            easing: Easing.out(Easing.quad),
-            useNativeDriver: true,
-          }),
-          Animated.timing(cardTranslateY, {
-            toValue: 0,
-            duration: 700,
-            easing: Easing.out(Easing.cubic),
-            useNativeDriver: true,
-          }),
-          Animated.sequence([
-            Animated.delay(100),
-            Animated.stagger(80, staggerAnimations),
-          ]),
-        ]).start();
-      }
-    });
-
-    return unsubscribe;
-  }, [navigation, cardOpacity, cardTranslateY, itemAnims]);
-
-  useEffect(() => {
-    if (hasPlayedSplash) {
-      return;
-    }
-
-    // Compile staggered items animations
-    const staggerAnimations = itemAnims.map((anim) =>
-      Animated.parallel([
-        Animated.timing(anim.opacity, {
-          toValue: 1,
-          duration: 400,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(anim.translateY, {
-          toValue: 0,
-          duration: 500,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-      ])
-    );
-
-    hasPlayedSplash = true;
-
-    // 1. Fade in the logo initially
-    Animated.timing(logoOpacity, {
-      toValue: 1,
-      duration: 300,
-      easing: Easing.out(Easing.cubic),
-      useNativeDriver: true,
-    }).start();
-
-    // 2. Play 4 fast pulse loops (grow -> return -> shrink -> return)
-    const singleCycle = Animated.sequence([
-      Animated.timing(logoScale, {
-        toValue: 1.21,
-        duration: 150,
-        easing: Easing.inOut(Easing.ease),
+  // Compile staggered items animations
+  const staggerAnimations = itemAnims.map((anim) =>
+    Animated.parallel([
+      Animated.timing(anim.opacity, {
+        toValue: 1,
+        duration: 400,
+        easing: Easing.out(Easing.quad),
         useNativeDriver: true,
       }),
-      Animated.timing(logoScale, {
-        toValue: 1.15,
-        duration: 150,
-        easing: Easing.inOut(Easing.ease),
+      Animated.timing(anim.translateY, {
+        toValue: 0,
+        duration: 500,
+        easing: Easing.out(Easing.cubic),
         useNativeDriver: true,
       }),
-      Animated.timing(logoScale, {
-        toValue: 1.09,
-        duration: 150,
-        easing: Easing.inOut(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(logoScale, {
-        toValue: 1.15,
-        duration: 150,
-        easing: Easing.inOut(Easing.ease),
-        useNativeDriver: true,
-      }),
-    ]);
-
-    const pulseLoop = Animated.loop(singleCycle, { iterations: 4 });
-    pulseLoop.start();
-
-    // 3. After 4 cycles (2.4s), slide the logo up and fade/slide in other elements
-    const timer = setTimeout(() => {
-      pulseLoop.stop();
-
-      Animated.parallel([
-        Animated.timing(logoTranslateY, {
-          toValue: 0,
-          duration: 1100,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-        Animated.timing(logoScale, {
-          toValue: 1.0,
-          duration: 1100,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-        Animated.timing(brandOpacity, {
-          toValue: 1,
-          duration: 900,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(cardOpacity, {
-          toValue: 1,
-          duration: 1200,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(cardTranslateY, {
-          toValue: 0,
-          duration: 1200,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-        // Stagger inner card fields after a short delay
-        Animated.sequence([
-          Animated.delay(180),
-          Animated.stagger(110, staggerAnimations),
-        ]),
-      ]).start(() => {
-        setSplashActive(false);
-      });
-    }, 2400);
-
-    return () => {
-      clearTimeout(timer);
-      pulseLoop.stop();
-    };
-  }, [brandOpacity, cardOpacity, cardTranslateY, logoOpacity, logoScale, logoTranslateY, splashOffsetY, itemAnims]);
+    ])
+  );
 
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
@@ -262,14 +89,6 @@ export default function LoginScreen() {
     setLoading(true);
     setFormError(null);
     try {
-      // Demo login bypass for Test@gmail.com
-      if (email.trim().toLowerCase() === "test@gmail.com") {
-        await saveToken("demo-token");
-        router.replace("/buyer/home");
-        return;
-      }
-
-      // API login
       const res = await login({ email: email.trim(), password });
       await saveToken(res.token);
       router.replace(
@@ -277,12 +96,10 @@ export default function LoginScreen() {
       );
     } catch (err) {
       console.error("Login error:", err);
-      if (err instanceof ApiError && err.status === 401) {
-        setFormError("Invalid email or password.");
-      } else if (err instanceof ApiError) {
+      if (err instanceof ApiError) {
         setFormError(err.message);
       } else {
-        setFormError("Something went wrong on our end. Please try again.");
+        setFormError("Something went wrong. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -290,243 +107,153 @@ export default function LoginScreen() {
   }
 
   return (
-    <PageAtmosphere theme="green">
-      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
+    <AuthLayoutWrapper staggerAnimations={staggerAnimations}>
+      {/* Item 0: Title and Subtitle */}
+      <Animated.View
+        style={{
+          opacity: itemAnims[0].opacity,
+          transform: [{ translateY: itemAnims[0].translateY }],
+        }}
+      >
+        <Text style={styles.cardTitle}>Welcome back</Text>
+        <Text style={styles.cardSubtitle}>
+          Buy and sell items with verified students at your university
+        </Text>
+      </Animated.View>
+
+      {/* Form Fields */}
+      <View style={styles.formContainer}>
+        {/* Item 1: Email Input */}
+        <Animated.View
+          style={{
+            opacity: itemAnims[1].opacity,
+            transform: [{ translateY: itemAnims[1].translateY }],
+          }}
         >
-          <ScrollView
-            contentContainerStyle={styles.scrollContent}
-            bounces={false}
-            scrollEnabled={!splashActive}
-            keyboardShouldPersistTaps="handled"
-          >
-            {/* Header / Logo section on green gradient */}
-            <View style={styles.headerContainer}>
-              <Animated.Text style={[styles.brandName, { opacity: brandOpacity }]}>
-                SoldBay
-              </Animated.Text>
-              <Animated.View
-                style={{
-                  transform: [
-                    { translateY: logoTranslateY },
-                    { scale: logoScale },
-                  ],
-                  opacity: logoOpacity,
-                }}
-              >
-                <Image
-                  source={require("../../assets/soldbay_logo.png")}
-                  style={styles.logo}
-                  contentFit="contain"
-                  transition={0}
+          <SoldBayInputField
+            label="Email"
+            icon="mail-outline"
+            placeholder="brittnilonda5487@gmail.com"
+            value={email}
+            onChangeText={(t) => {
+              setEmail(t);
+              setErrors((e) => ({ ...e, email: undefined }));
+              setFormError(null);
+            }}
+            error={errors.email}
+            disabled={loading}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            rightElement={
+              isEmailValid && !errors.email ? (
+                <Ionicons
+                  name="checkmark-circle"
+                  size={18}
+                  color="#4BB543"
+                  style={{ marginLeft: 8 }}
                 />
-              </Animated.View>
-            </View>
+              ) : undefined
+            }
+          />
+        </Animated.View>
 
-            {/* White card container */}
-            <Animated.View
-              style={[
-                styles.card,
-                {
-                  opacity: cardOpacity,
-                  transform: [{ translateY: cardTranslateY }],
-                },
-              ]}
-              pointerEvents={splashActive ? "none" : "auto"}
+        {/* Item 2: Password Input */}
+        <Animated.View
+          style={{
+            opacity: itemAnims[2].opacity,
+            transform: [{ translateY: itemAnims[2].translateY }],
+          }}
+        >
+          <SoldBayInputField
+            label="Password"
+            icon="lock-closed-outline"
+            placeholder="password"
+            value={password}
+            onChangeText={(t) => {
+              setPassword(t);
+              setErrors((e) => ({ ...e, password: undefined }));
+              setFormError(null);
+            }}
+            error={errors.password}
+            disabled={loading}
+            secureTextEntry={!showPassword}
+            rightElement={
+              <EyeToggle
+                showing={showPassword}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            }
+          />
+        </Animated.View>
+
+        {/* Item 3: Remember me & Forgot password row */}
+        <Animated.View
+          style={{
+            opacity: itemAnims[3].opacity,
+            transform: [{ translateY: itemAnims[3].translateY }],
+          }}
+        >
+          <View style={styles.optionsRow}>
+            <TouchableOpacity
+              onPress={() => setRememberMe(!rememberMe)}
+              style={styles.checkboxContainer}
+              activeOpacity={0.8}
             >
-              {/* Item 0: Title and Subtitle */}
-              <Animated.View
-                style={{
-                  opacity: itemAnims[0].opacity,
-                  transform: [{ translateY: itemAnims[0].translateY }],
-                }}
-              >
-                <Text style={styles.cardTitle}>Welcome back</Text>
-                <Text style={styles.cardSubtitle}>
-                  Buy and sell items with verified students at your university
-                </Text>
-              </Animated.View>
+              <Ionicons
+                name={rememberMe ? "checkbox" : "square-outline"}
+                size={20}
+                color={rememberMe ? "#3ba53b" : "rgba(0,0,0,0.3)"}
+              />
+              <Text style={styles.checkboxText}>Remember me</Text>
+            </TouchableOpacity>
 
-              {/* Form Fields */}
-              <View style={styles.formContainer}>
-                {/* Item 1: Email Input */}
-                <Animated.View
-                  style={{
-                    opacity: itemAnims[1].opacity,
-                    transform: [{ translateY: itemAnims[1].translateY }],
-                  }}
-                >
-                  <SoldBayInputField
-                    label="Email"
-                    icon="mail-outline"
-                    placeholder="brittnilonda5487@gmail.com"
-                    value={email}
-                    onChangeText={(t) => {
-                      setEmail(t);
-                      setErrors((e) => ({ ...e, email: undefined }));
-                      setFormError(null);
-                    }}
-                    error={errors.email}
-                    disabled={loading}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    rightElement={
-                      isEmailValid && !errors.email ? (
-                        <Ionicons
-                          name="checkmark-circle"
-                          size={18}
-                          color="#4BB543"
-                          style={{ marginLeft: 8 }}
-                        />
-                      ) : undefined
-                    }
-                  />
-                </Animated.View>
+            <TouchableOpacity onPress={() => router.push("/forgot-password")}>
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
 
-                {/* Item 2: Password Input */}
-                <Animated.View
-                  style={{
-                    opacity: itemAnims[2].opacity,
-                    transform: [{ translateY: itemAnims[2].translateY }],
-                  }}
-                >
-                  <SoldBayInputField
-                    label="Password"
-                    icon="lock-closed-outline"
-                    placeholder="password"
-                    value={password}
-                    onChangeText={(t) => {
-                      setPassword(t);
-                      setErrors((e) => ({ ...e, password: undefined }));
-                      setFormError(null);
-                    }}
-                    error={errors.password}
-                    disabled={loading}
-                    secureTextEntry={!showPassword}
-                    rightElement={
-                      <EyeToggle
-                        showing={showPassword}
-                        onPress={() => setShowPassword(!showPassword)}
-                      />
-                    }
-                  />
-                </Animated.View>
+        {/* Item 4: General form errors and Log In Button */}
+        <Animated.View
+          style={{
+            opacity: itemAnims[4].opacity,
+            transform: [{ translateY: itemAnims[4].translateY }],
+          }}
+        >
+          {formError && (
+            <View style={styles.formErrorContainer}>
+              <Ionicons name="alert-circle" size={16} color="#ef4444" />
+              <Text style={styles.formErrorText}>{formError}</Text>
+            </View>
+          )}
 
-                {/* Item 3: Remember me & Forgot password row */}
-                <Animated.View
-                  style={{
-                    opacity: itemAnims[3].opacity,
-                    transform: [{ translateY: itemAnims[3].translateY }],
-                  }}
-                >
-                  <View style={styles.optionsRow}>
-                    <TouchableOpacity
-                      onPress={() => setRememberMe(!rememberMe)}
-                      style={styles.checkboxContainer}
-                      activeOpacity={0.8}
-                    >
-                      <Ionicons
-                        name={rememberMe ? "checkbox" : "square-outline"}
-                        size={20}
-                        color={rememberMe ? "#3ba53b" : "rgba(0,0,0,0.3)"}
-                      />
-                      <Text style={styles.checkboxText}>Remember me</Text>
-                    </TouchableOpacity>
+          <PrimaryButton
+            label={loading ? "Logging in" : "Log in"}
+            loading={loading}
+            onPress={handleLogin}
+          />
+        </Animated.View>
+      </View>
 
-                    <TouchableOpacity
-                      onPress={() => router.push("/forgot-password")}
-                    >
-                      <Text style={styles.forgotPasswordText}>
-                        Forgot Password?
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </Animated.View>
-
-                {/* Item 4: General form errors and Log In Button */}
-                <Animated.View
-                  style={{
-                    opacity: itemAnims[4].opacity,
-                    transform: [{ translateY: itemAnims[4].translateY }],
-                  }}
-                >
-                  {formError && (
-                    <View style={styles.formErrorContainer}>
-                      <Ionicons name="alert-circle" size={16} color="#ef4444" />
-                      <Text style={styles.formErrorText}>{formError}</Text>
-                    </View>
-                  )}
-
-                  <PrimaryButton
-                    label={loading ? "Logging in" : "Log in"}
-                    loading={loading}
-                    onPress={handleLogin}
-                  />
-                </Animated.View>
-              </View>
-
-              {/* Item 5: Footer link to sign up */}
-              <Animated.View
-                style={{
-                  opacity: itemAnims[5].opacity,
-                  transform: [{ translateY: itemAnims[5].translateY }],
-                }}
-              >
-                <View style={styles.footer}>
-                  <Text style={styles.footerMuted}>
-                    {"Don't have an account? "}
-                  </Text>
-                  <TouchableOpacity onPress={() => router.push("/signup")}>
-                    <Text style={styles.footerLink}>Sign up</Text>
-                  </TouchableOpacity>
-                </View>
-              </Animated.View>
-            </Animated.View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </PageAtmosphere>
+      {/* Item 5: Footer link to sign up */}
+      <Animated.View
+        style={{
+          opacity: itemAnims[5].opacity,
+          transform: [{ translateY: itemAnims[5].translateY }],
+        }}
+      >
+        <View style={styles.footer}>
+          <Text style={styles.footerMuted}>{"Don't have an account? "}</Text>
+          <TouchableOpacity onPress={() => router.push("/signup")}>
+            <Text style={styles.footerLink}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+    </AuthLayoutWrapper>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    flexGrow: 1,
-    backgroundColor: "transparent",
-  },
-  headerContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 50,
-    paddingBottom: 35,
-  },
-  logo: {
-    width: 140,
-    height: 140,
-    marginTop: 12,
-  },
-  brandName: {
-    fontFamily: "BricolageGrotesque-SemiBold",
-    fontSize: 26,
-    color: "#000000",
-    letterSpacing: 0.5,
-  },
-  card: {
-    backgroundColor: "#ffffff",
-    borderTopLeftRadius: 36,
-    borderTopRightRadius: 36,
-    flex: 1,
-    paddingHorizontal: 28,
-    paddingTop: 36,
-    paddingBottom: 40,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 8,
-  },
   cardTitle: {
     fontFamily: "BricolageGrotesque-Bold",
     fontSize: 26,
@@ -545,49 +272,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     gap: 20,
-  },
-  inputGroup: {
-    gap: 6,
-  },
-  inputLabel: {
-    fontFamily: "Inter-SemiBold",
-    fontSize: 13,
-    color: "#222222",
-    paddingLeft: 4,
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    borderRadius: 26,
-    height: 52,
-    paddingHorizontal: 16,
-  },
-  wrapperError: {
-    borderColor: "#ef4444",
-    backgroundColor: "rgba(239, 68, 68, 0.02)",
-  },
-  separator: {
-    width: 1,
-    height: 18,
-    backgroundColor: "#cbd5e1",
-    marginHorizontal: 12,
-  },
-  textInput: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "#000000",
-    padding: 0,
-    flex: 1,
-  },
-  errorText: {
-    fontFamily: "Inter-Regular",
-    fontSize: 11,
-    color: "#ef4444",
-    paddingLeft: 4,
-    marginTop: 2,
   },
   optionsRow: {
     flexDirection: "row",
@@ -626,21 +310,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#ef4444",
     flex: 1,
-  },
-  loginBtnContainer: {
-    marginTop: 8,
-    borderRadius: 26,
-    overflow: "hidden",
-  },
-  loginGradient: {
-    height: 52,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loginBtnText: {
-    fontFamily: "Inter-Bold",
-    fontSize: 15,
-    color: "#000000",
   },
   footer: {
     marginTop: 32,
