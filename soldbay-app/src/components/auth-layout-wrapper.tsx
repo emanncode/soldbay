@@ -41,7 +41,7 @@ export function AuthLayoutWrapper({
   const [cardHeight, setCardHeight] = useState(0);
 
   // Layout states
-  const splashOffsetY = (SCREEN_H / 2) - 162;
+  const splashOffsetY = (SCREEN_H / 2) - 182;
   const [splashActive, setSplashActive] = useState(!hasPlayedSplash);
 
   // Animated values
@@ -62,11 +62,13 @@ export function AuthLayoutWrapper({
   const brandNameHeight = 35;
   const paddingBuffer = 45;
   const availableHeight = SCREEN_H - cardHeight - safeAreaTop - brandNameHeight - paddingBuffer;
-  const targetLogoSize = Math.max(120, Math.min(190, cardHeight > 0 ? availableHeight : defaultSize));
+  const targetLogoSize = splashActive
+    ? 180
+    : Math.max(120, Math.min(190, cardHeight > 0 ? availableHeight : defaultSize));
 
   // Spring resize logo based on form layout height
   useEffect(() => {
-    if (hasPlayedSplash && cardHeight > 0) {
+    if (cardHeight > 0 || splashActive) {
       Animated.spring(logoSizeAnim, {
         toValue: targetLogoSize,
         useNativeDriver: false,
@@ -74,7 +76,7 @@ export function AuthLayoutWrapper({
         friction: 8,
       }).start();
     }
-  }, [targetLogoSize, cardHeight, logoSizeAnim]);
+  }, [targetLogoSize, cardHeight, logoSizeAnim, splashActive]);
 
   // Focus transition replay logic (runs when screen is focused)
   useEffect(() => {
