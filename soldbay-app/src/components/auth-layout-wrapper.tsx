@@ -54,7 +54,7 @@ export function AuthLayoutWrapper({
   const [cardTranslateY] = useState(() => new Animated.Value(60));
 
   // Reactive logo size spring value
-  const defaultSize = hasPlayedSplash ? 140 : 180;
+  const defaultSize = hasPlayedSplash ? 140 : 190;
   const [logoSizeAnim] = useState(() => new Animated.Value(defaultSize));
 
   // Compute available height for the logo dynamically
@@ -62,7 +62,7 @@ export function AuthLayoutWrapper({
   const brandNameHeight = 35;
   const paddingBuffer = 45;
   const availableHeight = SCREEN_H - cardHeight - safeAreaTop - brandNameHeight - paddingBuffer;
-  const targetLogoSize = Math.max(100, Math.min(185, cardHeight > 0 ? availableHeight : defaultSize));
+  const targetLogoSize = Math.max(120, Math.min(190, cardHeight > 0 ? availableHeight : defaultSize));
 
   // Spring resize logo based on form layout height
   useEffect(() => {
@@ -309,6 +309,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: "center",
     justifyContent: "center",
+    flexGrow: 1,
+    flexShrink: 0,
+    minHeight: 180,
     paddingTop: 50,
     paddingBottom: 35,
   },
@@ -329,7 +332,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 36,
     borderTopRightRadius: 36,
-    flex: 1,
     paddingHorizontal: 28,
     paddingTop: 36,
     paddingBottom: 40,

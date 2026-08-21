@@ -172,7 +172,6 @@ export default function EnterCodeScreen() {
             loading={verifying}
             disabled={!isComplete}
             onPress={handleVerify}
-            dense
           />
 
           <View style={styles.resendRow}>

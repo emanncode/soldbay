@@ -144,7 +144,6 @@ export default function LoginScreen() {
             disabled={loading}
             keyboardType="email-address"
             autoCapitalize="none"
-            dense
             rightElement={
               isEmailValid && !errors.email ? (
                 <Ionicons
@@ -178,7 +177,6 @@ export default function LoginScreen() {
             error={errors.password}
             disabled={loading}
             secureTextEntry={!showPassword}
-            dense
             rightElement={
               <EyeToggle
                 showing={showPassword}
@@ -233,7 +231,6 @@ export default function LoginScreen() {
             label={loading ? "Logging in" : "Log in"}
             loading={loading}
             onPress={handleLogin}
-            dense
           />
         </Animated.View>
       </View>

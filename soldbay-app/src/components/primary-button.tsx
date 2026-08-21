@@ -13,7 +13,6 @@ interface PrimaryButtonProps {
   loading?: boolean;
   disabled?: boolean;
   label: string;
-  dense?: boolean;
 }
 
 export function PrimaryButton({
@@ -21,7 +20,6 @@ export function PrimaryButton({
   loading,
   disabled,
   label,
-  dense,
 }: PrimaryButtonProps) {
   const isDisabled = disabled || loading;
 
@@ -30,11 +28,7 @@ export function PrimaryButton({
       onPress={onPress}
       disabled={isDisabled}
       activeOpacity={0.9}
-      style={[
-        styles.btnContainer,
-        dense ? styles.denseContainer : null,
-        isDisabled && styles.btnDisabled,
-      ]}
+      style={[styles.btnContainer, isDisabled && styles.btnDisabled]}
     >
       <LinearGradient
         colors={isDisabled ? ["#cccccc", "#dddddd"] : ["#82df42", "#ebc948"]}
@@ -64,10 +58,6 @@ const styles = StyleSheet.create({
     height: 52,
     width: "100%",
     overflow: "hidden",
-  },
-  denseContainer: {
-    height: 44,
-    borderRadius: 22,
   },
   btnDisabled: {
     opacity: 0.6,
