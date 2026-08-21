@@ -4,7 +4,7 @@ interface LogoWordmarkProps {
   height?: number;
 }
 
-const LOGO_ASPECT = 707 / 353;
+const LOGO_ASPECT = 1536 / 1024;
 
 export function LogoWordmark({ height = 78 }: LogoWordmarkProps) {
   return (

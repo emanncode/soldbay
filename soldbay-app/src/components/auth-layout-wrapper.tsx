@@ -259,7 +259,7 @@ export function AuthLayoutWrapper({
                 ]}
               >
                 <Image
-                  source={require("../../assets/soldbay_logo.png")}
+                  source={require("../../assets/logo.png")}
                   style={styles.logo}
                   contentFit="contain"
                 />

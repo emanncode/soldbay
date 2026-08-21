@@ -342,6 +342,7 @@ function LogoMark() {
     <Image
       source={logo2}
       style={{ width: 32, height: 32, borderRadius: 8 }}
+      tintColor="#ffffff"
       contentFit="contain"
     />
   );
