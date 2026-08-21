@@ -299,17 +299,17 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 80,
-    paddingBottom: 50,
+    paddingTop: 50,
+    paddingBottom: 35,
   },
   logo: {
-    width: 190,
-    height: 190,
-    marginTop: 15,
+    width: 140,
+    height: 140,
+    marginTop: 12,
   },
   brandName: {
     fontFamily: "BricolageGrotesque-SemiBold",
-    fontSize: 28,
+    fontSize: 26,
     color: "#000000",
     letterSpacing: 0.5,
   },
