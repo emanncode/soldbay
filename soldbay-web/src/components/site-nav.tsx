@@ -76,7 +76,7 @@ export function SiteNav() {
               alt="Soldbay"
               width={180}
               height={72}
-              className="h-14 w-auto sm:h-16"
+              className="h-14 w-auto brightness-0 invert sm:h-16"
               priority
             />
           </Link>

@@ -82,7 +82,7 @@ export default function LoginPage() {
           alt="SoldBay"
           width={220}
           height={110}
-          className="relative z-10 mb-8 h-22 w-auto"
+          className="relative z-10 mb-8 h-22 w-auto brightness-0 invert"
           priority
         />
 

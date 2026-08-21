@@ -45,7 +45,7 @@ export function Footer() {
                   alt="Soldbay"
                   width={140}
                   height={56}
-                  className="h-10 w-auto sm:h-12"
+                  className="h-10 w-auto brightness-0 invert sm:h-12"
                 />
               </Link>
               <p className="text-body-s text-white/50">
