@@ -34,9 +34,11 @@ export default function RootLayout() {
           "Inter-SemiBold": Inter_600SemiBold,
           "Satisfy-Regular": Satisfy_400Regular,
         });
+      } catch (error) {
+        console.warn("Fonts failed to load: ", error);
       } finally {
         setFontsLoaded(true);
-        SplashScreen.hideAsync();
+        SplashScreen.hideAsync().catch(() => {});
       }
     }
 
