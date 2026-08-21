@@ -309,11 +309,20 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: "#16a34a",
     borderRadius: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 6,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.15)",
+      },
+    }),
   },
   toastText: {
     fontFamily: "Inter-Medium",

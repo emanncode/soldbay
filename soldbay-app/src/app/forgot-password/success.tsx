@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Animated, Easing } from "react-native";
+import { View, Text, Animated, Easing, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PageAtmosphere } from "@/components/page-atmosphere";
@@ -54,11 +54,20 @@ export default function SuccessScreen() {
             padding: 40,
             gap: 20,
             alignItems: "center",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.1,
-            shadowRadius: 12,
-            elevation: 5,
+            ...Platform.select({
+              ios: {
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.1,
+                shadowRadius: 12,
+              },
+              android: {
+                elevation: 5,
+              },
+              web: {
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+              },
+            }),
             opacity: cardOpacity,
             transform: [{ translateY: cardTranslateY }],
           }}

@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -166,13 +167,20 @@ function RoleCard({
         padding: 20,
         gap: 12,
         ...(selected
-          ? {
-              shadowColor: "rgba(225,38,28,0.3)",
-              shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 1,
-              shadowRadius: 24,
-              elevation: 12,
-            }
+          ? Platform.select({
+              ios: {
+                shadowColor: "rgba(225,38,28,0.3)",
+                shadowOffset: { width: 0, height: 8 },
+                shadowOpacity: 1,
+                shadowRadius: 24,
+              },
+              android: {
+                elevation: 12,
+              },
+              web: {
+                boxShadow: "0px 8px 24px rgba(225,38,28,0.3)",
+              },
+            })
           : {}),
       }}
     >

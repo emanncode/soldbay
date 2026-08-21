@@ -280,8 +280,9 @@ export function AuthLayoutWrapper({
                   opacity: cardOpacity,
                   transform: [{ translateY: cardTranslateY }],
                 },
+                Platform.OS === "web" ? ({ pointerEvents: splashActive ? "none" : "auto" } as any) : null,
               ]}
-              pointerEvents={splashActive ? "none" : "auto"}
+              pointerEvents={Platform.OS !== "web" ? (splashActive ? "none" : "auto") : undefined}
             >
               {backRoute && (
                 <View style={styles.backRow}>
@@ -338,11 +339,20 @@ const styles = StyleSheet.create({
     paddingTop: 36,
     paddingBottom: 40,
     minHeight: 460,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    elevation: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 8,
+      },
+      web: {
+        boxShadow: "0px -4px 10px rgba(0, 0, 0, 0.06)",
+      },
+    }),
   },
   backRow: {
     flexDirection: "row",

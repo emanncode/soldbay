@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Stack } from "expo-router";
+import { Platform } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import {
@@ -35,7 +36,9 @@ export default function RootLayout() {
           "Satisfy-Regular": Satisfy_400Regular,
         });
       } catch (error) {
-        console.warn("Fonts failed to load: ", error);
+        if (Platform.OS !== "web") {
+          console.warn("Fonts failed to load: ", error);
+        }
       } finally {
         setFontsLoaded(true);
         SplashScreen.hideAsync().catch(() => {});

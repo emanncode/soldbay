@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   Modal,
+  Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -247,11 +248,20 @@ const styles = StyleSheet.create({
     padding: 28,
     gap: 20,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 5,
+      },
+      web: {
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+      },
+    }),
   },
   modalIconContainer: {
     width: 64,

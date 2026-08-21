@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, Platform } from "react-native";
 
 interface RoleCardProps {
   icon: string;
@@ -28,13 +28,20 @@ export function RoleCard({ icon, label, selected, onPress, disabled }: RoleCardP
         gap: 6,
         opacity: disabled ? 0.5 : 1,
         ...(selected
-          ? {
-              shadowColor: "rgba(225,38,28,0.3)",
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 1,
-              shadowRadius: 12,
-              elevation: 8,
-            }
+          ? Platform.select({
+              ios: {
+                shadowColor: "rgba(225,38,28,0.3)",
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 1,
+                shadowRadius: 12,
+              },
+              android: {
+                elevation: 8,
+              },
+              web: {
+                boxShadow: "0px 4px 12px rgba(225,38,28,0.3)",
+              },
+            })
           : {}),
       }}
     >

@@ -480,13 +480,20 @@ export default function CreateListingScreen() {
                           paddingVertical: 10,
                           opacity: submitting ? 0.5 : 1,
                           ...(active
-                            ? {
-                                shadowColor: "rgba(225,38,28,0.25)",
-                                shadowOffset: { width: 0, height: 4 },
-                                shadowOpacity: 1,
-                                shadowRadius: 16,
-                                elevation: 6,
-                              }
+                            ? Platform.select({
+                                ios: {
+                                  shadowColor: "rgba(225,38,28,0.25)",
+                                  shadowOffset: { width: 0, height: 4 },
+                                  shadowOpacity: 1,
+                                  shadowRadius: 16,
+                                },
+                                android: {
+                                  elevation: 6,
+                                },
+                                web: {
+                                  boxShadow: "0px 4px 16px rgba(225,38,28,0.25)",
+                                },
+                              })
                             : {}),
                         }}
                       >
