@@ -2,17 +2,15 @@ import { useState, useEffect } from "react";
 import {
   View,
   Text,
-  ScrollView,
-  KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { PageAtmosphere } from "@/components/page-atmosphere";
+import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 import { PrimaryButton } from "@/components/primary-button";
 import { ErrorBanner } from "@/components/error-banner";
 import { getSellerMe, uploadIdImage, ApiError } from "@/lib/api";
@@ -89,197 +87,75 @@ export default function VerifySellerScreen() {
     switch (screenState) {
       case "loading":
         return (
-          <View style={{ alignItems: "center", paddingVertical: 20 }}>
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 15,
-                color: "#ffffff99",
-              }}
-            >
-              Checking your status...
-            </Text>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.loadingText}>Checking your status...</Text>
           </View>
         );
 
       case "upload":
         return (
-          <>
-            <Text
-              style={{
-                fontFamily: "BricolageGrotesque-SemiBold",
-                fontSize: 28,
-                color: "#ffffff",
-              }}
-            >
-              Verify your student status
-            </Text>
-
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 15,
-                color: "#ffffff80",
-                lineHeight: 22,
-              }}
-            >
-              Upload a photo of your student ID to get verified as a seller
+          <View style={styles.stateContainer}>
+            <Text style={styles.cardTitle}>Verify Student ID</Text>
+            <Text style={styles.cardSubtitle}>
+              Upload a clear photo of your student ID to start selling to verified students on campus.
             </Text>
 
             <TouchableOpacity
               onPress={pickImage}
               activeOpacity={0.8}
-              style={{
-                backgroundColor: "rgba(255,255,255,0.02)",
-                borderWidth: 2,
-                borderColor: "rgba(255,255,255,0.2)",
-                borderRadius: 16,
-                height: 200,
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 12,
-              }}
+              style={styles.uploadZone}
             >
-              <View
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 28,
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Ionicons name="image-outline" size={28} color="#ffffff66" />
+              <View style={styles.uploadIconCircle}>
+                <Ionicons name="cloud-upload-outline" size={30} color="#4ade80" />
               </View>
-              <Text
-                style={{
-                  fontFamily: "Inter-Medium",
-                  fontSize: 15,
-                  color: "#ffffff80",
-                }}
-              >
-                Tap to upload
-              </Text>
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 12,
-                  color: "#ffffff4d",
-                }}
-              >
-                JPG, PNG or HEIC — max 10 MB
-              </Text>
+              <Text style={styles.uploadTitle}>Tap to select student ID</Text>
+              <Text style={styles.uploadFormat}>JPG, PNG or HEIC (max 10 MB)</Text>
             </TouchableOpacity>
 
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 13,
-                color: "#ffffff4d",
-                textAlign: "center",
-                lineHeight: 18,
-              }}
-            >
-              {"Your ID is only used for verification and isn't shared with buyers."}
-            </Text>
-
-            <View style={{ opacity: 0.4 }}>
-              <PrimaryButton
-                label="Submit for review"
-                onPress={() => {}}
-                disabled
-              />
+            <View style={styles.securityNoteRow}>
+              <Ionicons name="shield-checkmark-outline" size={16} color="rgba(255,255,255,0.6)" />
+              <Text style={styles.securityNote}>
+                {"Your ID is stored securely and never shared with buyers."}
+              </Text>
             </View>
-          </>
+
+            <PrimaryButton
+              label="Choose Photo"
+              onPress={pickImage}
+            />
+          </View>
         );
 
       case "preview":
         return (
-          <>
-            <Text
-              style={{
-                fontFamily: "BricolageGrotesque-SemiBold",
-                fontSize: 28,
-                color: "#ffffff",
-              }}
-            >
-              Verify your student status
-            </Text>
-
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 15,
-                color: "#ffffff80",
-                lineHeight: 22,
-              }}
-            >
-              Upload a photo of your student ID to get verified as a seller
+          <View style={styles.stateContainer}>
+            <Text style={styles.cardTitle}>Review ID Photo</Text>
+            <Text style={styles.cardSubtitle}>
+              Make sure your name and university details are legible.
             </Text>
 
             <TouchableOpacity
               onPress={pickImage}
-              activeOpacity={0.8}
-              style={{
-                backgroundColor: "rgba(0,0,0,0.2)",
-                borderWidth: 1,
-                borderColor: "rgba(22,163,74,0.3)",
-                borderRadius: 16,
-                height: 200,
-                justifyContent: "center",
-                alignItems: "center",
-                overflow: "hidden",
-              }}
+              activeOpacity={0.85}
+              style={styles.previewContainer}
             >
               {imageUri && (
                 <Image
                   source={{ uri: imageUri }}
-                  style={{ width: "100%", height: "100%" }}
+                  style={StyleSheet.absoluteFill}
                   contentFit="cover"
                 />
               )}
 
-              <View
-                style={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  width: 28,
-                  height: 28,
-                  borderRadius: 14,
-                  backgroundColor: "#16a34a",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <View style={styles.previewBadge}>
                 <Ionicons name="checkmark" size={16} color="#ffffff" />
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={pickImage} style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 13,
-                  color: "#ffffff66",
-                }}
-              >
-                Tap to change photo
-              </Text>
+            <TouchableOpacity onPress={pickImage} style={styles.changePhotoBtn}>
+              <Ionicons name="camera-reverse-outline" size={16} color="#4ade80" />
+              <Text style={styles.changePhotoText}>Tap to change photo</Text>
             </TouchableOpacity>
-
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 13,
-                color: "#ffffff4d",
-                textAlign: "center",
-                lineHeight: 18,
-              }}
-            >
-              {"Your ID is only used for verification and isn't shared with buyers."}
-            </Text>
 
             {formError && <ErrorBanner message={formError} />}
 
@@ -287,199 +163,226 @@ export default function VerifySellerScreen() {
               label="Submit for review"
               onPress={handleSubmit}
             />
-          </>
+          </View>
         );
 
       case "submitting":
         return (
-          <View style={{ alignItems: "center", paddingVertical: 20 }}>
-            <PrimaryButton label="Submitting" loading />
+          <View style={styles.stateContainer}>
+            <Text style={styles.cardTitle}>Uploading ID</Text>
+            <Text style={styles.cardSubtitle}>
+              Please wait while we encrypt and send your document.
+            </Text>
+            <View style={{ marginTop: 24 }}>
+              <PrimaryButton label="Submitting..." loading />
+            </View>
           </View>
         );
 
       case "pending":
         return (
-          <View
-            style={{
-              alignItems: "center",
-              gap: 20,
-              paddingTop: 60,
-            }}
-          >
-            <View
-              style={{
-                width: 72,
-                height: 72,
-                borderRadius: 36,
-                backgroundColor: "rgba(245,158,11,0.1)",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Ionicons name="time-outline" size={36} color="#f59e0b" />
+          <View style={styles.statusStateContainer}>
+            <View style={styles.pendingIconCircle}>
+              <Ionicons name="time-outline" size={40} color="#f59e0b" />
             </View>
 
-            <Text
-              style={{
-                fontFamily: "BricolageGrotesque-SemiBold",
-                fontSize: 24,
-                color: "#ffffff",
-                textAlign: "center",
-              }}
-            >
-              {"We're reviewing your ID"}
+            <Text style={styles.statusTitle}>{"We're reviewing your ID"}</Text>
+
+            <Text style={styles.statusSubtitle}>
+              {"Verification typically takes a few hours. We will notify you once approved."}
             </Text>
 
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 14,
-                color: "#ffffff80",
-                textAlign: "center",
-                lineHeight: 20,
-              }}
-            >
-              {"This usually takes about a day. We'll notify you once you're approved."}
-            </Text>
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 4,
-                paddingTop: 8,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 13,
-                  color: "#ffffff66",
-                }}
-              >
-                In the meantime,{" "}
-              </Text>
-              <TouchableOpacity onPress={() => router.replace("/")}>
-                <Text
-                  style={{
-                    fontFamily: "Inter-SemiBold",
-                    fontSize: 13,
-                    color: "#e1261c",
-                  }}
-                >
-                  browse as a buyer
-                </Text>
-              </TouchableOpacity>
+            <View style={styles.actionBlock}>
+              <PrimaryButton
+                label="Browse as Buyer"
+                onPress={() => router.replace("/buyer/home")}
+              />
             </View>
           </View>
         );
 
       case "verified":
         return (
-          <View
-            style={{
-              alignItems: "center",
-              gap: 20,
-              paddingTop: 60,
-            }}
-          >
-            <View
-              style={{
-                width: 72,
-                height: 72,
-                borderRadius: 36,
-                backgroundColor: "rgba(34,197,94,0.1)",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+          <View style={styles.statusStateContainer}>
+            <View style={styles.verifiedIconCircle}>
               <Ionicons
                 name="checkmark-circle-outline"
-                size={36}
+                size={42}
                 color="#22c55e"
               />
             </View>
 
-            <Text
-              style={{
-                fontFamily: "BricolageGrotesque-SemiBold",
-                fontSize: 24,
-                color: "#ffffff",
-                textAlign: "center",
-              }}
-            >
-              {"You're verified!"}
+            <Text style={styles.statusTitle}>{"You're Verified!"}</Text>
+
+            <Text style={styles.statusSubtitle}>
+              Your seller account is approved. You can now publish listings and sell items on campus.
             </Text>
 
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 14,
-                color: "#ffffff80",
-                textAlign: "center",
-                lineHeight: 20,
-              }}
-            >
-              Your seller account is approved. You can start creating listings
-              now.
-            </Text>
-
-            <PrimaryButton
-              label="Go to dashboard"
-              onPress={() => router.replace("/seller/dashboard")}
-            />
+            <View style={styles.actionBlock}>
+              <PrimaryButton
+                label="Go to Seller Dashboard"
+                onPress={() => router.replace("/seller/dashboard")}
+              />
+            </View>
           </View>
         );
     }
   }
 
   return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
-          <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            keyboardShouldPersistTaps="handled"
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 12,
-                paddingTop: 52,
-                paddingHorizontal: 24,
-                paddingBottom: 32,
-              }}
-            >
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="arrow-back" size={22} color="#ffffff" />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 17,
-                  color: "#ffffff",
-                }}
-              >
-                Seller verification
-              </Text>
-            </View>
-
-            <View
-              style={{
-                paddingHorizontal: 24,
-                paddingBottom: 24,
-                gap: 24,
-              }}
-            >
-              {renderContent()}
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </PageAtmosphere>
+    <AuthLayoutWrapper backRoute="/buyer/home" backTitle="Back">
+      {renderContent()}
+    </AuthLayoutWrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  stateContainer: {
+    gap: 16,
+  },
+  cardTitle: {
+    fontFamily: "Inter-Bold",
+    fontSize: 26,
+    color: "#ffffff",
+    textAlign: "center",
+    marginBottom: 4,
+  },
+  cardSubtitle: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.7)",
+    textAlign: "center",
+    lineHeight: 20,
+    marginBottom: 12,
+    paddingHorizontal: 6,
+  },
+  uploadZone: {
+    backgroundColor: "#18181b",
+    borderWidth: 1.5,
+    borderStyle: "dashed",
+    borderColor: "rgba(34, 197, 94, 0.4)",
+    borderRadius: 20,
+    height: 190,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    padding: 16,
+  },
+  uploadIconCircle: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: "rgba(34, 197, 94, 0.15)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  uploadTitle: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 15,
+    color: "#ffffff",
+  },
+  uploadFormat: {
+    fontFamily: "Inter-Regular",
+    fontSize: 12,
+    color: "rgba(255, 255, 255, 0.5)",
+  },
+  securityNoteRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingHorizontal: 8,
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  securityNote: {
+    fontFamily: "Inter-Regular",
+    fontSize: 12,
+    color: "rgba(255, 255, 255, 0.6)",
+    textAlign: "center",
+  },
+  previewContainer: {
+    backgroundColor: "#18181b",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.15)",
+    borderRadius: 20,
+    height: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  previewBadge: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#22c55e",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  changePhotoBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 6,
+  },
+  changePhotoText: {
+    fontFamily: "Inter-Medium",
+    fontSize: 13,
+    color: "#4ade80",
+  },
+  statusStateContainer: {
+    alignItems: "center",
+    gap: 16,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  pendingIconCircle: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    backgroundColor: "rgba(245, 158, 11, 0.15)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 6,
+  },
+  verifiedIconCircle: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    backgroundColor: "rgba(34, 197, 94, 0.15)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 6,
+  },
+  statusTitle: {
+    fontFamily: "Inter-Bold",
+    fontSize: 24,
+    color: "#ffffff",
+    textAlign: "center",
+  },
+  statusSubtitle: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.7)",
+    textAlign: "center",
+    lineHeight: 20,
+    paddingHorizontal: 16,
+  },
+  actionBlock: {
+    width: "100%",
+    marginTop: 20,
+  },
+  loadingContainer: {
+    alignItems: "center",
+    paddingVertical: 36,
+  },
+  loadingText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 15,
+    color: "rgba(255, 255, 255, 0.7)",
+  },
+});

@@ -3,16 +3,15 @@ import {
   View,
   Text,
   TextInput,
-  FlatList,
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
   Platform,
+  StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { PageAtmosphere } from "@/components/page-atmosphere";
+import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 import { ErrorBanner } from "@/components/error-banner";
 import { BASE_URL, updateUserProfile, getMe, ApiError } from "@/lib/api";
 import type { University } from "@/components/university-picker";
@@ -58,219 +57,221 @@ export default function SelectUniversityScreen() {
   }
 
   return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View
-          style={{
-            flex: 1,
-            paddingHorizontal: 24,
-            paddingTop: 52,
-          }}
-        >
-          <View style={{ marginBottom: 24 }}>
-            <Text
-              style={{
-                fontFamily: "BricolageGrotesque-SemiBold",
-                fontSize: 28,
-                color: "#ffffff",
-                lineHeight: 34,
-              }}
-            >
-              Which university are you at?
-            </Text>
-            <Text
-              style={{
-                fontFamily: "Inter-Regular",
-                fontSize: 15,
-                color: "#ffffff80",
-                lineHeight: 22,
-                marginTop: 8,
-              }}
-            >
-              {"This helps us show you what's happening on your campus"}
-            </Text>
-          </View>
+    <AuthLayoutWrapper backRoute="/buyer/home" backTitle="Back">
+      <View style={styles.container}>
+        <Text style={styles.cardTitle}>Choose your University</Text>
+        <Text style={styles.cardSubtitle}>
+          Connect with verified students and discover items on your campus.
+        </Text>
 
-          <View
-            style={{
-              backgroundColor: "#00000059",
-              borderWidth: 1,
-              borderColor: "#ffffff1f",
-              borderRadius: 12,
-              height: 44,
-              paddingHorizontal: 14,
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 16,
-            }}
-          >
-            <Ionicons
-              name="search"
-              size={18}
-              color="#ffffff66"
-              style={{ marginRight: 10 }}
-            />
-            <TextInput
-              value={query}
-              onChangeText={setQuery}
-              placeholder="Search universities"
-              placeholderTextColor="#ffffff66"
-              autoCapitalize="none"
-              autoCorrect={false}
-              style={[
-                {
-                  fontFamily: "Inter-Regular",
-                  fontSize: 14,
-                  color: "#ffffff",
-                  flex: 1,
-                  padding: 0,
-                },
-                Platform.OS === "web" && {
-                  outlineStyle: "none" as any,
-                  outlineWidth: 0 as any,
-                  boxShadow: "none" as any,
-                },
-              ]}
-            />
-            {query.length > 0 && (
-              <TouchableOpacity
-                onPress={() => setQuery("")}
-                hitSlop={8}
-                style={{ padding: 4 }}
-              >
-                <Ionicons name="close-circle" size={18} color="#ffffff66" />
-              </TouchableOpacity>
-            )}
-          </View>
-
-          {error && (
-            <View style={{ marginBottom: 12 }}>
-              <ErrorBanner message={error} />
-            </View>
-          )}
-
-          {loading ? (
-            <View style={{ alignItems: "center", paddingVertical: 40 }}>
-              <ActivityIndicator color="#e1261c" />
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 14,
-                  color: "#ffffff66",
-                  marginTop: 12,
-                }}
-              >
-                Loading universities...
-              </Text>
-            </View>
-          ) : filtered.length === 0 ? (
-            <View
-              style={{
-                alignItems: "center",
-                paddingVertical: 40,
-                gap: 8,
-              }}
+        {/* Search Input Bar */}
+        <View style={styles.searchBar}>
+          <Ionicons
+            name="search"
+            size={18}
+            color="rgba(255, 255, 255, 0.6)"
+            style={{ marginRight: 10 }}
+          />
+          <TextInput
+            value={query}
+            onChangeText={setQuery}
+            placeholder="Search your campus or university"
+            placeholderTextColor="rgba(255, 255, 255, 0.45)"
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={[
+              styles.searchInput,
+              Platform.OS === "web" && {
+                outlineStyle: "none" as any,
+                outlineWidth: 0 as any,
+                boxShadow: "none" as any,
+              },
+            ]}
+          />
+          {query.length > 0 && (
+            <TouchableOpacity
+              onPress={() => setQuery("")}
+              hitSlop={8}
+              style={{ padding: 4 }}
             >
-              <Ionicons
-                name="school-outline"
-                size={36}
-                color="#ffffff33"
-              />
-              <Text
-                style={{
-                  fontFamily: "Inter-Regular",
-                  fontSize: 15,
-                  color: "#ffffff66",
-                  textAlign: "center",
-                }}
-              >
-                No universities found — try a different search
-              </Text>
-            </View>
-          ) : (
-            <FlatList
-              data={filtered}
-              keyExtractor={(item) => item.id}
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={{ paddingBottom: 24 }}
-              ItemSeparatorComponent={() => (
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: "rgba(255,255,255,0.08)",
-                    marginLeft: 4,
-                  }}
-                />
-              )}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => handleSelect(item)}
-                  disabled={submitting}
-                  activeOpacity={0.6}
-                  style={{
-                    paddingVertical: 16,
-                    paddingHorizontal: 4,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    opacity: submitting ? 0.5 : 1,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Medium",
-                      fontSize: 16,
-                      color: "#ffffffcc",
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                  <Ionicons
-                    name="chevron-forward"
-                    size={18}
-                    color="#ffffff33"
-                  />
-                </TouchableOpacity>
-              )}
-            />
-          )}
-
-          {submitting && (
-            <View
-              style={{
-                position: "absolute",
-                bottom: 40,
-                left: 0,
-                right: 0,
-                alignItems: "center",
-              }}
-            >
-              <View
-                style={{
-                  backgroundColor: "rgba(0,0,0,0.7)",
-                  paddingHorizontal: 20,
-                  paddingVertical: 12,
-                  borderRadius: 999,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                <ActivityIndicator color="#e1261c" size="small" />
-                <Text
-                  style={{
-                    fontFamily: "Inter-Medium",
-                    fontSize: 14,
-                    color: "#ffffffcc",
-                  }}
-                >
-                  Saving...
-                </Text>
-              </View>
-            </View>
+              <Ionicons name="close-circle" size={18} color="rgba(255, 255, 255, 0.6)" />
+            </TouchableOpacity>
           )}
         </View>
-      </SafeAreaView>
-    </PageAtmosphere>
+
+        {error && (
+          <View style={{ marginBottom: 12 }}>
+            <ErrorBanner message={error} />
+          </View>
+        )}
+
+        {loading ? (
+          <View style={styles.stateBlock}>
+            <ActivityIndicator color="#5A91C2" size="large" />
+            <Text style={styles.stateText}>Loading universities...</Text>
+          </View>
+        ) : filtered.length === 0 ? (
+          <View style={styles.stateBlock}>
+            <Ionicons name="school-outline" size={40} color="rgba(255, 255, 255, 0.3)" />
+            <Text style={styles.stateText}>
+              No universities found — try a different search term
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.listContainer}>
+            {filtered.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => handleSelect(item)}
+                disabled={submitting}
+                activeOpacity={0.7}
+                style={[
+                  styles.uniCard,
+                  submitting && { opacity: 0.5 },
+                ]}
+              >
+                <View style={styles.uniIconCircle}>
+                  <Ionicons name="school" size={20} color="#4ade80" />
+                </View>
+                <Text style={styles.uniName} numberOfLines={2}>
+                  {item.name}
+                </Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={18}
+                  color="rgba(255, 255, 255, 0.3)"
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        {submitting && (
+          <View style={styles.submittingOverlay}>
+            <View style={styles.submittingPill}>
+              <ActivityIndicator color="#ffffff" size="small" />
+              <Text style={styles.submittingText}>Updating your campus...</Text>
+            </View>
+          </View>
+        )}
+      </View>
+    </AuthLayoutWrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 16,
+  },
+  cardTitle: {
+    fontFamily: "Inter-Bold",
+    fontSize: 26,
+    color: "#ffffff",
+    textAlign: "center",
+    marginBottom: 4,
+  },
+  cardSubtitle: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.7)",
+    textAlign: "center",
+    lineHeight: 20,
+    marginBottom: 8,
+    paddingHorizontal: 8,
+  },
+  searchBar: {
+    backgroundColor: "#18181b",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.14)",
+    borderRadius: 16,
+    height: 56,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  searchInput: {
+    fontFamily: "Inter-Regular",
+    fontSize: 15,
+    color: "#ffffff",
+    flex: 1,
+    padding: 0,
+  },
+  listContainer: {
+    gap: 10,
+    marginTop: 4,
+  },
+  uniCard: {
+    backgroundColor: "#18181b",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  uniIconCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: "rgba(34, 197, 94, 0.15)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  uniName: {
+    fontFamily: "Inter-Medium",
+    fontSize: 15,
+    color: "#ffffff",
+    flex: 1,
+  },
+  stateBlock: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 36,
+    gap: 12,
+  },
+  stateText: {
+    fontFamily: "Inter-Regular",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.6)",
+    textAlign: "center",
+  },
+  submittingOverlay: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+  },
+  submittingPill: {
+    backgroundColor: "#1f1f23",
+    borderWidth: 1,
+    borderColor: "#27272a",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 999,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 6,
+      },
+      web: {
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.3)",
+      },
+    }),
+  },
+  submittingText: {
+    fontFamily: "Inter-Medium",
+    fontSize: 14,
+    color: "#ffffff",
+  },
+});
