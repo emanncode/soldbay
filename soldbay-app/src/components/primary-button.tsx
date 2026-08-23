@@ -27,21 +27,25 @@ export function PrimaryButton({
     <TouchableOpacity
       onPress={onPress}
       disabled={isDisabled}
-      activeOpacity={0.9}
+      activeOpacity={0.88}
       style={[styles.btnContainer, isDisabled && styles.btnDisabled]}
     >
       <LinearGradient
-        colors={isDisabled ? ["#cccccc", "#dddddd"] : ["#82df42", "#ebc948"]}
+        colors={
+          isDisabled
+            ? ["#27272a", "#18181b"]
+            : ["#22c55e", "#15803d"]
+        }
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
+        end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
         <View style={styles.contentRow}>
-          {loading && <ActivityIndicator color="#000000" size="small" />}
+          {loading && <ActivityIndicator color="#ffffff" size="small" />}
           <Text
             style={[
               styles.btnText,
-              isDisabled && { color: "rgba(0, 0, 0, 0.35)" },
+              isDisabled && { color: "#71717a" },
             ]}
           >
             {label}
@@ -54,13 +58,13 @@ export function PrimaryButton({
 
 const styles = StyleSheet.create({
   btnContainer: {
-    borderRadius: 26,
-    height: 52,
+    borderRadius: 16,
+    height: 56,
     width: "100%",
     overflow: "hidden",
   },
   btnDisabled: {
-    opacity: 0.6,
+    opacity: 0.7,
   },
   gradient: {
     flex: 1,
@@ -71,11 +75,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
+    gap: 10,
   },
   btnText: {
-    fontFamily: "BricolageGrotesque-SemiBold",
+    fontFamily: "Inter-SemiBold",
     fontSize: 16,
-    color: "#000000",
+    color: "#ffffff",
+    letterSpacing: 0.2,
   },
 });
