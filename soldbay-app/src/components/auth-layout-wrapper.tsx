@@ -248,8 +248,9 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.18)",
   },
   brandLogo: {
-    width: 30,
-    height: 30,
+    width: 28,
+    height: 28,
+    tintColor: "#ffffff",
   },
   brandTitle: {
     fontFamily: "BricolageGrotesque-Bold",
