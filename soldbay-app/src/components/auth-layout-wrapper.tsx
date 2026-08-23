@@ -182,7 +182,7 @@ export function AuthLayoutWrapper({
                 {/* Top-Left Logo + SoldBay Name */}
                 <View style={styles.brandLockup}>
                   <Image
-                    source={require("../../assets/soldbay_logo.png")}
+                    source={require("../../assets/soldbay_logo_white.png")}
                     style={styles.brandLogo}
                     contentFit="contain"
                   />
@@ -239,8 +239,8 @@ const styles = StyleSheet.create({
   brandLockup: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    gap: 6,
+    backgroundColor: "rgba(0, 0, 0, 0.55)",
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 24,
@@ -248,9 +248,12 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.18)",
   },
   brandLogo: {
-    width: 28,
-    height: 28,
-    tintColor: "#ffffff",
+    width: 26,
+    height: 26,
+    display: "flex",
+    justifyContent: "center",
+    paddingVertical: 6,
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
   },
   brandTitle: {
     fontFamily: "BricolageGrotesque-Bold",
