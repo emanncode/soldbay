@@ -200,42 +200,43 @@ export default function ForgotPasswordScreen() {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    fontFamily: "BricolageGrotesque-Bold",
+    fontFamily: "Inter-Bold",
     fontSize: 26,
-    color: "#000000",
+    color: "#ffffff",
     textAlign: "center",
     marginBottom: 6,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "rgba(255, 255, 255, 0.7)",
     lineHeight: 20,
-    marginTop: 8,
-    marginBottom: 32,
+    marginTop: 6,
+    marginBottom: 30,
+    textAlign: "center",
   },
   formContainer: {
-    gap: 14,
+    gap: 16,
   },
   loginLinkRow: {
     flexDirection: "row",
     justifyContent: "center",
     gap: 4,
-    marginTop: 8,
+    marginTop: 12,
   },
   loginLinkText: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "rgba(255, 255, 255, 0.7)",
   },
   loginLinkButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#000000",
+    color: "#ffffff",
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
@@ -243,7 +244,9 @@ const styles = StyleSheet.create({
   modalContent: {
     width: "100%",
     maxWidth: 342,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#18181b",
+    borderWidth: 1,
+    borderColor: "#27272a",
     borderRadius: 24,
     padding: 28,
     gap: 20,
@@ -251,15 +254,15 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.35,
+        shadowRadius: 16,
       },
       android: {
-        elevation: 5,
+        elevation: 8,
       },
       web: {
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.35)",
       },
     }),
   },
@@ -267,27 +270,27 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: "rgba(22,163,74,0.1)",
+    backgroundColor: "rgba(34, 197, 94, 0.15)",
     alignItems: "center",
     justifyContent: "center",
   },
   modalTitle: {
-    fontFamily: "BricolageGrotesque-SemiBold",
-    fontSize: 24,
-    color: "#000000",
+    fontFamily: "Inter-Bold",
+    fontSize: 22,
+    color: "#fbfbfb",
     textAlign: "center",
   },
   modalSubtitle: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "#808080",
     textAlign: "center",
     lineHeight: 20,
   },
   modalEmail: {
     fontFamily: "Inter-SemiBold",
     fontSize: 15,
-    color: "#000000",
+    color: "#fbfbfb",
     textAlign: "center",
   },
   resendRow: {
@@ -298,11 +301,11 @@ const styles = StyleSheet.create({
   resendText: {
     fontFamily: "Inter-Regular",
     fontSize: 13,
-    color: "#64748b",
+    color: "rgba(255, 255, 255, 0.7)",
   },
   resendButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 13,
-    color: "#3ba53b",
+    color: "#4ade80",
   },
 });

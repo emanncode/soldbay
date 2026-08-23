@@ -172,29 +172,29 @@ export default function NewPasswordScreen() {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    fontFamily: "BricolageGrotesque-Bold",
+    fontFamily: "Inter-Bold",
     fontSize: 26,
-    color: "#000000",
+    color: "#fbfbfb",
     textAlign: "center",
     marginBottom: 6,
   },
   subtitleContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 24,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "#808080",
     textAlign: "center",
     lineHeight: 20,
     paddingHorizontal: 12,
   },
   boldEmail: {
     fontFamily: "Inter-SemiBold",
-    color: "#000000",
+    color: "#fbfbfb",
   },
   formContainer: {
-    gap: 14,
+    gap: 16,
   },
 });

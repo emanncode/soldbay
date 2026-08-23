@@ -212,60 +212,60 @@ export default function EnterCodeScreen() {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    fontFamily: "BricolageGrotesque-Bold",
+    fontFamily: "Inter-Bold",
     fontSize: 26,
-    color: "#000000",
+    color: "#ffffff",
     textAlign: "center",
     marginBottom: 6,
   },
   subtitleContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 24,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "rgba(255, 255, 255, 0.7)",
     textAlign: "center",
     lineHeight: 20,
     paddingHorizontal: 12,
   },
   boldEmail: {
     fontFamily: "Inter-SemiBold",
-    color: "#000000",
+    color: "#ffffff",
   },
   otpWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 8,
-    marginBottom: 20,
+    marginBottom: 24,
   },
   otpBox: {
     flex: 1,
-    height: 48,
-    borderRadius: 10,
-    backgroundColor: "#f8fafc",
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: "#18181b",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
+    borderColor: "rgba(255, 255, 255, 0.14)",
     alignItems: "center",
     justifyContent: "center",
   },
   otpBoxActive: {
-    borderColor: "#3ba53b",
+    borderColor: "#22c55e",
     borderWidth: 2,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#1f1f23",
   },
   otpInput: {
     width: "100%",
     height: "100%",
     textAlign: "center",
     fontFamily: "Inter-SemiBold",
-    fontSize: 24,
-    color: "#000000",
+    fontSize: 22,
+    color: "#ffffff",
     padding: 0,
   },
   actionContainer: {
-    gap: 14,
+    gap: 16,
     marginBottom: 24,
   },
   resendRow: {
@@ -276,12 +276,12 @@ const styles = StyleSheet.create({
   resendText: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "rgba(255, 255, 255, 0.7)",
   },
   resendButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#3ba53b",
+    color: "#4ade80",
   },
   loginLinkRow: {
     flexDirection: "row",
@@ -291,12 +291,12 @@ const styles = StyleSheet.create({
   loginLinkText: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "#64748b",
+    color: "rgba(255, 255, 255, 0.7)",
   },
   loginLinkButton: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#000000",
+    color: "#ffffff",
   },
   toastContainer: {
     position: "absolute",
@@ -307,26 +307,28 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: 20,
     paddingVertical: 12,
-    backgroundColor: "#16a34a",
+    backgroundColor: "#1f1f23",
+    borderWidth: 1,
+    borderColor: "#27272a",
     borderRadius: 24,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 6,
+        shadowOpacity: 0.25,
+        shadowRadius: 8,
       },
       android: {
-        elevation: 4,
+        elevation: 6,
       },
       web: {
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.15)",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.3)",
       },
     }),
   },
   toastText: {
     fontFamily: "Inter-Medium",
     fontSize: 14,
-    color: "#ffffff",
+    color: "#fbfbfb",
   },
 });

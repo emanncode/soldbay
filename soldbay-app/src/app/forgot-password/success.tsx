@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { View, Text, Animated, Easing, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { PageAtmosphere } from "@/components/page-atmosphere";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function SuccessScreen() {
@@ -37,11 +36,11 @@ export default function SuccessScreen() {
 
   const progressWidth = progress.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 286],
+    outputRange: [0, 260],
   });
 
   return (
-    <PageAtmosphere theme="green">
+    <View style={{ flex: 1, backgroundColor: "#0d0d0f" }}>
       <SafeAreaView
         style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: 24 }}
       >
@@ -49,7 +48,9 @@ export default function SuccessScreen() {
           style={{
             width: "100%",
             maxWidth: 342,
-            backgroundColor: "#ffffff",
+            backgroundColor: "#18181b",
+            borderWidth: 1,
+            borderColor: "#27272a",
             borderRadius: 24,
             padding: 40,
             gap: 20,
@@ -57,15 +58,15 @@ export default function SuccessScreen() {
             ...Platform.select({
               ios: {
                 shadowColor: "#000",
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.1,
-                shadowRadius: 12,
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.35,
+                shadowRadius: 16,
               },
               android: {
-                elevation: 5,
+                elevation: 8,
               },
               web: {
-                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.35)",
               },
             }),
             opacity: cardOpacity,
@@ -77,19 +78,19 @@ export default function SuccessScreen() {
               width: 72,
               height: 72,
               borderRadius: 36,
-              backgroundColor: "rgba(22,163,74,0.1)",
+              backgroundColor: "rgba(34, 197, 94, 0.15)",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Ionicons name="checkmark-circle" size={36} color="#16a34a" />
+            <Ionicons name="checkmark-circle" size={40} color="#22c55e" />
           </View>
 
           <Text
             style={{
-              fontFamily: "BricolageGrotesque-SemiBold",
+              fontFamily: "Inter-Bold",
               fontSize: 24,
-              color: "#000000",
+              color: "#ffffff",
               textAlign: "center",
             }}
           >
@@ -100,7 +101,7 @@ export default function SuccessScreen() {
             style={{
               fontFamily: "Inter-Regular",
               fontSize: 14,
-              color: "#64748b",
+              color: "rgba(255, 255, 255, 0.7)",
               textAlign: "center",
             }}
           >
@@ -112,7 +113,7 @@ export default function SuccessScreen() {
               width: "100%",
               height: 4,
               borderRadius: 2,
-              backgroundColor: "#f1f5f9",
+              backgroundColor: "#27272a",
               overflow: "hidden",
             }}
           >
@@ -120,13 +121,13 @@ export default function SuccessScreen() {
               style={{
                 height: 4,
                 borderRadius: 2,
-                backgroundColor: "#16a34a",
+                backgroundColor: "#22c55e",
                 width: progressWidth,
               }}
             />
           </View>
         </Animated.View>
       </SafeAreaView>
-    </PageAtmosphere>
+    </View>
   );
 }
