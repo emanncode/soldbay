@@ -29,7 +29,7 @@ function EyeToggle({
       <Ionicons
         name={showing ? "eye-off-outline" : "eye-outline"}
         size={20}
-        color="rgba(0,0,0,0.4)"
+        color="rgba(255, 255, 255, 0.6)"
       />
     </TouchableOpacity>
   );
@@ -321,7 +321,7 @@ export default function SignupScreen() {
                 <Ionicons
                   name="cart-outline"
                   size={18}
-                  color={role === "buyer" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
+                  color={role === "buyer" ? "#22c55e" : "rgba(255, 255, 255, 0.5)"}
                   style={{ marginRight: 6 }}
                 />
                 <Text
@@ -342,7 +342,7 @@ export default function SignupScreen() {
                 <Ionicons
                   name="cube-outline"
                   size={18}
-                  color={role === "seller" ? "#3ba53b" : "rgba(0,0,0,0.5)"}
+                  color={role === "seller" ? "#22c55e" : "rgba(255, 255, 255, 0.5)"}
                   style={{ marginRight: 6 }}
                 />
                 <Text
@@ -377,7 +377,7 @@ export default function SignupScreen() {
               <Ionicons
                 name={agreeToTerms ? "checkbox" : "square-outline"}
                 size={20}
-                color={agreeToTerms ? "#3ba53b" : "rgba(0,0,0,0.3)"}
+                color={agreeToTerms ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
               />
               <Text style={styles.checkboxText}>
                 I agree to the Term & Condition and Privacy
@@ -385,7 +385,7 @@ export default function SignupScreen() {
             </TouchableOpacity>
           </View>
           {errors.terms && (
-            <Text style={[styles.errorText, { position: "absolute", bottom: -16, left: 4, marginTop: 0 }]}>
+            <Text style={[styles.errorText, { marginTop: 4 }]}>
               {errors.terms}
             </Text>
           )}
@@ -396,6 +396,8 @@ export default function SignupScreen() {
           style={{
             opacity: itemAnims[7].opacity,
             transform: [{ translateY: itemAnims[7].translateY }],
+            marginTop: 4,
+            gap: 12,
           }}
         >
           {formError && (
@@ -406,7 +408,7 @@ export default function SignupScreen() {
           )}
 
           <PrimaryButton
-            label={loading ? "Creating account" : "Sign up"}
+            label={loading ? "Creating account..." : "Sign up"}
             loading={loading}
             onPress={handleSignup}
           />
@@ -433,18 +435,18 @@ export default function SignupScreen() {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    fontFamily: "BricolageGrotesque-Bold",
+    fontFamily: "Inter-Bold",
     fontSize: 26,
-    color: "#000000",
+    color: "#ffffff",
     textAlign: "center",
     marginBottom: 6,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
-    fontSize: 13,
-    color: "rgba(0, 0, 0, 0.45)",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.7)",
     textAlign: "center",
-    lineHeight: 18,
+    lineHeight: 20,
     marginBottom: 24,
     paddingHorizontal: 10,
   },
@@ -452,28 +454,28 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   inputGroup: {
-    gap: 6,
+    gap: 8,
   },
   inputLabel: {
-    fontFamily: "Inter-SemiBold",
-    fontSize: 13,
-    color: "#222222",
-    paddingLeft: 4,
+    fontFamily: "Inter-Medium",
+    fontSize: 14,
+    color: "#f4f4f5",
+    paddingLeft: 2,
   },
   errorText: {
     fontFamily: "Inter-Regular",
-    fontSize: 11,
+    fontSize: 12,
     color: "#ef4444",
     paddingLeft: 4,
     marginTop: 2,
   },
   roleContainer: {
     flexDirection: "row",
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#18181b",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
-    borderRadius: 26,
-    height: 52,
+    borderColor: "rgba(255, 255, 255, 0.14)",
+    borderRadius: 16,
+    height: 54,
     padding: 4,
     position: "relative",
     alignItems: "center",
@@ -482,10 +484,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 4,
     bottom: 4,
-    borderRadius: 22,
-    backgroundColor: "rgba(59, 165, 59, 0.08)",
+    borderRadius: 12,
+    backgroundColor: "#2a2a30",
     borderWidth: 1,
-    borderColor: "#3ba53b",
+    borderColor: "rgba(255, 255, 255, 0.15)",
   },
   roleBtn: {
     flex: 1,
@@ -497,15 +499,15 @@ const styles = StyleSheet.create({
   roleBtnText: {
     fontFamily: "Inter-Medium",
     fontSize: 14,
-    color: "rgba(0,0,0,0.6)",
+    color: "rgba(255, 255, 255, 0.65)",
   },
   roleBtnTextSelected: {
-    fontFamily: "Inter-Bold",
-    color: "#3ba53b",
+    fontFamily: "Inter-SemiBold",
+    color: "#ffffff",
   },
   termsRow: {
-    marginTop: 4,
-    paddingHorizontal: 4,
+    marginTop: 2,
+    paddingHorizontal: 2,
     position: "relative",
   },
   checkboxContainer: {
@@ -516,17 +518,17 @@ const styles = StyleSheet.create({
   checkboxText: {
     fontFamily: "Inter-Regular",
     fontSize: 13,
-    color: "rgba(0,0,0,0.6)",
+    color: "rgba(255, 255, 255, 0.8)",
   },
   formErrorContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "rgba(239, 68, 68, 0.05)",
+    backgroundColor: "rgba(239, 68, 68, 0.08)",
     borderWidth: 1,
-    borderColor: "rgba(239, 68, 68, 0.15)",
+    borderColor: "rgba(239, 68, 68, 0.2)",
     padding: 12,
-    borderRadius: 12,
+    borderRadius: 14,
   },
   formErrorText: {
     fontFamily: "Inter-Regular",
@@ -543,11 +545,11 @@ const styles = StyleSheet.create({
   footerMuted: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "rgba(0, 0, 0, 0.5)",
+    color: "rgba(255, 255, 255, 0.7)",
   },
   footerLink: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#000000",
+    color: "#ffffff",
   },
 });

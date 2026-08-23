@@ -27,7 +27,7 @@ function EyeToggle({
       <Ionicons
         name={showing ? "eye-off-outline" : "eye-outline"}
         size={20}
-        color="rgba(0,0,0,0.4)"
+        color="rgba(255, 255, 255, 0.6)"
       />
     </TouchableOpacity>
   );
@@ -47,7 +47,7 @@ export default function LoginScreen() {
     {},
   );
 
-  // Staggered list items inside the card (Title/subtitle, Email, Password, Options, Buttons, Footer)
+  // Staggered list items inside the card
   const [itemAnims] = useState(() =>
     Array.from({ length: 6 }, () => ({
       opacity: new Animated.Value(0),
@@ -202,7 +202,7 @@ export default function LoginScreen() {
               <Ionicons
                 name={rememberMe ? "checkbox" : "square-outline"}
                 size={20}
-                color={rememberMe ? "#3ba53b" : "rgba(0,0,0,0.3)"}
+                color={rememberMe ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
               />
               <Text style={styles.checkboxText}>Remember me</Text>
             </TouchableOpacity>
@@ -218,6 +218,8 @@ export default function LoginScreen() {
           style={{
             opacity: itemAnims[4].opacity,
             transform: [{ translateY: itemAnims[4].translateY }],
+            marginTop: 4,
+            gap: 12,
           }}
         >
           {formError && (
@@ -228,7 +230,7 @@ export default function LoginScreen() {
           )}
 
           <PrimaryButton
-            label={loading ? "Logging in" : "Log in"}
+            label={loading ? "Logging in..." : "Log in"}
             loading={loading}
             onPress={handleLogin}
           />
@@ -256,29 +258,30 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   cardTitle: {
     fontFamily: "BricolageGrotesque-Bold",
+    fontWeight: "500",
     fontSize: 26,
-    color: "#000000",
+    color: "#ffffff",
     textAlign: "center",
     marginBottom: 6,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
-    fontSize: 13,
-    color: "rgba(0, 0, 0, 0.45)",
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.7)",
     textAlign: "center",
-    lineHeight: 18,
+    lineHeight: 20,
     marginBottom: 28,
     paddingHorizontal: 10,
   },
   formContainer: {
-    gap: 14,
+    gap: 16,
   },
   optionsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 4,
-    paddingHorizontal: 4,
+    marginTop: 2,
+    paddingHorizontal: 2,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -288,22 +291,22 @@ const styles = StyleSheet.create({
   checkboxText: {
     fontFamily: "Inter-Regular",
     fontSize: 13,
-    color: "rgba(0,0,0,0.6)",
+    color: "rgba(255, 255, 255, 0.8)",
   },
   forgotPasswordText: {
-    fontFamily: "Inter-SemiBold",
+    fontFamily: "Inter-Medium",
     fontSize: 13,
-    color: "#000000",
+    color: "#4ade80",
   },
   formErrorContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "rgba(239, 68, 68, 0.05)",
+    backgroundColor: "rgba(239, 68, 68, 0.08)",
     borderWidth: 1,
-    borderColor: "rgba(239, 68, 68, 0.15)",
+    borderColor: "rgba(239, 68, 68, 0.2)",
     padding: 12,
-    borderRadius: 12,
+    borderRadius: 14,
   },
   formErrorText: {
     fontFamily: "Inter-Regular",
@@ -312,7 +315,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footer: {
-    marginTop: 32,
+    marginTop: 28,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
@@ -320,11 +323,11 @@ const styles = StyleSheet.create({
   footerMuted: {
     fontFamily: "Inter-Regular",
     fontSize: 14,
-    color: "rgba(0, 0, 0, 0.5)",
+    color: "rgba(255, 255, 255, 0.7)",
   },
   footerLink: {
     fontFamily: "Inter-SemiBold",
     fontSize: 14,
-    color: "#000000",
+    color: "#ffffff",
   },
 });
