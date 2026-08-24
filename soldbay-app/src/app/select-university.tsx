@@ -79,8 +79,10 @@ export default function SelectUniversityScreen() {
             placeholderTextColor="rgba(255, 255, 255, 0.45)"
             autoCapitalize="none"
             autoCorrect={false}
+            editable={!submitting}
             style={[
               styles.searchInput,
+              submitting && { opacity: 0.6 },
               Platform.OS === "web" && {
                 outlineStyle: "none" as any,
                 outlineWidth: 0 as any,
@@ -91,6 +93,7 @@ export default function SelectUniversityScreen() {
           {query.length > 0 && (
             <TouchableOpacity
               onPress={() => setQuery("")}
+              disabled={submitting}
               hitSlop={8}
               style={{ padding: 4 }}
             >

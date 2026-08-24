@@ -18,12 +18,19 @@ import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 function EyeToggle({
   showing,
   onPress,
+  disabled,
 }: {
   showing: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }) {
   return (
-    <TouchableOpacity onPress={onPress} hitSlop={8} style={{ padding: 4 }}>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      hitSlop={8}
+      style={{ padding: 4, opacity: disabled ? 0.5 : 1 }}
+    >
       <Ionicons
         name={showing ? "eye-off-outline" : "eye-outline"}
         size={20}
@@ -181,6 +188,7 @@ export default function LoginScreen() {
               <EyeToggle
                 showing={showPassword}
                 onPress={() => setShowPassword(!showPassword)}
+                disabled={loading}
               />
             }
           />
@@ -198,17 +206,30 @@ export default function LoginScreen() {
               onPress={() => setRememberMe(!rememberMe)}
               style={styles.checkboxContainer}
               activeOpacity={0.8}
+              disabled={loading}
             >
               <Ionicons
                 name={rememberMe ? "checkbox" : "square-outline"}
                 size={20}
                 color={rememberMe ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
               />
-              <Text style={styles.checkboxText}>Remember me</Text>
+              <Text style={[styles.checkboxText, loading && { opacity: 0.6 }]}>
+                Remember me
+              </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => router.push("/forgot-password")}>
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            <TouchableOpacity
+              onPress={() => router.push("/forgot-password")}
+              disabled={loading}
+            >
+              <Text
+                style={[
+                  styles.forgotPasswordText,
+                  loading && { opacity: 0.6 },
+                ]}
+              >
+                Forgot Password?
+              </Text>
             </TouchableOpacity>
           </View>
         </Animated.View>
@@ -246,8 +267,13 @@ export default function LoginScreen() {
       >
         <View style={styles.footer}>
           <Text style={styles.footerMuted}>{"Don't have an account? "}</Text>
-          <TouchableOpacity onPress={() => router.push("/signup")}>
-            <Text style={styles.footerLink}>Sign up</Text>
+          <TouchableOpacity
+            onPress={() => router.push("/signup")}
+            disabled={loading}
+          >
+            <Text style={[styles.footerLink, loading && { opacity: 0.6 }]}>
+              Sign up
+            </Text>
           </TouchableOpacity>
         </View>
       </Animated.View>

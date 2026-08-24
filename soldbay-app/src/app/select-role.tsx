@@ -68,9 +68,11 @@ export default function SelectRoleScreen() {
                 key={role.id}
                 onPress={() => setSelectedRole(role.id)}
                 activeOpacity={0.8}
+                disabled={loading}
                 style={[
                   styles.roleCard,
                   isSelected && styles.roleCardSelected,
+                  loading && { opacity: 0.7 },
                 ]}
               >
                 <View

@@ -20,12 +20,19 @@ type Role = "buyer" | "seller";
 function EyeToggle({
   showing,
   onPress,
+  disabled,
 }: {
   showing: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }) {
   return (
-    <TouchableOpacity onPress={onPress} hitSlop={8} style={{ padding: 4 }}>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      hitSlop={8}
+      style={{ padding: 4, opacity: disabled ? 0.5 : 1 }}
+    >
       <Ionicons
         name={showing ? "eye-off-outline" : "eye-outline"}
         size={20}
@@ -250,6 +257,7 @@ export default function SignupScreen() {
               <EyeToggle
                 showing={showPassword}
                 onPress={() => setShowPassword(!showPassword)}
+                disabled={loading}
               />
             }
           />
@@ -280,6 +288,7 @@ export default function SignupScreen() {
                 onPress={() =>
                   setShowConfirmPassword(!showConfirmPassword)
                 }
+                disabled={loading}
               />
             }
           />
@@ -373,13 +382,19 @@ export default function SignupScreen() {
               }}
               style={styles.checkboxContainer}
               activeOpacity={0.8}
+              disabled={loading}
             >
               <Ionicons
                 name={agreeToTerms ? "checkbox" : "square-outline"}
                 size={20}
                 color={agreeToTerms ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
               />
-              <Text style={styles.checkboxText}>
+              <Text
+                style={[
+                  styles.checkboxText,
+                  loading && { opacity: 0.6 },
+                ]}
+              >
                 I agree to the Term & Condition and Privacy
               </Text>
             </TouchableOpacity>
@@ -424,8 +439,13 @@ export default function SignupScreen() {
       >
         <View style={styles.footer}>
           <Text style={styles.footerMuted}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => router.push("/login")}>
-            <Text style={styles.footerLink}>Sign in</Text>
+          <TouchableOpacity 
+            onPress={() => router.push("/login")}
+            disabled={loading}
+          >
+            <Text style={[styles.footerLink, loading && { opacity: 0.6 }]}>
+              Sign in
+            </Text>
           </TouchableOpacity>
         </View>
       </Animated.View>

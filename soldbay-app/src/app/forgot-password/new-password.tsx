@@ -16,16 +16,23 @@ import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 function EyeToggle({
   showing,
   onPress,
+  disabled,
 }: {
   showing: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }) {
   return (
-    <TouchableOpacity onPress={onPress} hitSlop={8} style={{ padding: 4 }}>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      hitSlop={8}
+      style={{ padding: 4, opacity: disabled ? 0.5 : 1 }}
+    >
       <Ionicons
         name={showing ? "eye-off-outline" : "eye-outline"}
         size={20}
-        color="rgba(0,0,0,0.4)"
+        color="rgba(255, 255, 255, 0.6)"
       />
     </TouchableOpacity>
   );
@@ -121,6 +128,7 @@ export default function NewPasswordScreen() {
               <EyeToggle
                 showing={showPassword}
                 onPress={() => setShowPassword(!showPassword)}
+                disabled={saving}
               />
             }
           />
@@ -147,6 +155,7 @@ export default function NewPasswordScreen() {
                 onPress={() =>
                   setShowConfirmPassword(!showConfirmPassword)
                 }
+                disabled={saving}
               />
             }
           />

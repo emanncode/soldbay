@@ -131,7 +131,8 @@ export default function EnterCodeScreen() {
               key={i}
               style={[
                 styles.otpBox,
-                (digit || (i === 0 && !digit)) && styles.otpBoxActive,
+                digit ? styles.otpBoxActive : null,
+                (verifying || resending) ? { opacity: 0.6 } : null,
               ]}
             >
               <TextInput
@@ -145,6 +146,7 @@ export default function EnterCodeScreen() {
                 }
                 keyboardType="number-pad"
                 maxLength={1}
+                editable={!verifying && !resending}
                 style={[
                   styles.otpInput,
                   Platform.OS === "web" && {
@@ -170,14 +172,17 @@ export default function EnterCodeScreen() {
           <PrimaryButton
             label="Verify Code"
             loading={verifying}
-            disabled={!isComplete}
+            disabled={!isComplete || resending}
             onPress={handleVerify}
           />
 
           <View style={styles.resendRow}>
             <Text style={styles.resendText}>{"Didn't receive a code? "}</Text>
-            <TouchableOpacity onPress={handleResend} disabled={resending}>
-              <Text style={styles.resendButton}>
+            <TouchableOpacity
+              onPress={handleResend}
+              disabled={resending || verifying}
+            >
+              <Text style={[styles.resendButton, (resending || verifying) && { opacity: 0.6 }]}>
                 {resending ? "Resending..." : "Resend Code"}
               </Text>
             </TouchableOpacity>
@@ -194,8 +199,13 @@ export default function EnterCodeScreen() {
       >
         <View style={styles.loginLinkRow}>
           <Text style={styles.loginLinkText}>Remember your password?</Text>
-          <TouchableOpacity onPress={() => router.push("/login")}>
-            <Text style={styles.loginLinkButton}>Log in</Text>
+          <TouchableOpacity
+            onPress={() => router.push("/login")}
+            disabled={verifying || resending}
+          >
+            <Text style={[styles.loginLinkButton, (verifying || resending) && { opacity: 0.6 }]}>
+              Log in
+            </Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
