@@ -5547,6 +5547,3323 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "tg48p1prva",
+      "name": "11. Auth — Sign In / Login",
+      "x": 0,
+      "y": 1800,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "bpd98g6mk2",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "5ir6b3byks",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fixoas38wp",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rd8gf2ne9v",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "4q857a4nbw",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yxzfqpqxxc",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "car976aeep",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "1d5ty1kova",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uuat2u1u0a",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qa4ux1i850",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "jjy0fuj7de",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fbx0lsb3sy",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "3te9gu6igl",
+                  "name": "Heading Box",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "0bh24ynw9b",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Welcome Back",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xl5n2f4gbb",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Sign in to buy and sell verified campus items.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "m6nafjxa35",
+                  "name": "Form Fields",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "7c2xni3erm",
+                      "name": "Input Group — Email Address",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t5usphitvx",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Email Address",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mcfjwrfsfw",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "2h1pfraain",
+                              "name": "Field Icon",
+                              "icon": "mail",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "1qnu6374an",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "student@university.edu.ng",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iahzgp4mf5",
+                      "name": "Input Group — Password",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rcp8jkq0kn",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Password",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "012nu2bza2",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "7yo4g0fni4",
+                              "name": "Field Icon",
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "nj7nxptky7",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "••••••••••••",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "btebocwyxl",
+                      "name": "Forgot Row",
+                      "width": "fill_container",
+                      "justifyContent": "flex_end",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ucnfq9rf2f",
+                          "name": "Forgot Link",
+                          "fill": "#3b7e68",
+                          "content": "Forgot password?",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7rrloayzg7",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "v2egqt4464",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "17k8w3j92z",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Sign In",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rvcm4hp4zk",
+                  "name": "Signup Link Row",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "b8ncvfkia6",
+                      "name": "Question",
+                      "fill": "#6b7280",
+                      "content": "Don't have an account?",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    },
+                    {
+                      "type": "text",
+                      "id": "zmohwsiiyd",
+                      "name": "Signup Action",
+                      "fill": "#3b7e68",
+                      "content": "Create account",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "cxncjc6fif",
+      "name": "12. Auth — Sign Up / Register",
+      "x": 430,
+      "y": 1800,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f7mwri9gul",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            28,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "nmjp4zqafz",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "5sy6iz8lpd",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "b96vd9x4he",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "gbfjjfwkj7",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iqmsfmmj0o",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "dw40hgawzu",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "0dqb3ghpm1",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qxv22ak440",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "e2etnjvkri",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "yhcsjbmwwr",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aij5w3hhuu",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xam8vs7p65",
+                  "name": "Heading Box",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tbizacds4n",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Create Account",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "4dihc912ys",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Join Soldbay to connect with students on campus.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "9q8mkt0gmh",
+                  "name": "Role Selector Pill",
+                  "width": "fill_container",
+                  "height": 44,
+                  "cornerRadius": 22,
+                  "fill": "#eaf4f0",
+                  "padding": [
+                    4,
+                    4
+                  ],
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "d3jnudmyw9",
+                      "name": "Buyer Tab Active",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "cornerRadius": 18,
+                      "fill": "#3b7e68",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kmqk0egpog",
+                          "name": "Buyer Text",
+                          "fill": "#ffffff",
+                          "content": "Buyer",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dmemk8k2p6",
+                      "name": "Seller Tab",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "cornerRadius": 18,
+                      "fill": "transparent",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "isw1sh8ub9",
+                          "name": "Seller Text",
+                          "fill": "#6b7280",
+                          "content": "Seller",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rmvw3py4hf",
+                  "name": "Form Fields",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ryfm2u7xxe",
+                      "name": "Input Group — Full Name",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "z7k075a30n",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Full Name",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "8oc2xty2xt",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "0ytfvwwlce",
+                              "name": "Field Icon",
+                              "icon": "user",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "9yzbvvwuo6",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "Alexander Wright",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "20v5utxj93",
+                      "name": "Input Group — Email Address",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h2uoh4llcd",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Email Address",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ztqmc8urxo",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "incdzhokb1",
+                              "name": "Field Icon",
+                              "icon": "mail",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "e3d8yp1u5d",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "alex@student.unilag.edu.ng",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6uv5mhdbz9",
+                      "name": "Input Group — Password",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nb3ipjv8ly",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Password",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hv2rol0ewy",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "o2vxlqg7pk",
+                              "name": "Field Icon",
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "v0m5jcvz8n",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "••••••••••••",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qnusoaxlk9",
+                      "name": "Input Group — Confirm Password",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ie0v6ahyue",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Confirm Password",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "owyk78palp",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tbdsywpvdq",
+                              "name": "Field Icon",
+                              "icon": "lock-check",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "h4utqmul2f",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "••••••••••••",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "12xn34kvyx",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "73jejl5jzh",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "h4m1onnkj0",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Create Account",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "2ogukix0q4",
+                  "name": "Login Link Row",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "56w1paqqxb",
+                      "name": "Question",
+                      "fill": "#6b7280",
+                      "content": "Already have an account?",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    },
+                    {
+                      "type": "text",
+                      "id": "voog2usn81",
+                      "name": "Login Action",
+                      "fill": "#3b7e68",
+                      "content": "Sign In",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p8mdviop73",
+      "name": "13. Auth — Select Role (Buyer vs Seller)",
+      "x": 860,
+      "y": 1800,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "y0t3oatsxm",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "go7g3ftxzy",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "g1lgzp1nkb",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cez0gqqxi7",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6ggkrh70bt",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zduz6m7hj9",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "1rwchbi61c",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "hkwir5vgh3",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "t03hsjpkib",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tx7i3ycenw",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "f00qfxst7x",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "2v49fueywz",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ulmgv2jezy",
+                  "name": "Heading Box",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "kyd4y2yed8",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Choose your Role",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wxokm2fx8p",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "How would you like to participate in Soldbay on your campus?",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "gf94kuoiq2",
+                  "name": "Role Cards Group",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "sr4qrgue6n",
+                      "name": "Buyer Role Card Active",
+                      "width": "fill_container",
+                      "cornerRadius": 20,
+                      "fill": "#ffffff",
+                      "stroke": "#3b7e68",
+                      "strokeWidth": 2,
+                      "padding": [
+                        20,
+                        20
+                      ],
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "skfkzw3b8m",
+                          "name": "Card Header Row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ho8b2hy7s6",
+                              "name": "Icon Badge",
+                              "width": 48,
+                              "height": 48,
+                              "cornerRadius": 24,
+                              "fill": "#eaf4f0",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "x6xn9r27bo",
+                                  "name": "Bag",
+                                  "icon": "shopping-bag",
+                                  "library": "lucide",
+                                  "fill": "#3b7e68",
+                                  "width": 24,
+                                  "height": 24
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "6xpyu4nqt5",
+                              "name": "Selected Pill",
+                              "padding": [
+                                4,
+                                10
+                              ],
+                              "cornerRadius": 12,
+                              "fill": "#3b7e68",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "2ohr1pysox",
+                                  "name": "Selected Text",
+                                  "fill": "#ffffff",
+                                  "content": "✓ Selected",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "et2vyj40hy",
+                          "name": "Card Body",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "1fmz2vq9md",
+                              "name": "Role Title",
+                              "fill": "#111827",
+                              "content": "I want to Buy",
+                              "fontFamily": "Bricolage Grotesque",
+                              "fontSize": 18,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "7fzub2gw6w",
+                              "name": "Role Desc",
+                              "fill": "#6b7280",
+                              "content": "Browse student listings, discover textbooks, gadgets, dorm decor, and order with campus delivery.",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "meledl909u",
+                      "name": "Seller Role Card",
+                      "width": "fill_container",
+                      "cornerRadius": 20,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        20,
+                        20
+                      ],
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "e4hqrfyvm7",
+                          "name": "Card Header Row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mgf3z180vx",
+                              "name": "Icon Badge",
+                              "width": 48,
+                              "height": 48,
+                              "cornerRadius": 24,
+                              "fill": "#fff7ed",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "p3rm3l1nhp",
+                                  "name": "Store",
+                                  "icon": "store",
+                                  "library": "lucide",
+                                  "fill": "#ea580c",
+                                  "width": 24,
+                                  "height": 24
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "kq0f0ug1ca",
+                              "name": "Verification Badge",
+                              "padding": [
+                                4,
+                                10
+                              ],
+                              "cornerRadius": 12,
+                              "fill": "#f3f4f6",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "3ux9jh9i6t",
+                                  "name": "Badge Text",
+                                  "fill": "#6b7280",
+                                  "content": "Requires Portal Verification",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dvpxubtf2p",
+                          "name": "Card Body",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kfmim9m49t",
+                              "name": "Role Title",
+                              "fill": "#111827",
+                              "content": "I want to Sell",
+                              "fontFamily": "Bricolage Grotesque",
+                              "fontSize": 18,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "mw2o2ivc3h",
+                              "name": "Role Desc",
+                              "fill": "#6b7280",
+                              "content": "Open your student store, list pre-loved or brand new items, manage inventory, and receive secure payouts.",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7pl4r9ki6r",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tzvj7gifla",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cggo4c3v0t",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Continue as Buyer",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "yj2n8e7u1x",
+      "name": "14. Onboarding — Choose University (Skippable)",
+      "x": 1290,
+      "y": 1800,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "4iqe01t0k3",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            28,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "1hsonvok2k",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "b7wmx1d9bc",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6hti2e9iyo",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6ffgk76bfo",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t8w6ldag63",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "pyvmei1bl9",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "zyh2bgmkhr",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x7bbyv4t9v",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "04bct1aa5y",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "jlnhr7zjcg",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "1tejcmjnjc",
+                      "name": "Nav Title",
+                      "fill": "#111827",
+                      "content": "University",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3ml1mxuv8p",
+                      "name": "Right Action Btn",
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "cornerRadius": 16,
+                      "fill": "#eaf4f0",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "junmiz44zq",
+                          "name": "Action Text",
+                          "fill": "#3b7e68",
+                          "content": "Skip ›",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "43upycx5qn",
+                  "name": "Heading Box",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ei3r01z13v",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Choose your University",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "g3r7vobjly",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Connect with verified students on campus, or skip to start shopping right away.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "p4zmxh6req",
+                  "name": "Search Bar",
+                  "width": "fill_container",
+                  "height": 48,
+                  "cornerRadius": 24,
+                  "fill": "#ffffff",
+                  "stroke": "#eeebe5",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "nmznelwx5n",
+                      "name": "Search Icon",
+                      "icon": "search",
+                      "library": "lucide",
+                      "fill": "#9ca3af",
+                      "width": 18,
+                      "height": 18
+                    },
+                    {
+                      "type": "text",
+                      "id": "avjqu1hz19",
+                      "name": "Search Placeholder",
+                      "fill": "#9ca3af",
+                      "content": "Search 50+ Nigerian universities...",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "0x583pwyl2",
+                  "name": "University Items List",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "uo7gxtqnq5",
+                      "name": "University Item Selected",
+                      "width": "fill_container",
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "cornerRadius": 16,
+                      "fill": "#ffffff",
+                      "stroke": "#3b7e68",
+                      "strokeWidth": 1.5,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "273k8g0v8y",
+                          "name": "Left Info",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "d74mjanb66",
+                              "name": "Uni Name",
+                              "fill": "#111827",
+                              "content": "Obafemi Awolowo University (OAU)",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "lin8fwfs8t",
+                              "name": "Location",
+                              "fill": "#6b7280",
+                              "content": "Ile-Ife, Osun State • Federal",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r1mr4yvpqa",
+                          "name": "Checkmark Circle",
+                          "width": 24,
+                          "height": 24,
+                          "cornerRadius": 12,
+                          "fill": "#3b7e68",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "x9qm4rqso4",
+                              "name": "Check",
+                              "icon": "check",
+                              "library": "lucide",
+                              "fill": "#ffffff",
+                              "width": 14,
+                              "height": 14
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "66mj02k29y",
+                      "name": "University Item 2",
+                      "width": "fill_container",
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "cornerRadius": 16,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "2oj7x3w2fr",
+                          "name": "Left Info",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "o6d3d0q7in",
+                              "name": "Uni Name",
+                              "fill": "#111827",
+                              "content": "University of Lagos (UNILAG)",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "8134a5lufv",
+                              "name": "Location",
+                              "fill": "#6b7280",
+                              "content": "Akoka, Lagos State • Federal",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tngjplaoor",
+                      "name": "University Item 3",
+                      "width": "fill_container",
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "cornerRadius": 16,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "2838j8yrtq",
+                          "name": "Left Info",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "etgx2icgrs",
+                              "name": "Uni Name",
+                              "fill": "#111827",
+                              "content": "University of Ibadan (UI)",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "finiwxwqbs",
+                              "name": "Location",
+                              "fill": "#6b7280",
+                              "content": "Ibadan, Oyo State • Federal",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fe28h8ep8z",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "t215j5t2oz",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hn60rb91p2",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Confirm OAU Campus",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rbazjqe0vd",
+                  "name": "Skip Button",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8zfb01rkyn",
+                      "name": "Skip Text",
+                      "fill": "#6b7280",
+                      "content": "Skip for now (Go to Buyer Home)",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "b3ksda4szu",
+      "name": "15. Seller — Verify Student Portal",
+      "x": 1720,
+      "y": 1800,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "gpi5xtec96",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "1ijl91s2sf",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "h0gbc62hm8",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7f95qzs3rm",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f1apr7pd9d",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "l1rilzupb4",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "426xdykpju",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "tetics3o76",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "d5lmv0vlm9",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "995f1fwnqn",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "8zqi8t65oj",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "lpaobvg85w",
+                      "name": "Nav Title",
+                      "fill": "#111827",
+                      "content": "Seller Verification",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p1zvv2c0bw",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xqux47he1q",
+                  "name": "Heading Box",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7fxe8484vt",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Verify Student Portal",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hervuii7he",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Upload a screenshot of your Student Portal home page (not exam portal) showing your name & matric number.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "m3wwazu7ep",
+                  "name": "Upload Zone Box",
+                  "width": "fill_container",
+                  "height": 200,
+                  "cornerRadius": 20,
+                  "fill": "#ffffff",
+                  "stroke": "#3b7e68",
+                  "strokeWidth": 1.5,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "l6b027ihkg",
+                      "name": "Upload Circle",
+                      "width": 56,
+                      "height": 56,
+                      "cornerRadius": 28,
+                      "fill": "#eaf4f0",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "4bah5jb8zs",
+                          "name": "Upload Icon",
+                          "icon": "upload-cloud",
+                          "library": "lucide",
+                          "fill": "#3b7e68",
+                          "width": 28,
+                          "height": 28
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6mw5cghzn7",
+                      "name": "Upload Text Container",
+                      "alignItems": "center",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "zyxjr2rwvd",
+                          "name": "Action Label",
+                          "fill": "#111827",
+                          "content": "Tap to select portal screenshot",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "g1ctg541ko",
+                          "name": "Format Note",
+                          "fill": "#9ca3af",
+                          "content": "JPG, PNG, WebP or HEIC (max 10 MB)",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "400"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "3zeu367gun",
+                  "name": "Security Row",
+                  "width": "fill_container",
+                  "padding": [
+                    12,
+                    14
+                  ],
+                  "cornerRadius": 12,
+                  "fill": "#eaf4f0",
+                  "alignItems": "center",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "i73uxi81ol",
+                      "name": "Shield",
+                      "icon": "shield-check",
+                      "library": "lucide",
+                      "fill": "#3b7e68",
+                      "width": 20,
+                      "height": 20
+                    },
+                    {
+                      "type": "text",
+                      "id": "foixgsuxk9",
+                      "name": "Security Text",
+                      "fill": "#285b4b",
+                      "content": "Your portal screenshot is encrypted and never shared with buyers.",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pc7deuolbq",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fn0vzj4s3u",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "3udp2sdto3",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Choose Screenshot",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "9w7dzoiqnr",
+      "name": "16. Auth — Forgot Password (Email)",
+      "x": 0,
+      "y": 2700,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "c7xu0ke2c8",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "vmc5dsqf86",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "p5hvb5wuve",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "84lgtlbaj2",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g4r4v7ika1",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z2qr4x8kpa",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "l2evaph4gy",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "gb0e4m5zfb",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1drogy82t9",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xnlpu3mg4r",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "nrp2veeh7f",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1v0wxjqc93",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "8y9x82q75p",
+                  "name": "Heading Box",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "f9svi6p8d2",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Reset Password",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pkf3lx6y0k",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Enter your registered email address and we will send you a 6-digit reset code.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ahogojmmdi",
+                  "name": "Input Group — Registered Email",
+                  "width": "fill_container",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hiq4hxbvv4",
+                      "name": "Label",
+                      "fill": "#374151",
+                      "content": "Registered Email",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t1i7bf283n",
+                      "name": "Input Box",
+                      "width": "fill_container",
+                      "height": 50,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "3ft2iz4xxb",
+                          "name": "Field Icon",
+                          "icon": "mail",
+                          "library": "lucide",
+                          "fill": "#9ca3af",
+                          "width": 18,
+                          "height": 18
+                        },
+                        {
+                          "type": "text",
+                          "id": "yv43umzo5d",
+                          "name": "Input Text",
+                          "fill": "#9ca3af",
+                          "content": "student@university.edu.ng",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "400"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ug81ocjijm",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "k4te3rivom",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "43ij3piuis",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Send Verification Code",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5axn77nvbz",
+                  "name": "Back to Login",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "1qnkt7201v",
+                      "name": "Back Text",
+                      "fill": "#3b7e68",
+                      "content": "Back to Sign In",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "uxudiww30m",
+      "name": "17. Auth — Enter 6-Digit OTP Code",
+      "x": 430,
+      "y": 2700,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "njp4myn42a",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "skfq7qalg6",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ixdo6zjat5",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "u4uban2xrx",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "9tsblk4b3f",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "r0rcx07axj",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "eyj3cls7iu",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "5bffls06rs",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ie3ziw30ms",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "re4vv6ns6q",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "8m6i5sy5vq",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uwqlr7900x",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xvx6w90hve",
+                  "name": "Heading Box",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yprf2epx9s",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Enter 6-Digit Code",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dkjk4zkusu",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "We sent a 6-digit verification code to alex@student.unilag.edu.ng",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "4vzadsco5c",
+                  "name": "OTP Boxes Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ziqsl7rchx",
+                      "name": "OTP Box 1",
+                      "width": 48,
+                      "height": 56,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#3b7e68",
+                      "strokeWidth": 1.5,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ahxijfgs42",
+                          "name": "Digit",
+                          "fill": "#111827",
+                          "content": "5",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zrqtaxa9yg",
+                      "name": "OTP Box 2",
+                      "width": 48,
+                      "height": 56,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#3b7e68",
+                      "strokeWidth": 1.5,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mu1cxm8bn7",
+                          "name": "Digit",
+                          "fill": "#111827",
+                          "content": "8",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "0twccf3tsw",
+                      "name": "OTP Box 3",
+                      "width": 48,
+                      "height": 56,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#3b7e68",
+                      "strokeWidth": 1.5,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mtu4gpp7qb",
+                          "name": "Digit",
+                          "fill": "#111827",
+                          "content": "2",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qlzxnovj3r",
+                      "name": "OTP Box 4",
+                      "width": 48,
+                      "height": 56,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#3b7e68",
+                      "strokeWidth": 1.5,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mnaqap61kp",
+                          "name": "Digit",
+                          "fill": "#111827",
+                          "content": "4",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "2y1gebxptp",
+                      "name": "OTP Box 5",
+                      "width": 48,
+                      "height": 56,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "2q31foi365",
+                          "name": "Digit",
+                          "fill": "#111827",
+                          "content": "",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "u65fj56pze",
+                      "name": "OTP Box 6",
+                      "width": 48,
+                      "height": 56,
+                      "cornerRadius": 14,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "1xfih8perx",
+                          "name": "Digit",
+                          "fill": "#111827",
+                          "content": "",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ju8jyo1on7",
+                  "name": "Resend Row",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8571loo7r6",
+                      "name": "Resend Question",
+                      "fill": "#6b7280",
+                      "content": "Didn't receive code?",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "400"
+                    },
+                    {
+                      "type": "text",
+                      "id": "v4b11l4dbm",
+                      "name": "Resend Action",
+                      "fill": "#3b7e68",
+                      "content": "Resend (0:45)",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "6vcquuqjuk",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bw0e6xrv8d",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "080ju2a0ag",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Verify Code",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "fzzumblxyc",
+      "name": "18. Auth — Set New Password",
+      "x": 860,
+      "y": 2700,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "tzivye2rg4",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "s5udgq78xe",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "2j6f5vvw1r",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sx151816vk",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fuzrjx2yme",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j4q7quf4vx",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "yd8ugbk9tr",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "o3unkyphq8",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wizdgm61dn",
+                  "name": "Top Nav",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "yi1cn170bv",
+                      "name": "Back Btn",
+                      "width": 36,
+                      "height": 36,
+                      "cornerRadius": 18,
+                      "fill": "#ffffff",
+                      "stroke": "#eeebe5",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "mp2mtudfw0",
+                          "name": "Back Icon",
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 20,
+                          "height": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "7c42wuqid9",
+                      "name": "Spacer",
+                      "width": 36,
+                      "height": 36
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xai2sn4d9v",
+                  "name": "Heading Box",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qxr53ega4e",
+                      "name": "Title",
+                      "fill": "#111827",
+                      "content": "Set New Password",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "c5k0h384vs",
+                      "name": "Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Create a strong new password for your Soldbay account.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mtdtfexya4",
+                  "name": "Password Fields",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "z66mg1bjx8",
+                      "name": "Input Group — New Password",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "4puiue8bix",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "New Password",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "6d4gsvbb3q",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ngmeomznjd",
+                              "name": "Field Icon",
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "w8zdfk4tqg",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "••••••••••••",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "x8o5bswvuf",
+                      "name": "Input Group — Confirm New Password",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "1vahsg3kr4",
+                          "name": "Label",
+                          "fill": "#374151",
+                          "content": "Confirm New Password",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "7ncnq5tppt",
+                          "name": "Input Box",
+                          "width": "fill_container",
+                          "height": 50,
+                          "cornerRadius": 14,
+                          "fill": "#ffffff",
+                          "stroke": "#eeebe5",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "rg7yvraqbp",
+                              "name": "Field Icon",
+                              "icon": "lock-check",
+                              "library": "lucide",
+                              "fill": "#9ca3af",
+                              "width": 18,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "nxy29cp02g",
+                              "name": "Input Text",
+                              "fill": "#9ca3af",
+                              "content": "••••••••••••",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "400"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "52o3zt2ttb",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nsl6568vqd",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ge2li2lpof",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Save New Password",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "nef5jls51m",
+      "name": "19. Auth — Reset Success",
+      "x": 1290,
+      "y": 2700,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": "#fcfbf9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "sc3lw3la7m",
+          "name": "Screen Container",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "2ou4i51qv3",
+              "name": "Top Section",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "44tjka1au7",
+                  "name": "Status Bar",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ytblcej88s",
+                      "name": "Time",
+                      "fill": "#111827",
+                      "content": "9:41",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z6i9d9utrm",
+                      "name": "Dynamic Island",
+                      "width": 96,
+                      "height": 24,
+                      "cornerRadius": 12,
+                      "fill": "#000000"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uoxysuvy3t",
+                      "name": "Right Icons",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "490sw2krbc",
+                          "name": "Wifi",
+                          "icon": "wifi",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 15,
+                          "height": 15
+                        },
+                        {
+                          "type": "icon",
+                          "id": "jf2o5faqbt",
+                          "name": "Battery",
+                          "icon": "battery-charging",
+                          "library": "lucide",
+                          "fill": "#111827",
+                          "width": 18,
+                          "height": 18
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "r1mqtghpg0",
+              "name": "Center Content",
+              "width": "fill_container",
+              "alignItems": "center",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "z6n05amy44",
+                  "name": "Success Icon Circle",
+                  "width": 80,
+                  "height": 80,
+                  "cornerRadius": 40,
+                  "fill": "#eaf4f0",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "ck6kygook4",
+                      "name": "Checkmark",
+                      "icon": "check",
+                      "library": "lucide",
+                      "fill": "#3b7e68",
+                      "width": 40,
+                      "height": 40
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "kg1lglxmyb",
+                  "name": "Success Text Group",
+                  "alignItems": "center",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "e8esal0jcj",
+                      "name": "Success Title",
+                      "fill": "#111827",
+                      "content": "Password Changed!",
+                      "fontFamily": "Bricolage Grotesque",
+                      "fontSize": 26,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "v6qoz6ylms",
+                      "name": "Success Subtitle",
+                      "fill": "#6b7280",
+                      "content": "Your password has been successfully updated. You can now sign in with your new credentials.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "400"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jfrjj0d2a1",
+              "name": "Bottom Actions",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "930lyn9aiv",
+                  "name": "Primary CTA",
+                  "width": "fill_container",
+                  "height": 52,
+                  "cornerRadius": 26,
+                  "fill": "#3b7e68",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fjgo3f63md",
+                      "name": "CTA Label",
+                      "fill": "#ffffff",
+                      "content": "Back to Sign In",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

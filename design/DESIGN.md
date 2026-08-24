@@ -58,14 +58,20 @@ Soldbay enforces a strict, universal typography rule across the entire project:
 
 ## 3. Screen Structure & Canvas Map (`design/starter.pen`)
 
-All 10 screens are organized in 2 rows of 5 screens:
+All 19 screens are systematically arranged on the Pen canvas across 4 rows:
 
 ```
-Row 1 (y = 0):
-[1] Onboarding (x: 0)  |  [2] Welcome / Get Started (x: 430)  |  [3] Home Feed (x: 860)  |  [4] Catalog & Filter (x: 1290)  |  [5] Product Detail (x: 1720)
+Row 1 (y = 0): Buyer Core Flow
+[1] Onboarding (x: 0)  |  [2] Welcome (x: 430)  |  [3] Home Feed (x: 860)  |  [4] Catalog & Filter (x: 1290)  |  [5] Product Detail (x: 1720)
 
-Row 2 (y = 900):
-[6] Cart (x: 0)        |  [7] Payment & Checkout (x: 430)     |  [8] Order Details (x: 860)  |  [9] My Orders List (x: 1290)  |  [10] Profile & Account (x: 1720)
+Row 2 (y = 900): Commerce & Checkout
+[6] Cart (x: 0)        |  [7] Payment & Checkout (x: 430)  |  [8] Order Details (x: 860)  |  [9] My Orders List (x: 1290)  |  [10] Profile (x: 1720)
+
+Row 3 (y = 1800): Authentication & Onboarding
+[11] Sign In (x: 0)    |  [12] Sign Up (x: 430)  |  [13] Select Role (x: 860)  |  [14] Choose University (x: 1290)  |  [15] Verify Student Portal (x: 1720)
+
+Row 4 (y = 2700): Password Reset Flow
+[16] Forgot Password (x: 0)  |  [17] Enter 6-Digit OTP (x: 430)  |  [18] Set New Password (x: 860)  |  [19] Reset Success (x: 1290)
 ```
 
 ### Screen Specifications
@@ -129,3 +135,63 @@ Row 2 (y = 900):
 - Settings Menu: Campus Delivery Address, Saved Cards & Payment, Switch to Seller Dashboard.
 
 ---
+
+### Row 3: Authentication & Onboarding Flow
+
+#### 11. Auth — Sign In / Login (`x: 0, y: 1800`)
+- Title: *"Welcome Back"*, Subtitle: *"Sign in to buy and sell verified campus items."*
+- Form inputs: Email Address & Password with show/hide toggle.
+- "Forgot password?" right-aligned link in Deep Green.
+- Deep Green CTA: *"Sign In"*.
+- Footer: *"Don't have an account? Create account"*.
+
+#### 12. Auth — Sign Up / Register (`x: 430, y: 1800`)
+- Title: *"Create Account"*, Subtitle: *"Join Soldbay to connect with students on campus."*
+- Role Selector Pill: *Buyer* (Active Green) vs. *Seller*.
+- Form inputs: Full Name, Email Address, Password, Confirm Password.
+- Deep Green CTA: *"Create Account"*.
+- Footer: *"Already have an account? Sign In"*.
+
+#### 13. Auth — Select Role (Buyer vs Seller) (`x: 860, y: 1800`)
+- Title: *"Choose your Role"*, Subtitle: *"How would you like to participate in Soldbay on your campus?"*
+- Buyer Card (Selected): Active green border, shopping bag icon, title *"I want to Buy"*, subtitle detailing browsing, dorm essentials, and campus delivery.
+- Seller Card: Orange storefront icon, title *"I want to Sell"*, badge *"Requires Portal Verification"*, subtitle detailing opening store, listing inventory, and payouts.
+- Action CTA: *"Continue as Buyer"* / *"Continue as Seller"*.
+
+#### 14. Onboarding — Choose University (Skippable for Buyer) (`x: 1290, y: 1800`)
+- Top Nav: Header title *"University"*, right-action *"Skip ›"*.
+- Title: *"Choose your University"*, Subtitle: *"Connect with verified students on campus, or skip to start shopping right away."*
+- Search Bar: Rounded pill search input with search icon.
+- University List: Filtered cards with Federal/State badges (OAU selected with green checkmark, UNILAG, UI, FUTA, UNIBEN).
+- Action CTA: Green *"Confirm Campus"* button + Secondary *"Skip for now (Go to Buyer Home)"*.
+
+#### 15. Seller — Verify Student Portal (`x: 1720, y: 1800`)
+- Header: *"Seller Verification"*.
+- Title: *"Verify Student Portal"*, Subtitle: *"Upload a screenshot of your Student Portal home page (not exam portal) showing your name & matric number."*
+- Upload Zone Box: White card with green dashed border, cloud upload icon, and format tag (*"JPG, PNG, WebP or HEIC (max 10 MB)"*).
+- Security Row: Shield checkmark icon with text *"Your portal screenshot is encrypted and never shared with buyers."*
+- Action CTA: Deep Green *"Choose Screenshot"* / *"Submit for Review"*.
+
+---
+
+### Row 4: Password Reset Flow
+
+#### 16. Auth — Forgot Password (`x: 0, y: 2700`)
+- Title: *"Reset Password"*, Subtitle: *"Enter your registered email address and we will send you a 6-digit reset code."*
+- Email input field + Green CTA *"Send Verification Code"*.
+
+#### 17. Auth — Enter 6-Digit OTP (`x: 430, y: 2700`)
+- Title: *"Enter 6-Digit Code"*, Subtitle: *"We sent a 6-digit verification code to alex@student.unilag.edu.ng"*.
+- 6-box OTP digit grid with active border indicator.
+- Resend link with countdown timer.
+- Action CTA: *"Verify Code"*.
+
+#### 18. Auth — Set New Password (`x: 860, y: 2700`)
+- Title: *"Set New Password"*, Subtitle: *"Create a strong new password for your Soldbay account."*
+- Form inputs: New Password and Confirm New Password with eye toggles.
+- Action CTA: *"Save New Password"*.
+
+#### 19. Auth — Reset Success (`x: 1290, y: 2700`)
+- Large glowing green checkmark circle.
+- Title: *"Password Changed!"*, Subtitle: *"Your password has been successfully updated. You can now sign in with your new credentials."*
+- Action CTA: *"Back to Sign In"*.
