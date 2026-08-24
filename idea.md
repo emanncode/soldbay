@@ -1,0 +1,1 @@
+1. sellers can verify with the home page of student portal not exam portal their student portal, not only their id card, they can use any

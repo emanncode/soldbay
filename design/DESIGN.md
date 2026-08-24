@@ -4,7 +4,9 @@
 
 ---
 
-## 1. Brand Identity & New Color System (Green / White / Warm Neutral)
+## 1. Brand Identity & Global Color System (Green / White / Warm Neutral)
+
+**Deep Forest Green (`#3b7e68` / `#2e7d60`)** serves as the **Global Color Code** and foundational anchor for the entire Soldbay project. All other secondary colors, tints, surfaces, and functional accents are systematically derived from and balanced against this root identity.
 
 Soldbay has transitioned completely to a fresh, clean modern luxury marketplace aesthetic featuring **Deep Forest Green (`#3b7e68` / `#2e7d60`)**, **Pure White (`#ffffff`)**, **Warm Off-White (`#fcfbf9`)**, and **Warm Coral / Terracotta accents (`#df4a32`)**.
 
@@ -12,7 +14,7 @@ Soldbay has transitioned completely to a fresh, clean modern luxury marketplace 
 
 | Role | Token / Name | Hex Code | Usage |
 |---|---|---|---|
-| **Primary Brand** | `primary` / Green | `#3b7e68` | Primary action buttons (*Next*, *Show Now*, *Pay Now*), checkmarks, active indicators |
+| **Global Primary Brand** | `primary` / Forest Green | `#3b7e68` | Primary global brand color, primary action CTAs (*Next*, *Show Now*, *Pay Now*, *Proceed to Checkout*), checkmarks, active indicators |
 | **Primary Dark** | `primary-dark` | `#285b4b` | Pressed button states, dark green badges |
 | **Primary Light / Tint** | `primary-light` / `primary-tint` | `#eaf4f0` / `#edf7f3` | Icon circles, badge backgrounds, selected filter pills |
 | **Accent Action / Coral** | `accent` / Coral Red | `#df4a32` / `#e25841` | Wishlist hearts, discount tags (`-30%`, `-50%`), cart badge count, active tab |
@@ -30,19 +32,27 @@ Soldbay has transitioned completely to a fresh, clean modern luxury marketplace 
 
 ---
 
-## 2. Typography & Scale
+## 2. Typography & Font System
 
-| Role | Font Family | Weights | Usage |
+Soldbay enforces a strict, universal typography rule across the entire project:
+
+* **Headers & Titles**: **`Bricolage Grotesque`** (Weights: 600 SemiBold, 700 Bold, 800 ExtraBold) — **Strict Rule**: *Anything* that is a header, title, screen headline, display banner, modal title, or section heading **MUST** use `Bricolage Grotesque`.
+* **Paragraphs, Body & Non-Headers**: **`Inter`** (Weights: 400 Regular, 500 Medium, 600 SemiBold) — **Strict Rule**: *All* paragraphs, body copy, descriptions, input fields, button labels, chips, status pills, subtitles, captions, and other UI elements that are not headers **MUST** use `Inter`.
+
+### Font Token Mapping
+
+| Hierarchy Role | Font Family | Weights | Usage Scope |
 |---|---|---|---|
-| **Display / Headlines** | `Bricolage Grotesque` | 600 (Semibold), 700 (Bold) | Main screen titles, hero titles, product names, price tags |
-| **Body / UI Elements** | `Inter` | 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold) | Subtitles, buttons, input fields, badges, stepper controls |
+| **All Headers / Display / Headings** | `Bricolage Grotesque` | 600 (SemiBold), 700 (Bold), 800 (ExtraBold) | Hero headlines, screen titles, category headers, card titles, section headings |
+| **Paragraphs / Body / All Non-Headers** | `Inter` | 400 (Regular), 500 (Medium), 600 (SemiBold) | Paragraphs, descriptions, subtitles, buttons, form inputs, badge text, metadata, tooltips |
 
 ### Scale Rules (8pt Grid Enforced)
-- **Display XL (26–28pt)**: Onboarding & Welcome titles (*"Explore Fashion Categories"*, *"Let's Get Started"*)
-- **Display L (20–22pt)**: Screen titles (*"My Orders"*, *"My Profile"*, *"Product Detail"*)
-- **Heading M (16–18pt)**: Category title (*"Shop by Category"*), Price in details (`$50.00`), Cart sheet total
-- **Body M (12–14pt)**: Product card titles, button labels, list items, search inputs
-- **Body S / Caption (10–11pt)**: Rating reviews, seller handles, tag labels, status pills
+- **Display XL (26–28pt mobile / 56px web)**: `Bricolage Grotesque Bold` — Onboarding & Welcome titles (*"Explore Fashion Categories"*, *"Let's Get Started"*)
+- **Display L (20–22pt mobile / 40px web)**: `Bricolage Grotesque Bold` — Screen titles (*"My Orders"*, *"My Profile"*, *"Product Detail"*)
+- **Heading M (16–18pt mobile / 24px web)**: `Bricolage Grotesque SemiBold` — Category title (*"Shop by Category"*), Price in details (`$50.00`), Cart sheet total
+- **Body L / Intro (18px web / 16pt mobile)**: `Inter Regular` — Paragraph leads, hero subtitles
+- **Body M / Paragraph (14–16px / 12–14pt)**: `Inter Regular` — Paragraphs, product descriptions, button labels, list items, search inputs
+- **Body S / Caption (10–12pt / 12–14px)**: `Inter Medium / Regular` — Rating reviews, seller handles, tag labels, status pills
 
 ---
 
