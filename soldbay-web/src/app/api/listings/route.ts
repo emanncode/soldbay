@@ -87,9 +87,16 @@ export async function POST(request: Request) {
 
     const seller = await prisma.sellerProfile.findUnique({
       where: { id: body.sellerId },
+      include: { user: true },
     })
     if (!seller) {
       return NextResponse.json({ error: "Seller profile not found." }, { status: 404 })
+    }
+    if (!seller.user.universityId) {
+      return NextResponse.json(
+        { error: "Seller must be associated with a university before creating listings." },
+        { status: 403 },
+      )
     }
 
     const categoryWhere = body.categoryId

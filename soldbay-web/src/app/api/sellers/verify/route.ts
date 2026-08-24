@@ -39,14 +39,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // --- Find seller profile ---
+    // --- Find seller profile & user ---
     const profile = await prisma.sellerProfile.findUnique({
       where: { userId },
+      include: { user: true },
     })
     if (!profile) {
       return NextResponse.json(
         { error: "Seller profile not found." },
         { status: 404 },
+      )
+    }
+
+    if (!profile.user.universityId) {
+      return NextResponse.json(
+        { error: "Please select your university before submitting student portal verification." },
+        { status: 400 },
       )
     }
 
@@ -56,28 +64,28 @@ export async function POST(request: Request) {
 
     if (!file || typeof file === "string") {
       return NextResponse.json(
-        { error: "Please upload an image of your student ID." },
+        { error: "Please upload a screenshot of your student portal home page." },
         { status: 400 },
       )
     }
 
     if (!ALLOWED_MIME_TYPES.has(file.type)) {
       return NextResponse.json(
-        { error: "File must be a JPEG, PNG, WebP, or HEIC image." },
+        { error: "File must be a JPEG, PNG, WebP, or HEIC screenshot/image." },
         { status: 400 },
       )
     }
 
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { error: "Image must be under 5 MB." },
+        { error: "Screenshot must be under 5 MB." },
         { status: 400 },
       )
     }
 
     // --- Upload to Vercel Blob ---
     const ext = file.type.split("/")[1] ?? "jpg"
-    const blobPath = `seller-ids/${profile.id}-${Date.now()}.${ext}`
+    const blobPath = `seller-portals/${profile.id}-${Date.now()}.${ext}`
 
     const blob = await put(blobPath, file, {
       access: "public",
