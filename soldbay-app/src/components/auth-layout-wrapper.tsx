@@ -254,9 +254,8 @@ const styles = StyleSheet.create({
     borderColor: "rgba(34, 197, 94, 0.25)",
   },
   arBrandLogo: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    padding: 6,
+    borderRadius: 28,
     backgroundColor: "rgba(34, 197, 94, 0.12)",
     alignItems: "center",
     justifyContent: "center",
@@ -264,12 +263,12 @@ const styles = StyleSheet.create({
     borderColor: "rgba(34, 197, 94, 0.3)",
   },
   brandLogo: {
-    width: 20,
-    height: 20,
+    width: 32,
+    height: 32,
   },
   brandTitle: {
     fontFamily: "BricolageGrotesque-Bold",
-    fontSize: 17,
+    fontSize: 22,
     letterSpacing: 0.4,
   },
   brandSold: {
