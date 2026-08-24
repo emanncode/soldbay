@@ -8,6 +8,7 @@ import {
   Keyboard,
   Platform,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,26 +17,74 @@ import { ErrorBanner } from "@/components/error-banner";
 import { BASE_URL, updateUserProfile, getMe, ApiError } from "@/lib/api";
 import type { University } from "@/components/university-picker";
 
+const FALLBACK_UNIVERSITIES: University[] = [
+  { id: "unilag", name: "University of Lagos", code: "UNILAG" },
+  { id: "cu", name: "Covenant University", code: "CU" },
+  { id: "ui", name: "University of Ibadan", code: "UI" },
+  { id: "oau", name: "Obafemi Awolowo University", code: "OAU" },
+  { id: "unn", name: "University of Nigeria, Nsukka", code: "UNN" },
+  { id: "abu", name: "Ahmadu Bello University", code: "ABU" },
+  { id: "futa", name: "Federal University of Technology, Akure", code: "FUTA" },
+  { id: "uniben", name: "University of Benin", code: "UNIBEN" },
+  { id: "bu", name: "Babcock University", code: "BU" },
+  { id: "lmu", name: "Landmark University", code: "LMU" },
+  { id: "pau", name: "Pan-Atlantic University", code: "PAU" },
+  { id: "bowen", name: "Bowen University", code: "BOWEN" },
+  { id: "unilorin", name: "University of Ilorin", code: "UNILORIN" },
+  { id: "lasu", name: "Lagos State University", code: "LASU" },
+  { id: "futminna", name: "Federal University of Technology, Minna", code: "FUTMINNA" },
+  { id: "uniport", name: "University of Port Harcourt", code: "UNIPORT" },
+  { id: "ug", name: "University of Ghana", code: "UG" },
+  { id: "knust", name: "Kwame Nkrumah University of Science and Technology", code: "KNUST" },
+];
+
 export default function SelectUniversityScreen() {
   const router = useRouter();
-  const [universities, setUniversities] = useState<University[]>([]);
+  const [universities, setUniversities] = useState<University[]>(FALLBACK_UNIVERSITIES);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     fetch(`${BASE_URL}/api/universities`)
-      .then((res) => res.json())
-      .then((data) => setUniversities(data))
-      .catch(() => setError("Failed to load universities. Please try again."))
-      .finally(() => setLoading(false));
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => {
+        if (!cancelled) {
+          if (Array.isArray(data) && data.length > 0) {
+            setUniversities(data);
+          } else {
+            setUniversities(FALLBACK_UNIVERSITIES);
+          }
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setUniversities(FALLBACK_UNIVERSITIES);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return universities;
     const q = query.trim().toLowerCase();
-    return universities.filter((u) => u.name.toLowerCase().includes(q));
+    return universities.filter(
+      (u) =>
+        u.name.toLowerCase().includes(q) ||
+        (u.code && u.code.toLowerCase().includes(q)),
+    );
   }, [universities, query]);
 
   async function handleSelect(university: University) {
@@ -108,9 +157,9 @@ export default function SelectUniversityScreen() {
           </View>
         )}
 
-        {loading ? (
+        {loading && universities.length === 0 ? (
           <View style={styles.stateBlock}>
-            <ActivityIndicator color="#5A91C2" size="large" />
+            <ActivityIndicator color="#22c55e" size="large" />
             <Text style={styles.stateText}>Loading universities...</Text>
           </View>
         ) : filtered.length === 0 ? (
@@ -121,7 +170,12 @@ export default function SelectUniversityScreen() {
             </Text>
           </View>
         ) : (
-          <View style={styles.listContainer}>
+          <ScrollView
+            style={styles.listScroll}
+            contentContainerStyle={styles.listContainer}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
             {filtered.map((item) => (
               <TouchableOpacity
                 key={item.id}
@@ -134,11 +188,16 @@ export default function SelectUniversityScreen() {
                 ]}
               >
                 <View style={styles.uniIconCircle}>
-                  <Ionicons name="school" size={20} color="#4ade80" />
+                  <Ionicons name="school" size={18} color="#4ade80" />
                 </View>
-                <Text style={styles.uniName} numberOfLines={2}>
-                  {item.name}
-                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.uniName} numberOfLines={1}>
+                    {item.name}
+                  </Text>
+                  {item.code ? (
+                    <Text style={styles.uniCode}>{item.code}</Text>
+                  ) : null}
+                </View>
                 <Ionicons
                   name="chevron-forward"
                   size={18}
@@ -146,7 +205,7 @@ export default function SelectUniversityScreen() {
                 />
               </TouchableOpacity>
             ))}
-          </View>
+          </ScrollView>
         )}
 
         {submitting && (
@@ -199,9 +258,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 0,
   },
+  listScroll: {
+    maxHeight: 260,
+  },
   listContainer: {
     gap: 10,
     marginTop: 4,
+    paddingBottom: 8,
   },
   uniCard: {
     backgroundColor: "#18181b",
@@ -213,6 +276,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+  },
+  uniCode: {
+    fontFamily: "Inter-Regular",
+    fontSize: 12,
+    color: "#4ade80",
+    marginTop: 2,
   },
   uniIconCircle: {
     width: 38,

@@ -12,6 +12,27 @@ const categories = [
   { name: "Services", slug: "services", commissionRate: 12 },
 ];
 
+const universities = [
+  { name: "University of Lagos", code: "UNILAG" },
+  { name: "Covenant University", code: "CU" },
+  { name: "University of Ibadan", code: "UI" },
+  { name: "Obafemi Awolowo University", code: "OAU" },
+  { name: "University of Nigeria, Nsukka", code: "UNN" },
+  { name: "Ahmadu Bello University", code: "ABU" },
+  { name: "Federal University of Technology, Akure", code: "FUTA" },
+  { name: "University of Benin", code: "UNIBEN" },
+  { name: "Babcock University", code: "BU" },
+  { name: "Landmark University", code: "LMU" },
+  { name: "Pan-Atlantic University", code: "PAU" },
+  { name: "Bowen University", code: "BOWEN" },
+  { name: "University of Ilorin", code: "UNILORIN" },
+  { name: "Lagos State University", code: "LASU" },
+  { name: "Federal University of Technology, Minna", code: "FUTMINNA" },
+  { name: "University of Port Harcourt", code: "UNIPORT" },
+  { name: "University of Ghana", code: "UG" },
+  { name: "Kwame Nkrumah University of Science and Technology", code: "KNUST" },
+];
+
 async function warmup(retries = 5, delayMs = 1500) {
   for (let i = 0; i < retries; i++) {
     try {
@@ -40,8 +61,17 @@ async function main() {
     });
   }
 
-  const count = await prisma.category.count();
-  console.log(`Seeded ${count} categories`);
+  for (const uni of universities) {
+    await prisma.university.upsert({
+      where: { code: uni.code },
+      update: { name: uni.name },
+      create: uni,
+    });
+  }
+
+  const catCount = await prisma.category.count();
+  const uniCount = await prisma.university.count();
+  console.log(`Seeded ${catCount} categories and ${uniCount} universities.`);
 }
 
 main()
