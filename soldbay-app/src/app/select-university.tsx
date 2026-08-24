@@ -1,9 +1,11 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Animated,
   ActivityIndicator,
   Keyboard,
   Platform,
@@ -37,6 +39,72 @@ const FALLBACK_UNIVERSITIES: University[] = [
   { id: "ug", name: "University of Ghana", code: "UG" },
   { id: "knust", name: "Kwame Nkrumah University of Science and Technology", code: "KNUST" },
 ];
+
+function UniCardItem({
+  item,
+  onSelect,
+  disabled,
+}: {
+  item: University;
+  onSelect: () => void;
+  disabled: boolean;
+}) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    if (disabled) return;
+    Animated.spring(scale, {
+      toValue: 0.97,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 4,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    if (disabled) return;
+    Animated.spring(scale, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 8,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={onSelect}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      disabled={disabled}
+    >
+      <Animated.View
+        style={[
+          styles.uniCard,
+          disabled && { opacity: 0.5 },
+          { transform: [{ scale }] },
+        ]}
+      >
+        <View style={styles.uniIconCircle}>
+          <Ionicons name="school" size={18} color="#4ade80" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.uniName} numberOfLines={1}>
+            {item.name}
+          </Text>
+          {item.code ? (
+            <Text style={styles.uniCode}>{item.code}</Text>
+          ) : null}
+        </View>
+        <Ionicons
+          name="chevron-forward"
+          size={18}
+          color="rgba(255, 255, 255, 0.3)"
+        />
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+}
 
 export default function SelectUniversityScreen() {
   const router = useRouter();
@@ -177,33 +245,12 @@ export default function SelectUniversityScreen() {
             keyboardShouldPersistTaps="handled"
           >
             {filtered.map((item) => (
-              <TouchableOpacity
+              <UniCardItem
                 key={item.id}
-                onPress={() => handleSelect(item)}
+                item={item}
+                onSelect={() => handleSelect(item)}
                 disabled={submitting}
-                activeOpacity={0.7}
-                style={[
-                  styles.uniCard,
-                  submitting && { opacity: 0.5 },
-                ]}
-              >
-                <View style={styles.uniIconCircle}>
-                  <Ionicons name="school" size={18} color="#4ade80" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.uniName} numberOfLines={1}>
-                    {item.name}
-                  </Text>
-                  {item.code ? (
-                    <Text style={styles.uniCode}>{item.code}</Text>
-                  ) : null}
-                </View>
-                <Ionicons
-                  name="chevron-forward"
-                  size={18}
-                  color="rgba(255, 255, 255, 0.3)"
-                />
-              </TouchableOpacity>
+              />
             ))}
           </ScrollView>
         )}

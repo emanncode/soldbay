@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
   Platform,
   TouchableOpacity,
   StyleSheet,
+  Animated,
 } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
@@ -22,6 +23,27 @@ export default function VerifySellerScreen() {
   const [screenState, setScreenState] = useState<ScreenState>("loading");
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+
+  const stateAnim = useRef(new Animated.Value(1)).current;
+  const stateTranslateY = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    stateAnim.setValue(0);
+    stateTranslateY.setValue(12);
+    Animated.parallel([
+      Animated.timing(stateAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.spring(stateTranslateY, {
+        toValue: 0,
+        friction: 6,
+        tension: 50,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [screenState, stateAnim, stateTranslateY]);
 
   async function checkStatus() {
     try {
@@ -231,7 +253,14 @@ export default function VerifySellerScreen() {
 
   return (
     <AuthLayoutWrapper backRoute="/buyer/home" backTitle="Back">
-      {renderContent()}
+      <Animated.View
+        style={{
+          opacity: stateAnim,
+          transform: [{ translateY: stateTranslateY }],
+        }}
+      >
+        {renderContent()}
+      </Animated.View>
     </AuthLayoutWrapper>
   );
 }

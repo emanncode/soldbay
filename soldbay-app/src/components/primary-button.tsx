@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   Text,
   ActivityIndicator,
   StyleSheet,
   View,
+  Animated,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -22,37 +23,66 @@ export function PrimaryButton({
   label,
 }: PrimaryButtonProps) {
   const isDisabled = disabled || loading;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    if (isDisabled) return;
+    Animated.spring(scaleAnim, {
+      toValue: 0.96,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 4,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    if (isDisabled) return;
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 8,
+    }).start();
+  };
 
   return (
-    <TouchableOpacity
+    <TouchableWithoutFeedback
       onPress={onPress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
       disabled={isDisabled}
-      activeOpacity={0.88}
-      style={[styles.btnContainer, isDisabled && styles.btnDisabled]}
     >
-      <LinearGradient
-        colors={
-          isDisabled
-            ? ["#27272a", "#18181b"]
-            : ["#22c55e", "#15803d"]
-        }
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gradient}
+      <Animated.View
+        style={[
+          styles.btnContainer,
+          isDisabled && styles.btnDisabled,
+          { transform: [{ scale: scaleAnim }] },
+        ]}
       >
-        <View style={styles.contentRow}>
-          {loading && <ActivityIndicator color="#ffffff" size="small" />}
-          <Text
-            style={[
-              styles.btnText,
-              isDisabled && { color: "#71717a" },
-            ]}
-          >
-            {label}
-          </Text>
-        </View>
-      </LinearGradient>
-    </TouchableOpacity>
+        <LinearGradient
+          colors={
+            isDisabled
+              ? ["#27272a", "#18181b"]
+              : ["#22c55e", "#15803d"]
+          }
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradient}
+        >
+          <View style={styles.contentRow}>
+            {loading && <ActivityIndicator color="#ffffff" size="small" />}
+            <Text
+              style={[
+                styles.btnText,
+                isDisabled && { color: "#71717a" },
+              ]}
+            >
+              {label}
+            </Text>
+          </View>
+        </LinearGradient>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 }
 

@@ -1,4 +1,5 @@
-import { View, Text } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Text, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 interface ErrorBannerProps {
@@ -6,8 +7,20 @@ interface ErrorBannerProps {
 }
 
 export function ErrorBanner({ message }: ErrorBannerProps) {
+  const anim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    anim.setValue(0);
+    Animated.spring(anim, {
+      toValue: 1,
+      tension: 50,
+      friction: 7,
+      useNativeDriver: true,
+    }).start();
+  }, [message, anim]);
+
   return (
-    <View
+    <Animated.View
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -17,19 +30,34 @@ export function ErrorBanner({ message }: ErrorBannerProps) {
         borderColor: "rgba(220,38,38,0.3)",
         borderRadius: 12,
         padding: 14,
+        opacity: anim,
+        transform: [
+          {
+            translateY: anim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [-8, 0],
+            }),
+          },
+          {
+            scale: anim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.96, 1],
+            }),
+          },
+        ],
       }}
     >
-      <Ionicons name="alert-circle" size={16} color="#dc2626" />
+      <Ionicons name="alert-circle" size={16} color="#ef4444" />
       <Text
         style={{
           fontFamily: "Inter-Regular",
           fontSize: 13,
-          color: "#dc2626",
+          color: "#ef4444",
           flex: 1,
         }}
       >
         {message}
       </Text>
-    </View>
+    </Animated.View>
   );
 }

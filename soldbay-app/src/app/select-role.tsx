@@ -1,8 +1,9 @@
-import { useState, type ComponentProps } from "react";
+import { useState, useRef, type ComponentProps } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Animated,
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -35,6 +36,94 @@ const ROLES: {
   },
 ];
 
+function RoleCardItem({
+  role,
+  isSelected,
+  onSelect,
+  disabled,
+}: {
+  role: (typeof ROLES)[0];
+  isSelected: boolean;
+  onSelect: () => void;
+  disabled: boolean;
+}) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    if (disabled) return;
+    Animated.spring(scale, {
+      toValue: 0.96,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 4,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    if (disabled) return;
+    Animated.spring(scale, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 8,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={onSelect}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      disabled={disabled}
+    >
+      <Animated.View
+        style={[
+          styles.roleCard,
+          isSelected && styles.roleCardSelected,
+          disabled && { opacity: 0.7 },
+          { transform: [{ scale }] },
+        ]}
+      >
+        <View
+          style={[
+            styles.roleIconCircle,
+            isSelected && styles.roleIconCircleSelected,
+          ]}
+        >
+          <Ionicons
+            name={role.icon}
+            size={24}
+            color={isSelected ? "#ffffff" : "rgba(255, 255, 255, 0.6)"}
+          />
+        </View>
+
+        <View style={styles.roleInfo}>
+          <Text
+            style={[
+              styles.roleLabel,
+              isSelected && styles.roleLabelSelected,
+            ]}
+          >
+            {role.label}
+          </Text>
+          <Text style={styles.roleDesc}>{role.description}</Text>
+        </View>
+
+        <View
+          style={[
+            styles.radioCircle,
+            isSelected && styles.radioCircleSelected,
+          ]}
+        >
+          {isSelected && (
+            <Ionicons name="checkmark" size={14} color="#ffffff" />
+          )}
+        </View>
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+}
+
 export default function SelectRoleScreen() {
   const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<Role | null>("buyer");
@@ -61,58 +150,15 @@ export default function SelectRoleScreen() {
 
         {/* Role Cards */}
         <View style={styles.rolesList}>
-          {ROLES.map((role) => {
-            const isSelected = selectedRole === role.id;
-            return (
-              <TouchableOpacity
-                key={role.id}
-                onPress={() => setSelectedRole(role.id)}
-                activeOpacity={0.8}
-                disabled={loading}
-                style={[
-                  styles.roleCard,
-                  isSelected && styles.roleCardSelected,
-                  loading && { opacity: 0.7 },
-                ]}
-              >
-                <View
-                  style={[
-                    styles.roleIconCircle,
-                    isSelected && styles.roleIconCircleSelected,
-                  ]}
-                >
-                  <Ionicons
-                    name={role.icon}
-                    size={24}
-                    color={isSelected ? "#ffffff" : "rgba(255, 255, 255, 0.6)"}
-                  />
-                </View>
-
-                <View style={styles.roleInfo}>
-                  <Text
-                    style={[
-                      styles.roleLabel,
-                      isSelected && styles.roleLabelSelected,
-                    ]}
-                  >
-                    {role.label}
-                  </Text>
-                  <Text style={styles.roleDesc}>{role.description}</Text>
-                </View>
-
-                <View
-                  style={[
-                    styles.radioCircle,
-                    isSelected && styles.radioCircleSelected,
-                  ]}
-                >
-                  {isSelected && (
-                    <Ionicons name="checkmark" size={14} color="#ffffff" />
-                  )}
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+          {ROLES.map((role) => (
+            <RoleCardItem
+              key={role.id}
+              role={role}
+              isSelected={selectedRole === role.id}
+              onSelect={() => setSelectedRole(role.id)}
+              disabled={loading}
+            />
+          ))}
         </View>
 
         {/* Action Button */}

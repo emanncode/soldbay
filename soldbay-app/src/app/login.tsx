@@ -80,6 +80,26 @@ export default function LoginScreen() {
     ])
   );
 
+  const [checkScale] = useState(() => new Animated.Value(1));
+
+  const toggleRememberMe = () => {
+    if (loading) return;
+    Animated.sequence([
+      Animated.timing(checkScale, {
+        toValue: 0.8,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+      Animated.spring(checkScale, {
+        toValue: 1,
+        friction: 4,
+        tension: 50,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    setRememberMe(!rememberMe);
+  };
+
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   function validate() {
@@ -203,16 +223,18 @@ export default function LoginScreen() {
         >
           <View style={styles.optionsRow}>
             <TouchableOpacity
-              onPress={() => setRememberMe(!rememberMe)}
+              onPress={toggleRememberMe}
               style={styles.checkboxContainer}
               activeOpacity={0.8}
               disabled={loading}
             >
-              <Ionicons
-                name={rememberMe ? "checkbox" : "square-outline"}
-                size={20}
-                color={rememberMe ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
-              />
+              <Animated.View style={{ transform: [{ scale: checkScale }] }}>
+                <Ionicons
+                  name={rememberMe ? "checkbox" : "square-outline"}
+                  size={20}
+                  color={rememberMe ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
+                />
+              </Animated.View>
               <Text style={[styles.checkboxText, loading && { opacity: 0.6 }]}>
                 Remember me
               </Text>

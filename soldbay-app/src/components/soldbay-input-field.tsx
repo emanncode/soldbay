@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   Platform,
+  Animated,
   type TextInputProps,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,6 +23,7 @@ interface SoldBayInputFieldProps {
   rightElement?: React.ReactNode;
   disabled?: boolean;
   onBlur?: () => void;
+  onFocus?: () => void;
   maxLength?: number;
 }
 
@@ -38,21 +40,63 @@ export function SoldBayInputField({
   rightElement,
   disabled,
   onBlur,
+  onFocus,
   maxLength,
 }: SoldBayInputFieldProps) {
+  const [isFocused, setIsFocused] = useState(false);
+  const focusAnim = useRef(new Animated.Value(0)).current;
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    Animated.timing(focusAnim, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+    onFocus?.();
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    Animated.timing(focusAnim, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+    onBlur?.();
+  };
+
+  const borderColor = error
+    ? "#ef4444"
+    : focusAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["rgba(255, 255, 255, 0.14)", "#22c55e"],
+      });
+
+  const iconColor = error
+    ? "#ef4444"
+    : isFocused
+    ? "#22c55e"
+    : "rgba(255, 255, 255, 0.6)";
+
   return (
     <View style={styles.inputGroup}>
-      {label && <Text style={styles.inputLabel}>{label}</Text>}
-      <View
+      {label && (
+        <Text style={[styles.inputLabel, isFocused && { color: "#4ade80" }]}>
+          {label}
+        </Text>
+      )}
+      <Animated.View
         style={[
           styles.inputWrapper,
+          { borderColor },
           error ? styles.wrapperError : null,
           disabled ? styles.wrapperDisabled : null,
         ]}
       >
         {icon && (
           <>
-            <Ionicons name={icon} size={20} color="rgba(255, 255, 255, 0.6)" />
+            <Ionicons name={icon} size={20} color={iconColor} />
             <View style={styles.separator} />
           </>
         )}
@@ -65,7 +109,8 @@ export function SoldBayInputField({
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           editable={!disabled}
-          onBlur={onBlur}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           maxLength={maxLength}
           style={[
             styles.textInput,
@@ -77,7 +122,7 @@ export function SoldBayInputField({
           ]}
         />
         {rightElement}
-      </View>
+      </Animated.View>
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
@@ -99,7 +144,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#18181b",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.14)",
     borderRadius: 16,
     height: 56,
     paddingHorizontal: 16,

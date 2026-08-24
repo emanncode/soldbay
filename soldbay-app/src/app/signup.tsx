@@ -101,6 +101,27 @@ export default function SignupScreen() {
     }).start();
   }, [role, slideAnim]);
 
+  const [checkScale] = useState(() => new Animated.Value(1));
+
+  const toggleTerms = () => {
+    if (loading) return;
+    Animated.sequence([
+      Animated.timing(checkScale, {
+        toValue: 0.8,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+      Animated.spring(checkScale, {
+        toValue: 1,
+        friction: 4,
+        tension: 50,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    setAgreeToTerms(!agreeToTerms);
+    clearError("terms");
+  };
+
   function clearError(field: keyof typeof errors) {
     setErrors((prev) => ({ ...prev, [field]: undefined }));
     setFormError(null);
@@ -376,19 +397,18 @@ export default function SignupScreen() {
         >
           <View style={styles.termsRow}>
             <TouchableOpacity
-              onPress={() => {
-                setAgreeToTerms(!agreeToTerms);
-                clearError("terms");
-              }}
+              onPress={toggleTerms}
               style={styles.checkboxContainer}
               activeOpacity={0.8}
               disabled={loading}
             >
-              <Ionicons
-                name={agreeToTerms ? "checkbox" : "square-outline"}
-                size={20}
-                color={agreeToTerms ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
-              />
+              <Animated.View style={{ transform: [{ scale: checkScale }] }}>
+                <Ionicons
+                  name={agreeToTerms ? "checkbox" : "square-outline"}
+                  size={20}
+                  color={agreeToTerms ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
+                />
+              </Animated.View>
               <Text
                 style={[
                   styles.checkboxText,

@@ -174,16 +174,19 @@ export function AuthLayoutWrapper({
                   </TouchableOpacity>
                 )}
 
-                {/* Top-Left Logo + SoldBay Name */}
+                {/* Top-Left Logo + SoldBay Name (Option 2) */}
                 <View style={styles.brandLockup}>
                   <View style={styles.arBrandLogo}>
                     <Image
-                      source={require("../../assets/soldbay_logo_white.png")}
+                      source={require("../../assets/soldbay_logo_green.png")}
                       style={styles.brandLogo}
                       contentFit="contain"
                     />
                   </View>
-                  <Text style={styles.brandTitle}>SoldBay</Text>
+                  <Text style={styles.brandTitle}>
+                    <Text style={styles.brandSold}>Sold</Text>
+                    <Text style={styles.brandBay}>Bay</Text>
+                  </Text>
                 </View>
               </View>
             </SafeAreaView>
@@ -241,36 +244,47 @@ const styles = StyleSheet.create({
   brandLockup: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    backgroundColor: "rgba(0, 0, 0, 0.65)",
-    paddingRight: 12,
-    borderRadius: 24,
+    gap: 8,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    paddingVertical: 4,
+    paddingLeft: 4,
+    paddingRight: 14,
+    borderRadius: 28,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.18)",
+    borderColor: "rgba(34, 197, 94, 0.25)",
   },
   arBrandLogo: {
-    borderRadius: 24,
-    padding: 6,
-    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(34, 197, 94, 0.12)",
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
+    borderColor: "rgba(34, 197, 94, 0.3)",
   },
   brandLogo: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
   brandTitle: {
     fontFamily: "BricolageGrotesque-Bold",
     fontSize: 17,
+    letterSpacing: 0.4,
+  },
+  brandSold: {
     color: "#ffffff",
-    letterSpacing: 0.3,
+  },
+  brandBay: {
+    color: "#22c55e",
   },
   backButton: {
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: "rgba(0, 0, 0, 0.45)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.15)",
+    borderColor: "rgba(255, 255, 255, 0.18)",
     alignItems: "center",
     justifyContent: "center",
   },
