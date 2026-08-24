@@ -1,0 +1,28 @@
+<svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="195" y="80" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="17" fill="#111827">Seller Verification</text>
+  <text x="24" y="130" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Verify Student Portal</text>
+  <text x="24" y="156" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Upload a screenshot of your Student Portal home page (not exam portal) showing your name &amp; matric number.</text>
+  <rect x="24" y="200" width="342" height="210" rx="20" fill="#FFFFFF" stroke="#3B7E68" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <circle cx="195" cy="270" r="30" fill="#EAF4F0"/>
+  <text x="195" y="326" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">Tap to select portal screenshot</text>
+  <text x="195" y="348" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#9CA3AF">JPG, PNG, WebP or HEIC (max 10 MB)</text>
+  <rect x="130" y="364" width="130" height="28" rx="14" fill="#EAF4F0"/>
+  <text x="195" y="382" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="12" fill="#3B7E68">Choose Image</text>
+  <rect x="24" y="430" width="342" height="54" rx="14" fill="#EAF4F0"/>
+  <circle cx="54" cy="457" r="12" fill="#3B7E68"/>
+  <text x="76" y="455" font-family="Inter, sans-serif" font-weight="600" font-size="12" fill="#285B4B">Encrypted &amp; Confidential</text>
+  <text x="76" y="470" font-family="Inter, sans-serif" font-size="11" fill="#3B7E68">Your screenshot is never shared with buyers.</text>
+  <rect x="24" y="730" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="762" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Submit for Verification</text>
+
+</svg>

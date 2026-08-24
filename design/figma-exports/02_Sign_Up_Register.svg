@@ -1,0 +1,35 @@
+<svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="24" y="126" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Create Account</text>
+  <text x="24" y="150" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Join Soldbay to connect with students on campus.</text>
+  <rect x="24" y="172" width="342" height="44" rx="22" fill="#EAF4F0"/>
+  <rect x="27" y="175" width="168" height="38" rx="19" fill="#3B7E68"/>
+  <text x="111" y="199" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#FFFFFF">🛍️ Buyer</text>
+  <text x="279" y="199" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#6B7280">🏪 Seller</text>
+  <text x="24" y="240" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Full Name</text>
+  <rect x="24" y="246" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="276" font-family="Inter, sans-serif" font-size="14" fill="#9CA3AF">Alexander Wright</text>
+  <text x="24" y="312" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Campus Email Address</text>
+  <rect x="24" y="318" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="348" font-family="Inter, sans-serif" font-size="14" fill="#9CA3AF">alex@student.unilag.edu.ng</text>
+  <text x="24" y="384" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Password</text>
+  <rect x="24" y="390" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="420" font-family="Inter, sans-serif" font-size="14" fill="#111827">••••••••••••</text>
+  <text x="24" y="456" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Confirm Password</text>
+  <rect x="24" y="462" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="492" font-family="Inter, sans-serif" font-size="14" fill="#111827">••••••••••••</text>
+  <rect x="24" y="540" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="572" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Create Account</text>
+  <text x="160" y="780" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Already have an account?</text>
+  <text x="255" y="780" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#3B7E68">Sign In</text>
+
+</svg>

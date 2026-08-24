@@ -1,0 +1,154 @@
+<svg width="2200" height="900" viewBox="0 0 2200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0, 0)"><svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="24" y="136" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Welcome Back</text>
+  <text x="24" y="162" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Sign in to buy and sell verified campus items.</text>
+  <text x="24" y="204" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Email Address</text>
+  <rect x="24" y="212" width="342" height="52" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="244" font-family="Inter, sans-serif" font-size="14" fill="#9CA3AF">student@university.edu.ng</text>
+  <text x="24" y="290" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Password</text>
+  <rect x="24" y="298" width="342" height="52" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="330" font-family="Inter, sans-serif" font-size="14" fill="#111827">••••••••••••</text>
+  <text x="366" y="376" text-anchor="end" font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#3B7E68">Forgot password?</text>
+  <rect x="24" y="404" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="436" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Sign In</text>
+  <text x="155" y="780" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Don't have an account?</text>
+  <text x="250" y="780" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#3B7E68">Create account</text>
+
+</svg></g>
+  <g transform="translate(430, 0)"><svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="24" y="126" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Create Account</text>
+  <text x="24" y="150" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Join Soldbay to connect with students on campus.</text>
+  <rect x="24" y="172" width="342" height="44" rx="22" fill="#EAF4F0"/>
+  <rect x="27" y="175" width="168" height="38" rx="19" fill="#3B7E68"/>
+  <text x="111" y="199" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#FFFFFF">🛍️ Buyer</text>
+  <text x="279" y="199" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="13" fill="#6B7280">🏪 Seller</text>
+  <text x="24" y="240" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Full Name</text>
+  <rect x="24" y="246" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="276" font-family="Inter, sans-serif" font-size="14" fill="#9CA3AF">Alexander Wright</text>
+  <text x="24" y="312" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Campus Email Address</text>
+  <rect x="24" y="318" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="348" font-family="Inter, sans-serif" font-size="14" fill="#9CA3AF">alex@student.unilag.edu.ng</text>
+  <text x="24" y="384" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Password</text>
+  <rect x="24" y="390" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="420" font-family="Inter, sans-serif" font-size="14" fill="#111827">••••••••••••</text>
+  <text x="24" y="456" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#374151">Confirm Password</text>
+  <rect x="24" y="462" width="342" height="48" rx="14" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="44" y="492" font-family="Inter, sans-serif" font-size="14" fill="#111827">••••••••••••</text>
+  <rect x="24" y="540" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="572" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Create Account</text>
+  <text x="160" y="780" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Already have an account?</text>
+  <text x="255" y="780" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#3B7E68">Sign In</text>
+
+</svg></g>
+  <g transform="translate(860, 0)"><svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="24" y="136" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Choose your Role</text>
+  <text x="24" y="162" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">How would you like to participate in Soldbay?</text>
+  <rect x="24" y="200" width="342" height="150" rx="20" fill="#FFFFFF" stroke="#3B7E68" stroke-width="2"/>
+  <circle cx="68" cy="244" r="24" fill="#EAF4F0"/>
+  <rect x="262" y="224" width="84" height="24" rx="12" fill="#3B7E68"/>
+  <text x="304" y="240" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="11" fill="#FFFFFF">✓ Selected</text>
+  <text x="44" y="294" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="18" fill="#111827">I want to Buy</text>
+  <text x="44" y="318" font-family="Inter, sans-serif" font-size="13" fill="#6B7280">Browse student listings, find textbooks &amp; order with campus delivery.</text>
+  <rect x="24" y="370" width="342" height="150" rx="20" fill="#FFFFFF" stroke="#EEEBE5" stroke-width="1"/>
+  <circle cx="68" cy="414" r="24" fill="#FFF7ED"/>
+  <rect x="198" y="394" width="148" height="24" rx="12" fill="#F3F4F6"/>
+  <text x="272" y="410" text-anchor="middle" font-family="Inter, sans-serif" font-weight="500" font-size="11" fill="#6B7280">Portal Verification Req.</text>
+  <text x="44" y="464" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="18" fill="#111827">I want to Sell</text>
+  <text x="44" y="488" font-family="Inter, sans-serif" font-size="13" fill="#6B7280">Open your student store, list inventory, and receive secure payouts.</text>
+  <rect x="24" y="730" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="762" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Continue as Buyer</text>
+
+</svg></g>
+  <g transform="translate(1290, 0)"><svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="195" y="80" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="17" fill="#111827">University</text>
+  <rect x="310" y="62" width="56" height="26" rx="13" fill="#EAF4F0"/>
+  <text x="338" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="12" fill="#3B7E68">Skip ›</text>
+  <text x="24" y="130" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Choose your Campus</text>
+  <text x="24" y="156" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Connect with verified students on campus, or skip to shop.</text>
+  <rect x="24" y="180" width="342" height="48" rx="24" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <text x="54" y="209" font-family="Inter, sans-serif" font-size="14" fill="#9CA3AF">Search 50+ Nigerian universities...</text>
+  <rect x="24" y="244" width="342" height="68" rx="16" fill="#FFFFFF" stroke="#3B7E68" stroke-width="1.5"/>
+  <text x="42" y="274" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">Obafemi Awolowo University (OAU)</text>
+  <text x="42" y="292" font-family="Inter, sans-serif" font-size="12" fill="#6B7280">Ile-Ife, Osun State • Federal University</text>
+  <circle cx="336" cy="278" r="12" fill="#3B7E68"/>
+  <path d="M 331 278 L 335 282 L 342 275" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="24" y="324" width="342" height="68" rx="16" fill="#FFFFFF" stroke="#EEEBE5" stroke-width="1"/>
+  <text x="42" y="354" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">University of Lagos (UNILAG)</text>
+  <text x="42" y="372" font-family="Inter, sans-serif" font-size="12" fill="#6B7280">Akoka, Lagos State • Federal University</text>
+  <rect x="24" y="404" width="342" height="68" rx="16" fill="#FFFFFF" stroke="#EEEBE5" stroke-width="1"/>
+  <text x="42" y="434" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">University of Ibadan (UI)</text>
+  <text x="42" y="452" font-family="Inter, sans-serif" font-size="12" fill="#6B7280">Ibadan, Oyo State • Federal University</text>
+  <rect x="24" y="690" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="722" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Confirm OAU Campus</text>
+  <text x="195" y="776" text-anchor="middle" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#6B7280">Skip for now (Go to Buyer Home)</text>
+
+</svg></g>
+  <g transform="translate(1720, 0)"><svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="195" y="80" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="17" fill="#111827">Seller Verification</text>
+  <text x="24" y="130" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Verify Student Portal</text>
+  <text x="24" y="156" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">Upload a screenshot of your Student Portal home page (not exam portal) showing your name &amp; matric number.</text>
+  <rect x="24" y="200" width="342" height="210" rx="20" fill="#FFFFFF" stroke="#3B7E68" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <circle cx="195" cy="270" r="30" fill="#EAF4F0"/>
+  <text x="195" y="326" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">Tap to select portal screenshot</text>
+  <text x="195" y="348" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#9CA3AF">JPG, PNG, WebP or HEIC (max 10 MB)</text>
+  <rect x="130" y="364" width="130" height="28" rx="14" fill="#EAF4F0"/>
+  <text x="195" y="382" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="12" fill="#3B7E68">Choose Image</text>
+  <rect x="24" y="430" width="342" height="54" rx="14" fill="#EAF4F0"/>
+  <circle cx="54" cy="457" r="12" fill="#3B7E68"/>
+  <text x="76" y="455" font-family="Inter, sans-serif" font-weight="600" font-size="12" fill="#285B4B">Encrypted &amp; Confidential</text>
+  <text x="76" y="470" font-family="Inter, sans-serif" font-size="11" fill="#3B7E68">Your screenshot is never shared with buyers.</text>
+  <rect x="24" y="730" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="762" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Submit for Verification</text>
+
+</svg></g>
+</svg>

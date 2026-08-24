@@ -1,0 +1,29 @@
+<svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" rx="40" fill="#FCFBF9"/>
+  <rect x="0.5" y="0.5" width="389" height="843" rx="39.5" stroke="#EEEBE5"/>
+  <text x="36" y="32" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#111827">9:41</text>
+  <rect x="147.0" y="14" width="96" height="24" rx="12" fill="#000000"/>
+  <rect x="348" y="19" width="20" height="11" rx="3" stroke="#111827" stroke-width="1.5"/>
+  <rect x="350" y="21" width="13" height="7" rx="1.5" fill="#111827"/>
+  <path d="M 369 23 L 369 26" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <circle cx="42" cy="74" r="18" fill="#FFFFFF" stroke="#EEEBE5"/>
+  <path d="M 45 68 L 39 74 L 45 80" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="24" y="136" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="26" fill="#111827">Choose your Role</text>
+  <text x="24" y="162" font-family="Inter, sans-serif" font-size="14" fill="#6B7280">How would you like to participate in Soldbay?</text>
+  <rect x="24" y="200" width="342" height="150" rx="20" fill="#FFFFFF" stroke="#3B7E68" stroke-width="2"/>
+  <circle cx="68" cy="244" r="24" fill="#EAF4F0"/>
+  <rect x="262" y="224" width="84" height="24" rx="12" fill="#3B7E68"/>
+  <text x="304" y="240" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="11" fill="#FFFFFF">✓ Selected</text>
+  <text x="44" y="294" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="18" fill="#111827">I want to Buy</text>
+  <text x="44" y="318" font-family="Inter, sans-serif" font-size="13" fill="#6B7280">Browse student listings, find textbooks &amp; order with campus delivery.</text>
+  <rect x="24" y="370" width="342" height="150" rx="20" fill="#FFFFFF" stroke="#EEEBE5" stroke-width="1"/>
+  <circle cx="68" cy="414" r="24" fill="#FFF7ED"/>
+  <rect x="198" y="394" width="148" height="24" rx="12" fill="#F3F4F6"/>
+  <text x="272" y="410" text-anchor="middle" font-family="Inter, sans-serif" font-weight="500" font-size="11" fill="#6B7280">Portal Verification Req.</text>
+  <text x="44" y="464" font-family="Bricolage Grotesque, sans-serif" font-weight="700" font-size="18" fill="#111827">I want to Sell</text>
+  <text x="44" y="488" font-family="Inter, sans-serif" font-size="13" fill="#6B7280">Open your student store, list inventory, and receive secure payouts.</text>
+  <rect x="24" y="730" width="342" height="52" rx="26" fill="#3B7E68"/>
+  <text x="195" y="762" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="15" fill="#FFFFFF">Continue as Buyer</text>
+
+</svg>
