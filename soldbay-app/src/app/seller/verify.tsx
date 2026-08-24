@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 import { PrimaryButton } from "@/components/primary-button";
 import { ErrorBanner } from "@/components/error-banner";
-import { getSellerMe, uploadIdImage, ApiError } from "@/lib/api";
+import { getSellerMe, getMe, uploadIdImage, ApiError } from "@/lib/api";
 
 type ScreenState = "loading" | "upload" | "preview" | "submitting" | "pending" | "verified";
 
@@ -47,6 +47,16 @@ export default function VerifySellerScreen() {
 
   async function checkStatus() {
     try {
+      const user = await getMe();
+      if (user.role !== "SELLER") {
+        router.replace("/buyer/home");
+        return;
+      }
+      if (!user.universityId) {
+        // School selection is compulsory for sellers before ID verification
+        router.replace("/select-university");
+        return;
+      }
       const me = await getSellerMe();
       if (me.verified) {
         setScreenState("verified");
@@ -117,9 +127,9 @@ export default function VerifySellerScreen() {
       case "upload":
         return (
           <View style={styles.stateContainer}>
-            <Text style={styles.cardTitle}>Verify Student ID</Text>
+            <Text style={styles.cardTitle}>Verify Student Portal</Text>
             <Text style={styles.cardSubtitle}>
-              Upload a clear photo of your student ID to start selling to verified students on campus.
+              Upload a clear screenshot of your Student Portal home page (not exam portal) showing your name and student details.
             </Text>
 
             <TouchableOpacity
@@ -130,19 +140,19 @@ export default function VerifySellerScreen() {
               <View style={styles.uploadIconCircle}>
                 <Ionicons name="cloud-upload-outline" size={30} color="#4ade80" />
               </View>
-              <Text style={styles.uploadTitle}>Tap to select student ID</Text>
-              <Text style={styles.uploadFormat}>JPG, PNG or HEIC (max 10 MB)</Text>
+              <Text style={styles.uploadTitle}>Tap to select portal screenshot</Text>
+              <Text style={styles.uploadFormat}>JPG, PNG, WebP or HEIC (max 10 MB)</Text>
             </TouchableOpacity>
 
             <View style={styles.securityNoteRow}>
               <Ionicons name="shield-checkmark-outline" size={16} color="rgba(255,255,255,0.6)" />
               <Text style={styles.securityNote}>
-                {"Your ID is stored securely and never shared with buyers."}
+                {"Your portal screenshot is encrypted and never shared with buyers."}
               </Text>
             </View>
 
             <PrimaryButton
-              label="Choose Photo"
+              label="Choose Screenshot"
               onPress={pickImage}
             />
           </View>
@@ -151,9 +161,9 @@ export default function VerifySellerScreen() {
       case "preview":
         return (
           <View style={styles.stateContainer}>
-            <Text style={styles.cardTitle}>Review ID Photo</Text>
+            <Text style={styles.cardTitle}>Review Portal Screenshot</Text>
             <Text style={styles.cardSubtitle}>
-              Make sure your name and university details are legible.
+              Make sure your student name and university details are legible.
             </Text>
 
             <TouchableOpacity
@@ -176,7 +186,7 @@ export default function VerifySellerScreen() {
 
             <TouchableOpacity onPress={pickImage} style={styles.changePhotoBtn}>
               <Ionicons name="camera-reverse-outline" size={16} color="#4ade80" />
-              <Text style={styles.changePhotoText}>Tap to change photo</Text>
+              <Text style={styles.changePhotoText}>Tap to change screenshot</Text>
             </TouchableOpacity>
 
             {formError && <ErrorBanner message={formError} />}
@@ -191,9 +201,9 @@ export default function VerifySellerScreen() {
       case "submitting":
         return (
           <View style={styles.stateContainer}>
-            <Text style={styles.cardTitle}>Uploading ID</Text>
+            <Text style={styles.cardTitle}>Uploading Screenshot</Text>
             <Text style={styles.cardSubtitle}>
-              Please wait while we encrypt and send your document.
+              Please wait while we encrypt and send your student portal screenshot.
             </Text>
             <View style={{ marginTop: 24 }}>
               <PrimaryButton label="Submitting..." loading />
@@ -208,7 +218,7 @@ export default function VerifySellerScreen() {
               <Ionicons name="time-outline" size={40} color="#f59e0b" />
             </View>
 
-            <Text style={styles.statusTitle}>{"We're reviewing your ID"}</Text>
+            <Text style={styles.statusTitle}>{"We're reviewing your portal screenshot"}</Text>
 
             <Text style={styles.statusSubtitle}>
               {"Verification typically takes a few hours. We will notify you once approved."}

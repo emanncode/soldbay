@@ -10,6 +10,7 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 import { PrimaryButton } from "@/components/primary-button";
+import { getMe } from "@/lib/api";
 
 type Role = "seller" | "buyer";
 
@@ -133,8 +134,22 @@ export default function SelectRoleScreen() {
     if (!selectedRole) return;
     setLoading(true);
     try {
-      const targetRoute = selectedRole === "seller" ? "/seller/verify" as const : "/buyer/home" as const;
-      await router.replace(targetRoute);
+      if (selectedRole === "seller") {
+        try {
+          const me = await getMe();
+          if (!me.universityId) {
+            await router.replace("/select-university");
+            return;
+          }
+        } catch {
+          await router.replace("/select-university");
+          return;
+        }
+        await router.replace("/seller/verify");
+      } else {
+        // Buyer skips school selection and goes straight to buyer home
+        await router.replace("/buyer/home");
+      }
     } finally {
       setLoading(false);
     }

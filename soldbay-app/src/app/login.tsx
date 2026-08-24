@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SoldBayInputField } from "@/components/soldbay-input-field";
 import { PrimaryButton } from "@/components/primary-button";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
+import { ErrorBanner } from "@/components/error-banner";
 
 function EyeToggle({
   showing,
@@ -138,6 +139,7 @@ export default function LoginScreen() {
       {/* Item 0: Title and Subtitle */}
       <Animated.View
         style={{
+          marginBottom: 12,
           opacity: itemAnims[0].opacity,
           transform: [{ translateY: itemAnims[0].translateY }],
         }}
@@ -266,10 +268,10 @@ export default function LoginScreen() {
           }}
         >
           {formError && (
-            <View style={styles.formErrorContainer}>
-              <Ionicons name="alert-circle" size={16} color="#ef4444" />
-              <Text style={styles.formErrorText}>{formError}</Text>
-            </View>
+            <ErrorBanner
+              message={formError}
+              onDismiss={() => setFormError(null)}
+            />
           )}
 
           <PrimaryButton
@@ -305,15 +307,15 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    fontFamily: "Inter-Bold",
-    fontSize: 24,
+    fontFamily: "BricolageGrotesque-Bold",
+    fontSize: 26,
     color: "#ffffff",
     textAlign: "center",
     marginBottom: 4,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
-    fontSize: 13,
+    fontSize: 15,
     color: "rgba(255, 255, 255, 0.7)",
     textAlign: "center",
     lineHeight: 18,

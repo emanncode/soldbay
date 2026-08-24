@@ -12,7 +12,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 import { ErrorBanner } from "@/components/error-banner";
@@ -108,14 +108,32 @@ function UniCardItem({
 
 export default function SelectUniversityScreen() {
   const router = useRouter();
+  const { role: paramRole } = useLocalSearchParams<{ role?: string }>();
   const [universities, setUniversities] = useState<University[]>(FALLBACK_UNIVERSITIES);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<"BUYER" | "SELLER" | null>(() => {
+    if (paramRole && typeof paramRole === "string") {
+      return paramRole.toUpperCase() === "SELLER" ? "SELLER" : "BUYER";
+    }
+    return "BUYER";
+  });
 
   useEffect(() => {
     let cancelled = false;
+
+    // Fetch user profile to confirm role
+    getMe()
+      .then((me) => {
+        if (!cancelled && me?.role) {
+          setUserRole(me.role);
+        }
+      })
+      .catch(() => {
+        // Keep initial role state
+      });
 
     fetch(`${BASE_URL}/api/universities`)
       .then((res) => {
@@ -145,6 +163,8 @@ export default function SelectUniversityScreen() {
     };
   }, []);
 
+  const isSeller = userRole === "SELLER";
+
   const filtered = useMemo(() => {
     if (!query.trim()) return universities;
     const q = query.trim().toLowerCase();
@@ -154,6 +174,11 @@ export default function SelectUniversityScreen() {
         (u.code && u.code.toLowerCase().includes(q)),
     );
   }, [universities, query]);
+
+  function handleSkip() {
+    Keyboard.dismiss();
+    router.replace("/buyer/home");
+  }
 
   async function handleSelect(university: University) {
     Keyboard.dismiss();
@@ -173,12 +198,30 @@ export default function SelectUniversityScreen() {
     }
   }
 
+  const rightAction = !isSeller ? (
+    <TouchableOpacity
+      onPress={handleSkip}
+      disabled={submitting}
+      style={styles.skipHeaderBtn}
+      activeOpacity={0.7}
+    >
+      <Text style={styles.skipHeaderBtnText}>Skip</Text>
+      <Ionicons name="chevron-forward" size={14} color="#22c55e" />
+    </TouchableOpacity>
+  ) : null;
+
   return (
-    <AuthLayoutWrapper backRoute="/buyer/home" backTitle="Back">
+    <AuthLayoutWrapper
+      backRoute="/buyer/home"
+      backTitle="Back"
+      rightAction={rightAction}
+    >
       <View style={styles.container}>
         <Text style={styles.cardTitle}>Choose your University</Text>
         <Text style={styles.cardSubtitle}>
-          Connect with verified students and discover items on your campus.
+          {isSeller
+            ? "Required for Sellers — Choose your campus to proceed to student portal verification."
+            : "Connect with verified students on campus, or skip to start shopping right away."}
         </Text>
 
         {/* Search Input Bar */}
@@ -253,6 +296,19 @@ export default function SelectUniversityScreen() {
               />
             ))}
           </ScrollView>
+        )}
+
+        {/* Skip action for buyers */}
+        {!isSeller && (
+          <TouchableOpacity
+            onPress={handleSkip}
+            disabled={submitting}
+            style={styles.skipBottomBtn}
+            activeOpacity={0.75}
+          >
+            <Text style={styles.skipBottomBtnText}>Skip for now (Go to Buyer Home)</Text>
+            <Ionicons name="arrow-forward" size={16} color="#22c55e" />
+          </TouchableOpacity>
         )}
 
         {submitting && (
@@ -389,6 +445,40 @@ const styles = StyleSheet.create({
     }),
   },
   submittingText: {
+    fontFamily: "Inter-Medium",
+    fontSize: 14,
+    color: "#ffffff",
+  },
+  skipHeaderBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: "rgba(34, 197, 94, 0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(34, 197, 94, 0.3)",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+  },
+  skipHeaderBtnText: {
+    fontFamily: "Inter-SemiBold",
+    fontSize: 13,
+    color: "#22c55e",
+  },
+  skipBottomBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.12)",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    marginTop: 6,
+  },
+  skipBottomBtnText: {
     fontFamily: "Inter-Medium",
     fontSize: 14,
     color: "#ffffff",

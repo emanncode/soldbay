@@ -36,6 +36,7 @@ soldbay-app/.expo
 *.sln
 *.sw?
 *d.md
+idea.md
 
 # OS
 .DS_Store

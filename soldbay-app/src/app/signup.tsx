@@ -14,6 +14,7 @@ import { saveToken } from "@/lib/auth-storage";
 import { SoldBayInputField } from "@/components/soldbay-input-field";
 import { PrimaryButton } from "@/components/primary-button";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
+import { ErrorBanner } from "@/components/error-banner";
 
 type Role = "buyer" | "seller";
 
@@ -170,10 +171,13 @@ export default function SignupScreen() {
         password,
       });
 
-      await saveToken(loginRes.token);
-
-      // 3. Forward to university selection screen
-      router.replace("/select-university");
+      // 3. Both buyers and sellers proceed to university selection.
+      // Buyers can choose their campus or tap skip on that screen;
+      // for sellers, choosing university is strictly compulsory (no skip).
+      router.replace({
+        pathname: "/select-university",
+        params: { role },
+      });
     } catch (err) {
       console.error("Signup error:", err);
       if (err instanceof ApiError) {
@@ -436,10 +440,10 @@ export default function SignupScreen() {
           }}
         >
           {formError && (
-            <View style={styles.formErrorContainer}>
-              <Ionicons name="alert-circle" size={16} color="#ef4444" />
-              <Text style={styles.formErrorText}>{formError}</Text>
-            </View>
+            <ErrorBanner
+              message={formError}
+              onDismiss={() => setFormError(null)}
+            />
           )}
 
           <PrimaryButton

@@ -196,7 +196,7 @@ export function getCategories() {
 export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImageUrl: string }> {
   const token = await getToken();
 
-  const filename = uri.split("/").pop() ?? "id-photo.jpg";
+  const filename = uri.split("/").pop() ?? "portal-screenshot.jpg";
   const match = /\.(\w+)$/.exec(filename);
   const ext = match?.[1]?.toLowerCase() ?? "jpeg";
   const mimeType = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";

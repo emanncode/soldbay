@@ -5,7 +5,6 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
@@ -13,6 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { GlassPanel } from "@/components/glass-panel";
+import { ConfirmDialog } from "@/components/confirm-dialog";
+import { ToastBanner } from "@/components/toast-banner";
 import { getSellerMe, deleteListing, ApiError, type SellerMeResponse } from "@/lib/api";
 
 const logo2 = require("../../../assets/logo2.png");
@@ -22,6 +23,8 @@ export default function SellerDashboardScreen() {
   const [data, setData] = useState<SellerMeResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const loadDashboard = useCallback(async () => {
     try {
@@ -271,26 +274,8 @@ export default function SellerDashboardScreen() {
                       onEdit={() =>
                         router.push(`/seller/create-listing?id=${listing.id}`)
                       }
-                      onDelete={async () => {
-                        Alert.alert(
-                          "Delete listing",
-                          `Delete "${listing.title}"? This can't be undone.`,
-                          [
-                            { text: "Cancel", style: "cancel" },
-                            {
-                              text: "Delete",
-                              style: "destructive",
-                              onPress: async () => {
-                                try {
-                                  await deleteListing(listing.id);
-                                  await loadDashboard();
-                                } catch {
-                                  setToast("Failed to delete listing");
-                                }
-                              },
-                            },
-                          ],
-                        );
+                      onDelete={() => {
+                        setDeleteTarget({ id: listing.id, title: listing.title });
                       }}
                     />
                   ))}
@@ -300,36 +285,40 @@ export default function SellerDashboardScreen() {
           </View>
         </ScrollView>
 
-        {/* Toast */}
-        {toast && (
-          <View
-            style={{
-              position: "absolute",
-              bottom: 40,
-              alignSelf: "center",
-              backgroundColor: "#1a1833ee",
-              borderWidth: 1,
-              borderColor: "rgba(255,255,255,0.12)",
-              borderRadius: 12,
-              paddingHorizontal: 20,
-              paddingVertical: 12,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Ionicons name="information-circle" size={16} color="#ffffff99" />
-            <Text
-              style={{
-                fontFamily: "Inter-Medium",
-                fontSize: 14,
-                color: "#ffffffcc",
-              }}
-            >
-              {toast}
-            </Text>
-          </View>
-        )}
+        {/* Custom Dedicated Confirm Delete Dialog (replaces native Alert) */}
+        <ConfirmDialog
+          visible={deleteTarget !== null}
+          type="danger"
+          title="Delete Listing"
+          message={`Are you sure you want to delete "${deleteTarget?.title}"? This cannot be undone.`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          loading={deleting}
+          onConfirm={async () => {
+            if (!deleteTarget) return;
+            setDeleting(true);
+            try {
+              await deleteListing(deleteTarget.id);
+              setDeleteTarget(null);
+              await loadDashboard();
+              setToast("Listing deleted successfully");
+            } catch {
+              setToast("Failed to delete listing");
+            } finally {
+              setDeleting(false);
+            }
+          }}
+          onCancel={() => {
+            if (!deleting) setDeleteTarget(null);
+          }}
+        />
+
+        {/* Custom Dedicated Toast Banner */}
+        <ToastBanner
+          message={toast}
+          type={toast?.toLowerCase().includes("fail") ? "error" : "info"}
+          onDismiss={() => setToast(null)}
+        />
       </SafeAreaView>
     </PageAtmosphere>
   );
