@@ -139,12 +139,7 @@ export function AuthLayoutWrapper({
         style={styles.root}
         keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          bounces={false}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
+        <View style={styles.container}>
           {/* SoldBay Campus Hero Header Image & Gradient Overlay */}
           <View style={styles.heroSection}>
             <Image
@@ -181,11 +176,13 @@ export function AuthLayoutWrapper({
 
                 {/* Top-Left Logo + SoldBay Name */}
                 <View style={styles.brandLockup}>
-                  <Image
-                    source={require("../../assets/soldbay_logo_white.png")}
-                    style={styles.brandLogo}
-                    contentFit="contain"
-                  />
+                  <View style={styles.arBrandLogo}>
+                    <Image
+                      source={require("../../assets/soldbay_logo_white.png")}
+                      style={styles.brandLogo}
+                      contentFit="contain"
+                    />
+                  </View>
                   <Text style={styles.brandTitle}>SoldBay</Text>
                 </View>
               </View>
@@ -207,7 +204,7 @@ export function AuthLayoutWrapper({
 
             {children}
           </Animated.View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </View>
   );
@@ -216,14 +213,19 @@ export function AuthLayoutWrapper({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    height: "100%",
     backgroundColor: "#0d0d0f",
+    overflow: "hidden",
   },
-  scrollContent: {
-    flexGrow: 1,
+  container: {
+    flex: 1,
+    height: "100%",
     backgroundColor: "#0d0d0f",
+    justifyContent: "space-between",
   },
   heroSection: {
-    height: HERO_HEIGHT,
+    flex: 1,
+    minHeight: 140,
     position: "relative",
     overflow: "hidden",
   },
@@ -240,31 +242,32 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    backgroundColor: "rgba(0, 0, 0, 0.55)",
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
+    paddingRight: 12,
     borderRadius: 24,
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.18)",
   },
-  brandLogo: {
-    width: 26,
-    height: 26,
-    display: "flex",
-    justifyContent: "center",
-    paddingVertical: 6,
+  arBrandLogo: {
+    borderRadius: 24,
+    padding: 6,
     backgroundColor: "rgba(0, 0, 0, 0.9)",
+    borderWidth: 1,
+  },
+  brandLogo: {
+    width: 24,
+    height: 24,
   },
   brandTitle: {
     fontFamily: "BricolageGrotesque-Bold",
-    fontSize: 18,
+    fontSize: 17,
     color: "#ffffff",
     letterSpacing: 0.3,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: "rgba(0, 0, 0, 0.45)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.15)",
@@ -272,15 +275,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   card: {
-    flex: 1,
-    minHeight: SCREEN_H - HERO_HEIGHT,
     backgroundColor: "#111114",
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    marginTop: -28,
+    marginTop: -24,
     paddingHorizontal: 24,
-    paddingTop: 16,
-    paddingBottom: Platform.OS === "ios" ? 36 : 28,
+    paddingTop: 14,
+    paddingBottom: Platform.OS === "ios" ? 32 : 24,
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.08)",
     borderBottomWidth: 0,
@@ -300,11 +301,11 @@ const styles = StyleSheet.create({
     }),
   },
   topHandleBar: {
-    width: 60,
+    width: 50,
     height: 4,
     borderRadius: 100,
     backgroundColor: "#3f3f46",
     alignSelf: "center",
-    marginBottom: 20,
+    marginBottom: 16,
   },
 });

@@ -257,30 +257,29 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    fontFamily: "BricolageGrotesque-Bold",
-    fontWeight: "500",
-    fontSize: 26,
+    fontFamily: "Inter-Bold",
+    fontSize: 24,
     color: "#ffffff",
     textAlign: "center",
-    marginBottom: 6,
+    marginBottom: 4,
   },
   cardSubtitle: {
     fontFamily: "Inter-Regular",
-    fontSize: 14,
+    fontSize: 13,
     color: "rgba(255, 255, 255, 0.7)",
     textAlign: "center",
-    lineHeight: 20,
-    marginBottom: 28,
-    paddingHorizontal: 10,
+    lineHeight: 18,
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
   formContainer: {
-    gap: 16,
+    gap: 12,
   },
   optionsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 2,
+    marginTop: 0,
     paddingHorizontal: 2,
   },
   checkboxContainer: {
@@ -305,7 +304,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(239, 68, 68, 0.08)",
     borderWidth: 1,
     borderColor: "rgba(239, 68, 68, 0.2)",
-    padding: 12,
+    padding: 10,
     borderRadius: 14,
   },
   formErrorText: {
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footer: {
-    marginTop: 28,
+    marginTop: 18,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
