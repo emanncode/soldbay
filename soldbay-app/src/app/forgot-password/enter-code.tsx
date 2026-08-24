@@ -13,6 +13,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { PrimaryButton } from "@/components/primary-button";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
+import { ToastBanner } from "@/components/toast-banner";
 
 const OTP_LENGTH = 6;
 
@@ -210,12 +211,11 @@ export default function EnterCodeScreen() {
         </View>
       </Animated.View>
 
-      {showToast && (
-        <View style={styles.toastContainer}>
-          <Ionicons name="checkmark-circle" size={18} color="#ffffff" />
-          <Text style={styles.toastText}>Verification code resent</Text>
-        </View>
-      )}
+      <ToastBanner
+        message={showToast ? "Verification code resent" : null}
+        type="success"
+        onDismiss={() => setShowToast(false)}
+      />
     </AuthLayoutWrapper>
   );
 }

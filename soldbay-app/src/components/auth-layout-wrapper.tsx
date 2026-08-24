@@ -29,6 +29,7 @@ interface AuthLayoutWrapperProps {
   backRoute?: string;
   backTitle?: string;
   heroImage?: any;
+  rightAction?: React.ReactNode;
   staggerAnimations?: Animated.CompositeAnimation[];
 }
 
@@ -37,6 +38,7 @@ export function AuthLayoutWrapper({
   backRoute,
   backTitle = "Back",
   heroImage,
+  rightAction,
   staggerAnimations = [],
 }: AuthLayoutWrapperProps) {
   const router = useRouter();
@@ -161,33 +163,41 @@ export function AuthLayoutWrapper({
               pointerEvents="none"
             />
 
-            {/* Header / Top-Left Brand Logo + Back Button */}
+            {/* Header / Top-Left Brand Logo + Back Button + Optional Right Action */}
             <SafeAreaView edges={["top"]} style={styles.safeHeader}>
-              <View style={styles.topBarRow}>
-                {backRoute && (
-                  <TouchableOpacity
-                    onPress={() => router.back()}
-                    style={styles.backButton}
-                    hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-                  >
-                    <Ionicons name="chevron-back" size={24} color="#ffffff" />
-                  </TouchableOpacity>
-                )}
+              <View style={[styles.topBarRow, rightAction ? { justifyContent: "space-between" } : null]}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                  {backRoute && (
+                    <TouchableOpacity
+                      onPress={() => router.back()}
+                      style={styles.backButton}
+                      hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                    >
+                      <Ionicons name="chevron-back" size={24} color="#ffffff" />
+                    </TouchableOpacity>
+                  )}
 
-                {/* Top-Left Logo + SoldBay Name (Option 2) */}
-                <View style={styles.brandLockup}>
-                  <View style={styles.arBrandLogo}>
-                    <Image
-                      source={require("../../assets/soldbay_logo_green.png")}
-                      style={styles.brandLogo}
-                      contentFit="contain"
-                    />
+                  {/* Top-Left Logo + SoldBay Name (Option 2) */}
+                  <View style={styles.brandLockup}>
+                    <View style={styles.arBrandLogo}>
+                      <Image
+                        source={require("../../assets/soldbay_logo_green.png")}
+                        style={styles.brandLogo}
+                        contentFit="contain"
+                      />
+                    </View>
+                    <Text style={styles.brandTitle}>
+                      <Text style={styles.brandSold}>Sold</Text>
+                      <Text style={styles.brandBay}>Bay</Text>
+                    </Text>
                   </View>
-                  <Text style={styles.brandTitle}>
-                    <Text style={styles.brandSold}>Sold</Text>
-                    <Text style={styles.brandBay}>Bay</Text>
-                  </Text>
                 </View>
+
+                {rightAction && (
+                  <View style={{ marginLeft: "auto" }}>
+                    {rightAction}
+                  </View>
+                )}
               </View>
             </SafeAreaView>
           </View>
