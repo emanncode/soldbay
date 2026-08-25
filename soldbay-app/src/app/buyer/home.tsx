@@ -18,6 +18,8 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
+import { SearchBar } from "@/components/search-bar";
+import { IconButton } from "@/components/icon-button";
 import {
   getListings,
   getCategories,
@@ -356,76 +358,26 @@ export default function BuyerHomeScreen() {
             <Ionicons name="chevron-down" size={12} color="#9ca3af" />
           </TouchableOpacity>
 
-          {/* Notification Button (40x40 - 5 * 8pt) */}
-          <TouchableOpacity
-            activeOpacity={0.75}
-            style={{
-              width: GRID.iconBtnSize,
-              height: GRID.iconBtnSize,
-              borderRadius: GRID.iconBtnSize / 2,
-              backgroundColor: "rgba(255, 255, 255, 0.05)",
-              borderWidth: 1,
-              borderColor: "rgba(255, 255, 255, 0.1)",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Ionicons name="notifications-outline" size={18} color="#ffffff" />
-            <View
-              style={{
-                position: "absolute",
-                top: 9,
-                right: 9,
-                width: 6,
-                height: 6,
-                borderRadius: 3,
-                backgroundColor: "#df4a32",
-              }}
-            />
-          </TouchableOpacity>
+          {/* Notification Button (Reusable IconButton with Badge Dot) */}
+          <IconButton
+            icon="notifications-outline"
+            size="lg"
+            variant="glass"
+            hasBadgeDot={true}
+            accessibilityLabel="Notifications"
+          />
         </View>
       </View>
 
-      {/* ── 2. Search & Filter Bar (Grid Aligned: 48px Height - 6 * 8pt) ── */}
+      {/* ── 2. Reusable Search & Filter Bar (Grid Aligned: 48px Height - 6 * 8pt) ── */}
       <View style={{ paddingHorizontal: GRID.gutter }}>
-        <View
-          style={{
-            backgroundColor: "rgba(22, 24, 30, 0.95)",
-            borderWidth: 1,
-            borderColor: "rgba(255, 255, 255, 0.1)",
-            borderRadius: GRID.pillRadius,
-            height: GRID.inputHeight,
-            paddingLeft: 16,
-            paddingRight: 6,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <Ionicons name="search" size={18} color="#9ca3af" />
-          <TextInput
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholder="Search textbooks, gadgets..."
-            placeholderTextColor="#6b7280"
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={[{ flex: 1, color: "#ffffff", padding: 0 }]}
-          />
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 18,
-              backgroundColor: "#3b7e68",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Ionicons name="options-outline" size={18} color="#ffffff" />
-          </TouchableOpacity>
-        </View>
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search textbooks, gadgets..."
+          onFilterPress={() => {}}
+          onClear={() => setSearchQuery("")}
+        />
       </View>
 
       {/* ── 3. Promo Banner Carousel (Strictly Contained within Grid Lines) ── */}
@@ -732,13 +684,15 @@ const ListingCard = memo(function ListingCard({ listing, isFavorited, onToggleFa
           ) : (
             <Ionicons name="image-outline" size={28} color="rgba(255,255,255,0.15)" />
           )}
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-            style={{ position: "absolute", top: 8, right: 8, width: 28, height: 28, borderRadius: 14, backgroundColor: "rgba(0, 0, 0, 0.55)", alignItems: "center", justifyContent: "center" }}
-          >
-            <Ionicons name={isFavorited ? "heart" : "heart-outline"} size={15} color={isFavorited ? "#df4a32" : "#ffffff"} />
-          </TouchableOpacity>
+          <IconButton
+            icon={isFavorited ? "heart" : "heart-outline"}
+            size="sm"
+            variant="dark"
+            color={isFavorited ? "#df4a32" : "#ffffff"}
+            onPress={onToggleFavorite}
+            style={{ position: "absolute", top: 8, right: 8 }}
+            accessibilityLabel={isFavorited ? "Remove from wishlist" : "Add to wishlist"}
+          />
         </View>
         <View style={{ padding: 12, gap: 4 }}>
           <Text style={{ fontFamily: "Inter-SemiBold", fontSize: 13, color: "#ffffff" }} numberOfLines={1}>{listing.title}</Text>
