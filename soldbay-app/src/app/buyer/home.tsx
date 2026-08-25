@@ -160,7 +160,7 @@ export default function BuyerHomeScreen() {
   // Auto-scroll Promo Banners (loops back to first when reaching end)
   useEffect(() => {
     if (debouncedSearch) return;
-    const bannerSlideWidth = SCREEN_WIDTH - GRID.gutter * 2 + 12;
+    const bannerSlideWidth = SCREEN_WIDTH - GRID.gutter * 2 + GRID.gapMedium;
     const interval = setInterval(() => {
       if (!mounted.current) return;
       const nextIndex = (activeBannerIndexRef.current + 1) % PROMO_BANNERS.length;
@@ -178,7 +178,7 @@ export default function BuyerHomeScreen() {
   // Auto-scroll Places Nearby / Campus Stores (loops back to first when reaching end)
   useEffect(() => {
     if (debouncedSearch) return;
-    const storeCardStep = 224 + 12; // card width + gap
+    const storeCardStep = 240 + GRID.gapMedium; // 240px card + 16px gap = 256px (32 * 8pt)
     const interval = setInterval(() => {
       if (!mounted.current) return;
       const nextIndex = (activeStoreIndexRef.current + 1) % NEARBY_STORES.length;
@@ -292,7 +292,7 @@ export default function BuyerHomeScreen() {
   }, []);
 
   const handleBannerScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const slideSize = SCREEN_WIDTH - GRID.gutter * 2 + 12;
+    const slideSize = SCREEN_WIDTH - GRID.gutter * 2 + GRID.gapMedium;
     const offset = event.nativeEvent.contentOffset.x;
     const index = Math.round(offset / (slideSize > 0 ? slideSize : 1));
     const clamped = Math.max(0, Math.min(index, PROMO_BANNERS.length - 1));
@@ -301,7 +301,7 @@ export default function BuyerHomeScreen() {
   };
 
   const handleStoreScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const step = 224 + 12;
+    const step = 240 + GRID.gapMedium;
     const offset = event.nativeEvent.contentOffset.x;
     const index = Math.round(offset / step);
     const clamped = Math.max(0, Math.min(index, NEARBY_STORES.length - 1));
@@ -313,7 +313,7 @@ export default function BuyerHomeScreen() {
 
   const headerComponent = (
     <View style={{ gap: GRID.gapLarge, paddingBottom: GRID.gapSmall }}>
-      {/* ── 1. Top Greeting & Notification Bar (Grid Aligned) ── */}
+      {/* ── 1. Top Greeting & Notification Bar (Grid Aligned: 16px Gutter, 40px Icon Button) ── */}
       <View
         style={{
           flexDirection: "row",
@@ -333,6 +333,7 @@ export default function BuyerHomeScreen() {
         </View>
 
         <View style={{ flexDirection: "row", alignItems: "center", gap: GRID.gapSmall }}>
+          {/* Campus Location Pill (Height: 36px) */}
           <TouchableOpacity
             activeOpacity={0.75}
             onPress={() => router.push("/select-university")}
@@ -355,6 +356,7 @@ export default function BuyerHomeScreen() {
             <Ionicons name="chevron-down" size={12} color="#9ca3af" />
           </TouchableOpacity>
 
+          {/* Notification Button (40x40 - 5 * 8pt) */}
           <TouchableOpacity
             activeOpacity={0.75}
             style={{
@@ -384,7 +386,7 @@ export default function BuyerHomeScreen() {
         </View>
       </View>
 
-      {/* ── 2. Search & Filter Bar (Grid Aligned: 48px Height) ── */}
+      {/* ── 2. Search & Filter Bar (Grid Aligned: 48px Height - 6 * 8pt) ── */}
       <View style={{ paddingHorizontal: GRID.gutter }}>
         <View
           style={{
@@ -426,7 +428,7 @@ export default function BuyerHomeScreen() {
         </View>
       </View>
 
-      {/* ── 3. Promo Banner Carousel (Auto-scrolling, Aligned with Grid Gutter) ── */}
+      {/* ── 3. Promo Banner Carousel (Auto-scrolling, Strict 8pt Grid Aligned) ── */}
       {!debouncedSearch && (
         <View style={{ gap: GRID.gapSmall }}>
           <ScrollView
@@ -436,7 +438,10 @@ export default function BuyerHomeScreen() {
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={handleBannerScrollEnd}
             scrollEventThrottle={16}
-            contentContainerStyle={{ paddingHorizontal: GRID.gutter, gap: 12 }}
+            contentContainerStyle={{
+              paddingHorizontal: GRID.gutter,
+              gap: GRID.gapMedium,
+            }}
           >
             {PROMO_BANNERS.map((banner) => (
               <View
@@ -447,7 +452,7 @@ export default function BuyerHomeScreen() {
                   borderWidth: 1,
                   borderColor: "rgba(59, 126, 104, 0.25)",
                   borderRadius: GRID.cardRadius,
-                  padding: 16,
+                  padding: GRID.gapMedium,
                   gap: 12,
                 }}
               >
@@ -482,7 +487,7 @@ export default function BuyerHomeScreen() {
                     alignSelf: "flex-start",
                     backgroundColor: "#3b7e68",
                     paddingHorizontal: 16,
-                    paddingVertical: 7,
+                    paddingVertical: 8,
                     borderRadius: GRID.pillRadius,
                   }}
                 >
@@ -509,12 +514,16 @@ export default function BuyerHomeScreen() {
         </View>
       )}
 
-      {/* ── 4. Categories Section ── */}
+      {/* ── 4. Categories Section (Height: 40px - 5 * 8pt, Gap: 8px) ── */}
       <View style={{ gap: GRID.gapSmall, paddingHorizontal: GRID.gutter }}>
         <Text style={{ fontFamily: "BricolageGrotesque-Bold", fontSize: 18, color: "#ffffff" }}>
           Categories
         </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ gap: GRID.gapSmall }}
+        >
           <CategoryTextPill label="All" selected={selectedCategory === null} onPress={() => setSelectedCategory(null)} />
           {categories.map((cat) => (
             <CategoryTextPill
@@ -527,7 +536,7 @@ export default function BuyerHomeScreen() {
         </ScrollView>
       </View>
 
-      {/* ── 5. Places Nearby / Campus Stores (Auto-scrolling) ── */}
+      {/* ── 5. Places Nearby / Campus Stores (Auto-scrolling, 240px Card Width - 30 * 8pt, 16px Gap) ── */}
       {!debouncedSearch && (
         <View style={{ gap: GRID.gapSmall, paddingHorizontal: GRID.gutter }}>
           <Text style={{ fontFamily: "BricolageGrotesque-Bold", fontSize: 18, color: "#ffffff" }}>
@@ -538,18 +547,18 @@ export default function BuyerHomeScreen() {
             horizontal
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={handleStoreScrollEnd}
-            contentContainerStyle={{ gap: 12 }}
+            contentContainerStyle={{ gap: GRID.gapMedium }}
           >
             {NEARBY_STORES.map((store) => (
               <View
                 key={store.id}
                 style={{
-                  width: 224,
+                  width: 240, // 30 * 8pt
                   backgroundColor: "rgba(255, 255, 255, 0.04)",
                   borderWidth: 1,
                   borderColor: "rgba(255, 255, 255, 0.08)",
                   borderRadius: GRID.cardRadius,
-                  padding: 14,
+                  padding: GRID.gapMedium,
                   gap: 10,
                 }}
               >
@@ -597,13 +606,13 @@ export default function BuyerHomeScreen() {
         </View>
       )}
 
-      {/* ── 6. Section Title & Sub-filter pills ── */}
+      {/* ── 6. Section Title & Sub-filter pills (Height: 32px - 4 * 8pt, Gap: 8px) ── */}
       <View style={{ paddingHorizontal: GRID.gutter, gap: GRID.gapSmall, paddingTop: 4 }}>
         <Text style={{ fontFamily: "BricolageGrotesque-Bold", fontSize: 18, color: "#ffffff" }}>
           Most Popular
         </Text>
         {!debouncedSearch && !selectedCategory && (
-          <View style={{ flexDirection: "row", gap: 8 }}>
+          <View style={{ flexDirection: "row", gap: GRID.gapSmall }}>
             {[
               { id: "all", label: "All Items" },
               { id: "hot", label: "Trending" },
