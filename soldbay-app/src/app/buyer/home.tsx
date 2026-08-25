@@ -160,7 +160,7 @@ export default function BuyerHomeScreen() {
   // Auto-scroll Promo Banners (loops back to first when reaching end)
   useEffect(() => {
     if (debouncedSearch) return;
-    const bannerSlideWidth = SCREEN_WIDTH - GRID.gutter * 2 + GRID.gapMedium;
+    const bannerSlideWidth = SCREEN_WIDTH - GRID.gutter * 2;
     const interval = setInterval(() => {
       if (!mounted.current) return;
       const nextIndex = (activeBannerIndexRef.current + 1) % PROMO_BANNERS.length;
@@ -428,76 +428,81 @@ export default function BuyerHomeScreen() {
         </View>
       </View>
 
-      {/* ── 3. Promo Banner Carousel (Auto-scrolling, Strict 8pt Grid Aligned) ── */}
+      {/* ── 3. Promo Banner Carousel (Strictly Contained within Grid Lines) ── */}
       {!debouncedSearch && (
-        <View style={{ gap: GRID.gapSmall }}>
-          <ScrollView
-            ref={promoScrollRef}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={handleBannerScrollEnd}
-            scrollEventThrottle={16}
-            contentContainerStyle={{
-              paddingHorizontal: GRID.gutter,
-              gap: GRID.gapMedium,
+        <View style={{ paddingHorizontal: GRID.gutter, gap: GRID.gapSmall }}>
+          <View
+            style={{
+              width: "100%",
+              borderRadius: GRID.cardRadius,
+              overflow: "hidden",
             }}
           >
-            {PROMO_BANNERS.map((banner) => (
-              <View
-                key={banner.id}
-                style={{
-                  width: SCREEN_WIDTH - GRID.gutter * 2,
-                  backgroundColor: "rgba(22, 25, 30, 0.95)",
-                  borderWidth: 1,
-                  borderColor: "rgba(59, 126, 104, 0.25)",
-                  borderRadius: GRID.cardRadius,
-                  padding: GRID.gapMedium,
-                  gap: 12,
-                }}
-              >
-                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                  <View
-                    style={{
-                      backgroundColor: "rgba(223, 74, 50, 0.18)",
-                      borderWidth: 1,
-                      borderColor: "rgba(223, 74, 50, 0.35)",
-                      borderRadius: 6,
-                      paddingHorizontal: 8,
-                      paddingVertical: 3,
-                    }}
-                  >
-                    <Text style={{ fontFamily: "Inter-SemiBold", fontSize: 11, color: "#df4a32" }}>
-                      {banner.badge}
-                    </Text>
-                  </View>
-                  <Ionicons name={banner.icon} size={20} color="#3b7e68" />
-                </View>
-                <View style={{ gap: 4 }}>
-                  <Text style={{ fontFamily: "BricolageGrotesque-Bold", fontSize: 16, color: "#ffffff" }}>
-                    {banner.title}
-                  </Text>
-                  <Text style={{ fontFamily: "Inter-Regular", fontSize: 12, color: "#9ca3af", lineHeight: 16 }}>
-                    {banner.subtitle}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  activeOpacity={0.8}
+            <ScrollView
+              ref={promoScrollRef}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              onMomentumScrollEnd={handleBannerScrollEnd}
+              scrollEventThrottle={16}
+              decelerationRate="fast"
+            >
+              {PROMO_BANNERS.map((banner) => (
+                <View
+                  key={banner.id}
                   style={{
-                    alignSelf: "flex-start",
-                    backgroundColor: "#3b7e68",
-                    paddingHorizontal: 16,
-                    paddingVertical: 8,
-                    borderRadius: GRID.pillRadius,
+                    width: SCREEN_WIDTH - GRID.gutter * 2,
+                    backgroundColor: "rgba(22, 25, 30, 0.95)",
+                    borderWidth: 1,
+                    borderColor: "rgba(59, 126, 104, 0.25)",
+                    borderRadius: GRID.cardRadius,
+                    padding: GRID.gapMedium,
+                    gap: 12,
                   }}
                 >
-                  <Text style={{ fontFamily: "Inter-SemiBold", fontSize: 12, color: "#ffffff" }}>
-                    {banner.cta}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
+                  <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                    <View
+                      style={{
+                        backgroundColor: "rgba(223, 74, 50, 0.18)",
+                        borderWidth: 1,
+                        borderColor: "rgba(223, 74, 50, 0.35)",
+                        borderRadius: 6,
+                        paddingHorizontal: 8,
+                        paddingVertical: 3,
+                      }}
+                    >
+                      <Text style={{ fontFamily: "Inter-SemiBold", fontSize: 11, color: "#df4a32" }}>
+                        {banner.badge}
+                      </Text>
+                    </View>
+                    <Ionicons name={banner.icon} size={20} color="#3b7e68" />
+                  </View>
+                  <View style={{ gap: 4 }}>
+                    <Text style={{ fontFamily: "BricolageGrotesque-Bold", fontSize: 16, color: "#ffffff" }}>
+                      {banner.title}
+                    </Text>
+                    <Text style={{ fontFamily: "Inter-Regular", fontSize: 12, color: "#9ca3af", lineHeight: 16 }}>
+                      {banner.subtitle}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={{
+                      alignSelf: "flex-start",
+                      backgroundColor: "#3b7e68",
+                      paddingHorizontal: 16,
+                      paddingVertical: 8,
+                      borderRadius: GRID.pillRadius,
+                    }}
+                  >
+                    <Text style={{ fontFamily: "Inter-SemiBold", fontSize: 12, color: "#ffffff" }}>
+                      {banner.cta}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
           <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 6, marginTop: 2 }}>
             {PROMO_BANNERS.map((_, i) => (
               <View
