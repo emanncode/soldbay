@@ -13,6 +13,7 @@ const categories = [
 ];
 
 const universities = [
+  { name: "Adekunle Ajasin University, Akungba-Akoko", code: "AAUA" },
   { name: "University of Lagos", code: "UNILAG" },
   { name: "Covenant University", code: "CU" },
   { name: "University of Ibadan", code: "UI" },
@@ -29,6 +30,16 @@ const universities = [
   { name: "Lagos State University", code: "LASU" },
   { name: "Federal University of Technology, Minna", code: "FUTMINNA" },
   { name: "University of Port Harcourt", code: "UNIPORT" },
+  { name: "University of Abuja", code: "UNIABUJA" },
+  { name: "Federal University of Agriculture, Abeokuta", code: "FUNAAB" },
+  { name: "Federal University of Technology, Owerri", code: "FUTO" },
+  { name: "Nnamdi Azikiwe University", code: "UNIZIK" },
+  { name: "Bayero University Kano", code: "BUK" },
+  { name: "Delta State University, Abraka", code: "DELSU" },
+  { name: "Ekiti State University", code: "EKSU" },
+  { name: "Olabisi Onabanjo University", code: "OOU" },
+  { name: "Osun State University", code: "UNIOSUN" },
+  { name: "Rivers State University", code: "RSU" },
   { name: "University of Ghana", code: "UG" },
   { name: "Kwame Nkrumah University of Science and Technology", code: "KNUST" },
 ];

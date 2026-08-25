@@ -19,6 +19,7 @@ import { ErrorBanner } from "@/components/error-banner";
 import { updateUserProfile, getMe, getUniversities, type University, ApiError } from "@/lib/api";
 
 const FALLBACK_UNIVERSITIES: University[] = [
+  { id: "aaua", name: "Adekunle Ajasin University, Akungba-Akoko", code: "AAUA" },
   { id: "unilag", name: "University of Lagos", code: "UNILAG" },
   { id: "cu", name: "Covenant University", code: "CU" },
   { id: "ui", name: "University of Ibadan", code: "UI" },
@@ -35,6 +36,16 @@ const FALLBACK_UNIVERSITIES: University[] = [
   { id: "lasu", name: "Lagos State University", code: "LASU" },
   { id: "futminna", name: "Federal University of Technology, Minna", code: "FUTMINNA" },
   { id: "uniport", name: "University of Port Harcourt", code: "UNIPORT" },
+  { id: "uniabuja", name: "University of Abuja", code: "UNIABUJA" },
+  { id: "funaab", name: "Federal University of Agriculture, Abeokuta", code: "FUNAAB" },
+  { id: "futo", name: "Federal University of Technology, Owerri", code: "FUTO" },
+  { id: "unizik", name: "Nnamdi Azikiwe University", code: "UNIZIK" },
+  { id: "buk", name: "Bayero University Kano", code: "BUK" },
+  { id: "delsu", name: "Delta State University, Abraka", code: "DELSU" },
+  { id: "eksu", name: "Ekiti State University", code: "EKSU" },
+  { id: "oou", name: "Olabisi Onabanjo University", code: "OOU" },
+  { id: "uniosun", name: "Osun State University", code: "UNIOSUN" },
+  { id: "rsu", name: "Rivers State University", code: "RSU" },
   { id: "ug", name: "University of Ghana", code: "UG" },
   { id: "knust", name: "Kwame Nkrumah University of Science and Technology", code: "KNUST" },
 ];
