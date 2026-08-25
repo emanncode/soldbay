@@ -10,34 +10,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { GlassFormField } from "@/components/glass-form-field";
-import { BASE_URL } from "@/lib/api";
+import { getUniversities, type University } from "@/lib/api";
 
-export interface University {
-  id: string;
-  name: string;
-  code: string;
-}
-
-const FALLBACK_UNIVERSITIES: University[] = [
-  { id: "unilag", name: "University of Lagos", code: "UNILAG" },
-  { id: "cu", name: "Covenant University", code: "CU" },
-  { id: "ui", name: "University of Ibadan", code: "UI" },
-  { id: "oau", name: "Obafemi Awolowo University", code: "OAU" },
-  { id: "unn", name: "University of Nigeria, Nsukka", code: "UNN" },
-  { id: "abu", name: "Ahmadu Bello University", code: "ABU" },
-  { id: "futa", name: "Federal University of Technology, Akure", code: "FUTA" },
-  { id: "uniben", name: "University of Benin", code: "UNIBEN" },
-  { id: "bu", name: "Babcock University", code: "BU" },
-  { id: "lmu", name: "Landmark University", code: "LMU" },
-  { id: "pau", name: "Pan-Atlantic University", code: "PAU" },
-  { id: "bowen", name: "Bowen University", code: "BOWEN" },
-  { id: "unilorin", name: "University of Ilorin", code: "UNILORIN" },
-  { id: "lasu", name: "Lagos State University", code: "LASU" },
-  { id: "futminna", name: "Federal University of Technology, Minna", code: "FUTMINNA" },
-  { id: "uniport", name: "University of Port Harcourt", code: "UNIPORT" },
-  { id: "ug", name: "University of Ghana", code: "UG" },
-  { id: "knust", name: "Kwame Nkrumah University of Science and Technology", code: "KNUST" },
-];
+export type { University };
 
 interface UniversityPickerProps {
   value: University | null;
@@ -51,26 +26,15 @@ export function UniversityPicker({
   error,
 }: UniversityPickerProps) {
   const [open, setOpen] = useState(false);
-  const [universities, setUniversities] = useState<University[]>(FALLBACK_UNIVERSITIES);
+  const [universities, setUniversities] = useState<University[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleOpen = useCallback(() => {
     setOpen(true);
     setLoading(true);
-    fetch(`${BASE_URL}/api/universities`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load");
-        return res.json();
-      })
+    getUniversities()
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setUniversities(data);
-        } else {
-          setUniversities(FALLBACK_UNIVERSITIES);
-        }
-      })
-      .catch(() => {
-        setUniversities(FALLBACK_UNIVERSITIES);
+        setUniversities(data);
       })
       .finally(() => setLoading(false));
   }, []);

@@ -1,4 +1,8 @@
-import { getToken } from "./auth-storage";
+import { getToken, saveToken, clearToken } from "./auth-storage";
+
+export { getToken, saveToken, clearToken };
+export const setToken = saveToken;
+export const removeToken = clearToken;
 
 export const BASE_URL =
   process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
@@ -93,6 +97,7 @@ export interface UserMeResponse {
   role: Role;
   universityId: string | null;
   level: string | null;
+  avatar?: string | null;
 }
 
 export function getMe() {
@@ -102,6 +107,8 @@ export function getMe() {
 export interface UpdateUserPayload {
   universityId?: string;
   level?: string;
+  role?: Role;
+  name?: string;
 }
 
 export function updateUserProfile(payload: UpdateUserPayload) {
@@ -191,6 +198,16 @@ export interface Category {
 
 export function getCategories() {
   return request<Category[]>("GET", "/api/categories");
+}
+
+export interface University {
+  id: string;
+  name: string;
+  code: string;
+}
+
+export function getUniversities() {
+  return request<University[]>("GET", "/api/universities");
 }
 
 export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImageUrl: string }> {

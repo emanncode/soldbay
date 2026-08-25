@@ -16,8 +16,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
 import { ErrorBanner } from "@/components/error-banner";
-import { BASE_URL, updateUserProfile, getMe, ApiError } from "@/lib/api";
-import type { University } from "@/components/university-picker";
+import { updateUserProfile, getMe, getUniversities, type University, ApiError } from "@/lib/api";
 
 const FALLBACK_UNIVERSITIES: University[] = [
   { id: "unilag", name: "University of Lagos", code: "UNILAG" },
@@ -135,11 +134,7 @@ export default function SelectUniversityScreen() {
         // Keep initial role state
       });
 
-    fetch(`${BASE_URL}/api/universities`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch");
-        return res.json();
-      })
+    getUniversities()
       .then((data) => {
         if (!cancelled) {
           if (Array.isArray(data) && data.length > 0) {
