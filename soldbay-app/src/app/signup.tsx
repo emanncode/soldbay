@@ -170,6 +170,7 @@ export default function SignupScreen() {
         email: email.trim(),
         password,
       });
+      await saveToken(loginRes.token);
 
       // 3. Both buyers and sellers proceed to university selection.
       // Buyers can choose their campus or tap skip on that screen;

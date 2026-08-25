@@ -105,7 +105,15 @@ export async function PATCH(request: Request) {
     })
 
     return NextResponse.json(updated)
-  } catch (error) {
+  } catch (error: unknown) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code: string }).code === "P2025"
+    ) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 })
+    }
     console.error("Update user me error:", error)
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },
