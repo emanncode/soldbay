@@ -141,6 +141,11 @@ export default function BuyerHomeScreen() {
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
   const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
+  const promoScrollRef = useRef<ScrollView>(null);
+  const storesScrollRef = useRef<ScrollView>(null);
+  const activeBannerIndexRef = useRef(0);
+  const activeStoreIndexRef = useRef(0);
+
   const initialLoad = useRef(true);
   const mounted = useRef(true);
   const loadSeq = useRef(0);
@@ -151,6 +156,41 @@ export default function BuyerHomeScreen() {
       mounted.current = false;
     };
   }, []);
+
+  // Auto-scroll Promo Banners (loops back to first when reaching end)
+  useEffect(() => {
+    if (debouncedSearch) return;
+    const bannerSlideWidth = SCREEN_WIDTH - GRID.gutter * 2 + 12;
+    const interval = setInterval(() => {
+      if (!mounted.current) return;
+      const nextIndex = (activeBannerIndexRef.current + 1) % PROMO_BANNERS.length;
+      activeBannerIndexRef.current = nextIndex;
+      setActiveBannerIndex(nextIndex);
+      promoScrollRef.current?.scrollTo({
+        x: nextIndex * bannerSlideWidth,
+        animated: true,
+      });
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [debouncedSearch]);
+
+  // Auto-scroll Places Nearby / Campus Stores (loops back to first when reaching end)
+  useEffect(() => {
+    if (debouncedSearch) return;
+    const storeCardStep = 224 + 12; // card width + gap
+    const interval = setInterval(() => {
+      if (!mounted.current) return;
+      const nextIndex = (activeStoreIndexRef.current + 1) % NEARBY_STORES.length;
+      activeStoreIndexRef.current = nextIndex;
+      storesScrollRef.current?.scrollTo({
+        x: nextIndex * storeCardStep,
+        animated: true,
+      });
+    }, 4200);
+
+    return () => clearInterval(interval);
+  }, [debouncedSearch]);
 
   // Fetch current user profile
   useEffect(() => {
@@ -251,11 +291,21 @@ export default function BuyerHomeScreen() {
     });
   }, []);
 
-  const handleBannerScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const slideSize = event.nativeEvent.layoutMeasurement.width;
+  const handleBannerScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const slideSize = SCREEN_WIDTH - GRID.gutter * 2 + 12;
     const offset = event.nativeEvent.contentOffset.x;
     const index = Math.round(offset / (slideSize > 0 ? slideSize : 1));
-    setActiveBannerIndex(index);
+    const clamped = Math.max(0, Math.min(index, PROMO_BANNERS.length - 1));
+    activeBannerIndexRef.current = clamped;
+    setActiveBannerIndex(clamped);
+  };
+
+  const handleStoreScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const step = 224 + 12;
+    const offset = event.nativeEvent.contentOffset.x;
+    const index = Math.round(offset / step);
+    const clamped = Math.max(0, Math.min(index, NEARBY_STORES.length - 1));
+    activeStoreIndexRef.current = clamped;
   };
 
   const displayName = user?.name ? user.name.split(" ")[0] : "Shopper";
@@ -302,6 +352,7 @@ export default function BuyerHomeScreen() {
             <Text style={{ fontFamily: "Inter-SemiBold", fontSize: 12, color: "#eaf4f0" }}>
               {userCampus}
             </Text>
+            <Ionicons name="chevron-down" size={12} color="#9ca3af" />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -375,14 +426,15 @@ export default function BuyerHomeScreen() {
         </View>
       </View>
 
-      {/* ── 3. Promo Banner Carousel (Aligned with Grid Gutter) ── */}
+      {/* ── 3. Promo Banner Carousel (Auto-scrolling, Aligned with Grid Gutter) ── */}
       {!debouncedSearch && (
         <View style={{ gap: GRID.gapSmall }}>
           <ScrollView
+            ref={promoScrollRef}
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-            onScroll={handleBannerScroll}
+            onMomentumScrollEnd={handleBannerScrollEnd}
             scrollEventThrottle={16}
             contentContainerStyle={{ paddingHorizontal: GRID.gutter, gap: 12 }}
           >
@@ -475,13 +527,19 @@ export default function BuyerHomeScreen() {
         </ScrollView>
       </View>
 
-      {/* ── 5. Places Nearby ── */}
+      {/* ── 5. Places Nearby / Campus Stores (Auto-scrolling) ── */}
       {!debouncedSearch && (
         <View style={{ gap: GRID.gapSmall, paddingHorizontal: GRID.gutter }}>
           <Text style={{ fontFamily: "BricolageGrotesque-Bold", fontSize: 18, color: "#ffffff" }}>
             Campus Stores Near You
           </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
+          <ScrollView
+            ref={storesScrollRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleStoreScrollEnd}
+            contentContainerStyle={{ gap: 12 }}
+          >
             {NEARBY_STORES.map((store) => (
               <View
                 key={store.id}
