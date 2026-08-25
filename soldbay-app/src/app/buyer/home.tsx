@@ -20,6 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { PageAtmosphere } from "@/components/page-atmosphere";
 import { SearchBar } from "@/components/search-bar";
 import { IconButton } from "@/components/icon-button";
+import { BuyerBottomNav, type BuyerTab } from "@/components/buyer-bottom-nav";
 import {
   getListings,
   getCategories,
@@ -142,7 +143,9 @@ export default function BuyerHomeScreen() {
   const [hasMore, setHasMore] = useState(false);
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
   const [wishlist, setWishlist] = useState<Set<string>>(new Set());
+  const [activeTab, setActiveTab] = useState<BuyerTab>("home");
 
+  const flatListRef = useRef<FlatList<PublicListing>>(null);
   const promoScrollRef = useRef<ScrollView>(null);
   const storesScrollRef = useRef<ScrollView>(null);
   const activeBannerIndexRef = useRef(0);
@@ -600,11 +603,34 @@ export default function BuyerHomeScreen() {
     </View>
   );
 
+  const displayedListings =
+    activeTab === "favorites"
+      ? listings.filter((item) => wishlist.has(item.id))
+      : listings;
+
+  const handleTabChange = (tab: BuyerTab) => {
+    setActiveTab(tab);
+    if (tab === "home") {
+      setSelectedCategory(null);
+      setSearchQuery("");
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    } else if (tab === "search") {
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    } else if (tab === "cart") {
+      // Cart tab interaction
+    } else if (tab === "favorites") {
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    } else if (tab === "profile") {
+      router.push("/select-role");
+    }
+  };
+
   return (
     <PageAtmosphere theme="pure-dark">
       <SafeAreaView style={{ flex: 1, backgroundColor: "#0d0e11" }} edges={["top", "left", "right"]}>
         <FlatList
-          data={listings}
+          ref={flatListRef}
+          data={displayedListings}
           numColumns={2}
           key="buyer-home-grid"
           keyExtractor={(item) => item.id}
@@ -616,7 +642,7 @@ export default function BuyerHomeScreen() {
             />
           )}
           columnWrapperStyle={{ gap: 12, paddingHorizontal: GRID.gutter }}
-          contentContainerStyle={{ paddingBottom: 104, gap: 12, flexGrow: 1 }}
+          contentContainerStyle={{ paddingBottom: 110, gap: 12, flexGrow: 1 }}
           ListHeaderComponent={headerComponent}
           ListEmptyComponent={
             loading ? (
@@ -635,7 +661,13 @@ export default function BuyerHomeScreen() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         />
-        <BottomNavDock currentTab="home" />
+        <BuyerBottomNav
+          currentTab={activeTab}
+          onTabChange={handleTabChange}
+          cartCount={2}
+          wishlistCount={wishlist.size}
+          userAvatarUrl={null}
+        />
       </SafeAreaView>
     </PageAtmosphere>
   );
@@ -703,148 +735,6 @@ const ListingCard = memo(function ListingCard({ listing, isFavorited, onToggleFa
     </TouchableOpacity>
   );
 });
-
-function BottomNavDock({ currentTab = "home" }: { currentTab?: string }) {
-  const router = useRouter();
-  return (
-    <View
-      style={{
-        position: "absolute",
-        bottom: 16,
-        left: GRID.gutter,
-        right: GRID.gutter,
-        height: GRID.dockHeight,
-        backgroundColor: "rgba(16, 18, 22, 0.95)",
-        borderWidth: 1,
-        borderColor: "rgba(255, 255, 255, 0.1)",
-        borderRadius: GRID.dockRadius,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        paddingHorizontal: 12,
-        shadowColor: "#000000",
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.5,
-        shadowRadius: 16,
-        elevation: 10,
-      }}
-    >
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 3,
-          width: 54,
-        }}
-      >
-        <Ionicons
-          name={currentTab === "home" ? "home" : "home-outline"}
-          size={21}
-          color={currentTab === "home" ? "#3b7e68" : "#6b7280"}
-        />
-        <Text
-          style={{
-            fontFamily: "Inter-SemiBold",
-            fontSize: 10,
-            color: currentTab === "home" ? "#3b7e68" : "#6b7280",
-          }}
-        >
-          Home
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => router.push("/buyer/home")}
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 3,
-          width: 54,
-        }}
-      >
-        <Ionicons name="compass-outline" size={21} color="#6b7280" />
-        <Text
-          style={{
-            fontFamily: "Inter-Regular",
-            fontSize: 10,
-            color: "#6b7280",
-          }}
-        >
-          Explore
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {}}
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 3,
-          width: 54,
-        }}
-      >
-        <View>
-          <Ionicons name="bag-handle-outline" size={21} color="#6b7280" />
-          <View
-            style={{
-              position: "absolute",
-              top: -3,
-              right: -5,
-              backgroundColor: "#df4a32",
-              borderRadius: 6,
-              paddingHorizontal: 4,
-              paddingVertical: 1,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Inter-Bold",
-                fontSize: 8,
-                color: "#ffffff",
-              }}
-            >
-              2
-            </Text>
-          </View>
-        </View>
-        <Text
-          style={{
-            fontFamily: "Inter-Regular",
-            fontSize: 10,
-            color: "#6b7280",
-          }}
-        >
-          Cart
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => router.push("/select-role")}
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 3,
-          width: 54,
-        }}
-      >
-        <Ionicons name="person-outline" size={21} color="#6b7280" />
-        <Text
-          style={{
-            fontFamily: "Inter-Regular",
-            fontSize: 10,
-            color: "#6b7280",
-          }}
-        >
-          Profile
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
 
 function EmptyState({ category, search, onBrowseAll }: { category: string | null; search: string; onBrowseAll: () => void }) {
   return (
