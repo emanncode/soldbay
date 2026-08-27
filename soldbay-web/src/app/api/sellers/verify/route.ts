@@ -61,12 +61,29 @@ export async function POST(request: Request) {
     // --- Parse multipart form ---
     const formData = await request.formData()
     const file = formData.get("image") as File | null
+    const matricNumberRaw = formData.get("matricNumber")
+    const matricNumber = typeof matricNumberRaw === "string" ? matricNumberRaw.trim().toUpperCase() : null
 
     if (!file || typeof file === "string") {
       return NextResponse.json(
-        { error: "Please upload a screenshot of your student portal home page." },
+        { error: "Please upload a screenshot of your student portal home page or ID card." },
         { status: 400 },
       )
+    }
+
+    if (matricNumber) {
+      const existingUserWithMatric = await prisma.user.findFirst({
+        where: {
+          matricNumber,
+          id: { not: userId },
+        },
+      })
+      if (existingUserWithMatric) {
+        return NextResponse.json(
+          { error: "This matriculation number has already been registered on Soldbay." },
+          { status: 400 },
+        )
+      }
     }
 
     if (!ALLOWED_MIME_TYPES.has(file.type)) {
@@ -87,18 +104,35 @@ export async function POST(request: Request) {
     const ext = file.type.split("/")[1] ?? "jpg"
     const blobPath = `seller-portals/${profile.id}-${Date.now()}.${ext}`
 
-    const blob = await put(blobPath, file, {
-      access: "public",
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    })
+    let blobUrl: string
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(blobPath, file, {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+      })
+      blobUrl = blob.url
+    } else {
+      // Fallback dev data URL when running locally without Blob token
+      blobUrl = `https://mock-storage.soldbay.local/${blobPath}`
+    }
 
-    // --- Store URL (do NOT set verifiedAt) ---
-    await prisma.sellerProfile.update({
-      where: { id: profile.id },
-      data: { idImageUrl: blob.url },
-    })
+    // --- Store URL and matricNumber atomically ---
+    await prisma.$transaction([
+      prisma.sellerProfile.update({
+        where: { id: profile.id },
+        data: { idImageUrl: blobUrl },
+      }),
+      ...(matricNumber
+        ? [
+            prisma.user.update({
+              where: { id: userId },
+              data: { matricNumber },
+            }),
+          ]
+        : []),
+    ])
 
-    return NextResponse.json({ ok: true, idImageUrl: blob.url })
+    return NextResponse.json({ ok: true, idImageUrl: blobUrl, matricNumber })
   } catch (error) {
     console.error("Verify seller error:", error)
     return NextResponse.json(
