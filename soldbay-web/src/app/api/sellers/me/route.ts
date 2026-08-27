@@ -49,12 +49,14 @@ export async function GET(request: Request) {
             images: true,
             stock: true,
             status: true,
+            draftStep: true,
             createdAt: true,
+            updatedAt: true,
             category: {
               select: { name: true, slug: true },
             },
           },
-          orderBy: { createdAt: "desc" },
+          orderBy: { updatedAt: "desc" },
         },
       },
     })
@@ -66,6 +68,18 @@ export async function GET(request: Request) {
       )
     }
 
+    const drafts = profile.listings
+      .filter((l) => l.status === "DRAFT")
+      .map((d) => ({
+        id: d.id,
+        title: d.title,
+        images: d.images,
+        draftStep: d.draftStep,
+        updatedAt: d.updatedAt.toISOString(),
+      }))
+
+    const listings = profile.listings.filter((l) => l.status !== "DRAFT")
+
     return NextResponse.json({
       sellerProfileId: profile.id,
       username: profile.username,
@@ -74,7 +88,8 @@ export async function GET(request: Request) {
       verified: profile.verifiedAt !== null,
       verifiedAt: profile.verifiedAt,
       idImageUrl: profile.idImageUrl,
-      listings: profile.listings,
+      listings,
+      drafts,
     })
   } catch (error) {
     console.error("Get seller me error:", error)

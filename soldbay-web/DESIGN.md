@@ -1,6 +1,23 @@
 # Soldbay Buyer Design System & Screen Architecture
 
-> **Source of truth** for all Soldbay Buyer UI across Mobile App (React Native / Expo), Web, and Pen.dev Canvas (`design/starter.pen`).
+> ## ⚠️ SUPERSEDED — do not build from this document
+>
+> The design system below (forest green `#3b7e68`, coral `#df4a32`, warm off-white
+> `#fcfbf9`, Bricolage Grotesque + Inter, glassmorphism) has been **replaced**. The
+> current source of truth is **[design/DESIGN.md](../design/DESIGN.md)** — one teal accent
+> `#0D9488`, Manrope only, flat elevation, **no blur**.
+>
+> This file is kept for historical reference and because parts of `soldbay-web` still
+> reference these tokens. The web admin is **deliberately utilitarian** and was left out of
+> the design reset on purpose — do not apply the branded mobile system here with the same
+> weight. When web is rethemed, delete this file rather than editing it.
+>
+> Anything below this line describes the old product framing (cart, delivery, wishlist,
+> discount badges) which the escrow/pickup model has also superseded.
+
+---
+
+> **[Historical]** Source of truth for all Soldbay Buyer UI across Mobile App (React Native / Expo), Web, and Pen.dev Canvas (`design/starter.pen`).
 
 ---
 

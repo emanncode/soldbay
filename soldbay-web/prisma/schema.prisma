@@ -70,6 +70,9 @@ model User {
   sellerProfile SellerProfile?
   accounts      Account[]
   sessions      Session[]
+  buyerOrders   Order[]        @relation("BuyerOrders")
+  buyerDisputes Dispute[]      @relation("BuyerDisputes")
+  resolvedDisputes Dispute[]   @relation("ResolvedDisputes")
 }
 
 model Account {
@@ -118,6 +121,7 @@ model SellerProfile {
   idImageUrl    String?
   verifiedAt    DateTime?
   listings      Listing[]
+  orders        Order[]   @relation("SellerOrders")
 }
 
 model Category {
@@ -132,17 +136,88 @@ model Listing {
   id          String        @id @default(cuid())
   sellerId    String
   seller      SellerProfile @relation(fields: [sellerId], references: [id])
-  categoryId  String
-  category    Category      @relation(fields: [categoryId], references: [id])
-  title       String
-  description String
-  price       Decimal
+  categoryId  String?
+  category    Category?     @relation(fields: [categoryId], references: [id])
+  title       String?
+  description String?
+  price       Decimal?
   images      String[]
   stock       Int           @default(1)
   status      String        @default("ACTIVE")
+  draftStep   Int?
   createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  orders      Order[]
 
+  @@index([sellerId, status, updatedAt(sort: Desc)])
   @@index([sellerId])
   @@index([status, createdAt(sort: Desc)])
   @@index([categoryId, status, createdAt(sort: Desc)])
 }
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAYMENT_SECURED
+  PICKUP_ARRANGED
+  AWAITING_CONFIRMATION
+  COMPLETED
+  DISPUTED
+  REFUNDED
+  CANCELLED
+}
+
+enum DisputeStatus {
+  OPEN
+  UNDER_REVIEW
+  RESOLVED_BUYER_REFUND
+  RESOLVED_SELLER_PAYOUT
+  CANCELLED
+}
+
+enum DisputeResolution {
+  REFUND_BUYER
+  RELEASE_TO_SELLER
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique
+  buyerId         String
+  buyer           User          @relation("BuyerOrders", fields: [buyerId], references: [id])
+  sellerId        String
+  seller          SellerProfile @relation("SellerOrders", fields: [sellerId], references: [id])
+  listingId       String
+  listing         Listing       @relation(fields: [listingId], references: [id])
+  amount          Decimal
+  status          OrderStatus   @default(PAYMENT_SECURED)
+  pickupLocation  String?
+  confirmationPin String?
+  disputes        Dispute[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([buyerId, status, createdAt(sort: Desc)])
+  @@index([sellerId, status, createdAt(sort: Desc)])
+  @@index([status, createdAt(sort: Desc)])
+}
+
+model Dispute {
+  id              String             @id @default(cuid())
+  orderId         String
+  order           Order              @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  buyerId         String
+  buyer           User               @relation("BuyerDisputes", fields: [buyerId], references: [id])
+  reason          String
+  status          DisputeStatus      @default(UNDER_REVIEW)
+  resolution      DisputeResolution?
+  resolutionNotes String?
+  resolvedAt      DateTime?
+  resolvedById    String?
+  resolvedBy      User?              @relation("ResolvedDisputes", fields: [resolvedById], references: [id])
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([orderId])
+  @@index([status, createdAt(sort: Desc)])
+}
+

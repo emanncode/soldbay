@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { validateListingCompleteness } from "@/lib/listing-validation"
 
 const DEFAULT_LIMIT = 20
 const MAX_LIMIT = 100
@@ -63,26 +64,10 @@ export async function POST(request: Request) {
     if (!body.sellerId || typeof body.sellerId !== "string") {
       return NextResponse.json({ error: "Seller ID is required." }, { status: 400 })
     }
-    if (body.categoryId && typeof body.categoryId !== "string") {
-      return NextResponse.json({ error: "Invalid category ID." }, { status: 400 })
-    }
-    if (body.categorySlug && typeof body.categorySlug !== "string") {
-      return NextResponse.json({ error: "Invalid category slug." }, { status: 400 })
-    }
-    if (!body.categoryId && !body.categorySlug) {
-      return NextResponse.json({ error: "Category ID or slug is required." }, { status: 400 })
-    }
-    if (!body.title || typeof body.title !== "string" || !body.title.trim()) {
-      return NextResponse.json({ error: "Title is required." }, { status: 400 })
-    }
-    if (!body.description || typeof body.description !== "string" || !body.description.trim()) {
-      return NextResponse.json({ error: "Description is required." }, { status: 400 })
-    }
-    if (body.price == null || isNaN(Number(body.price)) || Number(body.price) <= 0) {
-      return NextResponse.json({ error: "Price must be a positive number." }, { status: 400 })
-    }
-    if (body.stock != null && (typeof body.stock !== "number" || body.stock < 1)) {
-      return NextResponse.json({ error: "Stock must be at least 1." }, { status: 400 })
+
+    const validation = validateListingCompleteness(body)
+    if (!validation.valid) {
+      return NextResponse.json({ error: validation.error }, { status: 400 })
     }
 
     const seller = await prisma.sellerProfile.findUnique({

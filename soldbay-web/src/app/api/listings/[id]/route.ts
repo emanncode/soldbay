@@ -35,7 +35,7 @@ export async function GET(
       },
     })
 
-    if (!listing) {
+    if (!listing || listing.status === "DRAFT") {
       return NextResponse.json(
         { error: "Listing not found." },
         { status: 404 },
