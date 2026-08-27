@@ -4,17 +4,10 @@ import { Platform } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import {
-  BricolageGrotesque_500Medium,
-  BricolageGrotesque_600SemiBold,
-  BricolageGrotesque_700Bold,
-  BricolageGrotesque_800ExtraBold,
-} from "@expo-google-fonts/bricolage-grotesque";
-import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-} from "@expo-google-fonts/inter";
-import { Satisfy_400Regular } from "@expo-google-fonts/satisfy";
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+} from "@expo-google-fonts/manrope";
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -26,14 +19,12 @@ export default function RootLayout() {
     async function loadFonts() {
       try {
         await Font.loadAsync({
-          "BricolageGrotesque-Medium": BricolageGrotesque_500Medium,
-          "BricolageGrotesque-SemiBold": BricolageGrotesque_600SemiBold,
-          "BricolageGrotesque-Bold": BricolageGrotesque_700Bold,
-          "BricolageGrotesque-ExtraBold": BricolageGrotesque_800ExtraBold,
-          "Inter-Regular": Inter_400Regular,
-          "Inter-Medium": Inter_500Medium,
-          "Inter-SemiBold": Inter_600SemiBold,
-          "Satisfy-Regular": Satisfy_400Regular,
+          // Manrope only, three weights. Names must match tailwind.config.js
+          // `fontFamily` — RN doesn't reliably synthesise weights from one
+          // family, so each weight is registered as its own family.
+          "Manrope-Regular": Manrope_400Regular,
+          "Manrope-Medium": Manrope_500Medium,
+          "Manrope-SemiBold": Manrope_600SemiBold,
         });
       } catch (error) {
         if (Platform.OS !== "web") {
