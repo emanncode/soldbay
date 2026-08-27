@@ -68,7 +68,7 @@ export async function POST(
       })
 
       return { dispute, updatedOrder }
-    })
+    }, { timeout: 30000, maxWait: 15000 })
 
     return NextResponse.json({
       ok: true,

@@ -147,7 +147,7 @@ model Listing {
   status      String        @default("ACTIVE")
   draftStep   Int?
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  updatedAt   DateTime      @default(now()) @updatedAt
   orders      Order[]
 
   @@index([sellerId, status, updatedAt(sort: Desc)])
@@ -195,7 +195,7 @@ model Order {
   confirmationPin String?
   disputes        Dispute[]
   createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  updatedAt       DateTime      @default(now()) @updatedAt
 
   @@index([buyerId, status, createdAt(sort: Desc)])
   @@index([sellerId, status, createdAt(sort: Desc)])
@@ -216,7 +216,7 @@ model Dispute {
   resolvedById    String?
   resolvedBy      User?              @relation("ResolvedDisputes", fields: [resolvedById], references: [id])
   createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
+  updatedAt       DateTime           @default(now()) @updatedAt
 
   @@index([orderId])
   @@index([status, createdAt(sort: Desc)])

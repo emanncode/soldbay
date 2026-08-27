@@ -52,7 +52,7 @@ export async function resolveDisputeAsRefund({
       order: updatedOrder,
       resolutionType: "REFUND",
     }
-  })
+  }, { timeout: 30000, maxWait: 15000 })
 }
 
 export async function resolveDisputeAsReleaseToSeller({
@@ -125,5 +125,5 @@ export async function resolveDisputeAsReleaseToSeller({
       order: updatedOrder,
       resolutionType: "RELEASE_TO_SELLER",
     }
-  })
+  }, { timeout: 30000, maxWait: 15000 })
 }

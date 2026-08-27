@@ -69,7 +69,7 @@ export async function POST(
       })
 
       return { updatedOrder, sellerPayout }
-    })
+    }, { timeout: 30000, maxWait: 15000 })
 
     return NextResponse.json({
       ok: true,
