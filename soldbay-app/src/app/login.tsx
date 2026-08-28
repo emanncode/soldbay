@@ -1,382 +1,151 @@
 import { useState } from "react";
 import {
-  View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
   Text,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-  Easing,
+  View,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { login, ApiError } from "@/lib/api";
-import { saveToken } from "@/lib/auth-storage";
-import { Ionicons } from "@expo/vector-icons";
-import { SoldBayInputField } from "@/components/soldbay-input-field";
-import { PrimaryButton } from "@/components/primary-button";
-import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
-import { ErrorBanner } from "@/components/error-banner";
-
-function EyeToggle({
-  showing,
-  onPress,
-  disabled,
-}: {
-  showing: boolean;
-  onPress: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled}
-      hitSlop={8}
-      style={{ padding: 4, opacity: disabled ? 0.5 : 1 }}
-    >
-      <Ionicons
-        name={showing ? "eye-off-outline" : "eye-outline"}
-        size={20}
-        color="rgba(255, 255, 255, 0.6)"
-      />
-    </TouchableOpacity>
-  );
-}
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Button, LogoWordmark, TextField, ToastBanner } from "@/components";
+import { getMe, login, saveToken } from "@/lib/api";
 
 export default function LoginScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-
   const [loading, setLoading] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {},
-  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Staggered list items inside the card
-  const [itemAnims] = useState(() =>
-    Array.from({ length: 6 }, () => ({
-      opacity: new Animated.Value(0),
-      translateY: new Animated.Value(20),
-    }))
-  );
+  const handleLogin = async () => {
+    setErrorMessage(null);
+    if (!email.trim() || !password) {
+      setErrorMessage("Please enter both your student email and password.");
+      return;
+    }
 
-  // Compile staggered items animations
-  const staggerAnimations = itemAnims.map((anim) =>
-    Animated.parallel([
-      Animated.timing(anim.opacity, {
-        toValue: 1,
-        duration: 400,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: true,
-      }),
-      Animated.timing(anim.translateY, {
-        toValue: 0,
-        duration: 500,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-    ])
-  );
-
-  const [checkScale] = useState(() => new Animated.Value(1));
-
-  const toggleRememberMe = () => {
-    if (loading) return;
-    Animated.sequence([
-      Animated.timing(checkScale, {
-        toValue: 0.8,
-        duration: 80,
-        useNativeDriver: true,
-      }),
-      Animated.spring(checkScale, {
-        toValue: 1,
-        friction: 4,
-        tension: 50,
-        useNativeDriver: true,
-      }),
-    ]).start();
-    setRememberMe(!rememberMe);
-  };
-
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-
-  function validate() {
-    const e: typeof errors = {};
-    if (!email.trim()) e.email = "Email is required";
-    else if (!isEmailValid) e.email = "Enter a valid email";
-    if (!password) e.password = "Password is required";
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  }
-
-  async function handleLogin() {
-    if (!validate()) return;
-    setLoading(true);
-    setFormError(null);
     try {
-      const res = await login({ email: email.trim(), password });
+      setLoading(true);
+      const res = await login({
+        email: email.trim().toLowerCase(),
+        password,
+      });
+
       await saveToken(res.token);
-      router.replace(
-        res.user.role === "SELLER" ? "/seller/dashboard" : "/buyer/home",
-      );
-    } catch (err) {
-      console.error("Login error:", err);
-      if (err instanceof ApiError) {
-        setFormError(err.message);
-      } else {
-        setFormError("Something went wrong. Please try again.");
+      const user = await getMe();
+
+      if (!user.universityId) {
+        router.replace("/select-university");
+        return;
       }
+
+      if (user.role === "SELLER") {
+        router.replace("/seller/dashboard");
+      } else {
+        router.replace("/buyer/home");
+      }
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Invalid email or password. Please try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <AuthLayoutWrapper staggerAnimations={staggerAnimations}>
-      {/* Item 0: Title and Subtitle */}
-      <Animated.View
-        style={{
-          marginBottom: 12,
-          opacity: itemAnims[0].opacity,
-          transform: [{ translateY: itemAnims[0].translateY }],
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      className="flex-1 bg-surface-base"
+    >
+      <ScrollView
+        contentContainerStyle={{
+          paddingTop: Math.max(insets.top + 24, 48),
+          paddingBottom: Math.max(insets.bottom + 24, 32),
         }}
+        className="flex-1 px-3"
+        keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.cardTitle}>Welcome back</Text>
-        <Text style={styles.cardSubtitle}>
-          Buy and sell items with verified students at your university
-        </Text>
-      </Animated.View>
+        <View className="mb-4">
+          <LogoWordmark size="md" />
+          <Text className="mt-3 font-manrope-semibold text-h1 text-text-primary">
+            Welcome back
+          </Text>
+          <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+            Sign in to your campus account
+          </Text>
+        </View>
 
-      {/* Form Fields */}
-      <View style={styles.formContainer}>
-        {/* Item 1: Email Input */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[1].opacity,
-            transform: [{ translateY: itemAnims[1].translateY }],
-          }}
-        >
-          <SoldBayInputField
-            label="Email"
-            icon="mail-outline"
-            placeholder="brittnilonda5487@gmail.com"
+        {errorMessage ? (
+          <View className="mb-2">
+            <ToastBanner
+              visible={Boolean(errorMessage)}
+              message={errorMessage}
+              type="error"
+              onDismiss={() => setErrorMessage(null)}
+            />
+          </View>
+        ) : null}
+
+        <View className="gap-2">
+          <TextField
+            label="Student Email"
+            placeholder="student@university.edu.ng"
             value={email}
-            onChangeText={(t) => {
-              setEmail(t);
-              setErrors((e) => ({ ...e, email: undefined }));
-              setFormError(null);
-            }}
-            error={errors.email}
-            disabled={loading}
+            onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            rightElement={
-              isEmailValid && !errors.email ? (
-                <Ionicons
-                  name="checkmark-circle"
-                  size={18}
-                  color="#4BB543"
-                  style={{ marginLeft: 8 }}
-                />
-              ) : undefined
-            }
           />
-        </Animated.View>
 
-        {/* Item 2: Password Input */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[2].opacity,
-            transform: [{ translateY: itemAnims[2].translateY }],
-          }}
-        >
-          <SoldBayInputField
-            label="Password"
-            icon="lock-closed-outline"
-            placeholder="password"
-            value={password}
-            onChangeText={(t) => {
-              setPassword(t);
-              setErrors((e) => ({ ...e, password: undefined }));
-              setFormError(null);
-            }}
-            error={errors.password}
-            disabled={loading}
-            secureTextEntry={!showPassword}
-            rightElement={
-              <EyeToggle
-                showing={showPassword}
-                onPress={() => setShowPassword(!showPassword)}
-                disabled={loading}
-              />
-            }
-          />
-        </Animated.View>
-
-        {/* Item 3: Remember me & Forgot password row */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[3].opacity,
-            transform: [{ translateY: itemAnims[3].translateY }],
-          }}
-        >
-          <View style={styles.optionsRow}>
-            <TouchableOpacity
-              onPress={toggleRememberMe}
-              style={styles.checkboxContainer}
-              activeOpacity={0.8}
-              disabled={loading}
-            >
-              <Animated.View style={{ transform: [{ scale: checkScale }] }}>
-                <Ionicons
-                  name={rememberMe ? "checkbox" : "square-outline"}
-                  size={20}
-                  color={rememberMe ? "#22c55e" : "rgba(255, 255, 255, 0.4)"}
-                />
-              </Animated.View>
-              <Text style={[styles.checkboxText, loading && { opacity: 0.6 }]}>
-                Remember me
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => router.push("/forgot-password")}
-              disabled={loading}
-            >
-              <Text
-                style={[
-                  styles.forgotPasswordText,
-                  loading && { opacity: 0.6 },
-                ]}
-              >
-                Forgot Password?
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
-
-        {/* Item 4: General form errors and Log In Button */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[4].opacity,
-            transform: [{ translateY: itemAnims[4].translateY }],
-            marginTop: 4,
-            gap: 12,
-          }}
-        >
-          {formError && (
-            <ErrorBanner
-              message={formError}
-              onDismiss={() => setFormError(null)}
+          <View>
+            <TextField
+              label="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
+              isPassword
             />
-          )}
+            <Pressable
+              onPress={() => router.push("/forgot-password")}
+              accessibilityRole="button"
+              accessibilityLabel="Forgot password"
+              className="self-end pt-1"
+              hitSlop={8}
+            >
+              <Text className="font-manrope-medium text-small text-accent">
+                Forgot password?
+              </Text>
+            </Pressable>
+          </View>
 
-          <PrimaryButton
-            label={loading ? "Logging in..." : "Log in"}
-            loading={loading}
-            onPress={handleLogin}
-          />
-        </Animated.View>
-      </View>
+          <View className="mt-2">
+            <Button
+              label="Sign In"
+              onPress={handleLogin}
+              loading={loading}
+              variant="primary"
+            />
+          </View>
+        </View>
 
-      {/* Item 5: Footer link to sign up */}
-      <Animated.View
-        style={{
-          opacity: itemAnims[5].opacity,
-          transform: [{ translateY: itemAnims[5].translateY }],
-        }}
-      >
-        <View style={styles.footer}>
-          <Text style={styles.footerMuted}>{"Don't have an account? "}</Text>
-          <TouchableOpacity
-            onPress={() => router.push("/signup")}
-            disabled={loading}
+        <View className="mt-6 flex-row items-center justify-center">
+          <Text className="font-manrope text-body text-text-secondary">
+            Don't have an account?{" "}
+          </Text>
+          <Pressable
+            onPress={() => router.push("/select-role")}
+            accessibilityRole="button"
+            accessibilityLabel="Sign up"
+            hitSlop={8}
           >
-            <Text style={[styles.footerLink, loading && { opacity: 0.6 }]}>
+            <Text className="font-manrope-medium text-body text-accent">
               Sign up
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
-      </Animated.View>
-    </AuthLayoutWrapper>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  cardTitle: {
-    fontFamily: "BricolageGrotesque-Bold",
-    fontSize: 26,
-    color: "#ffffff",
-    textAlign: "center",
-    marginBottom: 4,
-  },
-  cardSubtitle: {
-    fontFamily: "Inter-Regular",
-    fontSize: 15,
-    color: "rgba(255, 255, 255, 0.7)",
-    textAlign: "center",
-    lineHeight: 18,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-  },
-  formContainer: {
-    gap: 12,
-  },
-  optionsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 0,
-    paddingHorizontal: 2,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  checkboxText: {
-    fontFamily: "Inter-Regular",
-    fontSize: 13,
-    color: "rgba(255, 255, 255, 0.8)",
-  },
-  forgotPasswordText: {
-    fontFamily: "Inter-Medium",
-    fontSize: 13,
-    color: "#4ade80",
-  },
-  formErrorContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    backgroundColor: "rgba(239, 68, 68, 0.08)",
-    borderWidth: 1,
-    borderColor: "rgba(239, 68, 68, 0.2)",
-    padding: 10,
-    borderRadius: 14,
-  },
-  formErrorText: {
-    fontFamily: "Inter-Regular",
-    fontSize: 12,
-    color: "#ef4444",
-    flex: 1,
-  },
-  footer: {
-    marginTop: 18,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  footerMuted: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.7)",
-  },
-  footerLink: {
-    fontFamily: "Inter-SemiBold",
-    fontSize: 14,
-    color: "#ffffff",
-  },
-});

@@ -1,344 +1,154 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-  Easing,
+  KeyboardAvoidingView,
   Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { PrimaryButton } from "@/components/primary-button";
-import { Ionicons } from "@expo/vector-icons";
-import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
-import { ToastBanner } from "@/components/toast-banner";
-
-const OTP_LENGTH = 6;
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BackHeader, Button, PINInput, ToastBanner } from "@/components";
+import { forgotPassword, verifyOtp } from "@/lib/api";
 
 export default function EnterCodeScreen() {
   const router = useRouter();
-  const { email } = useLocalSearchParams<{ email?: string }>();
-  const displayEmail = email || "you@email.com";
+  const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ email?: string; devOtp?: string }>();
+  const email = params.email || "";
 
-  const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
-  const [verifying, setVerifying] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [code, setCode] = useState(params.devOtp || "");
+  const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
-
-  // Staggered list items (4 items: Title/subtitle, OTP Grid, Action Button/Resend, Login link)
-  const [itemAnims] = useState(() =>
-    Array.from({ length: 4 }, () => ({
-      opacity: new Animated.Value(0),
-      translateY: new Animated.Value(20),
-    }))
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(
+    params.devOtp ? `Test Code: ${params.devOtp}` : null
   );
 
-  // Compile staggered items animations
-  const staggerAnimations = itemAnims.map((anim) =>
-    Animated.parallel([
-      Animated.timing(anim.opacity, {
-        toValue: 1,
-        duration: 400,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: true,
-      }),
-      Animated.timing(anim.translateY, {
-        toValue: 0,
-        duration: 500,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-    ])
-  );
-
-  const textInputRefs = useRef<(TextInput | null)[]>([]);
-
-  function handleOtpChange(text: string, index: number) {
-    const digit = text.replace(/[^0-9]/g, "").slice(-1);
-    const next = [...otp];
-    next[index] = digit;
-    setOtp(next);
-
-    if (digit && index < OTP_LENGTH - 1) {
-      textInputRefs.current[index + 1]?.focus();
+  const handleVerify = async () => {
+    setErrorMessage(null);
+    if (!code || code.length !== 6) {
+      setErrorMessage("Please enter the complete 6-digit verification code.");
+      return;
     }
-  }
 
-  function handleOtpKeyPress(key: string, index: number) {
-    if (key === "Backspace" && !otp[index] && index > 0) {
-      const next = [...otp];
-      next[index - 1] = "";
-      setOtp(next);
-      textInputRefs.current[index - 1]?.focus();
+    try {
+      setLoading(true);
+      await verifyOtp(email, code);
+
+      router.push({
+        pathname: "/forgot-password/new-password",
+        params: { email, otp: code },
+      });
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Invalid or expired verification code.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  const isComplete = otp.every((val) => val !== "");
-
-  function handleVerify() {
-    if (!isComplete) return;
-    setVerifying(true);
-    setTimeout(() => {
-      setVerifying(false);
-      router.push(
-        `/forgot-password/new-password?email=${encodeURIComponent(displayEmail)}`,
-      );
-    }, 1200);
-  }
-
-  function handleResend() {
-    setResending(true);
-    setTimeout(() => {
+  const handleResend = async () => {
+    try {
+      setResending(true);
+      const res = await forgotPassword(email);
+      if (res.devOtp) {
+        setCode(res.devOtp);
+        setSuccessMessage(`New code sent: ${res.devOtp}`);
+      } else {
+        setSuccessMessage("A new verification code was sent to your email.");
+      }
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Failed to resend code.");
+    } finally {
       setResending(false);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
-    }, 1500);
-  }
+    }
+  };
 
   return (
-    <AuthLayoutWrapper
-      backRoute="/forgot-password"
-      backTitle="Reset password"
-      staggerAnimations={staggerAnimations}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      className="flex-1 bg-surface-base"
     >
-      {/* Item 0: Card Title & Subtitle */}
-      <Animated.View
-        style={{
-          opacity: itemAnims[0].opacity,
-          transform: [{ translateY: itemAnims[0].translateY }],
+      <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
+        <BackHeader onBack={() => router.back()} />
+      </View>
+
+      <ScrollView
+        contentContainerStyle={{
+          paddingTop: 8,
+          paddingBottom: Math.max(insets.bottom + 24, 32),
         }}
+        className="flex-1 px-3"
+        keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.cardTitle}>Enter verification code</Text>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.cardSubtitle}>
-            {"We sent a 6-digit code to "}
-            <Text style={styles.boldEmail}>{displayEmail}</Text>
+        <View className="mb-4">
+          <Text className="font-manrope-semibold text-h1 text-text-primary">
+            Enter Verification Code
+          </Text>
+          <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+            We sent a 6-digit code to {email || "your email"}.
           </Text>
         </View>
-      </Animated.View>
 
-      {/* Item 1: OTP inputs */}
-      <Animated.View
-        style={{
-          opacity: itemAnims[1].opacity,
-          transform: [{ translateY: itemAnims[1].translateY }],
-        }}
-      >
-        <View style={styles.otpWrapper}>
-          {otp.map((digit, i) => (
-            <View
-              key={i}
-              style={[
-                styles.otpBox,
-                digit ? styles.otpBoxActive : null,
-                (verifying || resending) ? { opacity: 0.6 } : null,
-              ]}
-            >
-              <TextInput
-                ref={(el) => {
-                  textInputRefs.current[i] = el;
-                }}
-                value={digit}
-                onChangeText={(t) => handleOtpChange(t, i)}
-                onKeyPress={({ nativeEvent }) =>
-                  handleOtpKeyPress(nativeEvent.key, i)
-                }
-                keyboardType="number-pad"
-                maxLength={1}
-                editable={!verifying && !resending}
-                style={[
-                  styles.otpInput,
-                  Platform.OS === "web" && {
-                    outlineStyle: "none" as any,
-                    outlineWidth: 0 as any,
-                    boxShadow: "none" as any,
-                  },
-                ]}
-              />
-            </View>
-          ))}
-        </View>
-      </Animated.View>
-
-      {/* Item 2: Action container */}
-      <Animated.View
-        style={{
-          opacity: itemAnims[2].opacity,
-          transform: [{ translateY: itemAnims[2].translateY }],
-        }}
-      >
-        <View style={styles.actionContainer}>
-          <PrimaryButton
-            label="Verify Code"
-            loading={verifying}
-            disabled={!isComplete || resending}
-            onPress={handleVerify}
-          />
-
-          <View style={styles.resendRow}>
-            <Text style={styles.resendText}>{"Didn't receive a code? "}</Text>
-            <TouchableOpacity
-              onPress={handleResend}
-              disabled={resending || verifying}
-            >
-              <Text style={[styles.resendButton, (resending || verifying) && { opacity: 0.6 }]}>
-                {resending ? "Resending..." : "Resend Code"}
-              </Text>
-            </TouchableOpacity>
+        {errorMessage ? (
+          <View className="mb-2">
+            <ToastBanner
+              visible={Boolean(errorMessage)}
+              message={errorMessage}
+              type="error"
+              onDismiss={() => setErrorMessage(null)}
+            />
           </View>
-        </View>
-      </Animated.View>
+        ) : null}
 
-      {/* Item 3: Login link row */}
-      <Animated.View
-        style={{
-          opacity: itemAnims[3].opacity,
-          transform: [{ translateY: itemAnims[3].translateY }],
-        }}
-      >
-        <View style={styles.loginLinkRow}>
-          <Text style={styles.loginLinkText}>Remember your password?</Text>
-          <TouchableOpacity
-            onPress={() => router.push("/login")}
-            disabled={verifying || resending}
+        {successMessage ? (
+          <View className="mb-2">
+            <ToastBanner
+              visible={Boolean(successMessage)}
+              message={successMessage}
+              type="success"
+              onDismiss={() => setSuccessMessage(null)}
+            />
+          </View>
+        ) : null}
+
+        <View className="my-3 items-center">
+          <PINInput
+            length={6}
+            value={code}
+            onChangePIN={setCode}
+            error={errorMessage ? " " : undefined}
+          />
+        </View>
+
+        <View className="mt-2">
+          <Button
+            label="Verify Code"
+            onPress={handleVerify}
+            loading={loading}
+            disabled={code.length !== 6}
+            variant="primary"
+          />
+        </View>
+
+        <View className="mt-4 flex-row items-center justify-center">
+          <Text className="font-manrope text-body text-text-secondary">
+            Didn't receive the code?{" "}
+          </Text>
+          <Pressable
+            onPress={handleResend}
+            disabled={resending}
+            accessibilityRole="button"
+            accessibilityLabel="Resend code"
+            hitSlop={8}
           >
-            <Text style={[styles.loginLinkButton, (verifying || resending) && { opacity: 0.6 }]}>
-              Log in
+            <Text className="font-manrope-medium text-body text-accent">
+              {resending ? "Sending..." : "Resend"}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
-      </Animated.View>
-
-      <ToastBanner
-        message={showToast ? "Verification code resent" : null}
-        type="success"
-        onDismiss={() => setShowToast(false)}
-      />
-    </AuthLayoutWrapper>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  cardTitle: {
-    fontFamily: "Inter-Bold",
-    fontSize: 26,
-    color: "#ffffff",
-    textAlign: "center",
-    marginBottom: 6,
-  },
-  subtitleContainer: {
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  cardSubtitle: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.7)",
-    textAlign: "center",
-    lineHeight: 20,
-    paddingHorizontal: 12,
-  },
-  boldEmail: {
-    fontFamily: "Inter-SemiBold",
-    color: "#ffffff",
-  },
-  otpWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 8,
-    marginBottom: 24,
-  },
-  otpBox: {
-    flex: 1,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: "#18181b",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.14)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  otpBoxActive: {
-    borderColor: "#22c55e",
-    borderWidth: 2,
-    backgroundColor: "#1f1f23",
-  },
-  otpInput: {
-    width: "100%",
-    height: "100%",
-    textAlign: "center",
-    fontFamily: "Inter-SemiBold",
-    fontSize: 22,
-    color: "#ffffff",
-    padding: 0,
-  },
-  actionContainer: {
-    gap: 16,
-    marginBottom: 24,
-  },
-  resendRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 4,
-  },
-  resendText: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.7)",
-  },
-  resendButton: {
-    fontFamily: "Inter-SemiBold",
-    fontSize: 14,
-    color: "#4ade80",
-  },
-  loginLinkRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 4,
-  },
-  loginLinkText: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.7)",
-  },
-  loginLinkButton: {
-    fontFamily: "Inter-SemiBold",
-    fontSize: 14,
-    color: "#ffffff",
-  },
-  toastContainer: {
-    position: "absolute",
-    bottom: 84,
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    backgroundColor: "#1f1f23",
-    borderWidth: 1,
-    borderColor: "#27272a",
-    borderRadius: 24,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 6,
-      },
-      web: {
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.3)",
-      },
-    }),
-  },
-  toastText: {
-    fontFamily: "Inter-Medium",
-    fontSize: 14,
-    color: "#fbfbfb",
-  },
-});

@@ -1,209 +1,122 @@
 import { useState } from "react";
 import {
-  View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   Text,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-  Easing,
+  View,
 } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { SoldBayInputField } from "@/components/soldbay-input-field";
-import { PrimaryButton } from "@/components/primary-button";
-import { Ionicons } from "@expo/vector-icons";
-import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
-
-function EyeToggle({
-  showing,
-  onPress,
-  disabled,
-}: {
-  showing: boolean;
-  onPress: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled}
-      hitSlop={8}
-      style={{ padding: 4, opacity: disabled ? 0.5 : 1 }}
-    >
-      <Ionicons
-        name={showing ? "eye-off-outline" : "eye-outline"}
-        size={20}
-        color="rgba(255, 255, 255, 0.6)"
-      />
-    </TouchableOpacity>
-  );
-}
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BackHeader, Button, TextField, ToastBanner } from "@/components";
+import { resetPassword } from "@/lib/api";
 
 export default function NewPasswordScreen() {
   const router = useRouter();
-  const { email } = useLocalSearchParams<{ email?: string }>();
-  const displayEmail = email || "you@email.com";
+  const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ email?: string; otp?: string }>();
+  const email = params.email || "";
+  const otp = params.otp || "";
 
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Staggered list items (4 items: Title/subtitle, Password, Confirm Password, Button)
-  const [itemAnims] = useState(() =>
-    Array.from({ length: 4 }, () => ({
-      opacity: new Animated.Value(0),
-      translateY: new Animated.Value(20),
-    }))
-  );
+  const handleUpdatePassword = async () => {
+    setErrorMessage(null);
 
-  // Compile staggered items animations
-  const staggerAnimations = itemAnims.map((anim) =>
-    Animated.parallel([
-      Animated.timing(anim.opacity, {
-        toValue: 1,
-        duration: 400,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: true,
-      }),
-      Animated.timing(anim.translateY, {
-        toValue: 0,
-        duration: 500,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-    ])
-  );
+    if (!newPassword || newPassword.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long.");
+      return;
+    }
 
-  function handleSave() {
-    setSaving(true);
-    setTimeout(() => {
-      setSaving(false);
-      router.push(
-        `/forgot-password/success?email=${encodeURIComponent(displayEmail)}`,
-      );
-    }, 1200);
-  }
+    if (newPassword !== confirmPassword) {
+      setErrorMessage("Passwords do not match. Please re-enter.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await resetPassword({
+        email,
+        otp,
+        newPassword,
+      });
+
+      router.replace("/forgot-password/success");
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Failed to update password. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <AuthLayoutWrapper
-      backRoute="/forgot-password/enter-code"
-      backTitle="Reset password"
-      staggerAnimations={staggerAnimations}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      className="flex-1 bg-surface-base"
     >
-      {/* Item 0: Card Title & Subtitle */}
-      <Animated.View
-        style={{
-          opacity: itemAnims[0].opacity,
-          transform: [{ translateY: itemAnims[0].translateY }],
+      <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
+        <BackHeader onBack={() => router.back()} />
+      </View>
+
+      <ScrollView
+        contentContainerStyle={{
+          paddingTop: 8,
+          paddingBottom: Math.max(insets.bottom + 24, 32),
         }}
+        className="flex-1 px-3"
+        keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.cardTitle}>Set a new password</Text>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.cardSubtitle}>
-            {"Create a new password for "}
-            <Text style={styles.boldEmail}>{displayEmail}</Text>
+        <View className="mb-4">
+          <Text className="font-manrope-semibold text-h1 text-text-primary">
+            Set New Password
+          </Text>
+          <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+            Must be at least 8 characters long.
           </Text>
         </View>
-      </Animated.View>
 
-      {/* Form Fields */}
-      <View style={styles.formContainer}>
-        {/* Item 1: New password input */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[1].opacity,
-            transform: [{ translateY: itemAnims[1].translateY }],
-          }}
-        >
-          <SoldBayInputField
-            label="New password"
-            icon="lock-closed-outline"
-            placeholder="Create a password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            disabled={saving}
-            rightElement={
-              <EyeToggle
-                showing={showPassword}
-                onPress={() => setShowPassword(!showPassword)}
-                disabled={saving}
-              />
-            }
+        {errorMessage ? (
+          <View className="mb-2">
+            <ToastBanner
+              visible={Boolean(errorMessage)}
+              message={errorMessage}
+              type="error"
+              onDismiss={() => setErrorMessage(null)}
+            />
+          </View>
+        ) : null}
+
+        <View className="gap-2">
+          <TextField
+            label="New Password"
+            placeholder="Enter new password"
+            value={newPassword}
+            onChangeText={setNewPassword}
+            isPassword
+            helperText="At least 8 characters"
           />
-        </Animated.View>
 
-        {/* Item 2: Confirm password input */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[2].opacity,
-            transform: [{ translateY: itemAnims[2].translateY }],
-          }}
-        >
-          <SoldBayInputField
-            label="Confirm password"
-            icon="lock-closed-outline"
-            placeholder="Re-enter your password"
+          <TextField
+            label="Confirm New Password"
+            placeholder="Confirm new password"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
-            secureTextEntry={!showConfirmPassword}
-            disabled={saving}
-            rightElement={
-              <EyeToggle
-                showing={showConfirmPassword}
-                onPress={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-                disabled={saving}
-              />
-            }
+            isPassword
           />
-        </Animated.View>
 
-        {/* Item 3: Save password PrimaryButton */}
-        <Animated.View
-          style={{
-            opacity: itemAnims[3].opacity,
-            transform: [{ translateY: itemAnims[3].translateY }],
-          }}
-        >
-          <PrimaryButton
-            label={saving ? "Saving" : "Save Password"}
-            loading={saving}
-            onPress={handleSave}
-          />
-        </Animated.View>
-      </View>
-    </AuthLayoutWrapper>
+          <View className="mt-2">
+            <Button
+              label="Update Password"
+              onPress={handleUpdatePassword}
+              loading={loading}
+              variant="primary"
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  cardTitle: {
-    fontFamily: "Inter-Bold",
-    fontSize: 26,
-    color: "#fbfbfb",
-    textAlign: "center",
-    marginBottom: 6,
-  },
-  subtitleContainer: {
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  cardSubtitle: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "#808080",
-    textAlign: "center",
-    lineHeight: 20,
-    paddingHorizontal: 12,
-  },
-  boldEmail: {
-    fontFamily: "Inter-SemiBold",
-    color: "#fbfbfb",
-  },
-  formContainer: {
-    gap: 16,
-  },
-});

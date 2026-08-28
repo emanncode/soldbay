@@ -365,3 +365,141 @@ export async function uploadListingImages(
 
   return Promise.all(uploads);
 }
+
+/* ─── Password Reset Flow ───────────────────────────────── */
+
+export interface ForgotPasswordResponse {
+  ok: boolean;
+  message: string;
+  devOtp?: string;
+}
+
+export function forgotPassword(email: string) {
+  return request<ForgotPasswordResponse>("POST", "/api/auth/forgot-password", { email });
+}
+
+export function verifyOtp(email: string, otp: string) {
+  return request<{ ok: boolean; valid: boolean }>("POST", "/api/auth/verify-otp", { email, otp });
+}
+
+export function resetPassword(payload: { email: string; otp: string; newPassword: string }) {
+  return request<{ ok: boolean; message: string }>("POST", "/api/auth/reset-password", payload);
+}
+
+/* ─── Listing Drafts ────────────────────────────────────── */
+
+export interface DraftListing {
+  id: string;
+  title: string;
+  description: string;
+  price: number | null;
+  categoryId: string | null;
+  category?: { id: string; name: string; slug: string } | null;
+  images: string[];
+  draftStep: number;
+  updatedAt: string;
+}
+
+export function createDraft() {
+  return request<{ ok: boolean; id: string; draftStep: number }>("POST", "/api/listings/drafts");
+}
+
+export function getDraft(id: string) {
+  return request<DraftListing>("GET", `/api/listings/drafts/${id}`);
+}
+
+export function patchDraft(id: string, payload: Partial<DraftListing> & { categorySlug?: string }) {
+  return request<{ ok: boolean; id: string; draftStep: number; updatedAt: string }>(
+    "PATCH",
+    `/api/listings/drafts/${id}`,
+    payload
+  );
+}
+
+export function publishDraft(id: string) {
+  return request<{ ok: boolean; id: string; status: string }>(
+    "POST",
+    `/api/listings/drafts/${id}/publish`
+  );
+}
+
+/* ─── Orders & Escrow ───────────────────────────────────── */
+
+export interface OrderItem {
+  id: string;
+  orderNumber: string;
+  title: string;
+  amount: number;
+  status: string;
+  date: string;
+  sellerUsername: string;
+  thumbnail: string | null;
+  isBuyer: boolean;
+}
+
+export function getOrders() {
+  return request<{ orders: OrderItem[] }>("GET", "/api/orders");
+}
+
+export interface OrderDetailResponse {
+  id: string;
+  orderNumber: string;
+  title: string;
+  description: string;
+  amount: number;
+  status: string;
+  pickupLocation: string;
+  images: string[];
+  category?: { name: string; slug: string };
+  createdAt: string;
+  updatedAt: string;
+  sellerUsername: string;
+  isBuyer: boolean;
+  isSeller: boolean;
+  sellerPin?: string;
+  dispute?: {
+    id: string;
+    reason: string;
+    status: string;
+    resolution: string | null;
+    resolutionNotes: string | null;
+  } | null;
+}
+
+export function getOrderDetail(id: string) {
+  return request<OrderDetailResponse>("GET", `/api/orders/${id}`);
+}
+
+export function checkoutOrder(payload: { listingId: string; pickupLocation: string }) {
+  return request<{
+    ok: boolean;
+    orderId: string;
+    orderNumber: string;
+    amount: number;
+    status: string;
+    authorizationUrl: string;
+  }>("POST", "/api/orders/checkout", payload);
+}
+
+export function verifyOrderPin(orderId: string, pin: string) {
+  return request<{ ok: boolean; id: string; status: string }>(
+    "POST",
+    `/api/orders/${orderId}/verify-pin`,
+    { pin }
+  );
+}
+
+export function confirmOrderReceipt(orderId: string) {
+  return request<{ ok: boolean; id: string; status: string }>(
+    "POST",
+    `/api/orders/${orderId}/confirm-receipt`
+  );
+}
+
+export function disputeOrder(orderId: string, reason: string) {
+  return request<{ ok: boolean; disputeId: string; status: string }>(
+    "POST",
+    `/api/orders/${orderId}/dispute`,
+    { reason }
+  );
+}
