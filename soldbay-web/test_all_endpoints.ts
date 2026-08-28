@@ -298,7 +298,7 @@ async function runTests() {
   // 13. GET /api/listings (Search & filters)
   {
     const req = createMockRequest(`http://localhost:3000/api/listings?q=Engineering&universityId=${universityId}`);
-    const res = await getListings(req);
+    const res = await getListings(req as any);
     const data = await res.json();
     const items = data.items || data.listings || [];
     if (res.status !== 200 || !Array.isArray(items) || items.length === 0) {
