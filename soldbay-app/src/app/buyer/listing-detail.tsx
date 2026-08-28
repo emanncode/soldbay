@@ -1,563 +1,214 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
+  ActivityIndicator,
   Dimensions,
-  Animated,
-  Platform,
+  Image,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
-import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassPanel } from "@/components/glass-panel";
-import { PrimaryButton } from "@/components/primary-button";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ShieldCheck, MapPin } from "lucide-react-native";
+import {
+  Avatar,
+  BackHeader,
+  Button,
+  Divider,
+  StickyActionBar,
+  ToastBanner,
+  VerifiedChip,
+} from "@/components";
 import { getListingById, type ListingDetail } from "@/lib/api";
+import { colors } from "@/theme/colors";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const IMAGE_RADIUS = 16;
-const IMAGE_PAD = 16;
-const IMAGE_W = SCREEN_WIDTH - IMAGE_PAD * 2;
+const { width } = Dimensions.get("window");
 
 export default function ListingDetailScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ id: string }>();
+
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [saved, setSaved] = useState(false);
-  const scrollRef = useRef<FlatList<string>>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return;
-    (async () => {
+    async function fetchListing() {
+      if (!params.id) return;
       try {
-        setListing(await getListingById(id));
-      } catch {
-        router.replace("/buyer/home");
+        setLoading(true);
+        const data = await getListingById(params.id);
+        setListing(data);
+      } catch (err: any) {
+        setErrorMessage("Could not load listing details.");
       } finally {
         setLoading(false);
       }
-    })();
-  }, [id, router]);
+    }
+    fetchListing();
+  }, [params.id]);
 
-  const images = listing?.images?.length ? listing.images : [];
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-surface-base">
+        <ActivityIndicator size="small" color={colors.accent} />
+      </View>
+    );
+  }
 
-  useEffect(() => {
-    if (images.length < 2) return;
-    const id = setInterval(() => {
-      setActiveIdx((p) => {
-        const n = (p + 1) % images.length;
-        scrollRef.current?.scrollToOffset({
-          offset: n * IMAGE_W,
-          animated: true,
-        });
-        return n;
-      });
-    }, 4000);
-    return () => clearInterval(id);
-  }, [images.length]);
+  if (!listing) {
+    return (
+      <View className="flex-1 items-center justify-center bg-surface-base px-3">
+        <Text className="font-manrope-semibold text-h2 text-text-primary">
+          Listing not found
+        </Text>
+        <Button
+          label="Go Back"
+          onPress={() => router.back()}
+          variant="secondary"
+          className="mt-3"
+        />
+      </View>
+    );
+  }
 
-  const onScrollEnd = useCallback((e: any) => {
-    setActiveIdx(Math.round(e.nativeEvent.contentOffset.x / IMAGE_W));
-  }, []);
-
-  if (loading) return <LoadingSkeleton />;
-  if (!listing) return null;
-
-  const soldOut = listing.stock === 0;
-  const uniCode = listing.seller.user?.university?.code;
+  const formattedPrice = `₦${Number(listing.price).toLocaleString()}`;
 
   return (
-    <PageAtmosphere>
-      <View style={{ flex: 1 }}>
-        {/* ── Floating buttons ── */}
-        <SafeAreaView
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 10,
-          }}
-          pointerEvents="box-none"
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingHorizontal: 20,
-              paddingTop: 10,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                if (router.canGoBack()) {
-                  router.back();
-                } else {
-                  router.replace("/buyer/home");
-                }
-              }}
-              activeOpacity={0.7}
-              hitSlop={10}
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: "rgba(0,0,0,0.5)",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Ionicons name="chevron-back" size={20} color="#ffffff" />
-            </TouchableOpacity>
+    <View className="flex-1 bg-surface-base">
+      <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1 z-10">
+        <BackHeader onBack={() => router.back()} />
+      </View>
 
-            <TouchableOpacity
-              onPress={() => setSaved((p) => !p)}
-              activeOpacity={0.7}
-              hitSlop={10}
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: "rgba(0,0,0,0.5)",
-                alignItems: "center",
-                justifyContent: "center",
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* Full-bleed Photo Carousel */}
+        <View className="relative bg-neutral-100" style={{ width, height: width }}>
+          {listing.images.length > 0 ? (
+            <ScrollView
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              onScroll={(e) => {
+                const index = Math.round(e.nativeEvent.contentOffset.x / width);
+                setActiveImageIndex(index);
               }}
+              scrollEventThrottle={16}
             >
-              <Ionicons
-                name={saved ? "heart" : "heart-outline"}
-                size={18}
-                color={saved ? "#e1261c" : "#ffffff"}
-              />
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-
-        <ScrollView
-          bounces={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* ── Image carousel ── */}
-          {images.length > 0 ? (
-            <View style={{ paddingTop: 56, paddingHorizontal: IMAGE_PAD }}>
-              <View
-                style={{
-                  borderRadius: IMAGE_RADIUS,
-                  overflow: "hidden",
-                  backgroundColor: "#1a1a2e",
-                }}
-              >
-                <FlatList
-                  ref={scrollRef}
-                  data={images}
-                  horizontal
-                  pagingEnabled
-                  showsHorizontalScrollIndicator={false}
-                  onMomentumScrollEnd={onScrollEnd}
-                  scrollEventThrottle={16}
-                  snapToInterval={IMAGE_W}
-                  decelerationRate="fast"
-                  nestedScrollEnabled
-                  keyExtractor={(_, i) => String(i)}
-                  renderItem={({ item }) => (
-                    <View style={{ width: IMAGE_W, height: IMAGE_W }}>
-                      <Image
-                        source={{ uri: item }}
-                        style={{ width: "100%", height: "100%" }}
-                        contentFit="cover"
-                        transition={200}
-                        cachePolicy="memory-disk"
-                        recyclingKey={item}
-                        allowDownscaling
-                      />
-                    </View>
-                  )}
+              {listing.images.map((img, i) => (
+                <Image
+                  key={i}
+                  source={{ uri: img }}
+                  style={{ width, height: width }}
+                  resizeMode="cover"
                 />
-
-                {/* Position indicator (bottom-left overlay) */}
-                {images.length > 1 && (
-                  <View
-                    style={{
-                      position: "absolute",
-                      bottom: 10,
-                      left: 10,
-                      backgroundColor: "rgba(0,0,0,0.6)",
-                      borderRadius: 999,
-                      paddingHorizontal: 10,
-                      paddingVertical: 4,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontFamily: "Inter-Medium",
-                        fontSize: 11,
-                        color: "#ffffff",
-                      }}
-                    >
-                      {activeIdx + 1}/{images.length}
-                    </Text>
-                  </View>
-                )}
-              </View>
-
-              {/* Dot indicators */}
-              {images.length > 1 && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    gap: 6,
-                    paddingTop: 12,
-                  }}
-                >
-                  {images.map((_, i) => (
-                    <View
-                      key={i}
-                      style={{
-                        width: activeIdx === i ? 20 : 6,
-                        height: 6,
-                        borderRadius: 3,
-                        backgroundColor:
-                          activeIdx === i ? "#e1261c" : "rgba(255,255,255,0.3)",
-                      }}
-                    />
-                  ))}
-                </View>
-              )}
-            </View>
+              ))}
+            </ScrollView>
           ) : (
-            <View
-              style={{
-                marginTop: 56,
-                marginHorizontal: IMAGE_PAD,
-                borderRadius: IMAGE_RADIUS,
-                overflow: "hidden",
-                height: IMAGE_W,
-                backgroundColor: "#1a1a2e",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Ionicons name="image-outline" size={48} color="#ffffff1f" />
+            <View className="h-full w-full items-center justify-center">
+              <Text className="text-body text-text-tertiary">No photo available</Text>
             </View>
           )}
 
-          {/* ── Detail panel (lifts over photo) ── */}
-          <View style={{ marginTop: -12, paddingHorizontal: IMAGE_PAD }}>
-            <GlassPanel
-              variant="panel"
-              style={{
-                padding: 20,
-                gap: 14,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }}
-            >
-              {/* ── Tagged fields ── */}
-              <View style={{ gap: 14 }}>
-                <FieldTag label="Product name" value={listing.title} large />
-                <FieldTag label="School" value={uniCode ?? "N/A"} />
-                <FieldTag label="Tags" value={listing.category.name} pill />
-                {listing.description ? (
-                  <FieldTag label="Description" value={listing.description} multiline />
-                ) : null}
-                <FieldTag
-                  label="Unit"
-                  value={soldOut ? "Sold out" : `${listing.stock} available`}
-                  pill
-                  status={soldOut ? "error" : "success"}
-                />
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 6,
-                    paddingTop: 4,
-                    borderTopWidth: 1,
-                    borderTopColor: "rgba(255,255,255,0.08)",
-                  }}
-                >
-                  <View style={{ gap: 2, flex: 1 }}>
-                    <Text
-                      style={{
-                        fontFamily: "Inter-Medium",
-                        fontSize: 11,
-                        color: "#ffffff50",
-                        textTransform: "uppercase",
-                        letterSpacing: 0.8,
-                      }}
-                    >
-                      Price
-                    </Text>
-                    <View
-                      style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
-                    >
-                      <Ionicons name="pricetag" size={16} color="#e1261c" />
-                      <Text
-                        style={{
-                          fontFamily: "BricolageGrotesque-SemiBold",
-                          fontSize: 22,
-                          color: "#e1261c",
-                        }}
-                      >
-                        {formatPrice(listing.price)}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </GlassPanel>
-          </View>
-        </ScrollView>
-
-        {/* ── Sticky bottom action bar ── */}
-        <View
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            paddingHorizontal: IMAGE_PAD,
-            paddingBottom: Platform.OS === "ios" ? 34 : 16,
-            paddingTop: 12,
-            backgroundColor: "rgba(0,0,0,0.6)",
-            borderTopWidth: 1,
-            borderTopColor: "rgba(255,255,255,0.08)",
-          }}
-        >
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={{
-                flex: 1,
-                borderWidth: 1,
-                borderColor: "rgba(255,255,255,0.2)",
-                borderRadius: 999,
-                paddingVertical: 14,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onPress={() => {}}
-            >
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 14,
-                  color: "#ffffff",
-                }}
-              >
-                Ask question
+          {listing.images.length > 1 ? (
+            <View className="absolute bottom-2 right-2 rounded-full bg-neutral-900/70 px-1.5 py-0.5">
+              <Text className="font-manrope-medium text-caption text-text-inverse">
+                {activeImageIndex + 1}/{listing.images.length}
               </Text>
-            </TouchableOpacity>
-            <View style={{ flex: 1.5 }}>
-              <PrimaryButton
-                label={soldOut ? "Sold out" : "Add to cart"}
-                disabled={soldOut}
-                onPress={() => {}}
-              />
             </View>
-          </View>
+          ) : null}
         </View>
-      </View>
-    </PageAtmosphere>
-  );
-}
 
-/* ─── Sub-components ─────────────────────────────── */
+        {/* Content Section */}
+        <View className="p-3 bg-surface-elevated">
+          <View className="flex-row items-start justify-between">
+            <View className="flex-1 mr-2">
+              <Text className="font-manrope-semibold text-h1 text-text-primary">
+                {formattedPrice}
+              </Text>
+              <Text className="mt-1 font-manrope-medium text-body-medium text-text-primary">
+                {listing.title}
+              </Text>
+            </View>
+            <VerifiedChip size="sm" />
+          </View>
 
-function FieldTag({
-  label,
-  value,
-  large,
-  pill,
-  multiline,
-  status,
-}: {
-  label: string;
-  value: string;
-  large?: boolean;
-  pill?: boolean;
-  multiline?: boolean;
-  status?: "success" | "error";
-}) {
-  return (
-    <View style={{ gap: 2 }}>
-      <Text
-        style={{
-          fontFamily: "Inter-Medium",
-          fontSize: 11,
-          color: "#ffffff50",
-          textTransform: "uppercase",
-          letterSpacing: 0.8,
-        }}
-      >
-        {label}
-      </Text>
-      {pill ? (
-        <View
-          style={{
-            alignSelf: "flex-start",
-            backgroundColor: status
-              ? status === "error"
-                ? "#e1261c1a"
-                : "#22c55e1a"
-              : "rgba(255,255,255,0.06)",
-            borderWidth: 1,
-            borderColor: status
-              ? status === "error"
-                ? "#e1261c4d"
-                : "#22c55e4d"
-              : "rgba(255,255,255,0.12)",
-            borderRadius: 999,
-            paddingHorizontal: 12,
-            paddingVertical: 5,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "Inter-Medium",
-              fontSize: 13,
-              color: status === "error"
-                ? "#e1261c"
-                : status === "success"
-                  ? "#22c55e"
-                  : "#ffffffcc",
-            }}
-          >
-            {value}
+          {listing.category ? (
+            <Text className="mt-1 text-small text-text-tertiary">
+              {listing.category.name}
+            </Text>
+          ) : null}
+
+          <Divider className="my-3" />
+
+          {/* Description */}
+          <Text className="font-manrope-medium text-body-medium text-text-primary mb-1">
+            Description
           </Text>
-        </View>
-      ) : (
-        <Text
-          style={{
-            fontFamily: large ? "BricolageGrotesque-SemiBold" : "Inter-Medium",
-            fontSize: large ? 22 : 14,
-            color: status === "error"
-              ? "#e1261c"
-              : status === "success"
-                ? "#22c55e"
-                : "#ffffff",
-            ...(multiline ? { lineHeight: 20 } : {}),
-          }}
-        >
-          {value}
-        </Text>
-      )}
-    </View>
-  );
-}
+          <Text className="font-manrope text-body text-text-secondary leading-6">
+            {listing.description || "No additional description provided."}
+          </Text>
 
-function formatPrice(price: string): string {
-  const num = parseFloat(price) || 0;
-  return "₦" + num.toLocaleString("en-NG");
-}
+          <Divider className="my-3" />
 
-/* ─── Loading skeleton ──────────────────────────── */
+          {/* Seller Card */}
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center">
+              <Avatar name={listing.seller.user.name} size={40} />
+              <View className="ml-1.5">
+                <Text className="font-manrope-medium text-body-medium text-text-primary">
+                  {listing.seller.businessName || listing.seller.user.name}
+                </Text>
+                <Text className="font-manrope text-caption text-text-tertiary">
+                  @{listing.seller.username}
+                </Text>
+              </View>
+            </View>
 
-function LoadingSkeleton() {
-  const [pulse] = useState(() => new Animated.Value(0));
-
-  useEffect(() => {
-    const anim = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulse, {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulse, {
-          toValue: 0,
-          duration: 1000,
-          useNativeDriver: true,
-        }),
-      ]),
-    );
-    anim.start();
-    return () => anim.stop();
-  }, [pulse]);
-
-  const opacity = pulse.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.3, 0.6],
-  });
-
-  const renderSkeleton = (
-    w: number | string,
-    h: number,
-    r = 8,
-  ) => (
-    <Animated.View
-      style={{
-        width: w as any,
-        height: h,
-        borderRadius: r,
-        backgroundColor: "rgba(255,255,255,0.1)",
-        opacity,
-      }}
-    />
-  );
-
-  return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View
-          style={{
-            position: "absolute",
-            top: 10,
-            left: 0,
-            right: 0,
-            zIndex: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 20,
-            paddingTop: 50,
-          }}
-        >
-          {renderSkeleton(36, 36, 18)}
-          {renderSkeleton(36, 36, 18)}
-        </View>
-
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 100 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={{ paddingTop: 56, paddingHorizontal: IMAGE_PAD }}>
-            {renderSkeleton("100%", IMAGE_W, IMAGE_RADIUS)}
+            {listing.seller.user.university ? (
+              <View className="flex-row items-center">
+                <MapPin size={14} color={colors.neutral500} />
+                <Text className="ml-0.5 text-caption text-text-secondary">
+                  {listing.seller.user.university.code}
+                </Text>
+              </View>
+            ) : null}
           </View>
 
-          <View
-            style={{
-              marginTop: -12,
-              paddingHorizontal: IMAGE_PAD,
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: "rgba(255,255,255,0.06)",
-                borderWidth: 1,
-                borderColor: "rgba(255,255,255,0.1)",
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                padding: 20,
-                gap: 14,
-              }}
-            >
-              {renderSkeleton("100%", 24)}
-              {renderSkeleton(80, 20, 999)}
-              {renderSkeleton("55%", 14)}
-              {renderSkeleton("100%", 14)}
-              {renderSkeleton("100%", 14)}
-              {renderSkeleton("100%", 14)}
+          {/* Escrow Guarantee Card */}
+          <View className="mt-4 rounded-md border border-accent-tint bg-accent-tint/30 p-2 flex-row items-center">
+            <ShieldCheck size={24} color={colors.accent} />
+            <View className="ml-2 flex-1">
+              <Text className="font-manrope-medium text-small text-accent-hover">
+                Soldbay Escrow Protection
+              </Text>
+              <Text className="font-manrope text-caption text-text-secondary">
+                Payment is held safely until you meet on campus and verify the item.
+              </Text>
             </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </PageAtmosphere>
+        </View>
+      </ScrollView>
+
+      {/* Sticky Buy Button */}
+      <StickyActionBar>
+        <Button
+          label={`Buy Now · ${formattedPrice}`}
+          onPress={() =>
+            router.push({
+              pathname: "/buyer/checkout",
+              params: {
+                listingId: listing.id,
+                title: listing.title,
+                price: listing.price,
+                universityName: listing.seller.user.university?.name || "Campus",
+              },
+            })
+          }
+          variant="primary"
+        />
+      </StickyActionBar>
+    </View>
   );
 }

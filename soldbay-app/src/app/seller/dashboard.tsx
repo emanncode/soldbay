@@ -1,552 +1,189 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
   ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  View,
 } from "react-native";
-import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import { PageAtmosphere } from "@/components/page-atmosphere";
-import { GlassPanel } from "@/components/glass-panel";
-import { ConfirmDialog } from "@/components/confirm-dialog";
-import { ToastBanner } from "@/components/toast-banner";
-import { getSellerMe, deleteListing, ApiError, type SellerMeResponse } from "@/lib/api";
-
-const logo2 = require("../../../assets/logo2.png");
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Plus, Package, Store, User, ShoppingBag, ShieldCheck } from "lucide-react-native";
+import {
+  Avatar,
+  Button,
+  DraftRow,
+  EmptyState,
+  ListingCard,
+  SectionHeader,
+  StatCard,
+  TabBar,
+  ToastBanner,
+  VerifiedChip,
+} from "@/components";
+import { getDraft, getSellerMe, type SellerMeResponse } from "@/lib/api";
+import { colors } from "@/theme/colors";
 
 export default function SellerDashboardScreen() {
   const router = useRouter();
-  const [data, setData] = useState<SellerMeResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState<string | null>(null);
-  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  const insets = useSafeAreaInsets();
 
-  const loadDashboard = useCallback(async () => {
+  const [seller, setSeller] = useState<SellerMeResponse | null>(null);
+  const [drafts, setDrafts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  const loadData = useCallback(async (isRefresh = false) => {
     try {
-      const me = await getSellerMe();
-      if (!me.verified) {
-        router.replace("/seller/verify");
-        return;
-      }
-      setData(me);
-    } catch (err) {
-      if (err instanceof ApiError && err.status === 404) {
-        router.replace("/seller/verify");
-        return;
-      }
+      if (isRefresh) setRefreshing(true);
+      else setLoading(true);
+
+      const data = await getSellerMe();
+      setSeller(data);
+      // In mobile api, getSellerMe returns listings. Drafts are retrieved if seller.
+    } catch (err: any) {
+      console.error(err);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
-  }, [router]);
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      loadDashboard();
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [loadDashboard]);
+    loadData();
+  }, [loadData]);
 
-  useEffect(() => {
-    if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2500);
-    return () => clearTimeout(t);
-  }, [toast]);
+  const tabs = [
+    {
+      key: "dashboard",
+      label: "Dashboard",
+      icon: ({ color, size }: any) => <Store color={color} size={size} />,
+    },
+    {
+      key: "orders",
+      label: "Orders",
+      icon: ({ color, size }: any) => <Package color={color} size={size} />,
+    },
+    {
+      key: "buyer_mode",
+      label: "Buyer Mode",
+      icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} />,
+    },
+    {
+      key: "profile",
+      label: "Profile",
+      icon: ({ color, size }: any) => <User color={color} size={size} />,
+    },
+  ];
 
-  function formatNaira(amount: string): string {
-    const num = parseFloat(amount) || 0;
-    return "₦" + num.toLocaleString("en-NG");
-  }
-
-  function getInitial(name: string): string {
-    return name?.charAt(0)?.toUpperCase() ?? "S";
-  }
-
-  function getStatusColor(status: string): { bg: string; text: string } {
-    switch (status.toUpperCase()) {
-      case "ACTIVE":
-        return { bg: "rgba(22,163,74,0.15)", text: "#22c55e" };
-      case "SOLD_OUT":
-        return { bg: "rgba(245,158,11,0.15)", text: "#f59e0b" };
-      case "INACTIVE":
-        return { bg: "rgba(113,113,122,0.15)", text: "#71717a" };
-      default:
-        return { bg: "rgba(22,163,74,0.15)", text: "#22c55e" };
-    }
-  }
-
-  function getStatusLabel(status: string): string {
-    switch (status.toUpperCase()) {
-      case "ACTIVE":
-        return "Active";
-      case "SOLD_OUT":
-        return "Sold out";
-      case "INACTIVE":
-        return "Inactive";
-      default:
-        return status;
-    }
-  }
+  const handleTabPress = (key: string) => {
+    if (key === "orders") router.push("/orders");
+    else if (key === "buyer_mode") router.push("/buyer/home");
+    else if (key === "profile") router.push("/profile");
+    else setActiveTab(key);
+  };
 
   if (loading) {
     return (
-      <PageAtmosphere>
-        <SafeAreaView style={{ flex: 1 }}>
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <ActivityIndicator color="#e1261c" size="large" />
-          </View>
-        </SafeAreaView>
-      </PageAtmosphere>
+      <View className="flex-1 items-center justify-center bg-surface-base">
+        <ActivityIndicator size="small" color={colors.accent} />
+      </View>
     );
   }
 
-  if (!data) return null;
-
-  const listings = data.listings;
+  const walletFormatted = `₦${(Number(seller?.walletBalance) || 0).toLocaleString()}`;
+  const activeCount = seller?.listings?.length || 0;
 
   return (
-    <PageAtmosphere>
-      <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 40 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Top bar */}
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              paddingTop: 12,
-              paddingHorizontal: 24,
-              paddingBottom: 14,
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
-            >
-              <LogoMark />
-              <Text
-                style={{
-                  fontFamily: "Inter-SemiBold",
-                  fontSize: 17,
-                  color: "#ffffff",
-                }}
-              >
-                Seller Dashboard
-              </Text>
-            </View>
-            <View
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: "#ffffff1a",
-                borderWidth: 1,
-                borderColor: "#ffffff1f",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "BricolageGrotesque-Bold",
-                  fontSize: 16,
-                  color: "#ffffff",
-                }}
-              >
-                {getInitial(data.name)}
-              </Text>
-            </View>
-          </View>
-
-          <View style={{ paddingHorizontal: 24, gap: 24 }}>
-            {/* Wallet balance card */}
-            <GlassPanel variant="panel-focus" style={{ borderRadius: 20 }}>
-              <View style={{ padding: 20, gap: 12 }}>
-                <Text
-                  style={{
-                    fontFamily: "Inter-Medium",
-                    fontSize: 13,
-                    color: "#ffffff80",
-                    textTransform: "uppercase",
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  Wallet balance
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: "BricolageGrotesque-Bold",
-                    fontSize: 32,
-                    color: "#ffffff",
-                    fontWeight: "700",
-                  }}
-                >
-                  {formatNaira(data.walletBalance)}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => setToast("Payout coming soon")}
-                  activeOpacity={0.7}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Inter-Medium",
-                      fontSize: 13,
-                      color: "#ffffff33",
-                    }}
-                  >
-                    Request payout
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </GlassPanel>
-
-            {/* Listings section */}
-            <View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 16,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "BricolageGrotesque-SemiBold",
-                    fontSize: 22,
-                    color: "#ffffff",
-                  }}
-                >
-                  Your listings
-                </Text>
-                <TouchableOpacity
-                  onPress={() => router.push("/seller/create-listing")}
-                  activeOpacity={0.7}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 4,
-                    backgroundColor: "#e1261c",
-                    paddingHorizontal: 14,
-                    paddingVertical: 8,
-                    borderRadius: 999,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Inter-SemiBold",
-                      fontSize: 14,
-                      color: "#ffffff",
-                    }}
-                  >
-                    +
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "Inter-SemiBold",
-                      fontSize: 13,
-                      color: "#ffffff",
-                    }}
-                  >
-                    Add listing
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              {listings.length === 0 ? (
-                <EmptyState onAdd={() => router.push("/seller/create-listing")} />
-              ) : (
-                <View style={{ gap: 12 }}>
-                  {listings.map((listing) => (
-                    <ListingCard
-                      key={listing.id}
-                      listing={listing}
-                      statusStyle={getStatusColor(listing.status)}
-                      statusLabel={getStatusLabel(listing.status)}
-                      onEdit={() =>
-                        router.push(`/seller/create-listing?id=${listing.id}`)
-                      }
-                      onDelete={() => {
-                        setDeleteTarget({ id: listing.id, title: listing.title });
-                      }}
-                    />
-                  ))}
-                </View>
-              )}
-            </View>
-          </View>
-        </ScrollView>
-
-        {/* Custom Dedicated Confirm Delete Dialog (replaces native Alert) */}
-        <ConfirmDialog
-          visible={deleteTarget !== null}
-          type="danger"
-          title="Delete Listing"
-          message={`Are you sure you want to delete "${deleteTarget?.title}"? This cannot be undone.`}
-          confirmText="Delete"
-          cancelText="Cancel"
-          loading={deleting}
-          onConfirm={async () => {
-            if (!deleteTarget) return;
-            setDeleting(true);
-            try {
-              await deleteListing(deleteTarget.id);
-              setDeleteTarget(null);
-              await loadDashboard();
-              setToast("Listing deleted successfully");
-            } catch {
-              setToast("Failed to delete listing");
-            } finally {
-              setDeleting(false);
-            }
-          }}
-          onCancel={() => {
-            if (!deleting) setDeleteTarget(null);
-          }}
-        />
-
-        {/* Custom Dedicated Toast Banner */}
-        <ToastBanner
-          message={toast}
-          type={toast?.toLowerCase().includes("fail") ? "error" : "info"}
-          onDismiss={() => setToast(null)}
-        />
-      </SafeAreaView>
-    </PageAtmosphere>
-  );
-}
-
-/* ─── Sub-components ─────────────────────────────────────────── */
-
-function LogoMark() {
-  return (
-    <Image
-      source={logo2}
-      style={{ width: 32, height: 32, borderRadius: 8 }}
-      tintColor="#ffffff"
-      contentFit="contain"
-    />
-  );
-}
-
-function EmptyState({ onAdd }: { onAdd: () => void }) {
-  return (
-    <GlassPanel variant="panel" style={{ borderRadius: 20, height: 300 }}>
+    <View className="flex-1 bg-surface-base">
+      {/* Header */}
       <View
-        style={{
-          flex: 1,
-          padding: 32,
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 16,
-        }}
+        style={{ paddingTop: Math.max(insets.top + 8, 16) }}
+        className="px-3 pb-2 border-b border-border bg-surface-elevated flex-row items-center justify-between"
       >
-        <View
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 32,
-            backgroundColor: "rgba(255,255,255,0.06)",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Ionicons name="cube-outline" size={28} color="#ffffff33" />
+        <View className="flex-row items-center">
+          <Avatar name={seller?.name || "Seller"} size={40} />
+          <View className="ml-1.5">
+            <Text className="font-manrope-semibold text-body-medium text-text-primary">
+              {seller?.name}
+            </Text>
+            <Text className="font-manrope text-caption text-text-tertiary">
+              @{seller?.username}
+            </Text>
+          </View>
         </View>
-        <Text
-          style={{
-            fontFamily: "BricolageGrotesque-SemiBold",
-            fontSize: 18,
-            color: "#ffffffcc",
-            textAlign: "center",
-          }}
-        >
-          {"You haven't listed anything yet"}
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Inter-Regular",
-            fontSize: 14,
-            color: "#ffffff66",
-            textAlign: "center",
-            lineHeight: 20,
-          }}
-        >
-          Start selling to students on your campus
-        </Text>
-        <TouchableOpacity
-          onPress={onAdd}
-          activeOpacity={0.8}
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 6,
-            backgroundColor: "#e1261c",
-            paddingHorizontal: 20,
-            paddingVertical: 12,
-            borderRadius: 999,
-            marginTop: 4,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "Inter-SemiBold",
-              fontSize: 16,
-              color: "#ffffff",
-            }}
-          >
-            +
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Inter-SemiBold",
-              fontSize: 15,
-              color: "#ffffff",
-            }}
-          >
-            Add your first listing
-          </Text>
-        </TouchableOpacity>
+
+        {seller?.verified ? (
+          <VerifiedChip size="sm" />
+        ) : (
+          <Button
+            label="Get Verified"
+            onPress={() => router.push("/seller/verify")}
+            variant="ghost"
+            className="h-4.5 px-1.5"
+          />
+        )}
       </View>
-    </GlassPanel>
-  );
-}
 
-interface ListingCardProps {
-  listing: SellerMeResponse["listings"][number];
-  statusStyle: { bg: string; text: string };
-  statusLabel: string;
-  onEdit: () => void;
-  onDelete: () => void;
-}
-
-function ListingCard({ listing, statusStyle, statusLabel, onEdit, onDelete }: ListingCardProps) {
-  return (
-    <GlassPanel variant="panel" style={{ borderRadius: 16 }}>
-      <View style={{ flexDirection: "row", padding: 12, gap: 12 }}>
-        {/* Thumbnail */}
-        <View
-          style={{
-            width: 72,
-            height: 72,
-            borderRadius: 12,
-            backgroundColor: "rgba(255,255,255,0.06)",
-            overflow: "hidden",
-          }}
-        >
-          {listing.images[0] ? (
-            <Image
-              source={{ uri: listing.images[0] }}
-              style={{ width: "100%", height: "100%" }}
-              contentFit="cover"
-              transition={150}
-              cachePolicy="memory-disk"
-              recyclingKey={listing.images[0]}
-              allowDownscaling
-            />
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Ionicons name="image-outline" size={24} color="#ffffff22" />
+      <FlatList
+        data={seller?.listings || []}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={{ gap: 12, paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingTop: 12, paddingBottom: 32 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => loadData(true)}
+            tintColor={colors.accent}
+          />
+        }
+        ListHeaderComponent={
+          <View className="mb-3 px-1">
+            {/* Stat Cards */}
+            <View className="flex-row gap-2 mb-3">
+              <StatCard label="Wallet Balance" value={walletFormatted} subtext="Available for payout" />
+              <StatCard label="Active Listings" value={activeCount} subtext="Live on campus" />
             </View>
-          )}
-        </View>
 
-        {/* Info */}
-        <View style={{ flex: 1, justifyContent: "center", gap: 4 }}>
-          <Text
-            style={{
-              fontFamily: "Inter-SemiBold",
-              fontSize: 15,
-              color: "#ffffff",
-            }}
-            numberOfLines={1}
-          >
-            {listing.title}
-          </Text>
-          <View
-            style={{ flexDirection: "row", alignItems: "center", gap: 6 }}
-          >
-            <Ionicons name="pricetag" size={12} color="#e1261c" />
-            <Text
-              style={{
-                fontFamily: "Inter-SemiBold",
-                fontSize: 14,
-                color: "#ffffffcc",
-              }}
-            >
-              ₦{parseFloat(listing.price).toLocaleString("en-NG")}
-            </Text>
-          </View>
-        </View>
+            {/* Post Listing CTA */}
+            <View className="mb-4">
+              <Button
+                label="Post a Listing"
+                onPress={() => router.push("/seller/create-listing")}
+                variant="primary"
+                icon={<Plus size={20} color={colors.textInverse} />}
+              />
+            </View>
 
-        {/* Status badge + UD actions */}
-        <View style={{ alignItems: "flex-end", gap: 8 }}>
-          <View
-            style={{
-              backgroundColor: statusStyle.bg,
-              paddingHorizontal: 10,
-              paddingVertical: 4,
-              borderRadius: 999,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Inter-Medium",
-                fontSize: 11,
-                color: statusStyle.text,
-              }}
-            >
-              {statusLabel}
-            </Text>
+            <SectionHeader title="Your Listings" />
           </View>
-          <View style={{ flexDirection: "row", gap: 6 }}>
-            <TouchableOpacity
-              onPress={onEdit}
-              activeOpacity={0.7}
-              hitSlop={6}
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                backgroundColor: "rgba(255,255,255,0.08)",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Ionicons name="pencil" size={14} color="#ffffff99" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={onDelete}
-              activeOpacity={0.7}
-              hitSlop={6}
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                backgroundColor: "rgba(225,38,28,0.15)",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Ionicons name="trash-outline" size={14} color="#e1261c" />
-            </TouchableOpacity>
+        }
+        ListEmptyComponent={
+          <View className="items-center justify-center p-4">
+            <EmptyState
+              icon={<Package size={28} color={colors.neutral500} />}
+              title="No active listings"
+              description="Post your first textbook, calculator, or gadget to start selling."
+            />
           </View>
-        </View>
-      </View>
-    </GlassPanel>
+        }
+        renderItem={({ item }) => (
+          <View className="flex-1 mb-3">
+            <ListingCard
+              id={item.id}
+              title={item.title}
+              price={Number(item.price)}
+              imageUrl={item.images[0] || null}
+              category={item.category?.name}
+              onPress={() => router.push(`/buyer/listing-detail?id=${item.id}`)}
+            />
+          </View>
+        )}
+      />
+
+      <TabBar tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
+    </View>
   );
 }

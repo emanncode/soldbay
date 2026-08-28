@@ -1,427 +1,282 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
+  ActivityIndicator,
+  Image,
+  KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
-import { Image } from "expo-image";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
-import { Ionicons } from "@expo/vector-icons";
-import { AuthLayoutWrapper } from "@/components/auth-layout-wrapper";
-import { PrimaryButton } from "@/components/primary-button";
-import { ErrorBanner } from "@/components/error-banner";
-import { getSellerMe, getMe, uploadIdImage, ApiError } from "@/lib/api";
+import { CheckCircle2, Clock, Upload, AlertCircle } from "lucide-react-native";
+import {
+  BackHeader,
+  Button,
+  ChoiceCard,
+  StickyActionBar,
+  TextField,
+  ToastBanner,
+  VerifiedChip,
+} from "@/components";
+import { getSellerMe, uploadIdImage } from "@/lib/api";
+import { colors } from "@/theme/colors";
 
-type ScreenState = "loading" | "upload" | "preview" | "submitting" | "pending" | "verified";
+type VerifyStep = "choice" | "capture" | "pending" | "approved" | "rejected";
 
-export default function VerifySellerScreen() {
+export default function SellerVerifyScreen() {
   const router = useRouter();
-  const [screenState, setScreenState] = useState<ScreenState>("loading");
+  const insets = useSafeAreaInsets();
+
+  const [step, setStep] = useState<VerifyStep>("choice");
+  const [method, setMethod] = useState<"portal" | "id_card">("portal");
+  const [matricNumber, setMatricNumber] = useState("");
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
-
-  const stateAnim = useRef(new Animated.Value(1)).current;
-  const stateTranslateY = useRef(new Animated.Value(0)).current;
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    stateAnim.setValue(0);
-    stateTranslateY.setValue(12);
-    Animated.parallel([
-      Animated.timing(stateAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.spring(stateTranslateY, {
-        toValue: 0,
-        friction: 6,
-        tension: 50,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [screenState, stateAnim, stateTranslateY]);
-
-  async function checkStatus() {
-    try {
-      const user = await getMe();
-      if (user.role !== "SELLER") {
-        router.replace("/buyer/home");
-        return;
+    async function checkStatus() {
+      try {
+        setLoading(true);
+        const seller = await getSellerMe();
+        if (seller.verified) {
+          setStep("approved");
+        } else if (seller.idImageUrl) {
+          setStep("pending");
+        } else {
+          setStep("choice");
+        }
+      } catch {
+        setStep("choice");
+      } finally {
+        setLoading(false);
       }
-      if (!user.universityId) {
-        // School selection is compulsory for sellers before ID verification
-        router.replace("/select-university");
-        return;
-      }
-      const me = await getSellerMe();
-      if (me.verified) {
-        setScreenState("verified");
-      } else if (me.idImageUrl) {
-        setScreenState("pending");
-      } else {
-        setScreenState("upload");
-      }
-    } catch {
-      setScreenState("upload");
     }
-  }
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      checkStatus();
-    }, 0);
-    return () => clearTimeout(timer);
+    checkStatus();
   }, []);
 
-  async function pickImage() {
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permission.granted) return;
-
+  const handlePickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
       quality: 0.8,
     });
 
-    if (!result.canceled && result.assets[0]) {
+    if (!result.canceled && result.assets[0]?.uri) {
       setImageUri(result.assets[0].uri);
-      setScreenState("preview");
-      setFormError(null);
     }
-  }
+  };
 
-  async function handleSubmit() {
-    if (!imageUri) return;
-    setScreenState("submitting");
-    setFormError(null);
+  const handleSubmit = async () => {
+    setErrorMessage(null);
+    if (!imageUri) {
+      setErrorMessage("Please upload a screenshot of your portal or ID card.");
+      return;
+    }
+    if (!matricNumber.trim()) {
+      setErrorMessage("Please enter your matriculation number.");
+      return;
+    }
 
     try {
+      setSubmitting(true);
       await uploadIdImage(imageUri);
-      setScreenState("pending");
-    } catch (err) {
-      if (err instanceof ApiError) {
-        setFormError(err.message);
-      } else if (err instanceof TypeError) {
-        setFormError(`Network error: ${err.message}`);
-      } else if (err instanceof Error) {
-        setFormError(err.message);
-      } else {
-        setFormError("Upload failed. Please try again.");
-      }
-      setScreenState("preview");
+      setStep("pending");
+    } catch (err: any) {
+      setErrorMessage(err?.message || "Failed to submit verification.");
+    } finally {
+      setSubmitting(false);
     }
+  };
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-surface-base">
+        <ActivityIndicator size="small" color={colors.accent} />
+      </View>
+    );
   }
 
-  function renderContent() {
-    switch (screenState) {
-      case "loading":
-        return (
-          <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Checking your status...</Text>
-          </View>
-        );
-
-      case "upload":
-        return (
-          <View style={styles.stateContainer}>
-            <Text style={styles.cardTitle}>Verify Student Portal</Text>
-            <Text style={styles.cardSubtitle}>
-              Upload a clear screenshot of your Student Portal home page (not exam portal) showing your name and student details.
-            </Text>
-
-            <TouchableOpacity
-              onPress={pickImage}
-              activeOpacity={0.8}
-              style={styles.uploadZone}
-            >
-              <View style={styles.uploadIconCircle}>
-                <Ionicons name="cloud-upload-outline" size={30} color="#4ade80" />
-              </View>
-              <Text style={styles.uploadTitle}>Tap to select portal screenshot</Text>
-              <Text style={styles.uploadFormat}>JPG, PNG, WebP or HEIC (max 10 MB)</Text>
-            </TouchableOpacity>
-
-            <View style={styles.securityNoteRow}>
-              <Ionicons name="shield-checkmark-outline" size={16} color="rgba(255,255,255,0.6)" />
-              <Text style={styles.securityNote}>
-                {"Your portal screenshot is encrypted and never shared with buyers."}
-              </Text>
-            </View>
-
-            <PrimaryButton
-              label="Choose Screenshot"
-              onPress={pickImage}
-            />
-          </View>
-        );
-
-      case "preview":
-        return (
-          <View style={styles.stateContainer}>
-            <Text style={styles.cardTitle}>Review Portal Screenshot</Text>
-            <Text style={styles.cardSubtitle}>
-              Make sure your student name and university details are legible.
-            </Text>
-
-            <TouchableOpacity
-              onPress={pickImage}
-              activeOpacity={0.85}
-              style={styles.previewContainer}
-            >
-              {imageUri && (
-                <Image
-                  source={{ uri: imageUri }}
-                  style={StyleSheet.absoluteFill}
-                  contentFit="cover"
-                />
-              )}
-
-              <View style={styles.previewBadge}>
-                <Ionicons name="checkmark" size={16} color="#ffffff" />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={pickImage} style={styles.changePhotoBtn}>
-              <Ionicons name="camera-reverse-outline" size={16} color="#4ade80" />
-              <Text style={styles.changePhotoText}>Tap to change screenshot</Text>
-            </TouchableOpacity>
-
-            {formError && <ErrorBanner message={formError} />}
-
-            <PrimaryButton
-              label="Submit for review"
-              onPress={handleSubmit}
-            />
-          </View>
-        );
-
-      case "submitting":
-        return (
-          <View style={styles.stateContainer}>
-            <Text style={styles.cardTitle}>Uploading Screenshot</Text>
-            <Text style={styles.cardSubtitle}>
-              Please wait while we encrypt and send your student portal screenshot.
-            </Text>
-            <View style={{ marginTop: 24 }}>
-              <PrimaryButton label="Submitting..." loading />
-            </View>
-          </View>
-        );
-
-      case "pending":
-        return (
-          <View style={styles.statusStateContainer}>
-            <View style={styles.pendingIconCircle}>
-              <Ionicons name="time-outline" size={40} color="#f59e0b" />
-            </View>
-
-            <Text style={styles.statusTitle}>{"We're reviewing your portal screenshot"}</Text>
-
-            <Text style={styles.statusSubtitle}>
-              {"Verification typically takes a few hours. We will notify you once approved."}
-            </Text>
-
-            <View style={styles.actionBlock}>
-              <PrimaryButton
-                label="Browse as Buyer"
-                onPress={() => router.replace("/buyer/home")}
-              />
-            </View>
-          </View>
-        );
-
-      case "verified":
-        return (
-          <View style={styles.statusStateContainer}>
-            <View style={styles.verifiedIconCircle}>
-              <Ionicons
-                name="checkmark-circle-outline"
-                size={42}
-                color="#22c55e"
-              />
-            </View>
-
-            <Text style={styles.statusTitle}>{"You're Verified!"}</Text>
-
-            <Text style={styles.statusSubtitle}>
-              Your seller account is approved. You can now publish listings and sell items on campus.
-            </Text>
-
-            <View style={styles.actionBlock}>
-              <PrimaryButton
-                label="Go to Seller Dashboard"
-                onPress={() => router.replace("/seller/dashboard")}
-              />
-            </View>
-          </View>
-        );
-    }
+  // Approved State
+  if (step === "approved") {
+    return (
+      <View className="flex-1 bg-surface-base px-3 justify-center items-center">
+        <View className="mb-3 h-8 w-8 items-center justify-center rounded-full bg-accent-tint">
+          <CheckCircle2 size={40} color={colors.accentHover} />
+        </View>
+        <Text className="text-center font-manrope-semibold text-h1 text-text-primary">
+          You're Verified
+        </Text>
+        <Text className="mt-1 text-center font-manrope text-body text-text-secondary">
+          Your student status has been confirmed. You have the verified seller badge.
+        </Text>
+        <View className="mt-2">
+          <VerifiedChip size="md" />
+        </View>
+        <View className="mt-6 w-full">
+          <Button
+            label="Go to Seller Dashboard"
+            onPress={() => router.replace("/seller/dashboard")}
+            variant="primary"
+          />
+        </View>
+      </View>
+    );
   }
 
+  // Pending State
+  if (step === "pending") {
+    return (
+      <View className="flex-1 bg-surface-base px-3 justify-center items-center">
+        <View className="mb-3 h-8 w-8 items-center justify-center rounded-full bg-warning-tint">
+          <Clock size={40} color={colors.warning} />
+        </View>
+        <Text className="text-center font-manrope-semibold text-h1 text-text-primary">
+          Verification Pending
+        </Text>
+        <Text className="mt-1 text-center font-manrope text-body text-text-secondary">
+          Our team is reviewing your student portal screenshot. This typically takes under 24 hours.
+        </Text>
+        <View className="mt-6 w-full">
+          <Button
+            label="Back to Dashboard"
+            onPress={() => router.replace("/seller/dashboard")}
+            variant="primary"
+          />
+        </View>
+      </View>
+    );
+  }
+
+  // Choice Step
+  if (step === "choice") {
+    return (
+      <View className="flex-1 bg-surface-base">
+        <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
+          <BackHeader onBack={() => router.back()} title="Get Verified" />
+        </View>
+
+        <ScrollView className="flex-1 px-3 pt-2">
+          <Text className="font-manrope-semibold text-h1 text-text-primary">
+            Student Verification
+          </Text>
+          <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+            Verified sellers build trust faster and sell up to 4x quicker on campus.
+          </Text>
+
+          <View className="mt-4 gap-2">
+            <ChoiceCard
+              title="Student Portal Screenshot"
+              description="Upload a screenshot of your active university portal dashboard showing your name & matric number."
+              selected={method === "portal"}
+              onPress={() => setMethod("portal")}
+            />
+            <ChoiceCard
+              title="Student ID Card"
+              description="Upload a clear photo of your valid physical student identity card."
+              selected={method === "id_card"}
+              onPress={() => setMethod("id_card")}
+            />
+          </View>
+        </ScrollView>
+
+        <StickyActionBar>
+          <Button
+            label="Continue"
+            onPress={() => setStep("capture")}
+            variant="primary"
+          />
+        </StickyActionBar>
+      </View>
+    );
+  }
+
+  // Capture Step
   return (
-    <AuthLayoutWrapper backRoute="/buyer/home" backTitle="Back">
-      <Animated.View
-        style={{
-          opacity: stateAnim,
-          transform: [{ translateY: stateTranslateY }],
-        }}
-      >
-        {renderContent()}
-      </Animated.View>
-    </AuthLayoutWrapper>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      className="flex-1 bg-surface-base"
+    >
+      <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
+        <BackHeader onBack={() => setStep("choice")} title="Upload Proof" />
+      </View>
+
+      <ScrollView className="flex-1 px-3 pt-2" keyboardShouldPersistTaps="handled">
+        <Text className="font-manrope-semibold text-h1 text-text-primary">
+          {method === "portal" ? "Portal Screenshot" : "Student ID Card"}
+        </Text>
+        <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+          Ensure your full name, faculty, and matric number are clearly visible.
+        </Text>
+
+        {errorMessage ? (
+          <View className="mt-2">
+            <ToastBanner
+              visible={Boolean(errorMessage)}
+              message={errorMessage}
+              type="error"
+              onDismiss={() => setErrorMessage(null)}
+            />
+          </View>
+        ) : null}
+
+        <View className="mt-3 gap-2">
+          <TextField
+            label="Matriculation Number"
+            placeholder="e.g. OAU/2022/1049"
+            value={matricNumber}
+            onChangeText={setMatricNumber}
+            autoCapitalize="characters"
+          />
+
+          <View className="mt-1">
+            <Text className="mb-1 font-manrope-medium text-body-medium text-text-primary">
+              Proof Image
+            </Text>
+            {imageUri ? (
+              <View className="relative h-24 w-full overflow-hidden rounded-md border border-neutral-300 bg-neutral-100">
+                <Image source={{ uri: imageUri }} className="h-full w-full" resizeMode="cover" />
+                <Pressable
+                  onPress={handlePickImage}
+                  className="absolute bottom-2 right-2 rounded-sm bg-neutral-900/80 px-1.5 py-1"
+                >
+                  <Text className="font-manrope-medium text-caption text-text-inverse">
+                    Change photo
+                  </Text>
+                </Pressable>
+              </View>
+            ) : (
+              <Pressable
+                onPress={handlePickImage}
+                className="h-24 w-full items-center justify-center rounded-md border border-dashed border-neutral-300 bg-neutral-50 active:bg-neutral-100"
+              >
+                <Upload size={28} color={colors.neutral500} />
+                <Text className="mt-1 font-manrope-medium text-small text-text-primary">
+                  Tap to upload image
+                </Text>
+                <Text className="font-manrope text-caption text-text-tertiary">
+                  JPEG or PNG up to 5MB
+                </Text>
+              </Pressable>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+
+      <StickyActionBar>
+        <Button
+          label="Submit Verification"
+          onPress={handleSubmit}
+          loading={submitting}
+          disabled={!imageUri || !matricNumber.trim()}
+          variant="primary"
+        />
+      </StickyActionBar>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  stateContainer: {
-    gap: 16,
-  },
-  cardTitle: {
-    fontFamily: "Inter-Bold",
-    fontSize: 26,
-    color: "#ffffff",
-    textAlign: "center",
-    marginBottom: 4,
-  },
-  cardSubtitle: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.7)",
-    textAlign: "center",
-    lineHeight: 20,
-    marginBottom: 12,
-    paddingHorizontal: 6,
-  },
-  uploadZone: {
-    backgroundColor: "#18181b",
-    borderWidth: 1.5,
-    borderStyle: "dashed",
-    borderColor: "rgba(34, 197, 94, 0.4)",
-    borderRadius: 20,
-    height: 190,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    padding: 16,
-  },
-  uploadIconCircle: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: "rgba(34, 197, 94, 0.15)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  uploadTitle: {
-    fontFamily: "Inter-SemiBold",
-    fontSize: 15,
-    color: "#ffffff",
-  },
-  uploadFormat: {
-    fontFamily: "Inter-Regular",
-    fontSize: 12,
-    color: "rgba(255, 255, 255, 0.5)",
-  },
-  securityNoteRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    paddingHorizontal: 8,
-    marginTop: 4,
-    marginBottom: 8,
-  },
-  securityNote: {
-    fontFamily: "Inter-Regular",
-    fontSize: 12,
-    color: "rgba(255, 255, 255, 0.6)",
-    textAlign: "center",
-  },
-  previewContainer: {
-    backgroundColor: "#18181b",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.15)",
-    borderRadius: 20,
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-  },
-  previewBadge: {
-    position: "absolute",
-    top: 12,
-    right: 12,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: "#22c55e",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  changePhotoBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-    paddingVertical: 6,
-  },
-  changePhotoText: {
-    fontFamily: "Inter-Medium",
-    fontSize: 13,
-    color: "#4ade80",
-  },
-  statusStateContainer: {
-    alignItems: "center",
-    gap: 16,
-    paddingTop: 20,
-    paddingBottom: 10,
-  },
-  pendingIconCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
-    backgroundColor: "rgba(245, 158, 11, 0.15)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 6,
-  },
-  verifiedIconCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
-    backgroundColor: "rgba(34, 197, 94, 0.15)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 6,
-  },
-  statusTitle: {
-    fontFamily: "Inter-Bold",
-    fontSize: 24,
-    color: "#ffffff",
-    textAlign: "center",
-  },
-  statusSubtitle: {
-    fontFamily: "Inter-Regular",
-    fontSize: 14,
-    color: "rgba(255, 255, 255, 0.7)",
-    textAlign: "center",
-    lineHeight: 20,
-    paddingHorizontal: 16,
-  },
-  actionBlock: {
-    width: "100%",
-    marginTop: 20,
-  },
-  loadingContainer: {
-    alignItems: "center",
-    paddingVertical: 36,
-  },
-  loadingText: {
-    fontFamily: "Inter-Regular",
-    fontSize: 15,
-    color: "rgba(255, 255, 255, 0.7)",
-  },
-});
