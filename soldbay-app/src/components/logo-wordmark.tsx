@@ -1,17 +1,31 @@
-import { Image } from "expo-image";
+import { Text, View } from "react-native";
 
-interface LogoWordmarkProps {
-  height?: number;
+export interface LogoWordmarkProps {
+  size?: "sm" | "md" | "lg";
+  className?: string;
 }
 
-const LOGO_ASPECT = 1536 / 1024;
+/**
+ * SOLDBAY LOGO WORDMARK
+ *
+ * Rules from DESIGN.md:
+ * - Plain styled text wordmark: "Soldbay".
+ * - Manrope Semibold (600), accent teal (#0D9488).
+ * - No icon, no gradient, no decoration.
+ */
+export function LogoWordmark({ size = "md", className = "" }: LogoWordmarkProps) {
+  const sizeClass =
+    size === "lg"
+      ? "text-display"
+      : size === "sm"
+        ? "text-h2"
+        : "text-h1";
 
-export function LogoWordmark({ height = 78 }: LogoWordmarkProps) {
   return (
-    <Image
-      source={require("../../assets/logo.png")}
-      style={{ width: height * LOGO_ASPECT, height }}
-      resizeMode="contain"
-    />
+    <View className={`flex-row items-center ${className}`}>
+      <Text className={`font-manrope-semibold tracking-tight text-accent ${sizeClass}`}>
+        Soldbay
+      </Text>
+    </View>
   );
 }

@@ -51,6 +51,8 @@ export const elevation = {
   0: elevation0,
   1: elevation1,
   2: elevation2,
+  card: elevation1,
+  modal: elevation2,
 } as const;
 
 export type ElevationLevel = keyof typeof elevation;
