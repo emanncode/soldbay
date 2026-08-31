@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 import { UserRole } from "@/generated/prisma/enums"
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 const VALID_ROLES = new Set<string>([UserRole.BUYER, UserRole.SELLER])
 
 function slugifyName(name: string): string {
@@ -31,6 +33,12 @@ export async function POST(request: Request) {
 
     if (!body.email || typeof body.email !== "string" || !body.email.trim()) {
       return NextResponse.json({ error: "Email is required." }, { status: 400 })
+    }
+    if (!EMAIL_PATTERN.test(body.email.trim())) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address." },
+        { status: 400 },
+      )
     }
     if (!body.password || typeof body.password !== "string" || body.password.length < 8) {
       return NextResponse.json(

@@ -85,7 +85,7 @@ export function TextField({
           editable={editable}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="h-full flex-1 font-manrope text-body text-text-primary"
+          className="h-full flex-1 font-manrope text-body outline-none text-text-primary"
           style={{ paddingVertical: 0 }}
           selectionColor={colors.accent}
           {...rest}

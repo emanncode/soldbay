@@ -7,6 +7,7 @@ import { auth } from "@/auth"
 export const dynamic = "force-dynamic"
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
+const MAX_VERIFICATION_ATTEMPTS = 3
 const ALLOWED_MIME_TYPES = new Set([
   "image/jpeg",
   "image/png",
@@ -55,6 +56,22 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Please select your university before submitting student portal verification." },
         { status: 400 },
+      )
+    }
+
+    // Enforce the resubmission cap: a seller whose verification was rejected three
+    // times must contact support to be reviewed again (admin resets attempts).
+    if (
+      profile.verificationStatus === "REJECTED" &&
+      profile.verificationAttempts >= MAX_VERIFICATION_ATTEMPTS
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "You have reached the maximum number of verification attempts. Please contact support for further review.",
+          requiresSupport: true,
+        },
+        { status: 403 },
       )
     }
 
@@ -107,7 +124,10 @@ export async function POST(request: Request) {
     let blobUrl: string
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       const blob = await put(blobPath, file, {
-        access: "public",
+        // PRIVATE: student ID / portal screenshots are sensitive PII and must
+        // not be publicly reachable. They are served only through the
+        // authenticated GET /api/sellers/me/id-image endpoint.
+        access: "private",
         token: process.env.BLOB_READ_WRITE_TOKEN,
       })
       blobUrl = blob.url
@@ -116,11 +136,16 @@ export async function POST(request: Request) {
       blobUrl = `https://mock-storage.soldbay.local/${blobPath}`
     }
 
-    // --- Store URL and matricNumber atomically ---
+    // --- Store URL, matricNumber, and reset verification state atomically ---
     await prisma.$transaction([
       prisma.sellerProfile.update({
         where: { id: profile.id },
-        data: { idImageUrl: blobUrl },
+        data: {
+          idImageUrl: blobUrl,
+          verificationStatus: "PENDING",
+          rejectionReason: null,
+          verificationAttempts: { increment: 1 },
+        },
       }),
       ...(matricNumber
         ? [

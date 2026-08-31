@@ -115,6 +115,10 @@ export function updateUserProfile(payload: UpdateUserPayload) {
   return request<UserMeResponse>("PATCH", "/api/users/me", payload);
 }
 
+export function deleteAccount() {
+  return request<{ ok: boolean; message: string }>("DELETE", "/api/users/me");
+}
+
 export interface SellerListing {
   id: string;
   title: string;
@@ -134,6 +138,9 @@ export interface SellerMeResponse {
   verified: boolean;
   verifiedAt: string | null;
   idImageUrl: string | null;
+  verificationStatus?: string;
+  rejectionReason?: string | null;
+  verificationAttempts?: number;
   listings: SellerListing[];
 }
 
@@ -406,6 +413,14 @@ export function createDraft() {
 
 export function getDraft(id: string) {
   return request<DraftListing>("GET", `/api/listings/drafts/${id}`);
+}
+
+export function getDrafts() {
+  return request<{ drafts: DraftListing[] }>("GET", "/api/listings/drafts");
+}
+
+export function deleteDraft(id: string) {
+  return request<{ ok: boolean }>("DELETE", `/api/listings/drafts/${id}`);
 }
 
 export function patchDraft(id: string, payload: Partial<DraftListing> & { categorySlug?: string }) {

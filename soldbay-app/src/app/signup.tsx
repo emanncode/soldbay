@@ -16,7 +16,8 @@ export default function SignupScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ role?: string }>();
-  const role = (params.role === "SELLER" ? "SELLER" : "BUYER") as "BUYER" | "SELLER";
+  const role = (params.role === "SELLER" ? "SELLER" : "BUYER") as
+    "BUYER" | "SELLER";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -79,7 +80,7 @@ export default function SignupScreen() {
           paddingTop: 8,
           paddingBottom: Math.max(insets.bottom + 24, 32),
         }}
-        className="flex-1 px-3"
+        className="flex-1 px-3 justify-center"
         keyboardShouldPersistTaps="handled"
       >
         <View className="mb-4">
@@ -87,7 +88,8 @@ export default function SignupScreen() {
             Create Account
           </Text>
           <Text className="mt-0.5 font-manrope text-body text-text-secondary">
-            Signing up as a {role === "SELLER" ? "Campus Seller" : "Student Buyer"}
+            Signing up as a{" "}
+            {role === "SELLER" ? "Campus Seller" : "Student Buyer"}
           </Text>
         </View>
 
@@ -113,12 +115,12 @@ export default function SignupScreen() {
 
           <TextField
             label="Student Email"
-            placeholder="student@university.edu.ng"
+            placeholder="e.g. yourname@example.com"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            helperText="Use your student or university email"
+            helperText="Used to sign in and receive order updates"
           />
 
           <TextField

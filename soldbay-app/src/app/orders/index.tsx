@@ -41,6 +41,8 @@ export default function OrdersListScreen() {
   };
 
   useEffect(() => {
+    // Fetch orders once on mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchOrders();
   }, []);
 

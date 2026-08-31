@@ -148,3 +148,37 @@ export async function PATCH(
     )
   }
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params
+    const authResult = await getAuthenticatedSellerId(request)
+    if (authResult.error || !authResult.sellerId) return authResult.error!
+
+    const existing = await prisma.listing.findFirst({
+      where: {
+        id,
+        sellerId: authResult.sellerId,
+        status: "DRAFT",
+      },
+      select: { id: true },
+    })
+
+    if (!existing) {
+      return NextResponse.json({ error: "Draft not found." }, { status: 404 })
+    }
+
+    await prisma.listing.delete({ where: { id } })
+
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error("Delete draft error:", error)
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again." },
+      { status: 500 }
+    )
+  }
+}

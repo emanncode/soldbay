@@ -48,9 +48,9 @@ model SiteQuestion {
 }
 
 model University {
-  id    String @id @default(cuid())
-  name  String @unique
-  code  String @unique
+  id    String   @id @default(cuid())
+  name  String   @unique
+  code  String   @unique
   users User[]
 }
 
@@ -67,6 +67,7 @@ model User {
   level         String?
   matricNumber  String?        @unique
   verified      Boolean        @default(false)
+  deletedAt     DateTime?
   createdAt     DateTime       @default(now())
   sellerProfile SellerProfile?
   accounts      Account[]
@@ -118,11 +119,14 @@ model SellerProfile {
   username      String    @unique
   businessName  String?
   bio           String?
-  walletBalance Decimal   @default(0)
-  idImageUrl    String?
-  verifiedAt    DateTime?
-  listings      Listing[]
-  orders        Order[]   @relation("SellerOrders")
+  walletBalance         Decimal   @default(0)
+  idImageUrl            String?
+  verifiedAt            DateTime?
+  verificationStatus    String    @default("PENDING") // PENDING | APPROVED | REJECTED
+  rejectionReason       String?
+  verificationAttempts  Int       @default(0)
+  listings              Listing[]
+  orders                Order[]   @relation("SellerOrders")
 }
 
 model Category {
@@ -191,9 +195,11 @@ model Order {
   listing         Listing       @relation(fields: [listingId], references: [id])
   amount          Decimal
   status          OrderStatus   @default(PAYMENT_SECURED)
-  pickupLocation  String?
-  confirmationPin String?
-  disputes        Dispute[]
+  pickupLocation    String?
+  confirmationPin   String?
+  pinFailedAttempts Int       @default(0)
+  pinLockedUntil    DateTime?
+  disputes          Dispute[]
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @default(now()) @updatedAt
 

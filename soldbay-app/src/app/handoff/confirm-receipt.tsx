@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Alert,
   ScrollView,
   Text,
   View,
@@ -17,6 +16,7 @@ import {
   ToastBanner,
 } from "@/components";
 import { confirmOrderReceipt, disputeOrder } from "@/lib/api";
+import { alertDialog } from "@/lib/dialogs";
 import { colors } from "@/theme/colors";
 
 export default function ConfirmReceiptScreen() {
@@ -35,11 +35,12 @@ export default function ConfirmReceiptScreen() {
       setConfirming(true);
       await confirmOrderReceipt(params.orderId);
 
-      Alert.alert(
-        "Order Completed",
-        "Thank you! Funds have been released to the seller.",
-        [{ text: "OK", onPress: () => router.replace(`/orders/detail?id=${params.orderId}`) }]
-      );
+      await alertDialog({
+        title: "Order Completed",
+        message: "Thank you! Funds have been released to the seller.",
+        buttonText: "OK",
+      });
+      router.replace(`/orders/detail?id=${params.orderId}`);
     } catch (err: any) {
       setErrorMessage(err?.message || "Failed to confirm order receipt.");
     } finally {
@@ -57,11 +58,13 @@ export default function ConfirmReceiptScreen() {
       setDisputing(true);
       await disputeOrder(params.orderId, disputeReason.trim());
 
-      Alert.alert(
-        "Problem Reported",
-        "Your report has been submitted. Our support team is reviewing the transaction and funds remain securely on hold.",
-        [{ text: "View Order", onPress: () => router.replace(`/orders/detail?id=${params.orderId}`) }]
-      );
+      await alertDialog({
+        title: "Problem Reported",
+        message:
+          "Your report has been submitted. Our support team is reviewing the transaction and funds remain securely on hold.",
+        buttonText: "View Order",
+      });
+      router.replace(`/orders/detail?id=${params.orderId}`);
     } catch (err: any) {
       setErrorMessage(err?.message || "Failed to submit dispute.");
     } finally {
@@ -103,7 +106,7 @@ export default function ConfirmReceiptScreen() {
             </Text>
           </View>
           <Text className="font-manrope text-small text-text-secondary">
-            Tap "Everything's good" to complete the order and release payment to the seller.
+            {'Tap "Everything\'s good" to complete the order and release payment to the seller.'}
           </Text>
         </View>
 
@@ -115,7 +118,7 @@ export default function ConfirmReceiptScreen() {
             </Text>
           </View>
           <Text className="font-manrope text-small text-text-secondary">
-            Tap "Report a problem" to place funds on hold while support reviews.
+            {'Tap "Report a problem" to place funds on hold while support reviews.'}
           </Text>
         </View>
 

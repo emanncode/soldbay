@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import {
   TouchableWithoutFeedback,
   Text,
@@ -23,7 +23,7 @@ export function PrimaryButton({
   label,
 }: PrimaryButtonProps) {
   const isDisabled = disabled || loading;
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [scaleAnim] = useState(() => new Animated.Value(1));
 
   const handlePressIn = () => {
     if (isDisabled) return;

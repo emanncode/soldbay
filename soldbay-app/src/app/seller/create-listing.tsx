@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -31,6 +30,7 @@ import {
   uploadListingImages,
   type Category,
 } from "@/lib/api";
+import { alertDialog } from "@/lib/dialogs";
 import { colors } from "@/theme/colors";
 
 export default function CreateListingScreen() {
@@ -183,11 +183,12 @@ export default function CreateListingScreen() {
         setSaving(true);
         await publishDraft(draftId);
 
-        Alert.alert(
-          "Listing Published! 🎉",
-          "Your item is now live and visible to buyers across your campus.",
-          [{ text: "Go to Dashboard", onPress: () => router.replace("/seller/dashboard") }]
-        );
+        await alertDialog({
+          title: "Listing Published! 🎉",
+          message: "Your item is now live and visible to buyers across your campus.",
+          buttonText: "Go to Dashboard",
+        });
+        router.replace("/seller/dashboard");
       } catch (err: any) {
         setErrorMessage(err?.message || "Failed to publish listing.");
       } finally {

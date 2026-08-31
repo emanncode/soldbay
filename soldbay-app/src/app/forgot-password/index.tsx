@@ -62,11 +62,11 @@ export default function ForgotPasswordScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View className="mb-4">
-          <Text className="font-manrope-semibold text-h1 text-text-primary">
+          <Text className="font-satisfy-semibold text-h1 text-text-primary">
             Reset Password
           </Text>
           <Text className="mt-0.5 font-manrope text-body text-text-secondary">
-            Enter your student email and we'll send you a 6-digit verification code.
+            {"Enter your student email and we'll send you a 6-digit verification code."}
           </Text>
         </View>
 
@@ -84,7 +84,7 @@ export default function ForgotPasswordScreen() {
         <View className="gap-2">
           <TextField
             label="Student Email"
-            placeholder="student@university.edu.ng"
+            placeholder="e.g. yourname@example.com"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"

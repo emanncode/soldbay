@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -38,15 +39,19 @@ export default function SellerVerifyScreen() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [rejectionReason, setRejectionReason] = useState<string | null>(null);
 
   useEffect(() => {
     async function checkStatus() {
       try {
         setLoading(true);
         const seller = await getSellerMe();
-        if (seller.verified) {
+        if (seller.verified || seller.verificationStatus === "APPROVED") {
           setStep("approved");
-        } else if (seller.idImageUrl) {
+        } else if (seller.verificationStatus === "REJECTED") {
+          setRejectionReason(seller.rejectionReason ?? null);
+          setStep("rejected");
+        } else if (seller.idImageUrl || seller.verificationStatus === "PENDING") {
           setStep("pending");
         } else {
           setStep("choice");
@@ -110,7 +115,7 @@ export default function SellerVerifyScreen() {
           <CheckCircle2 size={40} color={colors.accentHover} />
         </View>
         <Text className="text-center font-manrope-semibold text-h1 text-text-primary">
-          You're Verified
+          {"You're Verified"}
         </Text>
         <Text className="mt-1 text-center font-manrope text-body text-text-secondary">
           Your student status has been confirmed. You have the verified seller badge.
@@ -147,6 +152,51 @@ export default function SellerVerifyScreen() {
             label="Back to Dashboard"
             onPress={() => router.replace("/seller/dashboard")}
             variant="primary"
+          />
+        </View>
+      </View>
+    );
+  }
+
+  // Rejected State
+  if (step === "rejected") {
+    return (
+      <View className="flex-1 bg-surface-base px-3 justify-center items-center">
+        <View
+          style={{ backgroundColor: colors.errorTint }}
+          className="mb-3 h-8 w-8 items-center justify-center rounded-full"
+        >
+          <AlertCircle size={40} color={colors.error} />
+        </View>
+        <Text className="text-center font-manrope-semibold text-h1 text-text-primary">
+          Verification Rejected
+        </Text>
+        <Text className="mt-1 text-center font-manrope text-body text-text-secondary">
+          {rejectionReason
+            ? rejectionReason
+            : "We could not confirm your student status from the information you provided."}
+        </Text>
+        <Text className="mt-3 text-center font-manrope text-small text-text-tertiary">
+          You have limited resubmission attempts. Please review the reason above before trying
+          again, or contact support if you believe this is a mistake.
+        </Text>
+        <View className="mt-6 w-full gap-2">
+          <Button
+            label={rejectionReason ? "Try Again" : "Resubmit Verification"}
+            onPress={() => {
+              setErrorMessage(null);
+              setStep("choice");
+            }}
+            variant="primary"
+          />
+          <Button
+            label="Contact Support"
+            onPress={() =>
+              Linking.openURL(
+                "mailto:support@soldbay.app?subject=Verification rejected"
+              ).catch(() => {})
+            }
+            variant="secondary"
           />
         </View>
       </View>

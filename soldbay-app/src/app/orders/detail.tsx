@@ -15,6 +15,7 @@ import {
   DisputeBanner,
   Divider,
   EscrowStepper,
+  type EscrowStep,
   OrderBadge,
   PINDisplay,
   StickyActionBar,
@@ -76,8 +77,50 @@ export default function OrderDetailScreen() {
 
   // Calculate stepper index (1: Payment secured, 2: Pickup verified, 3: Completed)
   let currentStep = 1;
+  let stepperSteps: EscrowStep[] | undefined;
+  let stepperTone: "accent" | "error" = "accent";
   if (order.status === "AWAITING_CONFIRMATION") currentStep = 2;
-  if (order.status === "COMPLETED" || order.status === "REFUNDED") currentStep = 3;
+  if (order.status === "COMPLETED") currentStep = 3;
+  if (order.status === "REFUNDED") {
+    // Refunded is a terminal escrow state. Funds were returned to the buyer,
+    // NOT released to the seller — show an accurate "Refund issued" end step
+    // instead of the misleading "Funds released".
+    currentStep = 3;
+    stepperSteps = [
+      {
+        label: "Payment secured",
+        subtitle: "Money held in escrow",
+      },
+      {
+        label: "Pickup verified",
+        subtitle: "4-digit PIN confirmed",
+      },
+      {
+        label: "Refund issued",
+        subtitle: "Amount returned to buyer",
+      },
+    ];
+  }
+  if (order.status === "DISPUTED") {
+    // Disputes arise after pickup verification, during buyer inspection. Show
+    // the two completed milestones plus a red terminal "Dispute in review" step.
+    currentStep = 3;
+    stepperSteps = [
+      {
+        label: "Payment secured",
+        subtitle: "Money held in escrow",
+      },
+      {
+        label: "Pickup verified",
+        subtitle: "4-digit PIN confirmed",
+      },
+      {
+        label: "Dispute in review",
+        subtitle: "Support is investigating",
+      },
+    ];
+    stepperTone = "error";
+  }
 
   return (
     <View className="flex-1 bg-surface-base">
@@ -152,7 +195,11 @@ export default function OrderDetailScreen() {
         <Text className="font-manrope-semibold text-h2 text-text-primary mb-2">
           Escrow Timeline
         </Text>
-        <EscrowStepper currentStep={currentStep} />
+        <EscrowStepper
+          currentStep={currentStep}
+          steps={stepperSteps}
+          tone={stepperTone}
+        />
       </ScrollView>
 
       {/* Buyer Action Button: Enter PIN when meeting seller */}

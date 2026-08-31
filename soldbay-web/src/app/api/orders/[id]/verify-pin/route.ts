@@ -6,6 +6,11 @@ import { OrderStatus } from "@/generated/prisma/client"
 
 export const dynamic = "force-dynamic"
 
+// Brute-force protection for the 4-digit handoff PIN. After 5 failed attempts
+// the order's PIN entry is locked for 15 minutes before retries are allowed.
+const MAX_FAILED_ATTEMPTS = 5
+const LOCK_DURATION_MS = 15 * 60 * 1000 // 15 minutes
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -55,17 +60,69 @@ export async function POST(
       )
     }
 
-    if (order.confirmationPin !== pin) {
+    const now = new Date()
+
+    // If the order is currently locked, reject any attempt until the lock expires.
+    if (order.pinLockedUntil && order.pinLockedUntil > now) {
+      const retryAfterMs = order.pinLockedUntil.getTime() - now.getTime()
       return NextResponse.json(
-        { error: "Incorrect PIN. Please check the code displayed on the seller's phone." },
+        {
+          error: "Too many incorrect PIN attempts. Please try again later.",
+          retryAfterSeconds: Math.ceil(retryAfterMs / 1000),
+        },
+        { status: 429 }
+      )
+    }
+
+    // The previous lock has expired: clear it and reset the failure counter so a
+    // fresh window of attempts is allowed.
+    if (order.pinLockedUntil && order.pinLockedUntil <= now) {
+      await prisma.order.update({
+        where: { id },
+        data: { pinLockedUntil: null, pinFailedAttempts: 0 },
+      })
+    }
+
+    if (order.confirmationPin !== pin) {
+      // Atomically increment the failure counter and capture the new value so
+      // concurrent requests can't race past the lock threshold.
+      const failed = await prisma.order.update({
+        where: { id },
+        data: { pinFailedAttempts: { increment: 1 } },
+        select: { pinFailedAttempts: true },
+      })
+
+      if (failed.pinFailedAttempts >= MAX_FAILED_ATTEMPTS) {
+        const lockedUntil = new Date(now.getTime() + LOCK_DURATION_MS)
+        await prisma.order.update({
+          where: { id },
+          data: { pinLockedUntil: lockedUntil, pinFailedAttempts: 0 },
+        })
+        return NextResponse.json(
+          {
+            error: "Too many incorrect PIN attempts. PIN entry is locked for 15 minutes.",
+            retryAfterSeconds: Math.ceil(LOCK_DURATION_MS / 1000),
+          },
+          { status: 429 }
+        )
+      }
+
+      return NextResponse.json(
+        {
+          error: "Incorrect PIN. Please check the code displayed on the seller's phone.",
+          attemptsRemaining: MAX_FAILED_ATTEMPTS - failed.pinFailedAttempts,
+        },
         { status: 400 }
       )
     }
 
+    // Correct PIN: reset any lock/failure state and advance the order.
     const updated = await prisma.order.update({
       where: { id },
       data: {
         status: OrderStatus.AWAITING_CONFIRMATION,
+        pinFailedAttempts: 0,
+        pinLockedUntil: null,
       },
       select: { id: true, status: true },
     })

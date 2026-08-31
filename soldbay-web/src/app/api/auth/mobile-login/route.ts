@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     })
 
     // Same error for missing user, null password, or bad password (no email enumeration)
-    if (!user?.password) {
+    if (!user?.password || user.deletedAt) {
       return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 401 },

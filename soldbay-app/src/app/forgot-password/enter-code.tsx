@@ -134,7 +134,7 @@ export default function EnterCodeScreen() {
 
         <View className="mt-4 flex-row items-center justify-center">
           <Text className="font-manrope text-body text-text-secondary">
-            Didn't receive the code?{" "}
+            {"Didn't receive the code? "}
           </Text>
           <Pressable
             onPress={handleResend}

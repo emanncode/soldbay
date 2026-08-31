@@ -17,7 +17,7 @@ import {
   TextField,
   ToastBanner,
 } from "@/components";
-import { checkoutOrder } from "@/lib/api";
+import { ApiError, checkoutOrder } from "@/lib/api";
 import { colors } from "@/theme/colors";
 
 export default function CheckoutScreen() {
@@ -33,12 +33,22 @@ export default function CheckoutScreen() {
   const [pickupLocation, setPickupLocation] = useState("SUB Main Gate / Campus Quad");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // Set when the listing is no longer purchasable (sold out or removed), so the
+  // buyer isn't stuck retrying Pay against a dead listing.
+  const [unavailable, setUnavailable] = useState<string | null>(null);
 
   const priceNum = Number(params.price) || 0;
   const formattedPrice = `₦${priceNum.toLocaleString()}`;
 
   const handlePay = async () => {
     setErrorMessage(null);
+    setUnavailable(null);
+
+    if (!params.listingId) {
+      setErrorMessage("Something went wrong. Please open the listing again.");
+      return;
+    }
+
     if (!pickupLocation.trim()) {
       setErrorMessage("Please specify a campus pickup location.");
       return;
@@ -61,7 +71,14 @@ export default function CheckoutScreen() {
         },
       });
     } catch (err: any) {
-      setErrorMessage(err?.message || "Checkout failed. Please try again.");
+      if (err instanceof ApiError && err.status === 409) {
+        // Out of stock / listing no longer available — retrying won't help.
+        setUnavailable(err?.message || "This item is no longer available for purchase.");
+      } else {
+        setErrorMessage(
+          err?.message || "Checkout failed. Please check your connection and try again."
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -89,6 +106,27 @@ export default function CheckoutScreen() {
               type="error"
               onDismiss={() => setErrorMessage(null)}
             />
+          </View>
+        ) : null}
+
+        {unavailable ? (
+          <View
+            style={{
+              backgroundColor: colors.errorTint,
+              borderColor: colors.error,
+              borderWidth: 1,
+            }}
+            className="mt-2 rounded-md p-2"
+          >
+            <Text className="font-manrope-semibold text-body-medium text-error">
+              Not Available
+            </Text>
+            <Text className="mt-0.5 font-manrope text-small text-text-secondary">
+              {unavailable}
+            </Text>
+            <Text className="mt-1 font-manrope text-caption text-text-tertiary">
+              Go back and browse other listings on your campus.
+            </Text>
           </View>
         ) : null}
 
@@ -155,9 +193,10 @@ export default function CheckoutScreen() {
 
       <StickyActionBar>
         <Button
-          label={`Pay ${formattedPrice}`}
+          label={unavailable ? "Item Unavailable" : `Pay ${formattedPrice}`}
           onPress={handlePay}
           loading={loading}
+          disabled={Boolean(unavailable)}
           variant="primary"
         />
       </StickyActionBar>

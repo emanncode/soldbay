@@ -1,6 +1,18 @@
 import { prisma } from "@/lib/prisma"
 import { OrderStatus, DisputeStatus, DisputeResolution } from "@/generated/prisma/client"
 
+/**
+ * Releases one reserved unit of stock back to a listing (e.g. when an order is
+ * rolled back after a failed payment). Idempotent and safe to call regardless of
+ * current stock value.
+ */
+export async function releaseListingStock(listingId: string): Promise<void> {
+  await prisma.listing.updateMany({
+    where: { id: listingId },
+    data: { stock: { increment: 1 } },
+  })
+}
+
 export interface ResolveDisputeParams {
   disputeId: string
   adminUserId?: string

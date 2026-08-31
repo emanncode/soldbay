@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   ScrollView,
   Text,
   View,
@@ -16,6 +15,7 @@ import {
   LogOut,
   ChevronRight,
   Store,
+  Trash2,
 } from "lucide-react-native";
 import {
   Avatar,
@@ -24,7 +24,8 @@ import {
   SettingsRow,
   VerifiedChip,
 } from "@/components";
-import { clearToken, getMe, getSellerMe, type UserMeResponse } from "@/lib/api";
+import { clearToken, deleteAccount, getMe, getSellerMe, type UserMeResponse } from "@/lib/api";
+import { alertDialog, confirmDialog } from "@/lib/dialogs";
 import { colors } from "@/theme/colors";
 
 export default function ProfileScreen() {
@@ -55,21 +56,52 @@ export default function ProfileScreen() {
   }, []);
 
   const handleLogout = async () => {
-    Alert.alert(
-      "Sign Out",
-      "Are you sure you want to sign out of Soldbay?",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Sign Out",
-          style: "destructive",
-          onPress: async () => {
-            await clearToken();
-            router.replace("/login");
-          },
-        },
-      ]
-    );
+    const ok = await confirmDialog({
+      title: "Sign Out",
+      message: "Are you sure you want to sign out of Soldbay?",
+      confirmText: "Sign Out",
+      cancelText: "Cancel",
+      destructive: true,
+    });
+    if (!ok) return;
+
+    await clearToken();
+    // Reset the whole navigation stack so no authenticated screens
+    // remain in history after signing out.
+    try {
+      router.dismissAll();
+    } catch {
+      // dismissAll may not be available in every navigator.
+    }
+    router.replace("/login");
+  };
+
+  const handleDeleteAccount = async () => {
+    const ok = await confirmDialog({
+      title: "Delete Account",
+      message:
+        "This permanently deletes your Soldbay account and signs you out. Your order history is retained but anonymized, and this cannot be undone.",
+      confirmText: "Delete Account",
+      cancelText: "Cancel",
+      destructive: true,
+    });
+    if (!ok) return;
+
+    try {
+      await deleteAccount();
+      await clearToken();
+      try {
+        router.dismissAll();
+      } catch {
+        // dismissAll may not be available in every navigator.
+      }
+      router.replace("/login");
+    } catch (err: any) {
+      await alertDialog({
+        title: "Delete failed",
+        message: err?.message || "Please try again.",
+      });
+    }
   };
 
   if (loading) {
@@ -154,6 +186,17 @@ export default function ProfileScreen() {
             destructive
             showChevron={false}
             onPress={handleLogout}
+          />
+        </View>
+
+        {/* Delete Account */}
+        <View className="mt-3 bg-surface-elevated border-y border-border">
+          <SettingsRow
+            label="Delete Account"
+            icon={<Trash2 size={20} color={colors.error} />}
+            destructive
+            showChevron={false}
+            onPress={handleDeleteAccount}
           />
         </View>
       </ScrollView>

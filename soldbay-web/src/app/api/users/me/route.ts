@@ -121,3 +121,67 @@ export async function PATCH(request: Request) {
     )
   }
 }
+
+/**
+ * Soft-deletes the authenticated user's account. The record is retained for
+ * audit/order-history integrity but marked deleted, the email is anonymized
+ * (freeing it for a future signup), the password is cleared, and all sessions
+ * and OAuth accounts are revoked so the account can no longer sign in.
+ */
+export async function DELETE(request: Request) {
+  try {
+    const userId = await authenticate(request)
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, deletedAt: true },
+    })
+    if (!user) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 })
+    }
+    if (user.deletedAt) {
+      return NextResponse.json({ error: "Account already deleted." }, { status: 400 })
+    }
+
+    const anonymizedEmail = `deleted+${user.id}@deleted.soldbay.app`
+
+    await prisma.$transaction(
+      async (tx) => {
+        await tx.session.deleteMany({ where: { userId } })
+        await tx.account.deleteMany({ where: { userId } })
+        await tx.user.update({
+          where: { id: userId },
+          data: {
+            deletedAt: new Date(),
+            email: anonymizedEmail,
+            password: null,
+            matricNumber: null,
+          },
+        })
+      },
+      { timeout: 30000, maxWait: 15000 }
+    )
+
+    return NextResponse.json({
+      ok: true,
+      message: "Your account has been deleted.",
+    })
+  } catch (error: unknown) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code: string }).code === "P2025"
+    ) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 })
+    }
+    console.error("Delete user me error:", error)
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again." },
+      { status: 500 },
+    )
+  }
+}

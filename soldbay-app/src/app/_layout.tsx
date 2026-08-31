@@ -8,6 +8,7 @@ import {
   Manrope_500Medium,
   Manrope_600SemiBold,
 } from "@expo-google-fonts/manrope";
+import { Satisfy_400Regular } from "@expo-google-fonts/satisfy";
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -25,6 +26,7 @@ export default function RootLayout() {
           "Manrope-Regular": Manrope_400Regular,
           "Manrope-Medium": Manrope_500Medium,
           "Manrope-SemiBold": Manrope_600SemiBold,
+          "Satisfy-Regular": Satisfy_400Regular,
         });
       } catch (error) {
         if (Platform.OS !== "web") {

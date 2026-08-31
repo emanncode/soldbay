@@ -21,7 +21,8 @@ import {
   ToastBanner,
   VerifiedChip,
 } from "@/components";
-import { getDraft, getSellerMe, type SellerMeResponse } from "@/lib/api";
+import { getDrafts, deleteDraft, getSellerMe, type DraftListing, type SellerMeResponse } from "@/lib/api";
+import { alertDialog, confirmDialog } from "@/lib/dialogs";
 import { colors } from "@/theme/colors";
 
 export default function SellerDashboardScreen() {
@@ -29,7 +30,7 @@ export default function SellerDashboardScreen() {
   const insets = useSafeAreaInsets();
 
   const [seller, setSeller] = useState<SellerMeResponse | null>(null);
-  const [drafts, setDrafts] = useState<any[]>([]);
+  const [drafts, setDrafts] = useState<DraftListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -41,7 +42,8 @@ export default function SellerDashboardScreen() {
 
       const data = await getSellerMe();
       setSeller(data);
-      // In mobile api, getSellerMe returns listings. Drafts are retrieved if seller.
+      const draftsRes = await getDrafts().catch(() => null);
+      setDrafts(draftsRes?.drafts ?? []);
     } catch (err: any) {
       console.error(err);
     } finally {
@@ -51,6 +53,8 @@ export default function SellerDashboardScreen() {
   }, []);
 
   useEffect(() => {
+    // Fetch seller data once on mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadData();
   }, [loadData]);
 
@@ -82,6 +86,31 @@ export default function SellerDashboardScreen() {
     else if (key === "buyer_mode") router.push("/buyer/home");
     else if (key === "profile") router.push("/profile");
     else setActiveTab(key);
+  };
+
+  const handleResumeDraft = (id: string) => {
+    router.push(`/seller/create-listing?draftId=${id}`);
+  };
+
+  const handleDeleteDraft = async (id: string) => {
+    const ok = await confirmDialog({
+      title: "Delete Draft",
+      message: "This will permanently delete this draft and any saved details.",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      destructive: true,
+    });
+    if (!ok) return;
+
+    try {
+      await deleteDraft(id);
+      setDrafts((prev) => prev.filter((d) => d.id !== id));
+    } catch (err: any) {
+      await alertDialog({
+        title: "Delete failed",
+        message: err?.message || "Please try again.",
+      });
+    }
   };
 
   if (loading) {
@@ -158,6 +187,25 @@ export default function SellerDashboardScreen() {
             </View>
 
             <SectionHeader title="Your Listings" />
+
+            {drafts.length > 0 ? (
+              <View className="mb-3">
+                <SectionHeader title="Drafts" />
+                <View className="gap-2">
+                  {drafts.map((draft) => (
+                    <DraftRow
+                      key={draft.id}
+                      id={draft.id}
+                      title={draft.title}
+                      draftStep={draft.draftStep}
+                      thumbnailUrl={draft.images[0] || null}
+                      onPress={() => handleResumeDraft(draft.id)}
+                      onDelete={() => handleDeleteDraft(draft.id)}
+                    />
+                  ))}
+                </View>
+              </View>
+            ) : null}
           </View>
         }
         ListEmptyComponent={

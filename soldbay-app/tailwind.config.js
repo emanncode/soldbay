@@ -109,6 +109,7 @@ module.exports = {
         manrope: ["Manrope-Regular"],
         "manrope-medium": ["Manrope-Medium"],
         "manrope-semibold": ["Manrope-SemiBold"],
+        satisfy: ["Satisfy-Regular"],
       },
     },
   },

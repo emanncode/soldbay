@@ -38,6 +38,9 @@ export async function GET(request: Request) {
         walletBalance: true,
         verifiedAt: true,
         idImageUrl: true,
+        verificationStatus: true,
+        rejectionReason: true,
+        verificationAttempts: true,
         user: {
           select: { name: true },
         },
@@ -88,6 +91,9 @@ export async function GET(request: Request) {
       verified: profile.verifiedAt !== null,
       verifiedAt: profile.verifiedAt,
       idImageUrl: profile.idImageUrl,
+      verificationStatus: profile.verificationStatus,
+      rejectionReason: profile.rejectionReason,
+      verificationAttempts: profile.verificationAttempts,
       listings,
       drafts,
     })

@@ -65,7 +65,7 @@ export default function LoginScreen() {
           paddingTop: Math.max(insets.top + 24, 48),
           paddingBottom: Math.max(insets.bottom + 24, 32),
         }}
-        className="flex-1 px-3"
+        className="flex-1 px-3 justify-center"
         keyboardShouldPersistTaps="handled"
       >
         <View className="mb-4">
@@ -92,7 +92,7 @@ export default function LoginScreen() {
         <View className="gap-2">
           <TextField
             label="Student Email"
-            placeholder="student@university.edu.ng"
+            placeholder="e.g. yourname@example.com"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -132,7 +132,7 @@ export default function LoginScreen() {
 
         <View className="mt-6 flex-row items-center justify-center">
           <Text className="font-manrope text-body text-text-secondary">
-            Don't have an account?{" "}
+            {"Don't have an account? "}
           </Text>
           <Pressable
             onPress={() => router.push("/select-role")}

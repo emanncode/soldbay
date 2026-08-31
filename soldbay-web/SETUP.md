@@ -1,42 +1,67 @@
-# Waitlist Backend Setup
+# Soldbay Backend Setup
 
-## 1. Create a Neon project
+## 1. Get a Postgres connection string
 
-Go to [neon.tech](https://neon.tech), create a project, and copy the connection string.
+The backend uses **Prisma Postgres** (hosted at `db.prisma.io`) as its single
+database — there is no separate Neon project. Grab the connection string from
+your Prisma Console / Postgres dashboard and copy it into `.env`.
 
-## 2. Set the database URL
+## 2. Set env vars
 
-Open `.env` and replace the placeholder:
+Open `.env` and set the database URL:
 
 ```
-DATABASE_URL="postgresql://your-neon-connection-string"
+DATABASE_URL="postgres://..."
 ```
 
-## 3. Run the initial migration
+Also set `AUTH_SECRET` and `AUTH_URL`. `AUTH_URL` must point at the backend
+origin (for example `http://localhost:3000` in local dev).
+
+## 3. Apply migrations
 
 ```sh
-npx prisma migrate dev --name init
+npx prisma migrate deploy
 ```
 
-This creates the `WaitlistSignup` table in your Neon database.
+This applies any pending migrations in `prisma/migrations/` to the database.
 
-## 4. (Optional) Verify with Prisma Studio
+## 4. Seed (optional)
+
+```sh
+npx prisma db seed
+```
+
+Idempotent — safe to re-run.
+
+## 5. Regenerate the Prisma client after schema changes
+
+```sh
+npx prisma generate
+```
+
+## 6. (Optional) Verify with Prisma Studio
 
 ```sh
 npx prisma studio
 ```
 
-Opens a browser UI at `http://localhost:5555` where you can view and edit the `WaitlistSignup` table.
+Opens a browser UI at `http://localhost:5555`.
 
-## 5. Start the dev server
+## 7. Start the dev server
 
 ```sh
 npm run dev
 ```
 
-## 6. Manual test
+## Creating a new migration
 
-1. Open `http://localhost:3000/join/buyer` or `http://localhost:3000/join/seller`
-2. Fill out and submit the form
-3. Check Prisma Studio — the row should appear
-4. Submit the same email again — you should see a friendly "already on the waitlist" error
+Never run `prisma migrate dev` (it can reset history). Use the diff workflow:
+
+```sh
+# edit prisma/schema.prisma first, then:
+npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script
+```
+
+Write the output into a new `prisma/migrations/<timestamp>_<name>/migration.sql`,
+then apply with `npx prisma migrate deploy` and regenerate with
+`npx prisma generate`.

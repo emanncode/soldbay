@@ -11,6 +11,12 @@ export interface EscrowStepperProps {
   currentStep: number; // 1-indexed (1, 2, 3)
   steps?: EscrowStep[];
   className?: string;
+  /**
+   * Tones the current step's indicator. Use "error" for a disputed order so
+   * the "Dispute in review" step reads as a blocker rather than healthy
+   * progress.
+   */
+  tone?: "accent" | "error";
 }
 
 const defaultSteps: EscrowStep[] = [
@@ -30,7 +36,11 @@ export function EscrowStepper({
   currentStep = 1,
   steps = defaultSteps,
   className = "",
+  tone = "accent",
 }: EscrowStepperProps) {
+  const toneColor = tone === "error" ? colors.error : colors.accent;
+  const toneTint = tone === "error" ? colors.errorTint : colors.accentTint;
+
   return (
     <View className={`w-full ${className}`}>
       {steps.map((step, index) => {
@@ -41,9 +51,7 @@ export function EscrowStepper({
 
         const circleBg = isCompleted
           ? "bg-accent"
-          : isCurrent
-            ? "border-2 border-accent bg-accent-tint"
-            : "border border-neutral-300 bg-neutral-100";
+          : "border border-neutral-300 bg-neutral-100";
 
         const textClass = isCompleted || isCurrent
           ? "text-text-primary font-manrope-medium"
@@ -55,15 +63,19 @@ export function EscrowStepper({
           <View key={index} className="flex-row items-start">
             <View className="items-center">
               <View
+                style={
+                  isCurrent
+                    ? { borderWidth: 2, borderColor: toneColor, backgroundColor: toneTint }
+                    : undefined
+                }
                 className={`h-3 w-3 items-center justify-center rounded-full ${circleBg}`}
               >
                 {isCompleted ? (
                   <Check size={14} color={colors.textInverse} strokeWidth={2.5} />
                 ) : (
                   <Text
-                    className={`text-caption-medium ${
-                      isCurrent ? "text-accent-hover" : "text-text-tertiary"
-                    }`}
+                    style={isCurrent ? { color: toneColor } : undefined}
+                    className="text-caption-medium text-text-tertiary"
                   >
                     {stepNumber}
                   </Text>
