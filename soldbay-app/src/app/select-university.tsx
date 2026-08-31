@@ -40,7 +40,7 @@ export default function SelectUniversityScreen() {
         setLoading(true);
         const data = await getUniversities();
         setUniversities(data);
-      } catch (err: any) {
+      } catch {
         setErrorMessage("Failed to load university list.");
       } finally {
         setLoading(false);

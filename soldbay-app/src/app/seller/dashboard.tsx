@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Plus, Package, Store, User, ShoppingBag, ShieldCheck } from "lucide-react-native";
+import { Plus, Package, Store, User, ShoppingBag } from "lucide-react-native";
 import {
   Avatar,
   Button,
@@ -18,7 +18,6 @@ import {
   SectionHeader,
   StatCard,
   TabBar,
-  ToastBanner,
   VerifiedChip,
 } from "@/components";
 import { getDrafts, deleteDraft, getSellerMe, type DraftListing, type SellerMeResponse } from "@/lib/api";

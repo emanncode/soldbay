@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  Text,
   View,
 } from "react-native";
 import { useRouter } from "expo-router";

@@ -76,11 +76,12 @@ export async function POST(
       id: result.updatedOrder.id,
       status: result.updatedOrder.status,
     })
-  } catch (error: any) {
-    if (error?.message === "ORDER_NOT_FOUND") {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : ""
+    if (message === "ORDER_NOT_FOUND") {
       return NextResponse.json({ error: "Order not found." }, { status: 404 })
     }
-    if (error?.message === "INVALID_STATE") {
+    if (message === "INVALID_STATE") {
       return NextResponse.json({ error: "Order cannot be confirmed in its current state." }, { status: 400 })
     }
     console.error("Confirm receipt error:", error)

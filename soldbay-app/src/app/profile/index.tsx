@@ -8,12 +8,10 @@ import {
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-  User,
   School,
   ShieldCheck,
   Package,
   LogOut,
-  ChevronRight,
   Store,
   Trash2,
 } from "lucide-react-native";

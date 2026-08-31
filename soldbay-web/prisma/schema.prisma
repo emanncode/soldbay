@@ -142,7 +142,7 @@ model Listing {
   sellerId    String
   seller      SellerProfile @relation(fields: [sellerId], references: [id])
   categoryId  String?
-  category    Category?     @relation(fields: [categoryId], references: [id])
+  category    Category?     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   title       String?
   description String?
   price       Decimal?

@@ -32,11 +32,6 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const seller = await prisma.sellerProfile.findUnique({
-      where: { userId },
-      select: { id: true },
-    })
-
     const order = await prisma.order.findUnique({
       where: { id },
       include: {

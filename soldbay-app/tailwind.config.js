@@ -50,11 +50,11 @@ module.exports = {
         },
 
         // --- Semantic status -------------------------------------------------
-        success: { DEFAULT: "#16A34A", foreground: "#FFFFFF" },
-        error: { DEFAULT: "#DC2626", foreground: "#FFFFFF" },
-        warning: { DEFAULT: "#D97706", foreground: "#FFFFFF" },
+        success: { DEFAULT: "#16A34A", tint: "#DCFCE7", foreground: "#FFFFFF" },
+        error: { DEFAULT: "#DC2626", tint: "#FEE2E2", foreground: "#FFFFFF" },
+        warning: { DEFAULT: "#D97706", tint: "#FEF3C7", foreground: "#FFFFFF" },
         // `destructive` kept as an alias of error for existing button usages.
-        destructive: { DEFAULT: "#DC2626", foreground: "#FFFFFF" },
+        destructive: { DEFAULT: "#DC2626", tint: "#FEE2E2", foreground: "#FFFFFF" },
 
         // --- Neutrals --------------------------------------------------------
         neutral: {

@@ -75,11 +75,12 @@ export async function POST(
       disputeId: result.dispute.id,
       status: result.updatedOrder.status,
     }, { status: 201 })
-  } catch (error: any) {
-    if (error?.message === "ORDER_NOT_FOUND") {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : ""
+    if (message === "ORDER_NOT_FOUND") {
       return NextResponse.json({ error: "Order not found." }, { status: 404 })
     }
-    if (error?.message === "ORDER_ALREADY_CLOSED") {
+    if (message === "ORDER_ALREADY_CLOSED") {
       return NextResponse.json({ error: "Cannot raise a dispute on a completed or refunded order." }, { status: 400 })
     }
     console.error("Raise dispute error:", error)

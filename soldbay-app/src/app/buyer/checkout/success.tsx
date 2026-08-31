@@ -12,8 +12,6 @@ export default function OrderSuccessScreen() {
     amount: string;
   }>();
 
-  const formattedAmount = `₦${(Number(params.amount) || 0).toLocaleString()}`;
-
   return (
     <View className="flex-1 items-center justify-center bg-surface-base px-3">
       <View className="mb-3 h-8 w-8 items-center justify-center rounded-full bg-accent-tint">

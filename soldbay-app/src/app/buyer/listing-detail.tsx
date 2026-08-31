@@ -16,7 +16,6 @@ import {
   Button,
   Divider,
   StickyActionBar,
-  ToastBanner,
   VerifiedChip,
 } from "@/components";
 import { getListingById, type ListingDetail } from "@/lib/api";
@@ -32,7 +31,6 @@ export default function ListingDetailScreen() {
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchListing() {
@@ -41,8 +39,6 @@ export default function ListingDetailScreen() {
         setLoading(true);
         const data = await getListingById(params.id);
         setListing(data);
-      } catch (err: any) {
-        setErrorMessage("Could not load listing details.");
       } finally {
         setLoading(false);
       }

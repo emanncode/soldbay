@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { MapPin, ShieldCheck } from "lucide-react-native";
+import { MapPin } from "lucide-react-native";
 import {
   BackHeader,
   Button,
@@ -19,7 +19,6 @@ import {
   OrderBadge,
   PINDisplay,
   StickyActionBar,
-  ToastBanner,
 } from "@/components";
 import { getOrderDetail, type OrderDetailResponse } from "@/lib/api";
 import { colors } from "@/theme/colors";
@@ -31,7 +30,6 @@ export default function OrderDetailScreen() {
 
   const [order, setOrder] = useState<OrderDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchDetails() {
@@ -40,8 +38,6 @@ export default function OrderDetailScreen() {
         setLoading(true);
         const data = await getOrderDetail(params.id);
         setOrder(data);
-      } catch (err: any) {
-        setErrorMessage("Failed to load order details.");
       } finally {
         setLoading(false);
       }

@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   View,
-  type KeyboardTypeOptions,
   type TextInputProps,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";

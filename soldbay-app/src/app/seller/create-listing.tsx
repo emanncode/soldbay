@@ -79,7 +79,7 @@ export default function CreateListingScreen() {
         setPhotos(draftRes.images || []);
         setSelectedCategorySlug(draftRes.category?.slug || null);
         setCurrentStep(draftRes.draftStep || 1);
-      } catch (err: any) {
+      } catch {
         setErrorMessage("Failed to start listing draft.");
       } finally {
         setLoading(false);

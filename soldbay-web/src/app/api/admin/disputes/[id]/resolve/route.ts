@@ -66,10 +66,11 @@ export async function POST(
         data: result,
       })
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("Dispute resolution error:", error)
+    const message = error instanceof Error ? error.message : "Failed to resolve dispute"
     return NextResponse.json(
-      { error: error?.message || "Failed to resolve dispute" },
+      { error: message },
       { status: 500 }
     )
   }

@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  Text,
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -18,7 +17,7 @@ import {
   TabBar,
   VerifiedChip,
 } from "@/components";
-import { getCategories, getListings, getMe, type Category, type PublicListing } from "@/lib/api";
+import { getCategories, getListings, type Category, type PublicListing } from "@/lib/api";
 import { colors } from "@/theme/colors";
 
 export default function BuyerHomeScreen() {
@@ -26,7 +25,6 @@ export default function BuyerHomeScreen() {
   const insets = useSafeAreaInsets();
 
   const [activeTab, setActiveTab] = useState("home");
-  const [userName, setUserName] = useState<string>("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,8 +37,7 @@ export default function BuyerHomeScreen() {
       if (isRefresh) setRefreshing(true);
       else setLoading(true);
 
-      const [user, cats, listingPage] = await Promise.all([
-        getMe().catch(() => null),
+      const [cats, listingPage] = await Promise.all([
         getCategories().catch(() => []),
         getListings({
           categorySlug: selectedCategory || undefined,
@@ -48,7 +45,6 @@ export default function BuyerHomeScreen() {
         }).catch(() => ({ items: [], nextCursor: null, hasMore: false })),
       ]);
 
-      if (user) setUserName(user.name);
       setCategories(cats);
       setListings(listingPage.items);
     } finally {
