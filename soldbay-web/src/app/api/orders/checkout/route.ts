@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { releaseListingStock } from "@/lib/order-service"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
+import {
+  releaseListingStock,
+  findReusableCheckoutOrder,
+  releaseStalePendingOrders,
+} from "@/lib/order-service"
+import { extractBearerToken } from "@/lib/mobile-auth"
+import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import { auth } from "@/auth"
 import { OrderStatus } from "@/generated/prisma/client"
 
@@ -15,7 +20,7 @@ export async function POST(request: Request) {
     let userId: string | null = null
 
     if (bearer) {
-      const mobileUser = await verifyMobileToken(bearer)
+      const mobileUser = await verifyActiveMobileToken(bearer)
       if (!mobileUser) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
       }
@@ -78,6 +83,27 @@ export async function POST(request: Request) {
     const randomDigits = Math.floor(10000 + Math.random() * 90000).toString()
     const orderNumber = `SB-${randomDigits}`
     const confirmationPin = Math.floor(1000 + Math.random() * 9000).toString()
+
+    // ---------------------------------------------------------------------------
+    // IDEMPOTENCY: if the app was killed after the previous checkout committed
+    // but before the client got the response, a retry must NOT create a second
+    // order or reserve a second unit of stock. Reuse the existing order when one
+    // is still active within the idempotency window. Also sweep any abandoned
+    // PENDING_PAYMENT orders so they don't hold reserved stock forever.
+    // ---------------------------------------------------------------------------
+    const now = new Date()
+    await releaseStalePendingOrders(buyer.id, listing.id, now)
+    const reusable = await findReusableCheckoutOrder(buyer.id, listing.id, now)
+    if (reusable) {
+      return NextResponse.json({
+        ok: true,
+        orderId: reusable.id,
+        orderNumber: reusable.orderNumber,
+        amount: Number(reusable.amount),
+        status: reusable.status,
+        reused: true,
+      }, { status: 200 })
+    }
 
     // ---------------------------------------------------------------------------
     // TEMPORARY TEST-ONLY BYPASS — REMOVE BEFORE PRODUCTION DEPLOY.
