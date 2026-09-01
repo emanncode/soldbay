@@ -9,7 +9,7 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackHeader, Button, PINInput, ToastBanner } from "@/components";
-import { verifyOrderPin } from "@/lib/api";
+import { NetworkError, verifyOrderPin } from "@/lib/api";
 
 export default function EnterPinScreen() {
   const router = useRouter();
@@ -19,9 +19,11 @@ export default function EnterPinScreen() {
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isNetworkError, setIsNetworkError] = useState(false);
 
   const handleVerify = async () => {
     setErrorMessage(null);
+    setIsNetworkError(false);
     if (!pin || pin.length !== 4) {
       setErrorMessage("Please enter the 4-digit PIN.");
       return;
@@ -36,7 +38,15 @@ export default function EnterPinScreen() {
         params: { orderId: params.orderId },
       });
     } catch (err: any) {
-      setErrorMessage(err?.message || "Incorrect PIN code. Ask the seller to show their code.");
+      if (err instanceof NetworkError) {
+        // The request never reached the server, so the PIN attempt counter is
+        // unaffected. Surface a retry-friendly message.
+        setErrorMessage(err.message);
+        setIsNetworkError(true);
+      } else {
+        setIsNetworkError(false);
+        setErrorMessage(err?.message || "Incorrect PIN code. Ask the seller to show their code.");
+      }
     } finally {
       setLoading(false);
     }
@@ -85,6 +95,18 @@ export default function EnterPinScreen() {
           disabled={pin.length !== 4}
           variant="primary"
         />
+
+        {isNetworkError ? (
+          <View className="mt-3">
+            <Button
+              label="Retry"
+              onPress={handleVerify}
+              loading={loading}
+              disabled={pin.length !== 4 || loading}
+              variant="secondary"
+            />
+          </View>
+        ) : null}
       </ScrollView>
     </KeyboardAvoidingView>
   );
