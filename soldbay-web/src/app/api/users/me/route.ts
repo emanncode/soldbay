@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
+import { extractBearerToken } from "@/lib/mobile-auth"
+import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import { auth } from "@/auth"
+import { computeRetainUntil } from "@/lib/account-retention"
 
 export const dynamic = "force-dynamic"
 
@@ -9,7 +11,7 @@ async function authenticate(request: Request): Promise<string | null> {
   const bearer = extractBearerToken(request.headers.get("authorization"))
 
   if (bearer) {
-    const mobileUser = await verifyMobileToken(bearer)
+    const mobileUser = await verifyActiveMobileToken(bearer)
     return mobileUser?.userId ?? null
   }
 
@@ -33,10 +35,11 @@ export async function GET(request: Request) {
         role: true,
         universityId: true,
         level: true,
+        deletedAt: true,
       },
     })
 
-    if (!user) {
+    if (!user || user.deletedAt) {
       return NextResponse.json({ error: "User not found." }, { status: 404 })
     }
 
@@ -123,10 +126,13 @@ export async function PATCH(request: Request) {
 }
 
 /**
- * Soft-deletes the authenticated user's account. The record is retained for
- * audit/order-history integrity but marked deleted, the email is anonymized
- * (freeing it for a future signup), the password is cleared, and all sessions
- * and OAuth accounts are revoked so the account can no longer sign in.
+ * Soft-deletes the authenticated user's account under a retention model.
+ * All account data (profile, email, password, matric number, and related
+ * records) is kept FULLY intact so order history and audit trails remain
+ * valid. The account is hidden from all user-facing views by marking
+ * `deletedAt` (which blocks login), and `retainUntil` is set to a provisional
+ * 5-year window. A scheduled job anonymizes/purges the record only after
+ * `retainUntil` passes (see lib/account-retention.ts).
  */
 export async function DELETE(request: Request) {
   try {
@@ -146,7 +152,8 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Account already deleted." }, { status: 400 })
     }
 
-    const anonymizedEmail = `deleted+${user.id}@deleted.soldbay.app`
+    const now = new Date()
+    const retainUntil = computeRetainUntil(now)
 
     await prisma.$transaction(
       async (tx) => {
@@ -155,10 +162,8 @@ export async function DELETE(request: Request) {
         await tx.user.update({
           where: { id: userId },
           data: {
-            deletedAt: new Date(),
-            email: anonymizedEmail,
-            password: null,
-            matricNumber: null,
+            deletedAt: now,
+            retainUntil,
           },
         })
       },
@@ -167,7 +172,8 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      message: "Your account has been deleted.",
+      message:
+        "Your account has been scheduled for deletion. Your data will be permanently removed after the retention period.",
     })
   } catch (error: unknown) {
     if (
