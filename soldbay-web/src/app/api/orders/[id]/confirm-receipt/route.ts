@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
+import { extractBearerToken } from "@/lib/mobile-auth"
+import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import { auth } from "@/auth"
 import { OrderStatus } from "@/generated/prisma/client"
 
@@ -16,7 +17,7 @@ export async function POST(
     let userId: string | null = null
 
     if (bearer) {
-      const mobileUser = await verifyMobileToken(bearer)
+      const mobileUser = await verifyActiveMobileToken(bearer)
       if (!mobileUser) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
       }

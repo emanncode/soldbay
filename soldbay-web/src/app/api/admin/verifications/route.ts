@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth";
+import { extractBearerToken } from "@/lib/mobile-auth"
+import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
@@ -8,7 +9,7 @@ export const dynamic = "force-dynamic";
 async function assertAdmin(request: Request): Promise<boolean> {
   const bearer = extractBearerToken(request.headers.get("authorization"))
   if (bearer) {
-    const mobileUser = await verifyMobileToken(bearer)
+    const mobileUser = await verifyActiveMobileToken(bearer)
     return mobileUser?.role === "ADMIN"
   }
   const session = await auth()

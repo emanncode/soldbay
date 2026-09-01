@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/auth"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
+import { extractBearerToken } from "@/lib/mobile-auth"
+import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import {
   resolveDisputeAsRefund,
   resolveDisputeAsReleaseToSeller,
@@ -20,7 +21,7 @@ export async function POST(
     const bearer = extractBearerToken(request.headers.get("authorization"))
 
     if (bearer) {
-      const mobileUser = await verifyMobileToken(bearer)
+      const mobileUser = await verifyActiveMobileToken(bearer)
       if (!mobileUser || mobileUser.role !== "ADMIN") {
         return NextResponse.json({ error: "Forbidden: Admin access required" }, { status: 403 })
       }

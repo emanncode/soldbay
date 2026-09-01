@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { put } from "@vercel/blob"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
+import { extractBearerToken } from "@/lib/mobile-auth"
+import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import { auth } from "@/auth"
 
 export const dynamic = "force-dynamic"
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     let userId: string | null = null
 
     if (bearer) {
-      const mobileUser = await verifyMobileToken(bearer)
+      const mobileUser = await verifyActiveMobileToken(bearer)
       if (!mobileUser || mobileUser.role !== "SELLER") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
       }
