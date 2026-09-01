@@ -32,6 +32,7 @@ export default function ProfileScreen() {
 
   const [user, setUser] = useState<UserMeResponse | null>(null);
   const [isSellerVerified, setIsSellerVerified] = useState(false);
+  const [sellerVerificationStatus, setSellerVerificationStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function ProfileScreen() {
         if (u.role === "SELLER") {
           const s = await getSellerMe().catch(() => null);
           if (s?.verified) setIsSellerVerified(true);
+          setSellerVerificationStatus(s?.verificationStatus ?? null);
         }
       } catch (err: any) {
         console.error(err);
@@ -162,11 +164,19 @@ export default function ProfileScreen() {
         {/* Switch Mode / Store */}
         <View className="mt-3 bg-surface-elevated border-y border-border">
           {user?.role === "SELLER" ? (
-            <SettingsRow
-              label="Seller Dashboard"
-              icon={<Store size={20} color={colors.accent} />}
-              onPress={() => router.push("/seller/dashboard")}
-            />
+            sellerVerificationStatus === "APPROVED" ? (
+              <SettingsRow
+                label="Seller Dashboard"
+                icon={<Store size={20} color={colors.accent} />}
+                onPress={() => router.push("/seller/dashboard")}
+              />
+            ) : (
+              <SettingsRow
+                label="Seller Dashboard (Pending Approval)"
+                icon={<Store size={20} color={colors.accent} />}
+                onPress={() => router.push("/seller/verify")}
+              />
+            )
           ) : (
             <SettingsRow
               label="Switch to Campus Seller"

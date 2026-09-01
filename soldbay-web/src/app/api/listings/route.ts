@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { validateListingCompleteness } from "@/lib/listing-validation"
+import { SELLER_VERIFICATION_STATUS } from "@/lib/seller-gate"
 
 const DEFAULT_LIMIT = 20
 const MAX_LIMIT = 100
@@ -17,7 +18,13 @@ export async function GET(request: NextRequest) {
         ? Math.min(parsedLimit, MAX_LIMIT)
         : DEFAULT_LIMIT
 
-    const where: Record<string, unknown> = { status: "ACTIVE" }
+    const where: Record<string, unknown> = {
+      status: "ACTIVE",
+      // Exclude listings owned by soft-deleted (retention) accounts from
+      // public browse/search. The listing data is retained; it just stops
+      // being surfaced to buyers.
+      seller: { user: { deletedAt: null } },
+    }
     if (categorySlug) {
       where.category = { slug: categorySlug }
     }
@@ -80,6 +87,16 @@ export async function POST(request: Request) {
     if (!seller.user.universityId) {
       return NextResponse.json(
         { error: "Seller must be associated with a university before creating listings." },
+        { status: 403 },
+      )
+    }
+    if (seller.verificationStatus !== SELLER_VERIFICATION_STATUS.APPROVED) {
+      return NextResponse.json(
+        {
+          error:
+            "Your seller account is pending admin approval. You cannot sell yet.",
+          verificationStatus: seller.verificationStatus,
+        },
         { status: 403 },
       )
     }

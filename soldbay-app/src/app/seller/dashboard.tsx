@@ -40,6 +40,10 @@ export default function SellerDashboardScreen() {
       else setLoading(true);
 
       const data = await getSellerMe();
+      if (data.verificationStatus !== "APPROVED") {
+        router.replace("/buyer/home");
+        return;
+      }
       setSeller(data);
       const draftsRes = await getDrafts().catch(() => null);
       setDrafts(draftsRes?.drafts ?? []);
@@ -224,7 +228,7 @@ export default function SellerDashboardScreen() {
               price={Number(item.price)}
               imageUrl={item.images[0] || null}
               category={item.category?.name}
-              onPress={() => router.push(`/buyer/listing-detail?id=${item.id}`)}
+              onPress={() => router.push(`/seller/create-listing?id=${item.id}`)}
             />
           </View>
         )}

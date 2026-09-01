@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useRouter } from "expo-router";
-import { getMe, getToken } from "@/lib/api";
+import { getMe, getSellerMe, getToken } from "@/lib/api";
 import { LogoWordmark } from "@/components";
 import { colors } from "@/theme/colors";
 
@@ -25,7 +25,14 @@ export default function SplashScreen() {
         }
 
         if (user.role === "SELLER") {
-          router.replace("/seller/dashboard");
+          // A seller can only enter seller mode after admin approval. While
+          // pending (or rejected), they continue in buyer mode.
+          const seller = await getSellerMe().catch(() => null);
+          if (seller?.verificationStatus === "APPROVED") {
+            router.replace("/seller/dashboard");
+          } else {
+            router.replace("/buyer/home");
+          }
         } else {
           router.replace("/buyer/home");
         }

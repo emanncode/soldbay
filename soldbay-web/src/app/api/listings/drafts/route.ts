@@ -1,44 +1,14 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
-import { auth } from "@/auth"
+import { requireApprovedSeller } from "@/lib/seller-gate"
 
 export const dynamic = "force-dynamic"
 
 export async function POST(request: Request) {
   try {
-    const bearer = extractBearerToken(request.headers.get("authorization"))
-    let userId: string | null = null
-
-    if (bearer) {
-      const mobileUser = await verifyMobileToken(bearer)
-      if (!mobileUser || mobileUser.role !== "SELLER") {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-      }
-      userId = mobileUser.userId
-    } else {
-      const session = await auth()
-      if (!session?.user?.id || session.user.role !== "SELLER") {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-      }
-      userId = session.user.id
-    }
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const seller = await prisma.sellerProfile.findUnique({
-      where: { userId },
-      include: { user: true },
-    })
-
-    if (!seller) {
-      return NextResponse.json(
-        { error: "Seller profile not found." },
-        { status: 404 },
-      )
-    }
+    const result = await requireApprovedSeller(request)
+    if (result.error) return result.error
+    const seller = result.seller
 
     if (!seller.user.universityId) {
       return NextResponse.json(
@@ -76,38 +46,9 @@ export async function POST(request: Request) {
  */
 export async function GET(request: Request) {
   try {
-    const bearer = extractBearerToken(request.headers.get("authorization"))
-    let userId: string | null = null
-
-    if (bearer) {
-      const mobileUser = await verifyMobileToken(bearer)
-      if (!mobileUser || mobileUser.role !== "SELLER") {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-      }
-      userId = mobileUser.userId
-    } else {
-      const session = await auth()
-      if (!session?.user?.id || session.user.role !== "SELLER") {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-      }
-      userId = session.user.id
-    }
-
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const seller = await prisma.sellerProfile.findUnique({
-      where: { userId },
-      select: { id: true },
-    })
-
-    if (!seller) {
-      return NextResponse.json(
-        { error: "Seller profile not found." },
-        { status: 404 },
-      )
-    }
+    const result = await requireApprovedSeller(request)
+    if (result.error) return result.error
+    const seller = result.seller
 
     const drafts = await prisma.listing.findMany({
       where: { sellerId: seller.id, status: "DRAFT" },

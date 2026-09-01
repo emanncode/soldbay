@@ -1,43 +1,9 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
-import { auth } from "@/auth"
+import { deleteBlobImages } from "@/lib/blob-image"
+import { requireApprovedSeller } from "@/lib/seller-gate"
 
 export const dynamic = "force-dynamic"
-
-async function getAuthenticatedSellerId(request: Request): Promise<{ sellerId?: string; error?: NextResponse }> {
-  const bearer = extractBearerToken(request.headers.get("authorization"))
-  let userId: string | null = null
-
-  if (bearer) {
-    const mobileUser = await verifyMobileToken(bearer)
-    if (!mobileUser || mobileUser.role !== "SELLER") {
-      return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) }
-    }
-    userId = mobileUser.userId
-  } else {
-    const session = await auth()
-    if (!session?.user?.id || session.user.role !== "SELLER") {
-      return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) }
-    }
-    userId = session.user.id
-  }
-
-  if (!userId) {
-    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) }
-  }
-
-  const seller = await prisma.sellerProfile.findUnique({
-    where: { userId },
-    select: { id: true },
-  })
-
-  if (!seller) {
-    return { error: NextResponse.json({ error: "Seller profile not found." }, { status: 404 }) }
-  }
-
-  return { sellerId: seller.id }
-}
 
 export async function GET(
   request: Request,
@@ -45,13 +11,14 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const authResult = await getAuthenticatedSellerId(request)
-    if (authResult.error || !authResult.sellerId) return authResult.error!
+    const result = await requireApprovedSeller(request)
+    if (result.error) return result.error
+    const seller = result.seller
 
     const draft = await prisma.listing.findFirst({
       where: {
         id,
-        sellerId: authResult.sellerId,
+        sellerId: seller.id,
         status: "DRAFT",
       },
       include: {
@@ -91,15 +58,16 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
-    const authResult = await getAuthenticatedSellerId(request)
-    if (authResult.error || !authResult.sellerId) return authResult.error!
+    const result = await requireApprovedSeller(request)
+    if (result.error) return result.error
+    const seller = result.seller
 
     const body = await request.json()
 
     const existing = await prisma.listing.findFirst({
       where: {
         id,
-        sellerId: authResult.sellerId,
+        sellerId: seller.id,
         status: "DRAFT",
       },
     })
@@ -114,6 +82,13 @@ export async function PATCH(
         where: { slug: body.categorySlug },
       })
       if (cat) categoryId = cat.id
+    }
+
+    // If the caller is replacing the image set, clean up the blobs that are no
+    // longer referenced so they don't get orphaned in Blob storage.
+    let imagesToRemove: string[] = []
+    if (Array.isArray(body.images)) {
+      imagesToRemove = (existing.images || []).filter((img) => !body.images.includes(img))
     }
 
     const updated = await prisma.listing.update({
@@ -133,6 +108,11 @@ export async function PATCH(
         updatedAt: true,
       },
     })
+
+    // Best-effort: remove images that are no longer part of the draft.
+    if (imagesToRemove.length > 0) {
+      void deleteBlobImages(imagesToRemove)
+    }
 
     return NextResponse.json({
       ok: true,
@@ -155,16 +135,17 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    const authResult = await getAuthenticatedSellerId(request)
-    if (authResult.error || !authResult.sellerId) return authResult.error!
+    const result = await requireApprovedSeller(request)
+    if (result.error) return result.error
+    const seller = result.seller
 
     const existing = await prisma.listing.findFirst({
       where: {
         id,
-        sellerId: authResult.sellerId,
+        sellerId: seller.id,
         status: "DRAFT",
       },
-      select: { id: true },
+      select: { id: true, images: true },
     })
 
     if (!existing) {
@@ -172,6 +153,11 @@ export async function DELETE(
     }
 
     await prisma.listing.delete({ where: { id } })
+
+    // Clean up the images that belonged to the discarded draft.
+    if (existing.images.length > 0) {
+      void deleteBlobImages(existing.images)
+    }
 
     return NextResponse.json({ ok: true })
   } catch (error) {
