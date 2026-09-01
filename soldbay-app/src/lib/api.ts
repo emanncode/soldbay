@@ -16,6 +16,15 @@ export class ApiError extends Error {
   }
 }
 
+export class NetworkError extends Error {
+  constructor(message = "No internet connection. Please check your network and try again.") {
+    super(message);
+    this.name = "NetworkError";
+  }
+}
+
+const REQUEST_TIMEOUT_MS = 20_000;
+
 async function authHeaders(): Promise<Record<string, string>> {
   const token = await getToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
@@ -31,11 +40,23 @@ async function request<T>(
     ...(await authHeaders()),
   };
 
-  const res = await fetch(`${BASE_URL}${path}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+      signal: controller.signal,
+    });
+  } catch (err: any) {
+    // Failed to reach the server (offline, DNS, or timeout via AbortError).
+    throw new NetworkError(err?.name === "AbortError" ? "Request timed out. Please try again." : undefined);
+  } finally {
+    clearTimeout(timer);
+  }
 
   const data = await res.json();
 
@@ -284,6 +305,26 @@ export function createListing(payload: CreateListingPayload) {
 
 export function deleteListing(id: string) {
   return request<{ ok: boolean }>("DELETE", `/api/listings/${id}`);
+}
+
+export function updateListing(
+  id: string,
+  payload: {
+    title?: string;
+    description?: string;
+    price?: number;
+    images?: string[];
+    categorySlug?: string;
+    stock?: number;
+  },
+) {
+  return request<{
+    ok: boolean;
+    id: string;
+    title: string | null;
+    price: number | null;
+    status: string;
+  }>("PATCH", `/api/listings/${id}`, payload);
 }
 
 function buildNativeFormData(

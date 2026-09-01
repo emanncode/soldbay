@@ -25,8 +25,11 @@ import {
   createDraft,
   getCategories,
   getDraft,
+  getListingById,
+  getSellerMe,
   patchDraft,
   publishDraft,
+  updateListing,
   uploadListingImages,
   type Category,
 } from "@/lib/api";
@@ -36,26 +39,59 @@ import { colors } from "@/theme/colors";
 export default function CreateListingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ draftId?: string }>();
+  const params = useLocalSearchParams<{ draftId?: string; id?: string }>();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [draftId, setDraftId] = useState<string | null>(params.draftId || null);
+  // When editing a published listing, its id is stored here and the screen
+  // loads existing values instead of creating a draft.
+  const [editListingId, setEditListingId] = useState<string | null>(params.id || null);
   const [photos, setPhotos] = useState<string[]>([]);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Initialize draft and load categories
+  const isEditMode = Boolean(editListingId);
+
+  // Initialize draft / published listing and load categories
   useEffect(() => {
     async function init() {
       try {
         setLoading(true);
+
+        // Gate listing creation on admin approval.
+        const seller = await getSellerMe().catch(() => null);
+        if (seller?.verificationStatus !== "APPROVED") {
+          router.replace("/seller/verify");
+          return;
+        }
+
+        if (params.id) {
+          // Editing an existing published listing
+          const [cats, listing] = await Promise.all([
+            getCategories().catch(() => []),
+            getListingById(params.id),
+          ]);
+          setCategories(cats);
+          setEditListingId(listing.id);
+          setTitle(listing.title || "");
+          setDescription(listing.description || "");
+          setPrice(listing.price ? String(Number(listing.price)) : "");
+          setStock(listing.stock != null ? String(listing.stock) : "");
+          setPhotos(listing.images || []);
+          setSelectedCategorySlug(listing.category?.slug || null);
+          // Skip straight to step 2; photos are already present.
+          setCurrentStep(2);
+          return;
+        }
+
         const [cats, draftRes] = await Promise.all([
           getCategories().catch(() => []),
           params.draftId
@@ -80,13 +116,13 @@ export default function CreateListingScreen() {
         setSelectedCategorySlug(draftRes.category?.slug || null);
         setCurrentStep(draftRes.draftStep || 1);
       } catch {
-        setErrorMessage("Failed to start listing draft.");
+        setErrorMessage("Failed to load listing.");
       } finally {
         setLoading(false);
       }
     }
     init();
-  }, [params.draftId]);
+  }, [params.draftId, params.id]);
 
   const handlePickPhoto = async () => {
     if (photos.length >= 4) {
@@ -108,8 +144,8 @@ export default function CreateListingScreen() {
         const updated = [...photos, remoteUrl];
         setPhotos(updated);
 
-        // Auto-save photos to draft
-        if (draftId) {
+        // Auto-save photos to draft (draft mode only; edits commit on Save)
+        if (draftId && !isEditMode) {
           await patchDraft(draftId, { images: updated, draftStep: 1 });
         }
       } catch {
@@ -123,7 +159,7 @@ export default function CreateListingScreen() {
   const handleRemovePhoto = async (index: number) => {
     const updated = photos.filter((_, i) => i !== index);
     setPhotos(updated);
-    if (draftId) {
+    if (draftId && !isEditMode) {
       await patchDraft(draftId, { images: updated });
     }
   };
@@ -177,22 +213,52 @@ export default function CreateListingScreen() {
       return;
     }
 
-    // Step 4: Publish
-    if (currentStep === 4 && draftId) {
-      try {
-        setSaving(true);
-        await publishDraft(draftId);
+    // Step 4: Publish (draft) or Save (edit published listing)
+    if (currentStep === 4) {
+      if (isEditMode && editListingId) {
+        try {
+          setSaving(true);
+          await updateListing(editListingId, {
+            title: title.trim(),
+            description: description.trim(),
+            price: Number(price),
+            images: photos,
+            categorySlug: selectedCategorySlug || undefined,
+            ...(stock !== "" && Number.isInteger(Number(stock)) && Number(stock) >= 0
+              ? { stock: Number(stock) }
+              : {}),
+          });
 
-        await alertDialog({
-          title: "Listing Published! 🎉",
-          message: "Your item is now live and visible to buyers across your campus.",
-          buttonText: "Go to Dashboard",
-        });
-        router.replace("/seller/dashboard");
-      } catch (err: any) {
-        setErrorMessage(err?.message || "Failed to publish listing.");
-      } finally {
-        setSaving(false);
+          await alertDialog({
+            title: "Changes Saved",
+            message: "Your listing has been updated and is live with the new details.",
+            buttonText: "Go to Dashboard",
+          });
+          router.replace("/seller/dashboard");
+        } catch (err: any) {
+          setErrorMessage(err?.message || "Failed to save changes.");
+        } finally {
+          setSaving(false);
+        }
+        return;
+      }
+
+      if (draftId) {
+        try {
+          setSaving(true);
+          await publishDraft(draftId);
+
+          await alertDialog({
+            title: "Listing Published! 🎉",
+            message: "Your item is now live and visible to buyers across your campus.",
+            buttonText: "Go to Dashboard",
+          });
+          router.replace("/seller/dashboard");
+        } catch (err: any) {
+          setErrorMessage(err?.message || "Failed to publish listing.");
+        } finally {
+          setSaving(false);
+        }
       }
     }
   };
@@ -211,13 +277,13 @@ export default function CreateListingScreen() {
       className="flex-1 bg-surface-base"
     >
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader
-          onBack={() => {
-            if (currentStep > 1) setCurrentStep(currentStep - 1);
-            else router.back();
-          }}
-          title="Post a Listing"
-        />
+          <BackHeader
+            onBack={() => {
+              if (currentStep > 1) setCurrentStep(currentStep - 1);
+              else router.back();
+            }}
+            title={isEditMode ? "Edit Listing" : "Post a Listing"}
+          />
       </View>
 
       <View className="px-3 py-1">
@@ -284,6 +350,16 @@ export default function CreateListingScreen() {
               keyboardType="numeric"
             />
 
+            {isEditMode ? (
+              <TextField
+                label="Quantity in Stock"
+                placeholder="e.g. 10"
+                value={stock}
+                onChangeText={setStock}
+                keyboardType="number-pad"
+              />
+            ) : null}
+
             <TextArea
               label="Description (Optional)"
               placeholder="Condition, edition, markings, or included accessories..."
@@ -348,7 +424,13 @@ export default function CreateListingScreen() {
 
       <StickyActionBar>
         <Button
-          label={currentStep === 4 ? "Publish Listing" : "Continue"}
+          label={
+            currentStep === 4
+              ? isEditMode
+                ? "Save Changes"
+                : "Publish Listing"
+              : "Continue"
+          }
           onPress={handleNext}
           loading={saving}
           variant="primary"
