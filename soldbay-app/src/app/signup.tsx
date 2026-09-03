@@ -49,6 +49,7 @@ export default function SignupScreen() {
         email: email.trim().toLowerCase(),
         password,
         role,
+        businessName: businessName.trim() || undefined,
       });
 
       // Auto-login to obtain session token

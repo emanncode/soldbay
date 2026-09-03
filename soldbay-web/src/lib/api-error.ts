@@ -3,6 +3,8 @@
  * Used by ErrorMessage and any form that talks to the API.
  */
 
+import { NextResponse } from "next/server"
+
 export type ErrorVariant =
   | "validation" // 400
   | "unauthorized" // 401
@@ -142,4 +144,13 @@ function isGenericServerMessage(msg?: string): boolean {
     normalized.includes("please try again") ||
     normalized.includes("internal server")
   )
+}
+
+/**
+ * Response body for an unexpected server/database failure. Used in the catch
+ * block of API route handlers so callers get one consistent, honest message
+ * rather than a bare 500 with no guidance.
+ */
+export function serverErrorResponse() {
+  return NextResponse.json({ error: SERVER_GENERIC }, { status: 500 })
 }

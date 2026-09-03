@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { serverErrorResponse } from "@/lib/api-error"
 
 export const dynamic = "force-dynamic"
 
@@ -54,9 +55,6 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error("Forgot password error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong sending reset code." },
-      { status: 500 }
-    )
+    return serverErrorResponse()
   }
 }

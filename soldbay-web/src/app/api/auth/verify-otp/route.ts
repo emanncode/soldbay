@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { serverErrorResponse } from "@/lib/api-error"
 
 export const dynamic = "force-dynamic"
 
@@ -31,9 +32,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, valid: true })
   } catch (error) {
     console.error("Verify OTP error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong verifying code." },
-      { status: 500 }
-    )
+    return serverErrorResponse()
   }
 }

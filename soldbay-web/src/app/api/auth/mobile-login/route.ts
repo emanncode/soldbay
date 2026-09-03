@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
+import { serverErrorResponse } from "@/lib/api-error"
+import { retryOnColdStart } from "@/lib/cold-start"
 import { signMobileToken } from "@/lib/sign-mobile-token"
 
 /**
@@ -22,9 +24,11 @@ export async function POST(request: Request) {
       )
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    })
+    const user = await retryOnColdStart(() =>
+      prisma.user.findUnique({
+        where: { email },
+      }),
+    )
 
     // Same error for missing user, null password, or bad password (no email enumeration)
     if (!user?.password || user.deletedAt) {
@@ -58,9 +62,6 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error("Mobile login error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    )
+    return serverErrorResponse()
   }
 }

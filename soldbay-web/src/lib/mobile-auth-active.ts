@@ -1,5 +1,6 @@
 import { verifyMobileToken, type MobileJwtPayload } from "@/lib/mobile-auth"
 import { prisma } from "@/lib/prisma"
+import { retryOnColdStart } from "@/lib/cold-start"
 
 /**
  * Verify a mobile access token AND confirm the account is still active.
@@ -21,10 +22,12 @@ export async function verifyActiveMobileToken(
   const payload = await verifyMobileToken(token)
   if (!payload) return null
 
-  const user = await prisma.user.findUnique({
-    where: { id: payload.userId },
-    select: { deletedAt: true },
-  })
+  const user = await retryOnColdStart(() =>
+    prisma.user.findUnique({
+      where: { id: payload.userId },
+      select: { deletedAt: true },
+    }),
+  )
 
   if (!user || user.deletedAt) return null
 

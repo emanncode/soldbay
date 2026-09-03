@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
+import { serverErrorResponse } from "@/lib/api-error"
+import { retryOnColdStart } from "@/lib/cold-start"
 import { UserRole } from "@/generated/prisma/enums"
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -70,39 +72,43 @@ export async function POST(request: Request) {
     const role = body.role as UserRole
     const rawSlug = slugifyName(body.name)
 
-    const result = await prisma.$transaction(
-      async (tx) => {
-      const user = await tx.user.create({
-        data: {
-          email,
-          password: hashedPassword,
-          name: body.name.trim(),
-          phone: typeof body.phone === "string" ? body.phone : null,
-          role,
-          ...(body.universityId && typeof body.universityId === "string"
-            ? { university: { connect: { id: body.universityId } } }
-            : {}),
-          level: typeof body.level === "string" ? body.level : null,
+    const result = await retryOnColdStart(() =>
+      prisma.$transaction(
+        async (tx) => {
+          const user = await tx.user.create({
+            data: {
+              email,
+              password: hashedPassword,
+              name: body.name.trim(),
+              phone: typeof body.phone === "string" ? body.phone : null,
+              role,
+              ...(body.universityId && typeof body.universityId === "string"
+                ? { university: { connect: { id: body.universityId } } }
+                : {}),
+              level: typeof body.level === "string" ? body.level : null,
+            },
+          })
+
+          let profileId: string | undefined
+          if (role === UserRole.SELLER) {
+            const username = await generateUsername(tx, rawSlug)
+            const profile = await tx.sellerProfile.create({
+              data: {
+                userId: user.id,
+                username,
+                businessName:
+                  typeof body.businessName === "string" ? body.businessName : null,
+                bio: typeof body.bio === "string" ? body.bio : null,
+              },
+            })
+            profileId = profile.id
+          }
+
+          return { user, profileId }
         },
-      })
-
-      let profileId: string | undefined
-      if (role === UserRole.SELLER) {
-        const username = await generateUsername(tx, rawSlug)
-        const profile = await tx.sellerProfile.create({
-          data: {
-            userId: user.id,
-            username,
-            businessName:
-              typeof body.businessName === "string" ? body.businessName : null,
-            bio: typeof body.bio === "string" ? body.bio : null,
-          },
-        })
-        profileId = profile.id
-      }
-
-      return { user, profileId }
-    }, { timeout: 30000, maxWait: 15000 })
+        { timeout: 30000, maxWait: 45000 },
+      ),
+    )
 
     return NextResponse.json(
       {
@@ -127,9 +133,6 @@ export async function POST(request: Request) {
     }
 
     console.error("Signup error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    )
+    return serverErrorResponse()
   }
 }

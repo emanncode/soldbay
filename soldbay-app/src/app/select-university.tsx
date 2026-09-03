@@ -12,15 +12,12 @@ import { Check, School } from "lucide-react-native";
 import {
   BackHeader,
   Button,
-  FilterChip,
   SearchBar,
   StickyActionBar,
   ToastBanner,
 } from "@/components";
 import { getMe, getUniversities, updateUserProfile, type University } from "@/lib/api";
 import { colors } from "@/theme/colors";
-
-const levels = ["100L", "200L", "300L", "400L", "500L", "Postgraduate"];
 
 export default function SelectUniversityScreen() {
   const router = useRouter();
@@ -29,7 +26,6 @@ export default function SelectUniversityScreen() {
   const [universities, setUniversities] = useState<University[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUniversityId, setSelectedUniversityId] = useState<string | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState<string>("200L");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -40,8 +36,10 @@ export default function SelectUniversityScreen() {
         setLoading(true);
         const data = await getUniversities();
         setUniversities(data);
-      } catch {
-        setErrorMessage("Failed to load university list.");
+      } catch (err: any) {
+        setErrorMessage(
+          err?.message || "Couldn't load the university list. Please check your connection and try again.",
+        );
       } finally {
         setLoading(false);
       }
@@ -65,7 +63,6 @@ export default function SelectUniversityScreen() {
       setSaving(true);
       await updateUserProfile({
         universityId: selectedUniversityId,
-        level: selectedLevel,
       });
 
       const user = await getMe();
@@ -112,22 +109,6 @@ export default function SelectUniversityScreen() {
             onChangeText={setSearchQuery}
             placeholder="Search your university..."
           />
-        </View>
-
-        <View className="mb-2">
-          <Text className="mb-1 font-manrope-medium text-small text-text-secondary">
-            Current Level
-          </Text>
-          <View className="flex-row flex-wrap gap-1">
-            {levels.map((lvl) => (
-              <FilterChip
-                key={lvl}
-                label={lvl}
-                active={selectedLevel === lvl}
-                onPress={() => setSelectedLevel(lvl)}
-              />
-            ))}
-          </View>
         </View>
       </View>
 

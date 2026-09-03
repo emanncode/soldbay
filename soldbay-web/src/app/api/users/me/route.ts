@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { serverErrorResponse } from "@/lib/api-error"
 import { extractBearerToken } from "@/lib/mobile-auth"
 import { verifyActiveMobileToken } from "@/lib/mobile-auth-active"
 import { auth } from "@/auth"
@@ -46,10 +47,7 @@ export async function GET(request: Request) {
     return NextResponse.json(user)
   } catch (error) {
     console.error("Get user me error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    )
+    return serverErrorResponse()
   }
 }
 
@@ -62,12 +60,23 @@ export async function PATCH(request: Request) {
 
     const body = await request.json()
 
-    const data: { universityId?: string; level?: string } = {}
+    const data: { universityId?: string } = {}
 
     if (body.universityId !== undefined) {
       if (typeof body.universityId !== "string") {
         return NextResponse.json(
           { error: "universityId must be a string." },
+          { status: 400 },
+        )
+      }
+      // Fetch the current user to check if university is already set
+      const currentUser = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { universityId: true },
+      })
+      if (currentUser?.universityId) {
+        return NextResponse.json(
+          { error: "University cannot be changed after signup. Please contact support if you need to update this." },
           { status: 400 },
         )
       }
@@ -81,10 +90,6 @@ export async function PATCH(request: Request) {
         )
       }
       data.universityId = body.universityId
-    }
-
-    if (body.level !== undefined) {
-      data.level = typeof body.level === "string" ? body.level : null
     }
 
     if (Object.keys(data).length === 0) {
@@ -118,10 +123,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "User not found." }, { status: 404 })
     }
     console.error("Update user me error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    )
+    return serverErrorResponse()
   }
 }
 
@@ -185,9 +187,6 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "User not found." }, { status: 404 })
     }
     console.error("Delete user me error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    )
+    return serverErrorResponse()
   }
 }

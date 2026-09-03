@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
+import { serverErrorResponse } from "@/lib/api-error"
 
 export const dynamic = "force-dynamic"
 
@@ -55,9 +56,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, message: "Password has been successfully updated." })
   } catch (error) {
     console.error("Reset password error:", error)
-    return NextResponse.json(
-      { error: "Something went wrong updating password." },
-      { status: 500 }
-    )
+    return serverErrorResponse()
   }
 }
