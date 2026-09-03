@@ -1,4 +1,5 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { OrderBadge, OrderBadgeStatus } from "./order-badge";
 import { elevation } from "../theme/elevation";
 
@@ -47,7 +48,8 @@ export function OrderCard({
           <Image
             source={{ uri: thumbnailUrl }}
             className="h-full w-full"
-            resizeMode="cover"
+            contentFit="cover"
+            transition={200}
           />
         ) : (
           <View className="h-full w-full items-center justify-center bg-neutral-100">

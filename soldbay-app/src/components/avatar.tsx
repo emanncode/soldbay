@@ -1,4 +1,5 @@
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { Image } from "expo-image";
 
 export interface AvatarProps {
   name?: string;
@@ -50,6 +51,8 @@ export function Avatar({
         source={{ uri: imageUrl }}
         style={sizeStyle}
         className={`bg-neutral-200 ${className}`}
+        contentFit="cover"
+        transition={200}
         accessibilityLabel={name}
       />
     );

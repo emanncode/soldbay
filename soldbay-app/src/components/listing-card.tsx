@@ -1,4 +1,5 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { elevation } from "../theme/elevation";
 
 export interface ListingCardProps {
@@ -47,7 +48,8 @@ export function ListingCard({
           <Image
             source={{ uri: imageUrl }}
             className="h-full w-full"
-            resizeMode="cover"
+            contentFit="cover"
+            transition={200}
           />
         ) : (
           <View className="h-full w-full items-center justify-center bg-neutral-100">

@@ -1,4 +1,5 @@
-import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { Camera, X, Plus } from "lucide-react-native";
 import { colors } from "../theme/colors";
 
@@ -32,7 +33,7 @@ export function PhotoSlot({
       <View
         className={`relative aspect-square w-full overflow-hidden rounded-md bg-neutral-100 ${className}`}
       >
-        <Image source={{ uri: imageUrl }} className="h-full w-full" resizeMode="cover" />
+        <Image source={{ uri: imageUrl }} className="h-full w-full" contentFit="cover" transition={200} />
 
         {isPrimary ? (
           <View className="absolute bottom-1 left-1 rounded-sm bg-neutral-900/80 px-1 py-0.5">
