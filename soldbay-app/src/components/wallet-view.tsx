@@ -14,10 +14,7 @@ import {
 } from "lucide-react-native";
 import { EmptyState } from "./empty-state";
 import { colors } from "@/theme/colors";
-import {
-  type WalletTransaction,
-  type WalletTransactionType,
-} from "@/lib/api";
+import { type WalletTransaction, type WalletTransactionType } from "@/lib/api";
 
 export interface WalletViewData {
   role: "SELLER" | "BUYER";
@@ -70,7 +67,8 @@ const TYPE_META: Record<
 };
 
 function formatAmount(value: number): string {
-  return `$${value.toFixed(2)}`;
+  const amount = Number(value);
+  return `$${Number.isFinite(amount) ? amount.toFixed(2) : "0.00"}`;
 }
 
 function formatDate(iso: string): string {
@@ -142,7 +140,7 @@ export function WalletView({
     // show their active escrow "on hold" as an informational balance.
     const held = data.transactions
       .filter((t) => t.type === "ESCROW_HOLD")
-      .reduce((sum, t) => sum + t.amount, 0);
+      .reduce((sum, t) => sum + Number(t.amount), 0);
     return formatAmount(held);
   }, [data]);
 
@@ -174,7 +172,9 @@ export function WalletView({
             <View className="flex-row items-center">
               <WalletIcon size={20} color={colors.textInverse} />
               <Text className="ml-2 font-manrope text-caption text-text-inverse">
-                {data?.role === "SELLER" ? "Available balance" : "Escrow on hold"}
+                {data?.role === "SELLER"
+                  ? "Available balance"
+                  : "Escrow on hold"}
               </Text>
             </View>
             <Text className="mt-2 font-manrope-semibold text-h1 text-text-inverse">
