@@ -9,7 +9,7 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackHeader, Button, PINInput, ToastBanner } from "@/components";
-import { NetworkError, verifyOrderPin } from "@/lib/api";
+import { NetworkError, TimeoutError, verifyOrderPin } from "@/lib/api";
 
 export default function EnterPinScreen() {
   const router = useRouter();
@@ -38,9 +38,9 @@ export default function EnterPinScreen() {
         params: { orderId: params.orderId },
       });
     } catch (err: any) {
-      if (err instanceof NetworkError) {
-        // The request never reached the server, so the PIN attempt counter is
-        // unaffected. Surface a retry-friendly message.
+      if (err instanceof NetworkError || err instanceof TimeoutError) {
+        // The request never reached the server (or timed out), so the PIN
+        // attempt counter is unaffected. Surface a retry-friendly message.
         setErrorMessage(err.message);
         setIsNetworkError(true);
       } else {

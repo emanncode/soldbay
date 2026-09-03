@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Image,
   ScrollView,
   Text,
   View,
 } from "react-native";
+import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MapPin } from "lucide-react-native";
@@ -20,7 +20,12 @@ import {
   PINDisplay,
   StickyActionBar,
 } from "@/components";
-import { getOrderDetail, type OrderDetailResponse } from "@/lib/api";
+import {
+  getOrderDetail,
+  revealOrderPin,
+  type OrderDetailResponse,
+} from "@/lib/api";
+import { alertDialog } from "@/lib/dialogs";
 import { colors } from "@/theme/colors";
 
 export default function OrderDetailScreen() {
@@ -30,6 +35,12 @@ export default function OrderDetailScreen() {
 
   const [order, setOrder] = useState<OrderDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [pinRevealed, setPinRevealed] = useState(false);
+  const [revealing, setRevealing] = useState(false);
+  const [pinExpiresAt, setPinExpiresAt] = useState<string | null>(null);
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
+
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     async function fetchDetails() {
@@ -44,6 +55,53 @@ export default function OrderDetailScreen() {
     }
     fetchDetails();
   }, [params.id]);
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setSecondsLeft(null);
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimer();
+  }, [clearTimer]);
+
+  const handleRevealPin = async () => {
+    if (!order || revealing) return;
+    setRevealing(true);
+    try {
+      const res = await revealOrderPin(order.id);
+      setPinRevealed(true);
+      setPinExpiresAt(res.pinExpiresAt);
+      setSecondsLeft(res.expiresInSeconds);
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = setInterval(() => {
+        setSecondsLeft((prev) => {
+          if (prev === null || prev <= 1) {
+            if (timerRef.current) clearInterval(timerRef.current);
+            timerRef.current = null;
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err: any) {
+      await alertDialog({
+        title: "Couldn't show code",
+        message: err?.message || "Please try again.",
+      });
+    } finally {
+      setRevealing(false);
+    }
+  };
+
+  const formatCountdown = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m}:${s.toString().padStart(2, "0")}`;
+  };
 
   if (loading) {
     return (
@@ -147,7 +205,7 @@ export default function OrderDetailScreen() {
         <View className="mt-3 flex-row rounded-md border border-neutral-200 bg-surface-elevated p-2">
           <View className="h-7 w-7 overflow-hidden rounded-sm bg-neutral-100 mr-2">
             {order.images[0] ? (
-              <Image source={{ uri: order.images[0] }} className="h-full w-full" resizeMode="cover" />
+              <Image source={{ uri: order.images[0] }} className="h-full w-full" contentFit="cover" transition={200} />
             ) : null}
           </View>
           <View className="flex-1 justify-center">
@@ -176,12 +234,44 @@ export default function OrderDetailScreen() {
         ) : null}
 
         {/* Seller In-Person PIN Display (Security: shown only on seller device) */}
-        {order.isSeller && order.sellerPin && (order.status === "PAYMENT_SECURED" || order.status === "PICKUP_ARRANGED") ? (
+        {order.isSeller &&
+        order.sellerPin &&
+        (order.status === "PAYMENT_SECURED" || order.status === "PICKUP_ARRANGED") ? (
           <View className="mt-4">
-            <PINDisplay
-              pin={order.sellerPin}
-              subtitle="Show this 4-digit code to the buyer during in-person pickup"
-            />
+            {pinRevealed ? (
+              <>
+                <PINDisplay
+                  pin={order.sellerPin}
+                  subtitle="Show this 4-digit code to the buyer during in-person pickup"
+                />
+                <View className="mt-2 flex-row items-center justify-between">
+                  <Text className="font-manrope text-caption text-text-tertiary">
+                    {secondsLeft != null && secondsLeft > 0
+                      ? `Code expires in ${formatCountdown(secondsLeft)}`
+                      : "Code expired — tap below to show a fresh one"}
+                  </Text>
+                  <Button
+                    label={secondsLeft != null && secondsLeft > 0 ? "Show Again" : "Show Code"}
+                    onPress={handleRevealPin}
+                    loading={revealing}
+                    variant="secondary"
+                  />
+                </View>
+              </>
+            ) : (
+              <View className="w-full items-center rounded-md border border-neutral-200 bg-surface-elevated p-3">
+                <Text className="text-center font-manrope-medium text-small text-text-primary">
+                  The pickup PIN is hidden until you are about to hand over the product.
+                </Text>
+                <Button
+                  label="Show Code"
+                  onPress={handleRevealPin}
+                  loading={revealing}
+                  variant="primary"
+                  className="mt-3 w-full"
+                />
+              </View>
+            )}
           </View>
         ) : null}
 
