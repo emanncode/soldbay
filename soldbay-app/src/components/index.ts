@@ -35,6 +35,7 @@ export * from "./escrow-stepper";
 export * from "./progress-indicator";
 export * from "./settings-row";
 export * from "./empty-state";
+export * from "./wallet-view";
 export * from "./logo-wordmark";
 
 // Feedback & Alerts

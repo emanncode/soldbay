@@ -8,6 +8,8 @@ export interface TabItem {
   label: string;
   icon: (props: { color: string; size: number }) => ReactNode;
   badgeCount?: number;
+  /** When true, renders a raised center action button instead of a regular tab. */
+  isAction?: boolean;
 }
 
 export interface TabBarProps {
@@ -25,6 +27,9 @@ export interface TabBarProps {
  * - Active state is accent teal (#0D9488).
  * - Inactive state is neutral-500 (#737373).
  * - Lucide outline icons only.
+ *
+ * Supports a center "action" tab (raised, accent background) for primary
+ * CTAs like "Post a listing".
  */
 export function TabBar({
   tabs,
@@ -39,9 +44,38 @@ export function TabBar({
       style={{ paddingBottom: Math.max(insets.bottom, 8) }}
       className={`w-full flex-row items-center border-t border-border bg-surface-elevated pt-1 ${className}`}
     >
-      {tabs.map((tab) => {
+      {tabs.map((tab, idx) => {
         const isActive = tab.key === activeTab;
         const color = isActive ? colors.accent : colors.neutral500;
+
+        // Centre action button: raised circle with accent background
+        if (tab.isAction) {
+          return (
+            <Pressable
+              key={tab.key}
+              onPress={() => onTabPress(tab.key)}
+              accessibilityRole="button"
+              accessibilityLabel={tab.label}
+              className="h-6 flex-1 items-center justify-center"
+            >
+              <View
+                className="h-10 w-10 items-center justify-center rounded-full bg-accent"
+                style={{ marginBottom: 14 }}
+              >
+                {tab.icon({ color: colors.textInverse, size: 22 })}
+              </View>
+              <Text
+                className={`text-caption ${
+                  isActive
+                    ? "font-manrope-medium text-accent"
+                    : "font-manrope text-text-tertiary"
+                }`}
+              >
+                {tab.label}
+              </Text>
+            </Pressable>
+          );
+        }
 
         return (
           <Pressable

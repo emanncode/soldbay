@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
-  Image,
   ScrollView,
   Text,
   View,
 } from "react-native";
+import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ShieldCheck, MapPin } from "lucide-react-native";
@@ -97,7 +97,8 @@ export default function ListingDetailScreen() {
                   key={i}
                   source={{ uri: img }}
                   style={{ width, height: width }}
-                  resizeMode="cover"
+                  contentFit="cover"
+                  transition={200}
                 />
               ))}
             </ScrollView>

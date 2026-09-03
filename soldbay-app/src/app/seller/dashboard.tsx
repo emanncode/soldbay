@@ -1,240 +1,180 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  FlatList,
+  Pressable,
   RefreshControl,
+  ScrollView,
   Text,
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Plus, Package, Store, User, ShoppingBag } from "lucide-react-native";
 import {
-  Avatar,
-  Button,
-  DraftRow,
-  EmptyState,
+  Package,
+  ShoppingBag,
+  Store,
+  Plus,
+  User,
+  Wallet,
+} from "lucide-react-native";
+import {
   ListingCard,
   SectionHeader,
   StatCard,
   TabBar,
-  VerifiedChip,
 } from "@/components";
-import { getDrafts, deleteDraft, getSellerMe, type DraftListing, type SellerMeResponse } from "@/lib/api";
-import { alertDialog, confirmDialog } from "@/lib/dialogs";
+import { useProtectedRoute } from "@/lib/auth";
+import {
+  getSellerMe,
+  saveLastActiveMode,
+  type SellerMeResponse,
+} from "@/lib/api";
 import { colors } from "@/theme/colors";
 
 export default function SellerDashboardScreen() {
+  useProtectedRoute();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const [seller, setSeller] = useState<SellerMeResponse | null>(null);
-  const [drafts, setDrafts] = useState<DraftListing[]>([]);
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [data, setData] = useState<SellerMeResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState("dashboard");
 
-  const loadData = useCallback(async (isRefresh = false) => {
+  // Persist last active mode for app resume.
+  useEffect(() => {
+    saveLastActiveMode("seller");
+  }, []);
+
+  const fetchDashboard = async (isRefresh = false) => {
     try {
       if (isRefresh) setRefreshing(true);
       else setLoading(true);
 
-      const data = await getSellerMe();
-      if (data.verificationStatus !== "APPROVED") {
-        router.replace("/buyer/home");
-        return;
-      }
-      setSeller(data);
-      const draftsRes = await getDrafts().catch(() => null);
-      setDrafts(draftsRes?.drafts ?? []);
-    } catch (err: any) {
-      console.error(err);
+      const me = await getSellerMe();
+      setData(me);
+    } catch {
+      setData(null);
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    // Fetch seller data once on mount.
+    // Fetch dashboard once on mount.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    loadData();
-  }, [loadData]);
+    fetchDashboard();
+  }, []);
+
+  const walletFormatted = data?.walletBalance
+    ? `$${Number(data.walletBalance).toFixed(2)}`
+    : "$0.00";
+  const activeCount =
+    data?.listings.filter((l) => l.status === "active").length ?? 0;
+  const activeListings = data?.listings.slice(0, 3) ?? [];
 
   const tabs = [
-    {
-      key: "dashboard",
-      label: "Dashboard",
-      icon: ({ color, size }: any) => <Store color={color} size={size} />,
-    },
-    {
-      key: "orders",
-      label: "Orders",
-      icon: ({ color, size }: any) => <Package color={color} size={size} />,
-    },
-    {
-      key: "buyer_mode",
-      label: "Buyer Mode",
-      icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} />,
-    },
-    {
-      key: "profile",
-      label: "Profile",
-      icon: ({ color, size }: any) => <User color={color} size={size} />,
-    },
+    { key: "dashboard", label: "Dashboard", icon: ({ color, size }: any) => <Store color={color} size={size} /> },
+    { key: "orders", label: "Orders", icon: ({ color, size }: any) => <Package color={color} size={size} /> },
+    { key: "post", label: "Post", icon: ({ color, size }: any) => <Plus color={color} size={size} />, isAction: true },
+    { key: "products", label: "Products", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
+    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
+    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
   ];
 
   const handleTabPress = (key: string) => {
-    if (key === "orders") router.push("/orders");
-    else if (key === "buyer_mode") router.push("/buyer/home");
-    else if (key === "profile") router.push("/profile");
+    if (key === "orders") router.replace("/orders");
+    else if (key === "post") router.push("/seller/create-listing");
+    else if (key === "products") router.replace("/seller/products");
+    else if (key === "wallet") router.replace("/seller/wallet");
+    else if (key === "profile") router.replace("/profile");
     else setActiveTab(key);
   };
 
-  const handleResumeDraft = (id: string) => {
-    router.push(`/seller/create-listing?draftId=${id}`);
-  };
-
-  const handleDeleteDraft = async (id: string) => {
-    const ok = await confirmDialog({
-      title: "Delete Draft",
-      message: "This will permanently delete this draft and any saved details.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
-      destructive: true,
-    });
-    if (!ok) return;
-
-    try {
-      await deleteDraft(id);
-      setDrafts((prev) => prev.filter((d) => d.id !== id));
-    } catch (err: any) {
-      await alertDialog({
-        title: "Delete failed",
-        message: err?.message || "Please try again.",
-      });
-    }
-  };
-
-  if (loading) {
-    return (
-      <View className="flex-1 items-center justify-center bg-surface-base">
-        <ActivityIndicator size="small" color={colors.accent} />
-      </View>
-    );
-  }
-
-  const walletFormatted = `₦${(Number(seller?.walletBalance) || 0).toLocaleString()}`;
-  const activeCount = seller?.listings?.length || 0;
-
   return (
     <View className="flex-1 bg-surface-base">
-      {/* Header */}
       <View
-        style={{ paddingTop: Math.max(insets.top + 8, 16) }}
-        className="px-3 pb-2 border-b border-border bg-surface-elevated flex-row items-center justify-between"
+        style={{ paddingTop: Math.max(insets.top, 16) }}
+        className="flex-row items-center justify-center px-3 pb-3 border-b border-border bg-surface-elevated"
       >
-        <View className="flex-row items-center">
-          <Avatar name={seller?.name || "Seller"} size={40} />
-          <View className="ml-1.5">
-            <Text className="font-manrope-semibold text-body-medium text-text-primary">
-              {seller?.name}
-            </Text>
-            <Text className="font-manrope text-caption text-text-tertiary">
-              @{seller?.username}
-            </Text>
-          </View>
-        </View>
-
-        {seller?.verified ? (
-          <VerifiedChip size="sm" />
-        ) : (
-          <Button
-            label="Get Verified"
-            onPress={() => router.push("/seller/verify")}
-            variant="ghost"
-            className="h-4.5 px-1.5"
-          />
-        )}
+        <Store size={16} color={colors.accent} />
+        <Text className="ml-2 text-body font-manrope-medium text-text-primary">
+          Seller Dashboard
+        </Text>
       </View>
 
-      <FlatList
-        data={seller?.listings || []}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={{ gap: 12, paddingHorizontal: 16 }}
-        contentContainerStyle={{ paddingTop: 12, paddingBottom: 32 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => loadData(true)}
-            tintColor={colors.accent}
-          />
-        }
-        ListHeaderComponent={
-          <View className="mb-3 px-1">
-            {/* Stat Cards */}
-            <View className="flex-row gap-2 mb-3">
-              <StatCard label="Wallet Balance" value={walletFormatted} subtext="Available for payout" />
-              <StatCard label="Active Listings" value={activeCount} subtext="Live on campus" />
-            </View>
+      {loading ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="small" color={colors.accent} />
+        </View>
+      ) : (
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ paddingBottom: 32 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => fetchDashboard(true)}
+              tintColor={colors.accent}
+            />
+          }
+        >
+          <View className="gap-5 px-3 pt-4">
+            {/* At-a-glance stats */}
+            <StatCard
+              label="Wallet Balance"
+              value={walletFormatted}
+              subtext="Available for payout"
+            />
+            <StatCard
+              label="Active Listings"
+              value={activeCount}
+              subtext="Live on campus"
+            />
 
-            {/* Post Listing CTA */}
-            <View className="mb-4">
-              <Button
-                label="Post a Listing"
-                onPress={() => router.push("/seller/create-listing")}
-                variant="primary"
-                icon={<Plus size={20} color={colors.textInverse} />}
+            {/* Recent active listings (lightweight, moves full mgmt to Products) */}
+            <View>
+              <SectionHeader
+                title="Your Listings"
+                actionText="See All"
+                onActionPress={() => router.replace("/seller/products")}
               />
-            </View>
-
-            <SectionHeader title="Your Listings" />
-
-            {drafts.length > 0 ? (
-              <View className="mb-3">
-                <SectionHeader title="Drafts" />
-                <View className="gap-2">
-                  {drafts.map((draft) => (
-                    <DraftRow
-                      key={draft.id}
-                      id={draft.id}
-                      title={draft.title}
-                      draftStep={draft.draftStep}
-                      thumbnailUrl={draft.images[0] || null}
-                      onPress={() => handleResumeDraft(draft.id)}
-                      onDelete={() => handleDeleteDraft(draft.id)}
-                    />
+              {activeListings.length === 0 ? (
+                <Pressable
+                  onPress={() => router.push("/seller/create-listing")}
+                  className="mt-2 items-center rounded-xl border border-dashed border-border bg-surface-elevated p-4"
+                >
+                  <Text className="font-manrope-medium text-body text-accent">
+                    Post your first item
+                  </Text>
+                </Pressable>
+              ) : (
+                <View className="mt-2">
+                  {activeListings.map((listing) => (
+                    <View key={listing.id} className="mb-3">
+                      <ListingCard
+                        id={listing.id}
+                        title={listing.title}
+                        price={Number(listing.price)}
+                        imageUrl={listing.images[0] || null}
+                        category={listing.category?.name}
+                        onPress={() => router.push(`/buyer/listing-detail?id=${listing.id}`)}
+                      />
+                    </View>
                   ))}
                 </View>
-              </View>
-            ) : null}
+              )}
+            </View>
           </View>
-        }
-        ListEmptyComponent={
-          <View className="items-center justify-center p-4">
-            <EmptyState
-              icon={<Package size={28} color={colors.neutral500} />}
-              title="No active listings"
-              description="Post your first textbook, calculator, or gadget to start selling."
-            />
-          </View>
-        }
-        renderItem={({ item }) => (
-          <View className="flex-1 mb-3">
-            <ListingCard
-              id={item.id}
-              title={item.title}
-              price={Number(item.price)}
-              imageUrl={item.images[0] || null}
-              category={item.category?.name}
-              onPress={() => router.push(`/seller/create-listing?id=${item.id}`)}
-            />
-          </View>
-        )}
-      />
+        </ScrollView>
+      )}
 
-      <TabBar tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
+      <TabBar
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabPress={handleTabPress}
+      />
     </View>
   );
 }

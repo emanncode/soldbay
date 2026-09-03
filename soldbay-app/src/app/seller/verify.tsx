@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Image,
   KeyboardAvoidingView,
   Linking,
   Platform,
@@ -10,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
@@ -290,7 +290,7 @@ export default function SellerVerifyScreen() {
             </Text>
             {imageUri ? (
               <View className="relative h-24 w-full overflow-hidden rounded-md border border-neutral-300 bg-neutral-100">
-                <Image source={{ uri: imageUri }} className="h-full w-full" resizeMode="cover" />
+                <Image source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" transition={200} />
                 <Pressable
                   onPress={handlePickImage}
                   className="absolute bottom-2 right-2 rounded-sm bg-neutral-900/80 px-1.5 py-1"

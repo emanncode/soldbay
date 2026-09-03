@@ -2,40 +2,42 @@ import { useEffect, useState, useCallback } from "react";
 import {
   ActivityIndicator,
   FlatList,
-  RefreshControl,
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ShoppingBag, Search as SearchIcon, ShoppingCart, User, Wallet } from "lucide-react-native";
+import {
+  Search as SearchIcon,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+  Wallet,
+} from "lucide-react-native";
 import {
   EmptyState,
   FilterChip,
   ListingCard,
-  LogoWordmark,
   SearchBar,
   TabBar,
-  VerifiedChip,
 } from "@/components";
 import { getCategories, getListings, type Category, type PublicListing } from "@/lib/api";
 import { colors } from "@/theme/colors";
 
-export default function BuyerHomeScreen() {
+export default function BuyerSearchScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("search");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [listings, setListings] = useState<PublicListing[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
   const loadData = useCallback(async (isRefresh = false) => {
     try {
-      if (isRefresh) setRefreshing(true);
-      else setLoading(true);
+      if (isRefresh) return;
+      setLoading(true);
 
       const [cats, listingPage] = await Promise.all([
         getCategories().catch(() => []),
@@ -49,7 +51,6 @@ export default function BuyerHomeScreen() {
       setListings(listingPage.items);
     } finally {
       setLoading(false);
-      setRefreshing(false);
     }
   }, [selectedCategory, searchQuery]);
 
@@ -57,54 +58,28 @@ export default function BuyerHomeScreen() {
     loadData();
   }, [loadData]);
 
-  const tabs = [
-    {
-      key: "home",
-      label: "Feed",
-      icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} />,
-    },
-    {
-      key: "search",
-      label: "Search",
-      icon: ({ color, size }: any) => <SearchIcon color={color} size={size} />,
-    },
-    {
-      key: "cart",
-      label: "Cart",
-      icon: ({ color, size }: any) => <ShoppingCart color={color} size={size} />,
-    },
-    {
-      key: "wallet",
-      label: "Wallet",
-      icon: ({ color, size }: any) => <Wallet color={color} size={size} />,
-    },
-    {
-      key: "profile",
-      label: "Profile",
-      icon: ({ color, size }: any) => <User color={color} size={size} />,
-    },
-  ];
-
   const handleTabPress = (key: string) => {
-    if (key === "search") router.replace("/buyer/search");
+    if (key === "feed") router.replace("/buyer/home");
     else if (key === "cart") router.replace("/buyer/cart");
     else if (key === "wallet") router.replace("/buyer/wallet");
     else if (key === "profile") router.replace("/profile");
     else setActiveTab(key);
   };
 
+  const tabs = [
+    { key: "feed", label: "Feed", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
+    { key: "search", label: "Search", icon: ({ color, size }: any) => <SearchIcon color={color} size={size} /> },
+    { key: "cart", label: "Cart", icon: ({ color, size }: any) => <ShoppingCart color={color} size={size} /> },
+    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
+    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
+  ];
+
   return (
     <View className="flex-1 bg-surface-base">
-      {/* Top Header */}
       <View
         style={{ paddingTop: Math.max(insets.top + 8, 16) }}
         className="px-3 pb-1 border-b border-border bg-surface-elevated"
       >
-        <View className="flex-row items-center justify-between mb-2">
-          <LogoWordmark size="md" />
-          <VerifiedChip size="sm" />
-        </View>
-
         <View className="mb-2">
           <SearchBar
             value={searchQuery}
@@ -113,7 +88,6 @@ export default function BuyerHomeScreen() {
           />
         </View>
 
-        {/* Category Pills */}
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -135,7 +109,6 @@ export default function BuyerHomeScreen() {
         />
       </View>
 
-      {/* Product Grid */}
       {loading ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="small" color={colors.accent} />
@@ -144,8 +117,8 @@ export default function BuyerHomeScreen() {
         <View className="flex-1 items-center justify-center px-3">
           <EmptyState
             icon={<SearchIcon size={28} color={colors.neutral500} />}
-            title="No listings found"
-            description="Be the first to list an item or try searching for something else."
+            title="No results"
+            description="Try searching for something else or browse the feed."
           />
         </View>
       ) : (
@@ -155,13 +128,6 @@ export default function BuyerHomeScreen() {
           keyExtractor={(item) => item.id}
           columnWrapperStyle={{ gap: 12, paddingHorizontal: 16 }}
           contentContainerStyle={{ paddingTop: 12, paddingBottom: 32 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => loadData(true)}
-              tintColor={colors.accent}
-            />
-          }
           renderItem={({ item }) => (
             <View className="flex-1 mb-3">
               <ListingCard
@@ -177,12 +143,7 @@ export default function BuyerHomeScreen() {
         />
       )}
 
-      {/* Bottom Tab Navigation */}
-      <TabBar
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
-      />
+      <TabBar tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
   );
 }
