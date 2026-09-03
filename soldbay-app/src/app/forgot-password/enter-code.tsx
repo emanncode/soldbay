@@ -11,6 +11,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackHeader, Button, PINInput, ToastBanner } from "@/components";
 import { forgotPassword, verifyOtp } from "@/lib/api";
+import { goBackSafe } from "@/lib/navigation";
 
 export default function EnterCodeScreen() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function EnterCodeScreen() {
       className="flex-1 bg-surface-base"
     >
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader onBack={() => router.back()} />
+        <BackHeader onBack={() => goBackSafe(router, "/forgot-password")} />
       </View>
 
       <ScrollView

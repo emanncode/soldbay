@@ -26,6 +26,7 @@ import {
   type OrderDetailResponse,
 } from "@/lib/api";
 import { alertDialog } from "@/lib/dialogs";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 export default function OrderDetailScreen() {
@@ -179,7 +180,7 @@ export default function OrderDetailScreen() {
   return (
     <View className="flex-1 bg-surface-base">
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1 border-b border-border bg-surface-elevated">
-        <BackHeader onBack={() => router.back()} title={order.orderNumber} />
+        <BackHeader onBack={() => goBackSafe(router, "/orders")} title={order.orderNumber} />
       </View>
 
       <ScrollView className="flex-1 px-3 pt-3" showsVerticalScrollIndicator={false}>

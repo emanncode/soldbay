@@ -24,6 +24,7 @@ import {
   VerifiedChip,
 } from "@/components";
 import { getSellerMe, uploadIdImage } from "@/lib/api";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 type VerifyStep = "choice" | "capture" | "pending" | "approved" | "rejected";
@@ -214,7 +215,7 @@ export default function SellerVerifyScreen() {
     return (
       <View className="flex-1 bg-surface-base">
         <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-          <BackHeader onBack={() => router.back()} title="Get Verified" />
+          <BackHeader onBack={() => goBackSafe(router, "/buyer/home")} title="Get Verified" />
         </View>
 
         <ScrollView className="flex-1 px-3 pt-2">

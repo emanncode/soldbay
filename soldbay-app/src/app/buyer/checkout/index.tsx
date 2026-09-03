@@ -18,6 +18,7 @@ import {
   ToastBanner,
 } from "@/components";
 import { ApiError, checkoutOrder } from "@/lib/api";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 export default function CheckoutScreen() {
@@ -90,7 +91,7 @@ export default function CheckoutScreen() {
       className="flex-1 bg-surface-base"
     >
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader onBack={() => router.back()} title="Checkout" />
+        <BackHeader onBack={() => goBackSafe(router, "/buyer/home")} title="Checkout" />
       </View>
 
       <ScrollView className="flex-1 px-3 pt-2" keyboardShouldPersistTaps="handled">

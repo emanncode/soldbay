@@ -10,6 +10,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackHeader, Button, PINInput, ToastBanner } from "@/components";
 import { NetworkError, TimeoutError, verifyOrderPin } from "@/lib/api";
+import { goBackSafe } from "@/lib/navigation";
 
 export default function EnterPinScreen() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function EnterPinScreen() {
       className="flex-1 bg-surface-base"
     >
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader onBack={() => router.back()} title="Enter Pickup PIN" />
+        <BackHeader onBack={() => goBackSafe(router, "/orders")} title="Enter Pickup PIN" />
       </View>
 
       <ScrollView className="flex-1 px-3 pt-2" keyboardShouldPersistTaps="handled">

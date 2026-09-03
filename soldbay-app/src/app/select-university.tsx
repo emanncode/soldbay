@@ -17,6 +17,7 @@ import {
   ToastBanner,
 } from "@/components";
 import { getMe, getUniversities, updateUserProfile, type University } from "@/lib/api";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 export default function SelectUniversityScreen() {
@@ -81,7 +82,7 @@ export default function SelectUniversityScreen() {
   return (
     <View className="flex-1 bg-surface-base">
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader onBack={() => router.back()} />
+        <BackHeader onBack={() => goBackSafe(router)} />
       </View>
 
       <View className="px-3 pt-1">

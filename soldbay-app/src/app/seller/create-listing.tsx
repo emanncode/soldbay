@@ -34,6 +34,7 @@ import {
   type Category,
 } from "@/lib/api";
 import { alertDialog } from "@/lib/dialogs";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 export default function CreateListingScreen() {
@@ -280,7 +281,7 @@ export default function CreateListingScreen() {
           <BackHeader
             onBack={() => {
               if (currentStep > 1) setCurrentStep(currentStep - 1);
-              else router.back();
+              else goBackSafe(router, "/seller/dashboard");
             }}
             title={isEditMode ? "Edit Listing" : "Post a Listing"}
           />

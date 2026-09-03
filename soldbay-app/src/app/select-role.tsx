@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ShoppingBag, Store } from "lucide-react-native";
 import { BackHeader, Button, ChoiceCard, StickyActionBar } from "@/components";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 export default function SelectRoleScreen() {
@@ -21,7 +22,7 @@ export default function SelectRoleScreen() {
   return (
     <View className="flex-1 bg-surface-base">
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader onBack={() => router.back()} />
+        <BackHeader onBack={() => goBackSafe(router, "/login")} />
       </View>
 
       <ScrollView

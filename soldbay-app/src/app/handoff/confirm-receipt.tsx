@@ -17,6 +17,7 @@ import {
 } from "@/components";
 import { confirmOrderReceipt, disputeOrder } from "@/lib/api";
 import { alertDialog } from "@/lib/dialogs";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 export default function ConfirmReceiptScreen() {
@@ -75,7 +76,7 @@ export default function ConfirmReceiptScreen() {
   return (
     <View className="flex-1 bg-surface-base">
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1">
-        <BackHeader onBack={() => router.back()} title="Inspection & Confirmation" />
+        <BackHeader onBack={() => goBackSafe(router, "/orders")} title="Inspection & Confirmation" />
       </View>
 
       <ScrollView className="flex-1 px-3 pt-2">

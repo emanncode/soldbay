@@ -19,6 +19,7 @@ import {
   VerifiedChip,
 } from "@/components";
 import { getListingById, type ListingDetail } from "@/lib/api";
+import { goBackSafe } from "@/lib/navigation";
 import { colors } from "@/theme/colors";
 
 const { width } = Dimensions.get("window");
@@ -62,7 +63,7 @@ export default function ListingDetailScreen() {
         </Text>
         <Button
           label="Go Back"
-          onPress={() => router.back()}
+          onPress={() => goBackSafe(router, "/buyer/home")}
           variant="secondary"
           className="mt-3"
         />
@@ -75,7 +76,7 @@ export default function ListingDetailScreen() {
   return (
     <View className="flex-1 bg-surface-base">
       <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1 z-10">
-        <BackHeader onBack={() => router.back()} />
+        <BackHeader onBack={() => goBackSafe(router, "/buyer/home")} />
       </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
