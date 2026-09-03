@@ -82,6 +82,8 @@ export async function GET(
       isSeller,
       // Security: PIN is revealed ONLY to the seller for in-person handoff display
       sellerPin: isSeller ? order.confirmationPin : undefined,
+      pinShownAt: isSeller ? (order.pinShownAt?.toISOString() ?? null) : undefined,
+      pinExpiresAt: isSeller ? (order.pinExpiresAt?.toISOString() ?? null) : undefined,
       dispute: order.disputes[0]
         ? {
             id: order.disputes[0].id,

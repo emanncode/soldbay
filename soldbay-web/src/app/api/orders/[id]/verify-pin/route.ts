@@ -63,6 +63,19 @@ export async function POST(
 
     const now = new Date()
 
+    // If the PIN was revealed (expiry window started) but has since expired,
+    // reject with a clear, distinct message so the buyer asks the seller to
+    // show the code again. This is independent of the failed-attempt lockout.
+    if (order.pinExpiresAt && order.pinExpiresAt <= now) {
+      return NextResponse.json(
+        {
+          error: "This code expired, ask the seller to show it again.",
+          expired: true,
+        },
+        { status: 410 }
+      )
+    }
+
     // If the order is currently locked, reject any attempt until the lock expires.
     if (order.pinLockedUntil && order.pinLockedUntil > now) {
       const retryAfterMs = order.pinLockedUntil.getTime() - now.getTime()
