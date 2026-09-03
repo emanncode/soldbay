@@ -30,6 +30,9 @@ wallet for buyer is where they can add their own money for when we have other mo
 
 13. i noticed that in the listings in the dashboard there is no edit product and when seller tap on a product it takes them to the cutom buy a product screen instead of a specified screen for editing or just to check your roduct details, and it is now showing the buy now: #price(and it is not mean to be there)
 
+14. i notices that if a user that is registered only as a buyer goes to profile and then clicks switch to campus seller, it takes them to join soldbay screen again, which will route them to signing up again, which is not meant to be, let's cook up something there for them to like do at that point, instead of routing them to join soldbay and the whole sign up screen again
+
+15. there is no add to cart
 
 
 **questions to answer and to work on too**
