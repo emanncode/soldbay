@@ -216,12 +216,24 @@ export async function resolveDisputeAsReleaseToSeller({
     const orderAmount = Number(dispute.order.amount)
     const payoutAmount = orderAmount * (1 - Number(commissionRate))
 
-    await tx.sellerProfile.update({
+    const updatedProfile = await tx.sellerProfile.update({
       where: { id: dispute.order.sellerId },
       data: {
         walletBalance: {
           increment: payoutAmount,
         },
+      },
+    })
+
+    // Write a ledger entry for the seller payout (escrow release).
+    await tx.walletTransaction.create({
+      data: {
+        userId: dispute.order.seller.userId,
+        type: "PAYOUT",
+        amount: payoutAmount,
+        balanceAfter: Number(updatedProfile.walletBalance),
+        description: `Payout for order ${dispute.order.orderNumber}`,
+        orderId: dispute.order.id,
       },
     })
 

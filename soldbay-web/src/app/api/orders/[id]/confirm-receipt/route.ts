@@ -62,10 +62,22 @@ export async function POST(
         data: { status: OrderStatus.COMPLETED },
       })
 
-      await tx.sellerProfile.update({
+      const updatedProfile = await tx.sellerProfile.update({
         where: { id: order.sellerId },
         data: {
           walletBalance: { increment: sellerPayout },
+        },
+      })
+
+      // Write a ledger entry for the seller payout (escrow release).
+      await tx.walletTransaction.create({
+        data: {
+          userId: order.seller.userId,
+          type: "PAYOUT",
+          amount: sellerPayout,
+          balanceAfter: Number(updatedProfile.walletBalance),
+          description: `Payout for order ${order.orderNumber}`,
+          orderId: order.id,
         },
       })
 
