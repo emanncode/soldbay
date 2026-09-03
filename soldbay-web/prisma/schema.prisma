@@ -76,6 +76,7 @@ model User {
   buyerOrders   Order[]        @relation("BuyerOrders")
   buyerDisputes Dispute[]      @relation("BuyerDisputes")
   resolvedDisputes Dispute[]   @relation("ResolvedDisputes")
+  walletTransactions WalletTransaction[] @relation("WalletTransactions")
 }
 
 model Account {
@@ -172,6 +173,13 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum WalletTransactionType {
+  ESCROW_HOLD
+  ESCROW_RELEASE
+  REFUND
+  PAYOUT
+}
+
 enum DisputeStatus {
   OPEN
   UNDER_REVIEW
@@ -200,7 +208,10 @@ model Order {
   confirmationPin   String?
   pinFailedAttempts Int       @default(0)
   pinLockedUntil    DateTime?
+  pinShownAt        DateTime?
+  pinExpiresAt      DateTime?
   disputes          Dispute[]
+  walletTransactions WalletTransaction[]
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @default(now()) @updatedAt
 
@@ -227,5 +238,29 @@ model Dispute {
 
   @@index([orderId])
   @@index([status, createdAt(sort: Desc)])
+}
+
+/**
+ * In-app wallet ledger. A running record of money movements visible to a
+ * user. For sellers, `PAYOUT` rows are written when escrow funds are released
+ * on order completion. For buyers, the ledger is informational (escrow hold /
+ * release / refund events derived from order status); real money flows through
+ * the external payment provider (Paystack), which is out of scope here.
+ */
+model WalletTransaction {
+  id           String                @id @default(cuid())
+  userId       String
+  user         User                  @relation("WalletTransactions", fields: [userId], references: [id])
+  type         WalletTransactionType
+  // Always stored as a positive magnitude; sign is implied by `type`.
+  amount       Decimal
+  balanceAfter Decimal
+  description  String
+  orderId      String?
+  order        Order?                @relation(fields: [orderId], references: [id])
+  createdAt    DateTime              @default(now())
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([orderId])
 }
 
