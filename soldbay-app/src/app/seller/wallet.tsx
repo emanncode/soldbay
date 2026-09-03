@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -11,12 +11,13 @@ import {
   User,
 } from "lucide-react-native";
 import { TabBar, WalletView } from "@/components";
-import { useProtectedRoute } from "@/lib/auth";
+import { useProtectedRoute, useSellerVerificationGate } from "@/lib/auth";
 import { getWallet, type WalletResponse } from "@/lib/api";
 import { colors } from "@/theme/colors";
 
 export default function SellerWalletScreen() {
   useProtectedRoute();
+  const { approved, loading: gateLoading } = useSellerVerificationGate();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -63,6 +64,14 @@ export default function SellerWalletScreen() {
     else if (key === "profile") router.replace("/profile");
     else setActiveTab(key);
   };
+
+  if (gateLoading || !approved) {
+    return (
+      <View className="flex-1 items-center justify-center bg-surface-base">
+        <ActivityIndicator size="small" color={colors.accent} />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-surface-base">

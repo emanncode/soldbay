@@ -51,9 +51,12 @@ export default function SellerVerifyScreen() {
         } else if (seller.verificationStatus === "REJECTED") {
           setRejectionReason(seller.rejectionReason ?? null);
           setStep("rejected");
-        } else if (seller.idImageUrl || seller.verificationStatus === "PENDING") {
+        } else if (seller.idImageUrl) {
+          // A proof image was actually submitted — currently awaiting admin review.
           setStep("pending");
         } else {
+          // New seller whose profile just defaults to PENDING but has not yet
+          // uploaded proof — show the upload form.
           setStep("choice");
         }
       } catch {
@@ -147,10 +150,13 @@ export default function SellerVerifyScreen() {
         <Text className="mt-1 text-center font-manrope text-body text-text-secondary">
           Our team is reviewing your student portal screenshot. This typically takes under 24 hours.
         </Text>
+        <Text className="mt-3 text-center font-manrope text-small text-text-tertiary">
+          You will be able to sell and manage your store once your seller profile is approved. You
+          can keep browsing and buying on campus meanwhile.        </Text>
         <View className="mt-6 w-full">
           <Button
-            label="Back to Dashboard"
-            onPress={() => router.replace("/seller/dashboard")}
+            label="Continue as a Buyer"
+            onPress={() => router.replace("/buyer/home")}
             variant="primary"
           />
         </View>

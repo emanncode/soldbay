@@ -52,6 +52,15 @@ export default function SellerDashboardScreen() {
       else setLoading(true);
 
       const me = await getSellerMe();
+
+      // A seller whose profile hasn't been approved cannot use the seller
+      // dashboard. Route them to the verify flow, which shows the pending /
+      // under-review state or the proof-upload form.
+      if (!me.verified && me.verificationStatus !== "APPROVED") {
+        router.replace("/seller/verify");
+        return;
+      }
+
       setData(me);
     } catch {
       setData(null);

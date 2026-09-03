@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -11,11 +11,12 @@ import {
   User,
 } from "lucide-react-native";
 import { TabBar } from "@/components";
-import { useProtectedRoute } from "@/lib/auth";
+import { useProtectedRoute, useSellerVerificationGate } from "@/lib/auth";
 import { colors } from "@/theme/colors";
 
 export default function SellerProductsScreen() {
   useProtectedRoute();
+  const { approved, loading } = useSellerVerificationGate();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState("products");
@@ -38,6 +39,14 @@ export default function SellerProductsScreen() {
     else if (key === "profile") router.replace("/profile");
     else setActiveTab(key);
   };
+
+  if (loading || !approved) {
+    return (
+      <View className="flex-1 items-center justify-center bg-surface-base">
+        <ActivityIndicator size="small" color={colors.accent} />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-surface-base">

@@ -67,7 +67,7 @@ export default function SelectUniversityScreen() {
 
       const user = await getMe();
       if (user.role === "SELLER") {
-        router.replace("/seller/dashboard");
+        router.replace("/seller/verify");
       } else {
         router.replace("/buyer/home");
       }
