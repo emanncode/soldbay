@@ -49,7 +49,9 @@ export default function LoginScreen() {
         router.replace("/buyer/home");
       }
     } catch (err: any) {
-      setErrorMessage(err?.message || "Invalid email or password. Please try again.");
+      setErrorMessage(
+        err?.message || "Invalid email or password. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -64,8 +66,9 @@ export default function LoginScreen() {
         contentContainerStyle={{
           paddingTop: Math.max(insets.top + 24, 48),
           paddingBottom: Math.max(insets.bottom + 24, 32),
+          justifyContent: "center",
         }}
-        className="flex-1 px-3 justify-center"
+        className="flex-1 px-3"
         keyboardShouldPersistTaps="handled"
       >
         <View className="mb-4">

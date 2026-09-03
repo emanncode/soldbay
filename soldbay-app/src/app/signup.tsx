@@ -80,8 +80,9 @@ export default function SignupScreen() {
         contentContainerStyle={{
           paddingTop: 8,
           paddingBottom: Math.max(insets.bottom + 24, 32),
+          justifyContent: "center",
         }}
-        className="flex-1 px-3 justify-center"
+        className="flex-1 px-3"
         keyboardShouldPersistTaps="handled"
       >
         <View className="mb-4">
