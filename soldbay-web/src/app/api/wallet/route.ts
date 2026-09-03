@@ -72,7 +72,7 @@ export async function GET(request: Request) {
 
       return NextResponse.json({
         role: "SELLER",
-        balance: profile?.walletBalance ?? 0,
+        balance: Number(profile?.walletBalance ?? 0),
         currency: "NGN",
         transactions: transactions.map((t) => ({
           id: t.id,
