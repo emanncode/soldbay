@@ -8,21 +8,26 @@ import {
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-  School,
   ShieldCheck,
   Package,
   LogOut,
   Store,
   Trash2,
+  ShoppingBag,
+  Search as SearchIcon,
+  ShoppingCart,
+  User,
+  Wallet,
+  Plus,
 } from "lucide-react-native";
 import {
   Avatar,
-  BackHeader,
   Divider,
   SettingsRow,
+  TabBar,
   VerifiedChip,
 } from "@/components";
-import { clearToken, deleteAccount, getMe, getSellerMe, type UserMeResponse } from "@/lib/api";
+import { clearToken, deleteAccount, getMe, getSellerMe, saveLastActiveMode, type UserMeResponse } from "@/lib/api";
 import { alertDialog, confirmDialog } from "@/lib/dialogs";
 import { colors } from "@/theme/colors";
 
@@ -34,6 +39,7 @@ export default function ProfileScreen() {
   const [isSellerVerified, setIsSellerVerified] = useState(false);
   const [sellerVerificationStatus, setSellerVerificationStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("profile");
 
   useEffect(() => {
     async function loadProfile() {
@@ -66,8 +72,6 @@ export default function ProfileScreen() {
     if (!ok) return;
 
     await clearToken();
-    // Reset the whole navigation stack so no authenticated screens
-    // remain in history after signing out.
     try {
       router.dismissAll();
     } catch {
@@ -104,6 +108,50 @@ export default function ProfileScreen() {
     }
   };
 
+  const handleSwitchToBuyerMode = async () => {
+    await saveLastActiveMode("buyer");
+    router.replace("/buyer/home");
+  };
+
+  // Determine which tab bar to show based on user role.
+  const isApprovedSeller = user?.role === "SELLER" && sellerVerificationStatus === "APPROVED";
+
+  const sellerTabs = [
+    { key: "dashboard", label: "Dashboard", icon: ({ color, size }: any) => <Store color={color} size={size} /> },
+    { key: "orders", label: "Orders", icon: ({ color, size }: any) => <Package color={color} size={size} /> },
+    { key: "post", label: "Post", icon: ({ color, size }: any) => <Plus color={color} size={size} />, isAction: true },
+    { key: "products", label: "Products", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
+    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
+    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
+  ];
+
+  const buyerTabs = [
+    { key: "home", label: "Feed", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
+    { key: "search", label: "Search", icon: ({ color, size }: any) => <SearchIcon color={color} size={size} /> },
+    { key: "cart", label: "Cart", icon: ({ color, size }: any) => <ShoppingCart color={color} size={size} /> },
+    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
+    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
+  ];
+
+  const tabs = isApprovedSeller ? sellerTabs : buyerTabs;
+
+  const handleTabPress = (key: string) => {
+    if (isApprovedSeller) {
+      if (key === "dashboard") router.replace("/seller/dashboard");
+      else if (key === "orders") router.replace("/orders");
+      else if (key === "post") router.push("/seller/create-listing");
+      else if (key === "products") router.replace("/seller/products");
+      else if (key === "wallet") router.replace("/seller/wallet");
+      else setActiveTab(key);
+    } else {
+      if (key === "home") router.replace("/buyer/home");
+      else if (key === "search") router.replace("/buyer/search");
+      else if (key === "cart") router.replace("/buyer/cart");
+      else if (key === "wallet") router.replace("/buyer/wallet");
+      else setActiveTab(key);
+    }
+  };
+
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-surface-base">
@@ -114,8 +162,14 @@ export default function ProfileScreen() {
 
   return (
     <View className="flex-1 bg-surface-base">
-      <View style={{ paddingTop: Math.max(insets.top, 16) }} className="px-1 border-b border-border bg-surface-elevated">
-        <BackHeader onBack={() => router.back()} title="Profile" />
+      {/* Lightweight header — no back button */}
+      <View
+        style={{ paddingTop: Math.max(insets.top, 16) }}
+        className="flex-row items-center justify-center px-3 pb-3 border-b border-border bg-surface-elevated"
+      >
+        <Text className="text-body font-manrope-medium text-text-primary">
+          Profile
+        </Text>
       </View>
 
       <ScrollView className="flex-1">
@@ -147,13 +201,6 @@ export default function ProfileScreen() {
           />
           <Divider />
           <SettingsRow
-            label="Campus & University"
-            icon={<School size={20} color={colors.neutral600} />}
-            value={user?.level || undefined}
-            onPress={() => router.push("/select-university")}
-          />
-          <Divider />
-          <SettingsRow
             label="Seller Portal Verification"
             icon={<ShieldCheck size={20} color={colors.neutral600} />}
             badge={isSellerVerified ? <VerifiedChip size="sm" /> : undefined}
@@ -163,20 +210,18 @@ export default function ProfileScreen() {
 
         {/* Switch Mode / Store */}
         <View className="mt-3 bg-surface-elevated border-y border-border">
-          {user?.role === "SELLER" ? (
-            sellerVerificationStatus === "APPROVED" ? (
-              <SettingsRow
-                label="Seller Dashboard"
-                icon={<Store size={20} color={colors.accent} />}
-                onPress={() => router.push("/seller/dashboard")}
-              />
-            ) : (
-              <SettingsRow
-                label="Seller Dashboard (Pending Approval)"
-                icon={<Store size={20} color={colors.accent} />}
-                onPress={() => router.push("/seller/verify")}
-              />
-            )
+          {isApprovedSeller ? (
+            <SettingsRow
+              label="Switch to Buyer Mode"
+              icon={<ShoppingBag size={20} color={colors.accent} />}
+              onPress={handleSwitchToBuyerMode}
+            />
+          ) : user?.role === "SELLER" ? (
+            <SettingsRow
+              label="Seller Portal (Pending Approval)"
+              icon={<Store size={20} color={colors.neutral600} />}
+              onPress={() => router.push("/seller/verify")}
+            />
           ) : (
             <SettingsRow
               label="Switch to Campus Seller"
@@ -208,6 +253,12 @@ export default function ProfileScreen() {
           />
         </View>
       </ScrollView>
+
+      <TabBar
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabPress={handleTabPress}
+      />
     </View>
   );
 }
