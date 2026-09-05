@@ -21,6 +21,7 @@ export * from "./sticky-action-bar";
 export * from "./back-header";
 export * from "./section-header";
 export * from "./tab-bar";
+export * from "./tab-screen-shell";
 export * from "./divider";
 
 // Display, Cards & Indicators

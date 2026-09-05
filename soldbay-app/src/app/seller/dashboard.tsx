@@ -8,22 +8,15 @@ import {
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  Package,
-  ShoppingBag,
-  Store,
-  Plus,
-  User,
-  Wallet,
-} from "lucide-react-native";
+import { Store } from "lucide-react-native";
 import {
   ListingCard,
   SectionHeader,
   StatCard,
-  TabBar,
+  TabScreenShell,
 } from "@/components";
 import { useProtectedRoute } from "@/lib/auth";
+import { useModeTabs } from "@/lib/tabs";
 import {
   getSellerMe,
   saveLastActiveMode,
@@ -34,9 +27,8 @@ import { colors } from "@/theme/colors";
 export default function SellerDashboardScreen() {
   useProtectedRoute();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const { tabs, handleTabPress } = useModeTabs("seller");
 
-  const [activeTab, setActiveTab] = useState("dashboard");
   const [data, setData] = useState<SellerMeResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -52,15 +44,6 @@ export default function SellerDashboardScreen() {
       else setLoading(true);
 
       const me = await getSellerMe();
-
-      // A seller whose profile hasn't been approved cannot use the seller
-      // dashboard. Route them to the verify flow, which shows the pending /
-      // under-review state or the proof-upload form.
-      if (!me.verified && me.verificationStatus !== "APPROVED") {
-        router.replace("/seller/verify");
-        return;
-      }
-
       setData(me);
     } catch {
       setData(null);
@@ -83,36 +66,15 @@ export default function SellerDashboardScreen() {
     data?.listings.filter((l) => l.status === "active").length ?? 0;
   const activeListings = data?.listings.slice(0, 3) ?? [];
 
-  const tabs = [
-    { key: "dashboard", label: "Dashboard", icon: ({ color, size }: any) => <Store color={color} size={size} /> },
-    { key: "orders", label: "Orders", icon: ({ color, size }: any) => <Package color={color} size={size} /> },
-    { key: "post", label: "Post", icon: ({ color, size }: any) => <Plus color={color} size={size} />, isAction: true },
-    { key: "products", label: "Products", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
-    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
-    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
-  ];
-
-  const handleTabPress = (key: string) => {
-    if (key === "orders") router.replace("/orders");
-    else if (key === "post") router.push("/seller/create-listing");
-    else if (key === "products") router.replace("/seller/products");
-    else if (key === "wallet") router.replace("/seller/wallet");
-    else if (key === "profile") router.replace("/profile");
-    else setActiveTab(key);
-  };
-
   return (
-    <View className="flex-1 bg-surface-base">
-      <View
-        style={{ paddingTop: Math.max(insets.top, 16) }}
-        className="flex-row items-center justify-center px-3 pb-3 border-b border-border bg-surface-elevated"
-      >
-        <Store size={16} color={colors.accent} />
-        <Text className="ml-2 text-body font-manrope-medium text-text-primary">
-          Seller Dashboard
-        </Text>
-      </View>
-
+    <TabScreenShell
+      mode="seller"
+      activeTab="dashboard"
+      tabs={tabs}
+      onTabPress={handleTabPress}
+      title="Seller Dashboard"
+      headerIcon={<Store size={16} color={colors.accent} />}
+    >
       {loading ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="small" color={colors.accent} />
@@ -178,12 +140,6 @@ export default function SellerDashboardScreen() {
           </View>
         </ScrollView>
       )}
-
-      <TabBar
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
-      />
-    </View>
+    </TabScreenShell>
   );
 }

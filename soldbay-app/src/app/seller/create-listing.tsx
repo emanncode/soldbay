@@ -58,6 +58,7 @@ export default function CreateListingScreen() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isApproved, setIsApproved] = useState(false);
 
   const isEditMode = Boolean(editListingId);
 
@@ -67,12 +68,12 @@ export default function CreateListingScreen() {
       try {
         setLoading(true);
 
-        // Gate listing creation on admin approval.
+        // Any seller — approved or pending — may draft listings. Admin
+        // approval only gates publishing (see step 4 below), so a pending
+        // seller prepares their listing as a draft and it goes live once
+        // their seller profile is approved.
         const seller = await getSellerMe().catch(() => null);
-        if (seller?.verificationStatus !== "APPROVED") {
-          router.replace("/seller/verify");
-          return;
-        }
+        setIsApproved(seller?.verificationStatus === "APPROVED");
 
         if (params.id) {
           // Editing an existing published listing
@@ -247,13 +248,28 @@ export default function CreateListingScreen() {
       if (draftId) {
         try {
           setSaving(true);
-          await publishDraft(draftId);
 
-          await alertDialog({
-            title: "Listing Published! 🎉",
-            message: "Your item is now live and visible to buyers across your campus.",
-            buttonText: "Go to Dashboard",
-          });
+          if (isApproved) {
+            await publishDraft(draftId);
+
+            await alertDialog({
+              title: "Listing Published! 🎉",
+              message: "Your item is now live and visible to buyers across your campus.",
+              buttonText: "Go to Dashboard",
+            });
+          } else {
+            // Admin approval still pending — keep the listing as a draft so
+            // the seller can keep working; publish is unlocked once approved.
+            await patchDraft(draftId, { draftStep: 4 });
+
+            await alertDialog({
+              title: "Draft Saved",
+              message:
+                "Your seller profile is still pending approval, so this listing was saved as a draft. It will go live automatically once you're approved — you can publish it anytime from your dashboard.",
+              buttonText: "Go to Dashboard",
+            });
+          }
+
           router.replace("/seller/dashboard");
         } catch (err: any) {
           setErrorMessage(err?.message || "Failed to publish listing.");
@@ -399,9 +415,17 @@ export default function CreateListingScreen() {
             <Text className="font-manrope-semibold text-h1 text-text-primary">
               Review Listing
             </Text>
-            <Text className="mt-0.5 font-manrope text-body text-text-secondary">
-              Review your listing details before publishing to your campus.
-            </Text>
+            {isApproved ? (
+              <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+                Review your listing details before publishing to your campus.
+              </Text>
+            ) : (
+              <Text className="mt-0.5 font-manrope text-body text-text-secondary">
+                Review your listing details. While your seller profile awaits
+                approval, this will be saved as a draft and go live once
+                you&apos;re approved.
+              </Text>
+            )}
 
             <View className="mt-3 rounded-md border border-neutral-200 bg-surface-elevated p-2">
               <Text className="font-manrope-semibold text-h2 text-text-primary">
@@ -429,7 +453,9 @@ export default function CreateListingScreen() {
             currentStep === 4
               ? isEditMode
                 ? "Save Changes"
-                : "Publish Listing"
+                : isApproved
+                  ? "Publish Listing"
+                  : "Save as Draft"
               : "Continue"
           }
           onPress={handleNext}

@@ -7,24 +7,25 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ShoppingBag, Search as SearchIcon, ShoppingCart, User, Wallet } from "lucide-react-native";
+import { Search as SearchIcon } from "lucide-react-native";
 import {
   EmptyState,
   FilterChip,
   ListingCard,
   LogoWordmark,
   SearchBar,
-  TabBar,
+  TabScreenShell,
   VerifiedChip,
 } from "@/components";
 import { getCategories, getListings, type Category, type PublicListing } from "@/lib/api";
+import { useModeTabs } from "@/lib/tabs";
 import { colors } from "@/theme/colors";
 
 export default function BuyerHomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { tabs, handleTabPress } = useModeTabs("buyer");
 
-  const [activeTab, setActiveTab] = useState("home");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,84 +58,53 @@ export default function BuyerHomeScreen() {
     loadData();
   }, [loadData]);
 
-  const tabs = [
-    {
-      key: "home",
-      label: "Feed",
-      icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} />,
-    },
-    {
-      key: "search",
-      label: "Search",
-      icon: ({ color, size }: any) => <SearchIcon color={color} size={size} />,
-    },
-    {
-      key: "cart",
-      label: "Cart",
-      icon: ({ color, size }: any) => <ShoppingCart color={color} size={size} />,
-    },
-    {
-      key: "wallet",
-      label: "Wallet",
-      icon: ({ color, size }: any) => <Wallet color={color} size={size} />,
-    },
-    {
-      key: "profile",
-      label: "Profile",
-      icon: ({ color, size }: any) => <User color={color} size={size} />,
-    },
-  ];
-
-  const handleTabPress = (key: string) => {
-    if (key === "search") router.replace("/buyer/search");
-    else if (key === "cart") router.replace("/buyer/cart");
-    else if (key === "wallet") router.replace("/buyer/wallet");
-    else if (key === "profile") router.replace("/profile");
-    else setActiveTab(key);
-  };
-
   return (
-    <View className="flex-1 bg-surface-base">
-      {/* Top Header */}
-      <View
-        style={{ paddingTop: Math.max(insets.top + 8, 16) }}
-        className="px-3 pb-1 border-b border-border bg-surface-elevated"
-      >
-        <View className="flex-row items-center justify-between mb-2">
-          <LogoWordmark size="md" />
-          <VerifiedChip size="sm" />
-        </View>
+    <TabScreenShell
+      mode="buyer"
+      activeTab="home"
+      tabs={tabs}
+      onTabPress={handleTabPress}
+      header={
+        <View
+          style={{ paddingTop: Math.max(insets.top + 8, 16) }}
+          className="px-3 pb-1 border-b border-border bg-surface-elevated"
+        >
+          <View className="flex-row items-center justify-between mb-2">
+            <LogoWordmark size="md" />
+            <VerifiedChip size="sm" />
+          </View>
 
-        <View className="mb-2">
-          <SearchBar
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholder="Search items on your campus..."
+          <View className="mb-2">
+            <SearchBar
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Search items on your campus..."
+            />
+          </View>
+
+          {/* Category Pills */}
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={[{ id: "all", name: "All", slug: "" }, ...categories]}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingBottom: 8, gap: 6 }}
+            renderItem={({ item }) => {
+              const isActive =
+                (item.id === "all" && !selectedCategory) ||
+                item.slug === selectedCategory;
+              return (
+                <FilterChip
+                  label={item.name}
+                  active={isActive}
+                  onPress={() => setSelectedCategory(item.slug || null)}
+                />
+              );
+            }}
           />
         </View>
-
-        {/* Category Pills */}
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={[{ id: "all", name: "All", slug: "" }, ...categories]}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 8, gap: 6 }}
-          renderItem={({ item }) => {
-            const isActive =
-              (item.id === "all" && !selectedCategory) ||
-              item.slug === selectedCategory;
-            return (
-              <FilterChip
-                label={item.name}
-                active={isActive}
-                onPress={() => setSelectedCategory(item.slug || null)}
-              />
-            );
-          }}
-        />
-      </View>
-
+      }
+    >
       {/* Product Grid */}
       {loading ? (
         <View className="flex-1 items-center justify-center">
@@ -176,13 +146,6 @@ export default function BuyerHomeScreen() {
           )}
         />
       )}
-
-      {/* Bottom Tab Navigation */}
-      <TabBar
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
-      />
-    </View>
+    </TabScreenShell>
   );
 }

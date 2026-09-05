@@ -152,13 +152,19 @@ export default function SellerVerifyScreen() {
           Our team is reviewing your student portal screenshot. This typically takes under 24 hours.
         </Text>
         <Text className="mt-3 text-center font-manrope text-small text-text-tertiary">
-          You will be able to sell and manage your store once your seller profile is approved. You
-          can keep browsing and buying on campus meanwhile.        </Text>
-        <View className="mt-6 w-full">
+          You can start managing your seller store and drafting listings right
+          away — they will go live automatically once your seller profile is
+          approved. You can keep browsing and buying on campus meanwhile.        </Text>
+        <View className="mt-6 w-full gap-2">
+          <Button
+            label="Go to Seller Dashboard"
+            onPress={() => router.replace("/seller/dashboard")}
+            variant="primary"
+          />
           <Button
             label="Continue as a Buyer"
             onPress={() => router.replace("/buyer/home")}
-            variant="primary"
+            variant="secondary"
           />
         </View>
       </View>

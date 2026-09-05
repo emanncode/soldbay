@@ -3,38 +3,28 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  Text,
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  Package,
-  ShoppingBag,
-  Search as SearchIcon,
-  ShoppingCart,
-  Store,
-  Plus,
-  User,
-  Wallet,
-} from "lucide-react-native";
+import { Package } from "lucide-react-native";
 import {
   EmptyState,
   OrderCard,
-  TabBar,
+  TabScreenShell,
 } from "@/components";
 import { getOrders, getMe, type OrderItem } from "@/lib/api";
+import { useModeTabs } from "@/lib/tabs";
 import { colors } from "@/theme/colors";
 
 export default function OrdersListScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
-
-  const [activeTab, setActiveTab] = useState("orders");
   const [orders, setOrders] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [isSeller, setIsSeller] = useState(false);
+
+  const tabMode = isSeller ? "seller" : "buyer";
+  const { tabs, handleTabPress } = useModeTabs(tabMode);
 
   const fetchOrders = async (isRefresh = false) => {
     try {
@@ -61,54 +51,15 @@ export default function OrdersListScreen() {
     fetchOrders();
   }, []);
 
-  const sellerTabs = [
-    { key: "dashboard", label: "Dashboard", icon: ({ color, size }: any) => <Store color={color} size={size} /> },
-    { key: "orders", label: "Orders", icon: ({ color, size }: any) => <Package color={color} size={size} /> },
-    { key: "post", label: "Post", icon: ({ color, size }: any) => <Plus color={color} size={size} />, isAction: true },
-    { key: "products", label: "Products", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
-    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
-    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
-  ];
-
-  const buyerTabs = [
-    { key: "home", label: "Feed", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
-    { key: "search", label: "Search", icon: ({ color, size }: any) => <SearchIcon color={color} size={size} /> },
-    { key: "cart", label: "Cart", icon: ({ color, size }: any) => <ShoppingCart color={color} size={size} /> },
-    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
-    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
-  ];
-
-  const tabs = isSeller ? sellerTabs : buyerTabs;
-
-  const handleTabPress = (key: string) => {
-    if (isSeller) {
-      if (key === "dashboard") router.replace("/seller/dashboard");
-      else if (key === "post") router.push("/seller/create-listing");
-      else if (key === "products") router.replace("/seller/products");
-      else if (key === "wallet") router.replace("/seller/wallet");
-      else if (key === "profile") router.replace("/profile");
-      else setActiveTab(key);
-    } else {
-      if (key === "home") router.replace("/buyer/home");
-      else if (key === "search") router.replace("/buyer/search");
-      else if (key === "cart") router.replace("/buyer/cart");
-      else if (key === "wallet") router.replace("/buyer/wallet");
-      else if (key === "profile") router.replace("/profile");
-    }
-  };
-
   return (
-    <View className="flex-1 bg-surface-base">
-      <View
-        style={{ paddingTop: Math.max(insets.top, 16) }}
-        className="flex-row items-center justify-center px-3 pb-3 border-b border-border bg-surface-elevated"
-      >
-        <Package size={16} color={colors.accent} />
-        <Text className="ml-2 text-body font-manrope-medium text-text-primary">
-          Your Orders
-        </Text>
-      </View>
-
+    <TabScreenShell
+      mode={tabMode}
+      activeTab="orders"
+      tabs={tabs}
+      onTabPress={handleTabPress}
+      title="Your Orders"
+      headerIcon={<Package size={16} color={colors.accent} />}
+    >
       {loading ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="small" color={colors.accent} />
@@ -148,12 +99,6 @@ export default function OrdersListScreen() {
           )}
         />
       )}
-
-      <TabBar
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
-      />
-    </View>
+    </TabScreenShell>
   );
 }

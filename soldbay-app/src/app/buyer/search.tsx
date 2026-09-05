@@ -6,28 +6,23 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  Search as SearchIcon,
-  ShoppingBag,
-  ShoppingCart,
-  User,
-  Wallet,
-} from "lucide-react-native";
+import { Search as SearchIcon } from "lucide-react-native";
 import {
   EmptyState,
   FilterChip,
   ListingCard,
   SearchBar,
-  TabBar,
+  TabScreenShell,
 } from "@/components";
 import { getCategories, getListings, type Category, type PublicListing } from "@/lib/api";
+import { useModeTabs } from "@/lib/tabs";
 import { colors } from "@/theme/colors";
 
 export default function BuyerSearchScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { tabs, handleTabPress } = useModeTabs("buyer");
 
-  const [activeTab, setActiveTab] = useState("search");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,57 +53,47 @@ export default function BuyerSearchScreen() {
     loadData();
   }, [loadData]);
 
-  const handleTabPress = (key: string) => {
-    if (key === "feed") router.replace("/buyer/home");
-    else if (key === "cart") router.replace("/buyer/cart");
-    else if (key === "wallet") router.replace("/buyer/wallet");
-    else if (key === "profile") router.replace("/profile");
-    else setActiveTab(key);
-  };
-
-  const tabs = [
-    { key: "feed", label: "Feed", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
-    { key: "search", label: "Search", icon: ({ color, size }: any) => <SearchIcon color={color} size={size} /> },
-    { key: "cart", label: "Cart", icon: ({ color, size }: any) => <ShoppingCart color={color} size={size} /> },
-    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
-    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
-  ];
-
   return (
-    <View className="flex-1 bg-surface-base">
-      <View
-        style={{ paddingTop: Math.max(insets.top + 8, 16) }}
-        className="px-3 pb-1 border-b border-border bg-surface-elevated"
-      >
-        <View className="mb-2">
-          <SearchBar
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholder="Search items on your campus..."
+    <TabScreenShell
+      mode="buyer"
+      activeTab="search"
+      tabs={tabs}
+      onTabPress={handleTabPress}
+      header={
+        <View
+          style={{ paddingTop: Math.max(insets.top + 8, 16) }}
+          className="px-3 pb-1 border-b border-border bg-surface-elevated"
+        >
+          <View className="mb-2">
+            <SearchBar
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Search items on your campus..."
+            />
+          </View>
+
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={[{ id: "all", name: "All", slug: "" }, ...categories]}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingBottom: 8, gap: 6 }}
+            renderItem={({ item }) => {
+              const isActive =
+                (item.id === "all" && !selectedCategory) ||
+                item.slug === selectedCategory;
+              return (
+                <FilterChip
+                  label={item.name}
+                  active={isActive}
+                  onPress={() => setSelectedCategory(item.slug || null)}
+                />
+              );
+            }}
           />
         </View>
-
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={[{ id: "all", name: "All", slug: "" }, ...categories]}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 8, gap: 6 }}
-          renderItem={({ item }) => {
-            const isActive =
-              (item.id === "all" && !selectedCategory) ||
-              item.slug === selectedCategory;
-            return (
-              <FilterChip
-                label={item.name}
-                active={isActive}
-                onPress={() => setSelectedCategory(item.slug || null)}
-              />
-            );
-          }}
-        />
-      </View>
-
+      }
+    >
       {loading ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="small" color={colors.accent} />
@@ -142,8 +127,6 @@ export default function BuyerSearchScreen() {
           )}
         />
       )}
-
-      <TabBar tabs={tabs} activeTab={activeTab} onTabPress={handleTabPress} />
-    </View>
+    </TabScreenShell>
   );
 }

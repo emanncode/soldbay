@@ -1,27 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
-import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  Package,
-  Store,
-  Plus,
-  ShoppingBag,
-  Wallet,
-  User,
-} from "lucide-react-native";
-import { TabBar, WalletView } from "@/components";
-import { useProtectedRoute, useSellerVerificationGate } from "@/lib/auth";
+import { Wallet } from "lucide-react-native";
+import { TabScreenShell, WalletView } from "@/components";
+import { useProtectedRoute } from "@/lib/auth";
+import { useModeTabs } from "@/lib/tabs";
 import { getWallet, type WalletResponse } from "@/lib/api";
 import { colors } from "@/theme/colors";
 
 export default function SellerWalletScreen() {
   useProtectedRoute();
-  const { approved, loading: gateLoading } = useSellerVerificationGate();
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const { tabs, handleTabPress } = useModeTabs("seller");
 
-  const [activeTab, setActiveTab] = useState("wallet");
   const [data, setData] = useState<WalletResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -46,45 +34,15 @@ export default function SellerWalletScreen() {
     fetchWallet();
   }, [fetchWallet]);
 
-  const tabs = [
-    { key: "dashboard", label: "Dashboard", icon: ({ color, size }: any) => <Store color={color} size={size} /> },
-    { key: "orders", label: "Orders", icon: ({ color, size }: any) => <Package color={color} size={size} /> },
-    { key: "post", label: "Post", icon: ({ color, size }: any) => <Plus color={color} size={size} />, isAction: true },
-    { key: "products", label: "Products", icon: ({ color, size }: any) => <ShoppingBag color={color} size={size} /> },
-    { key: "wallet", label: "Wallet", icon: ({ color, size }: any) => <Wallet color={color} size={size} /> },
-    { key: "profile", label: "Profile", icon: ({ color, size }: any) => <User color={color} size={size} /> },
-  ];
-
-  const handleTabPress = (key: string) => {
-    if (key === "dashboard") router.replace("/seller/dashboard");
-    else if (key === "orders") router.replace("/orders");
-    else if (key === "post") router.push("/seller/create-listing");
-    else if (key === "products") router.replace("/seller/products");
-    else if (key === "wallet") router.replace("/seller/wallet");
-    else if (key === "profile") router.replace("/profile");
-    else setActiveTab(key);
-  };
-
-  if (gateLoading || !approved) {
-    return (
-      <View className="flex-1 items-center justify-center bg-surface-base">
-        <ActivityIndicator size="small" color={colors.accent} />
-      </View>
-    );
-  }
-
   return (
-    <View className="flex-1 bg-surface-base">
-      <View
-        style={{ paddingTop: Math.max(insets.top, 16) }}
-        className="flex-row items-center justify-center px-3 pb-3 border-b border-border bg-surface-elevated"
-      >
-        <Wallet size={16} color={colors.accent} />
-        <Text className="ml-2 text-body font-manrope-medium text-text-primary">
-          Wallet
-        </Text>
-      </View>
-
+    <TabScreenShell
+      mode="seller"
+      activeTab="wallet"
+      tabs={tabs}
+      onTabPress={handleTabPress}
+      title="Wallet"
+      headerIcon={<Wallet size={16} color={colors.accent} />}
+    >
       <WalletView
         data={data}
         loading={loading}
@@ -92,12 +50,6 @@ export default function SellerWalletScreen() {
         onRefresh={() => fetchWallet(true)}
         intro="Earned from completed orders"
       />
-
-      <TabBar
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
-      />
-    </View>
+    </TabScreenShell>
   );
 }
