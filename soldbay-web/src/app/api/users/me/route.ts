@@ -35,7 +35,6 @@ export async function GET(request: Request) {
         name: true,
         role: true,
         universityId: true,
-        level: true,
         deletedAt: true,
       },
     })
@@ -108,7 +107,6 @@ export async function PATCH(request: Request) {
         name: true,
         role: true,
         universityId: true,
-        level: true,
       },
     })
 
@@ -129,12 +127,16 @@ export async function PATCH(request: Request) {
 
 /**
  * Soft-deletes the authenticated user's account under a retention model.
- * All account data (profile, email, password, matric number, and related
- * records) is kept FULLY intact so order history and audit trails remain
- * valid. The account is hidden from all user-facing views by marking
- * `deletedAt` (which blocks login), and `retainUntil` is set to a provisional
- * 5-year window. A scheduled job anonymizes/purges the record only after
- * `retainUntil` passes (see lib/account-retention.ts).
+ * Related records (orders, wallet ledger, listings) are kept FULLY intact so
+ * order history and audit trails remain valid. The account is hidden from all
+ * user-facing views by marking `deletedAt` (which blocks login), and
+ * `retainUntil` is set to a provisional 5-year window.
+ *
+ * The user's email is moved to `previousEmail` and replaced on the row with a
+ * placeholder so the address can be reused immediately for a new signup,
+ * without waiting out the retention window. A scheduled job anonymizes/purges
+ * the record (including `previousEmail`) only after `retainUntil` passes (see
+ * lib/account-retention.ts).
  */
 export async function DELETE(request: Request) {
   try {
@@ -145,7 +147,7 @@ export async function DELETE(request: Request) {
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, deletedAt: true },
+      select: { id: true, email: true, deletedAt: true },
     })
     if (!user) {
       return NextResponse.json({ error: "User not found." }, { status: 404 })
@@ -156,6 +158,9 @@ export async function DELETE(request: Request) {
 
     const now = new Date()
     const retainUntil = computeRetainUntil(now)
+    // Freed immediately so the same email can be used for a brand-new account,
+    // while retaining the original address for support/audit until purge.
+    const placeholderEmail = `deleted+${userId}@deleted.soldbay.app`
 
     await prisma.$transaction(
       async (tx) => {
@@ -164,6 +169,9 @@ export async function DELETE(request: Request) {
         await tx.user.update({
           where: { id: userId },
           data: {
+            previousEmail:
+              user.email && user.email !== placeholderEmail ? user.email : null,
+            email: placeholderEmail,
             deletedAt: now,
             retainUntil,
           },
@@ -175,7 +183,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({
       ok: true,
       message:
-        "Your account has been scheduled for deletion. Your data will be permanently removed after the retention period.",
+        "Your account has been scheduled for deletion. Your data will be permanently removed after the retention period. You can sign up again with the same email at any time.",
     })
   } catch (error: unknown) {
     if (

@@ -85,7 +85,6 @@ export async function POST(request: Request) {
               ...(body.universityId && typeof body.universityId === "string"
                 ? { university: { connect: { id: body.universityId } } }
                 : {}),
-              level: typeof body.level === "string" ? body.level : null,
             },
           })
 

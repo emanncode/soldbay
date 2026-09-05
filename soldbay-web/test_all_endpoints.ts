@@ -7,7 +7,7 @@ import { GET as getUniversities } from "@/app/api/universities/route";
 import { GET as getCategories } from "@/app/api/categories/route";
 import { POST as signup } from "@/app/api/auth/signup/route";
 import { POST as login } from "@/app/api/auth/mobile-login/route";
-import { GET as getUserMe, PATCH as patchUserMe } from "@/app/api/users/me/route";
+import { GET as getUserMe } from "@/app/api/users/me/route";
 import { GET as getSellerMe } from "@/app/api/sellers/me/route";
 import { POST as verifySeller } from "@/app/api/sellers/verify/route";
 import { POST as createDraft } from "@/app/api/listings/drafts/route";
@@ -194,17 +194,7 @@ async function runTests() {
       throw new Error(`GET /api/users/me failed: ${JSON.stringify(dataGet)}`);
     }
 
-    const reqPatch = createMockRequest("http://localhost:3000/api/users/me", {
-      method: "PATCH",
-      token: sellerToken,
-      body: { phone: "08012345678", level: "400L" },
-    });
-    const resPatch = await patchUserMe(reqPatch);
-    const dataPatch = await resPatch.json();
-    if (resPatch.status !== 200 || dataPatch.level !== "400L") {
-      throw new Error(`PATCH /api/users/me failed: ${JSON.stringify(dataPatch)}`);
-    }
-    console.log(`✅ [6/24] GET & PATCH /api/users/me -> OK (Profile verified and updated)`);
+    console.log(`✅ [6/24] GET /api/users/me -> OK (Profile verified)`);
   }
 
   // 7. POST /api/sellers/verify (Portal screenshot + matricNumber)

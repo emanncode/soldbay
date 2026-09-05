@@ -9,6 +9,7 @@ import {
 import {
   ArrowDownLeft,
   ArrowUpRight,
+  Clock,
   Lock,
   Wallet as WalletIcon,
 } from "lucide-react-native";
@@ -116,6 +117,36 @@ function WalletRow({ tx }: { tx: WalletTransaction }) {
 }
 
 /**
+ * Buyer-side wallet placeholder. Buyers cannot fund a wallet in V1 (they pay
+ * sellers in person at pickup), so this screen is intentionally informational
+ * only — no deposit, top-up, or payment interactions.
+ */
+function BuyerWalletComingSoon() {
+  return (
+    <View className="mb-4 rounded-xl border border-dashed border-border bg-surface-elevated/60 p-4">
+      <View className="flex-row items-center gap-3">
+        <View
+          className="h-9 w-9 items-center justify-center rounded-full"
+          style={{ backgroundColor: colors.neutral100 }}
+        >
+          <Clock size={18} color={colors.textSecondary} />
+        </View>
+        <View className="flex-1">
+          <Text className="font-manrope-semibold text-body text-text-primary">
+            Buyer wallet — coming soon
+          </Text>
+          <Text className="mt-0.5 font-manrope text-caption leading-4 text-text-secondary">
+            In V1 you pay sellers in person at pickup, so there&apos;s nothing
+            to fund here yet. The escrow amount held while an order is in
+            transit shows below for tracking.
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+/**
  * SOLDBAY WALLET
  *
  * Balance summary card + a scrolling list of wallet transactions. Shared by
@@ -167,6 +198,8 @@ export function WalletView({
       }
       ListHeaderComponent={
         <>
+          {data?.role === "BUYER" ? <BuyerWalletComingSoon /> : null}
+
           {/* Balance card */}
           <View className="rounded-xl bg-accent p-4">
             <View className="flex-row items-center">

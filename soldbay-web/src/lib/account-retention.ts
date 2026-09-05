@@ -43,10 +43,13 @@ export async function purgeExpiredAccounts(batchSize = 200): Promise<number> {
       await tx.account.deleteMany({ where: { userId: { in: ids } } })
       // Anonymize PII once the retention window has passed so the original
       // email/matric can be reused and no traceable personal data remains.
+      // `previousEmail` (the original address stashed on soft-delete) is also
+      // cleared — it is PII too and the row's placeholder email is already set.
       for (const id of ids) {
         await tx.user.update({
           where: { id },
           data: {
+            previousEmail: null,
             email: `deleted+${id}@deleted.soldbay.app`,
             password: null,
             matricNumber: null,

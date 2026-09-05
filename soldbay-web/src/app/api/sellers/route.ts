@@ -29,7 +29,6 @@ export async function POST(request: Request) {
           phone: body.phone || null,
           role: UserRole.SELLER,
           universityId: body.universityId,
-          level: body.level || null,
         },
       })
 

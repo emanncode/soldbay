@@ -160,7 +160,6 @@ export interface SignupPayload {
   name: string;
   role: Role;
   universityId?: string;
-  level?: string;
   businessName?: string;
 }
 
@@ -181,7 +180,6 @@ export interface UserMeResponse {
   name: string;
   role: Role;
   universityId: string | null;
-  level: string | null;
   avatar?: string | null;
 }
 

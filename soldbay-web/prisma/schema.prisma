@@ -57,6 +57,10 @@ model University {
 model User {
   id            String         @id @default(cuid())
   email         String         @unique
+  // Original email, preserved when the account is soft-deleted and `email`
+  // becomes a placeholder so the address can be reused immediately. Cleared
+  // (as PII) when the account is purged after the retention window.
+  previousEmail String?
   emailVerified DateTime?
   password      String? // bcrypt hash; required for credentials signup/login
   name          String
@@ -64,7 +68,6 @@ model User {
   role          UserRole
   universityId  String?
   university    University?    @relation(fields: [universityId], references: [id])
-  level         String?
   matricNumber  String?        @unique
   verified      Boolean        @default(false)
   deletedAt     DateTime?
