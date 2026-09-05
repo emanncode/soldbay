@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { requireApprovedSeller } from "@/lib/seller-gate"
+import { requireSeller } from "@/lib/seller-gate"
 
 export const dynamic = "force-dynamic"
 
+/**
+ * Creates a new draft for the authenticated seller. Deliberately gated on
+ * requireSeller (not requireApprovedSeller): a pending seller may prepare
+ * drafts freely; the approval requirement is enforced only when publishing.
+ */
 export async function POST(request: Request) {
   try {
-    const result = await requireApprovedSeller(request)
+    const result = await requireSeller(request)
     if (result.error) return result.error
     const seller = result.seller
 
@@ -46,7 +51,7 @@ export async function POST(request: Request) {
  */
 export async function GET(request: Request) {
   try {
-    const result = await requireApprovedSeller(request)
+    const result = await requireSeller(request)
     if (result.error) return result.error
     const seller = result.seller
 

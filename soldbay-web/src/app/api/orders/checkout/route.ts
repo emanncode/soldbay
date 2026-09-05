@@ -75,8 +75,14 @@ export async function POST(request: Request) {
     // Capture the price outside the transaction so TS narrowing holds inside the
     // closure (narrowing does not propagate into nested functions).
     const orderAmount = listing.price
+    // Fraud-prevention: a seller must never be able to buy their own listing.
+    // 403 (not 400) because the request is valid — the actor just lacks
+    // permission to purchase their own stock (blocks self-purchase wash trades).
     if (listing.seller.userId === userId) {
-      return NextResponse.json({ error: "You cannot purchase your own listing." }, { status: 400 })
+      return NextResponse.json(
+        { error: "You cannot purchase your own listing." },
+        { status: 403 },
+      )
     }
 
     // Generate unique order number (e.g. SB-84920) and 4-digit PIN

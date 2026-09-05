@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { deleteBlobImages } from "@/lib/blob-image"
-import { requireApprovedSeller } from "@/lib/seller-gate"
+import { requireSeller } from "@/lib/seller-gate"
 
 export const dynamic = "force-dynamic"
+
+// Draft read/edit/delete is gated on requireSeller (approval-free): a pending
+// seller may work on their own drafts. Publishing stays requireApprovedSeller.
 
 export async function GET(
   request: Request,
@@ -11,7 +14,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const result = await requireApprovedSeller(request)
+    const result = await requireSeller(request)
     if (result.error) return result.error
     const seller = result.seller
 
@@ -58,7 +61,7 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
-    const result = await requireApprovedSeller(request)
+    const result = await requireSeller(request)
     if (result.error) return result.error
     const seller = result.seller
 
@@ -135,7 +138,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    const result = await requireApprovedSeller(request)
+    const result = await requireSeller(request)
     if (result.error) return result.error
     const seller = result.seller
 
