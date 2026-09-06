@@ -57,25 +57,25 @@ export default function SplashScreen() {
         }
 
         if (user.role === "SELLER") {
-          // A seller can only enter seller mode after admin approval. While
-          // pending (or rejected), they continue in buyer mode.
+          // SELLER: approval gates publishing, not seller-mode access (Sep 5
+          // policy). Approved sellers resume where they left off (lastActiveMode);
+          // pending/rejected sellers keep seller-mode access too — landing on
+          // the seller dashboard, which shows the pending state with "Verify"
+          // and "Continue as a Buyer" actions.
           const seller = await getSellerMe().catch(() => null);
-          if (seller?.verificationStatus === "APPROVED") {
-            // Resume the seller where they left off. If they were last in
-            // buyer mode (or have never set one), land on buyer home. Respect
-            // the verification gate above: unapproved sellers always fall
-            // through to buyer home.
+          const approved = seller?.verificationStatus === "APPROVED";
+          if (approved) {
             const lastMode = await getLastActiveMode();
-            if (lastMode === "seller") {
-              await saveLastActiveMode("seller");
-              if (!cancelled) router.replace("/seller/dashboard");
-            } else {
+            if (lastMode === "buyer") {
               await saveLastActiveMode("buyer");
               if (!cancelled) router.replace("/buyer/home");
+            } else {
+              await saveLastActiveMode("seller");
+              if (!cancelled) router.replace("/seller/dashboard");
             }
           } else {
-            await saveLastActiveMode("buyer");
-            if (!cancelled) router.replace("/buyer/home");
+            await saveLastActiveMode("seller");
+            if (!cancelled) router.replace("/seller/dashboard");
           }
         } else {
           await saveLastActiveMode("buyer");

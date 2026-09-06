@@ -171,7 +171,7 @@ export default function ProfileScreen() {
             <SettingsRow
               label="Switch to Campus Seller"
               icon={<Store size={20} color={colors.accent} />}
-              onPress={() => router.push("/select-role")}
+              onPress={() => router.push("/seller/upgrade")}
             />
           )}
         </View>

@@ -104,6 +104,31 @@ export default function SellerDashboardScreen() {
               subtext="Live on campus"
             />
 
+            {/* Pending/rejected sellers keep full storefront access; one
+                banner keeps their status discoverable. Approval only gates
+                publishing (listings save as drafts). */}
+            {data && data.verificationStatus !== "APPROVED" ? (
+              <View className="rounded-md border border-warning bg-warning-tint p-2">
+                <Text className="font-manrope-semibold text-body-medium text-text-primary">
+                  {data.verificationStatus === "REJECTED"
+                    ? "Seller verification was not approved"
+                    : "Seller verification is pending"}
+                </Text>
+                <Text className="mt-1 font-manrope text-small text-text-secondary">
+                  You can draft listings now — they go live automatically once
+                  your profile is approved.
+                </Text>
+                <Pressable
+                  onPress={() => router.push("/seller/verify")}
+                  className="mt-2 self-start rounded-md bg-accent px-3 py-1.5"
+                >
+                  <Text className="font-manrope-medium text-small text-accent-foreground">
+                    Complete Verification
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
+
             {/* Recent active listings (lightweight, moves full mgmt to Products) */}
             <View>
               <SectionHeader

@@ -1,7 +1,67 @@
 # Daily Work Log
 
 Running log of SoldBay work. Newest entry at the top. Each day is also mirrored
-as a Linear issue (`EC-*`, "Work Log — <Month D, YYYY>: …").
+as a Linear issue (`EC-*`, "Work Log — <Month D, YYYY>: …") and a dated Linear
+project document (`YYYY-MM-DD`).
+
+## Sep 6, 2026 — Open-items closure: in-place seller upgrade, draft-expiry cron, upload limits, DB pass
+
+Second session (Sep 6 appendix to EC-10 Work Log + project doc [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3)).
+
+### #4 — Switch-to-campus-seller upgrades in place (no re-signup)
+Profile's "Switch to Campus Seller" used to push `/select-role` → the full signup flow. Now:
+- **Backend** `soldbay-web/src/app/api/sellers/upgrade/route.ts` (POST): authenticates the existing account via bearer/session, validates a unique lowercased username, and in one transaction creates the `SellerProfile` + flips `role` to SELLER. Because the mobile JWT carries a `role` claim (minted at login), a fresh token is **re-signed with the SELLER role** and returned — without it, every seller-gated API (`requireSeller`/`requireApprovedSeller`, uploads, verify) would 401 until re-login.
+- **Mobile** new `soldbay-app/src/app/seller/upgrade.tsx` (username + optional store name/bio → `upgradeToSeller()` in `src/lib/api.ts`), profile row rewired to it; on success saves the new token, persists `lastActiveMode="seller"`, lands on `/seller/verify`.
+
+### #12 — Draft-expiry cron
+Drafts are `Listing` rows stuck at `status="DRAFT"`. New `soldbay-web/src/app/api/cron/purge-drafts/route.ts` deletes drafts whose `updatedAt` is ≥30 days stale (batch 500, in a transaction, defensively clearing any orphaned order rows first); CRON_SECRET-guarded exactly like the existing `purge-accounts` job. Wired at `0 5 * * *` in `vercel.json`.
+
+### #9 — Image upload size limit: already enforced server-side; client pre-gates added
+Both upload paths already reject >5 MB and non-image MIME: `/api/upload/listing-image` and `/api/sellers/verify` (JPEG/PNG/WebP/HEIC, 5 MB cap). Closed as **verified**, plus added a **client-side 5 MB pre-gate** on the web `fetch→blob` paths of `uploadListingImages`/`uploadIdImage` so oversized files fail fast (native path already compresses to ≤1600px JPEG via `expo-image-manipulator`).
+
+### #6 / #7 / #8 — Confirmed already correct (no change needed)
+- **#6 mode-toggle placement**: lives in Profile Settings for both roles — "Switch to Buyer Mode" (sellers), "Switch to Campus Seller" (buyers, now the upgrade screen).
+- **#7 tab set/order**: matches the locked spec — buyer 5 tabs, seller 6 tabs, single source of truth in `soldbay-app/src/lib/tabs.tsx`, consistent with `docs/tab-layouts-roadmap.md`.
+- **#8 mode-resume**: splash (`soldbay-app/src/app/index.tsx`) APPROVED sellers resume `lastActiveMode`; pending/rejected land on the seller dashboard; buyers on `/buyer/home`.
+
+### #10 — DB query-optimization pass (audit done)
+Hot queries audited against schema indexes — all covered: feed `GET /api/listings` (status/category/cursor) by `Listing[status,createdAt]` + `Listing[categoryId,status,createdAt]`; orders list `OR[buyerId,sellerId]` by `Order[buyerId,status,createdAt]` + `Order[sellerId,status,createdAt]`; wallet by `WalletTransaction[userId,createdAt]`; seller products by `Listing[sellerId,status,updatedAt]`. Only note: substring search (`contains` → `ILIKE '%…%'`) would benefit from a `pg_trgm` GIN index at scale — deferred, not worth an extension/migration at current volume.
+
+### #11 — Launch-Readiness
+Documented as **deferred** (no code): custom domain, Paystack production creds, admin dashboard on the deployed env, legal (ToS/privacy), app-store prep, and infra/rate limits are product/commercial decisions — tracked in EC-9.
+
+### #5 (roadmap #15) — add-to-cart
+Still **not built** (out of scope this pass): the Cart tab is a "Coming soon" placeholder; checkout/drafts unaffected.
+
+### Verification
+- `soldbay-app`: `tsc --noEmit` clean; `expo lint` 0 errors (1 pre-existing warning `orders/detail.tsx`).
+- `soldbay-web`: `tsc --noEmit` clean; new routes lint-clean.
+
+### Files touched
+- `soldbay-web/src/app/api/sellers/upgrade/route.ts` (new), `soldbay-web/src/app/api/cron/purge-drafts/route.ts` (new), `soldbay-web/vercel.json`
+- `soldbay-app/src/app/seller/upgrade.tsx` (new), `soldbay-app/src/lib/api.ts`, `soldbay-app/src/app/profile/index.tsx`
+- Docs: `docs/daily-log.md` (this entry); Linear EC-9 "Open items" updated + comment; project doc [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3) appended.
+
+## Sep 6, 2026 — Confirmed-bug pass: splash redirect, retention verify, dashboard pending banner
+
+Linear: [Work Log — Sep 6, 2026](https://linear.app/emanncode/issue/EC-10/work-log-sep-6-2026-confirmed-bug-pass-splash-redirect-retention) (status: Backlog) · Project document: [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3)
+
+### Confirmed bugs fixed
+- **Splash no longer strands pending sellers in buyer mode**: `soldbay-app/src/app/index.tsx` still redirected SELLER users to `/buyer/home` unless APPROVED — contradicting the Sep 5 policy (approval gates publishing, not seller-mode access). Now APPROVED sellers resume `lastActiveMode` (`/seller/dashboard` vs `/buyer/home`); pending/rejected sellers land on `/seller/dashboard`. Added a pending/rejected banner there ("Complete Verification" → `/seller/verify`) so the status is discoverable and that draft listings save automatically until approval.
+- **`scripts/verify-account-retention.ts` updated for the email-reuse model**: the old post-DELETE assertion (email "fully intact") was false — DELETE now stamps `deleted+{userId}@deleted.soldbay.app` and keeps the original in `User.previousEmail`. Rewritten: STEP 2 asserts placeholder email + `previousEmail` preservation + password/name intact over a ~5yr window; STEP 3 blocks re-login with the original address (401); STEP 4 proves the freed address re-signs-up (201). Re-run → **PASSED (all 4 steps)**; script cleans up its own throwaway users.
+- **"Throwaway test accounts in prod" (#10) — checked, already clean**: new `soldbay-web/scripts/list-users.ts` lists the live DB — **0 users**, and 0 seller profiles / listings / orders / sessions / accounts / disputes / wallet transactions. The Sep 1 verification accounts were already removed; nothing to delete.
+
+### Open items (consolidated; full list now in EC-9 "Open items")
+- #14 switch-to-campus-seller re-runs full signup; #15 add-to-cart not built; mode-toggle placement undecided; exact tab set/order vs locked spec unconfirmed; multi-mode app-resume not fully built; image upload size limit not implemented; DB query-optimization pass never done; Launch-Readiness block (domain, Paystack, admin dashboard, legal, app-store prep, infra); draft expiry/auto-cleanup ("8c") — stale draft listings have no expiry/purge, lowest urgency.
+
+### Verification
+- `soldbay-app`: `tsc --noEmit` clean; `expo lint` clean (1 pre-existing warning in `orders/detail.tsx`).
+- `soldbay-web`: `tsc --noEmit` clean; `scripts/verify-account-retention.ts` PASSED; live DB user-data footprint = 0.
+
+### Files touched
+- `soldbay-app/src/app/index.tsx`, `soldbay-app/src/app/seller/dashboard.tsx`
+- `soldbay-web/scripts/verify-account-retention.ts`, `soldbay-web/scripts/list-users.ts` (new)
+- Docs: `docs/daily-log.md` (this entry); Linear EC-9 "Open items" section updated + comment; EC-10 created; project document [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3).
 
 ## Sep 5, 2026 — Relaxed seller approval gating, shared tab shell, email reuse on delete
 
@@ -11,7 +71,7 @@ Linear: [Work Log — Sep 5, 2026](https://linear.app/emanncode/issue/EC-9/work-
 - **Q1 — Self-purchase 403**: `soldbay-web/src/app/api/orders/checkout/route.ts` now returns 403 (was 400) when a seller buys their own listing.
 - **Q2 — Approval gates publishing, not seller mode**: added approval-free `requireSeller` (`soldbay-web/src/lib/seller-gate.ts`, built on shared `resolveSellerUser`/`findSellerProfile`); draft routes use it; `publish` + live-listing edits keep `requireApprovedSeller`. Mobile: pending sellers get full seller mode (dashboard/wallet/products/orders/profile); `create-listing` step 4 saves as draft when not approved; `verify` pending state offers "Go to Seller Dashboard" + "Continue as a Buyer".
 - **Q3 — Shared tab layout (Option 1)**: new `soldbay-app/src/lib/tabs.tsx` (`useModeTabs`) + `soldbay-app/src/components/tab-screen-shell.tsx`; refactored 9 tab screens (buyer home/search/cart/wallet, seller dashboard/products/wallet, profile, orders); removed dead `useSellerVerificationGate`. Option 2 (full expo-router nested tab layouts) documented in [`docs/tab-layouts-roadmap.md`](./tab-layouts-roadmap.md).
-- **Q4 — Free deleted emails**: `User.previousEmail` added; `DELETE /api/users/me` stores the original address and stamps `deleted+{userId}@deleted.soldbay.app`; purge nulls `previousEmail`. Migration `20260905000000_add_user_previous_email` written but **not yet applied** (`prisma migrate deploy` pending).
+- **Q4 — Free deleted emails**: `User.previousEmail` added; `DELETE /api/users/me` stores the original address and stamps `deleted+{userId}@deleted.soldbay.app`; purge nulls `previousEmail`. Migration `20260905000000_add_user_previous_email` **applied** (see Verification).
 
 ### idea.md items 5 & 11 worked on
 - **Item 5 — `level` field removed from the app**: earlier log claimed `level` was already absent — that was wrong; an audit found `User.level` still stored and surfaced (schema, `/signup`, `/sellers`, `/users/me`, mobile `api.ts` types). Removed it everywhere: schema column dropped (migration `20260905010000_drop_user_level`), API routes no longer read/write it, mobile `SignupPayload`/`UserMeResponse` types cleaned, `test_all_endpoints.ts` stale `level` PATCH assertion removed. Level now exists nowhere in the product — school (university) is the only attribute collected, exactly matching idea.md #5. Note: `WaitlistSignup.level` + the landing waitlist form (`join-form.tsx`) were intentionally **left untouched** — that's a separate lead-gen table, not a product account; can be pruned later if wanted.

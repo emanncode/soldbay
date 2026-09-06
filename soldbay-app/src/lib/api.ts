@@ -230,6 +230,26 @@ export function getSellerMe() {
   return request<SellerMeResponse>("GET", "/api/sellers/me");
 }
 
+export interface UpgradeToSellerPayload {
+  username: string;
+  businessName?: string;
+  bio?: string;
+}
+
+export interface UpgradeToSellerResponse extends LoginResponse {
+  sellerProfileId: string;
+  verificationStatus: string;
+}
+
+/**
+ * Converts the signed-in BUYER into a campus seller without re-running the
+ * signup flow. Returns a freshly-signed token carrying the SELLER role so
+ * existing sessions are updated in place.
+ */
+export function upgradeToSeller(payload: UpgradeToSellerPayload) {
+  return request<UpgradeToSellerResponse>("POST", "/api/sellers/upgrade", payload);
+}
+
 export interface PublicListing {
   id: string;
   sellerId: string;
@@ -309,13 +329,16 @@ export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImage
 
   const formData = new FormData();
 
-  if (typeof window !== "undefined" && typeof fetch !== "undefined") {
-    // Web path: fetch the URI as a blob, then append as a File
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const file = new File([blob], filename, { type: mimeType });
-    formData.append("image", file);
-  } else {
+if (typeof window !== "undefined" && typeof fetch !== "undefined") {
+      // Web path: fetch the URI as a blob, then append as a File
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      if (blob.size > MAX_UPLOAD_BYTES) {
+        throw new ApiError("Image must be under 5 MB.", 400);
+      }
+      const file = new File([blob], filename, { type: mimeType });
+      formData.append("image", file);
+    } else {
     // Native path: React-native style object works fine
     formData.append("image", { uri: await compressImageUri(uri), name: filename, type: "image/jpeg" } as unknown as Blob);
   }
@@ -390,6 +413,7 @@ export function updateListing(
 
 const MAX_IMAGE_EDGE = 1600;
 const IMAGE_QUALITY = 0.75;
+const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // matches the server-side 5 MB limit
 
 /**
  * Downscale and compress a locally-picked image before upload. Shrinking the
@@ -490,6 +514,9 @@ export async function uploadListingImages(
       // Web path: fetch the URI as a blob, then append as a File
       const response = await fetch(uri);
       const blob = await response.blob();
+      if (blob.size > MAX_UPLOAD_BYTES) {
+        throw new ApiError("Image must be under 5 MB.", 400);
+      }
       const mimeType =
         /\.png$/i.test(filename) ? "image/png" : /\.webp$/i.test(filename) ? "image/webp" : "image/jpeg";
       const formData = new FormData();

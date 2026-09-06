@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/purge-accounts",
       "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/purge-drafts",
+      "schedule": "0 5 * * *"
     }
   ]
 }
