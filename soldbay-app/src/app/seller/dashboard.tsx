@@ -60,10 +60,10 @@ export default function SellerDashboardScreen() {
   }, []);
 
   const walletFormatted = data?.walletBalance
-    ? `$${Number(data.walletBalance).toFixed(2)}`
-    : "$0.00";
+    ? `₦${Number(data.walletBalance).toFixed(2)}`
+    : "₦0.00";
   const activeCount =
-    data?.listings.filter((l) => l.status === "active").length ?? 0;
+    data?.listings.filter((l) => l.status === "ACTIVE").length ?? 0;
   const activeListings = data?.listings.slice(0, 3) ?? [];
 
   return (

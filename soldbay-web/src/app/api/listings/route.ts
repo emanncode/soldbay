@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { validateListingCompleteness } from "@/lib/listing-validation"
-import { SELLER_VERIFICATION_STATUS } from "@/lib/seller-gate"
+import { requireApprovedSeller } from "@/lib/seller-gate"
 
 const DEFAULT_LIMIT = 20
 const MAX_LIMIT = 100
@@ -66,37 +66,25 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    // Bind the listing to the AUTHENTICATED seller, never a client-supplied
+    // sellerId. Trusting body.sellerId let any authenticated seller create
+    // listings under another seller's profile. requireApprovedSeller re-checks
+    // the token against the DB (so a deleted/expired token is rejected early)
+    // and enforces admin APPROVED status.
+    const auth = await requireApprovedSeller(request)
+    if (auth.error) return auth.error
 
-    if (!body.sellerId || typeof body.sellerId !== "string") {
-      return NextResponse.json({ error: "Seller ID is required." }, { status: 400 })
-    }
+    const body = await request.json()
 
     const validation = validateListingCompleteness(body)
     if (!validation.valid) {
       return NextResponse.json({ error: validation.error }, { status: 400 })
     }
 
-    const seller = await prisma.sellerProfile.findUnique({
-      where: { id: body.sellerId },
-      include: { user: true },
-    })
-    if (!seller) {
-      return NextResponse.json({ error: "Seller profile not found." }, { status: 404 })
-    }
+    const seller = auth.seller
     if (!seller.user.universityId) {
       return NextResponse.json(
         { error: "Seller must be associated with a university before creating listings." },
-        { status: 403 },
-      )
-    }
-    if (seller.verificationStatus !== SELLER_VERIFICATION_STATUS.APPROVED) {
-      return NextResponse.json(
-        {
-          error:
-            "Your seller account is pending admin approval. You cannot sell yet.",
-          verificationStatus: seller.verificationStatus,
-        },
         { status: 403 },
       )
     }
@@ -113,7 +101,7 @@ export async function POST(request: Request) {
 
     const listing = await prisma.listing.create({
       data: {
-        sellerId: body.sellerId,
+        sellerId: seller.id,
         categoryId: category.id,
         title: body.title.trim(),
         description: body.description.trim(),
