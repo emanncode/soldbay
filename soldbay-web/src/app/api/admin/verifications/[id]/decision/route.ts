@@ -17,8 +17,16 @@ async function assertAdmin(request: Request): Promise<boolean> {
 }
 
 /**
- * Approves or rejects a seller's student verification. Rejection requires a
- * reason (surfaced to the seller on the app's "rejected" screen).
+ * Approves or rejects a seller petition / student verification.
+ *
+ * APPROVE:
+ *  - Flips the owner's User.role to SELLER in the SAME transaction, which is
+ *    what actually grants the buyer seller mode. Not flipping here would
+ *    strand them: the proposal flow deliberately keeps role == BUYER so a
+ *    petitioning buyer stays fully in buyer mode until admin approval.
+ *  - The role value is hardcoded; nothing from the request can influence it.
+ * REJECT (reason required): sets status REJECTED, keeps the user a BUYER, and
+ *  clears any prior approval. The seller may petition again.
  */
 export async function POST(
   request: Request,
@@ -32,7 +40,7 @@ export async function POST(
     const { id } = await params
     const body = await request.json().catch(() => ({}))
     const action = body.action
-    const reason = typeof body.reason === "string" ? body.reason.trim() : ""
+    const reason = typeof body.reason === "string" ? body.reason.slice(0, 1000).trim() : ""
 
     if (action !== "APPROVE" && action !== "REJECT") {
       return NextResponse.json(
@@ -47,34 +55,45 @@ export async function POST(
       )
     }
 
-    const profile = await prisma.sellerProfile.findUnique({
-      where: { id },
-      select: { id: true, verificationStatus: true },
-    })
-    if (!profile) {
+    const updated = await prisma.$transaction(
+      async (tx) => {
+        const profile = await tx.sellerProfile.findUnique({
+          where: { id },
+          select: { id: true, verificationStatus: true },
+        })
+        if (!profile) {
+          return null
+        }
+
+        return tx.sellerProfile.update({
+          where: { id },
+          data:
+            action === "APPROVE"
+              ? {
+                  verificationStatus: "APPROVED",
+                  rejectionReason: null,
+                  verifiedAt: new Date(),
+                  user: { update: { role: "SELLER" } },
+                }
+              : {
+                  verificationStatus: "REJECTED",
+                  rejectionReason: reason,
+                  verifiedAt: null,
+                },
+          select: {
+            id: true,
+            verificationStatus: true,
+            rejectionReason: true,
+            verifiedAt: true,
+          },
+        })
+      },
+      { timeout: 30000, maxWait: 45000 },
+    )
+
+    if (!updated) {
       return NextResponse.json({ error: "Seller profile not found." }, { status: 404 })
     }
-
-    const updated = await prisma.sellerProfile.update({
-      where: { id },
-      data:
-        action === "APPROVE"
-          ? {
-              verificationStatus: "APPROVED",
-              rejectionReason: null,
-              verifiedAt: new Date(),
-            }
-          : {
-              verificationStatus: "REJECTED",
-              rejectionReason: reason,
-            },
-      select: {
-        id: true,
-        verificationStatus: true,
-        rejectionReason: true,
-        verifiedAt: true,
-      },
-    })
 
     return NextResponse.json({
       ok: true,

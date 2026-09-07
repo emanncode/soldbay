@@ -4,6 +4,77 @@ Running log of SoldBay work. Newest entry at the top. Each day is also mirrored
 as a Linear issue (`EC-*`, "Work Log — <Month D, YYYY>: …") and a dated Linear
 project document (`YYYY-MM-DD`).
 
+## Sep 7, 2026 — Petition-to-become-a-seller flow (replaces in-place upgrade) + security suite
+
+Replacement for Sep 6's #4: "Switch to Campus Seller" no longer re-signs the
+user up, and the backend no longer flips a buyer to SELLER on request. It is now
+a **Yes/No petition** — approval powers remain entirely with the admin.
+
+### Backend
+- **New `POST/GET /api/sellers/petition`** (`soldbay-web/src/app/api/sellers/petition/route.ts`):
+  - Request body is **never parsed** — zero mass-assignment/injection surface
+    (username, role, status, rejectionReason, wallet from the client are all ignored).
+  - Username auto-derived server-side from the stored `User.name` (lowercased
+    `[a-z0-9]` slug, cap 30, numeric suffix loop to 50 attempts).
+  - One transaction re-checks existence/deletion/role/university; requires
+    `universityId` (403); existing SELLER → 409; PENDING → 200 idempotent;
+    REJECTED → re-petition to PENDING (clears `rejectionReason`, `verifiedAt`,
+    +1 `verificationAttempts`); concurrent `P2002` → idempotent re-fetch.
+  - `GET` returns the user's petition status (`NONE|PENDING|APPROVED|REJECTED`)
+    + `rejectionReason`/`verificationAttempts`.
+- **`POST /api/admin/verifications/[id]/decision`** rewritten transactional:
+  APPROVE hardcodes `role: "SELLER"` nested in the user update (never from the
+  request), sets `verifiedAt`, clears reason; REJECT keeps BUYER, stamps
+  reason (≤1000) + `verifiedAt: null`. Admin-only gate unchanged.
+- **New `POST /api/auth/refresh-token`**: bearer + `verifyActiveMobileToken`,
+  reloads the DB user, re-signs with the **DB role only** (client role never
+  trusted). Heals the stale BUYER-role JWT right after an admin approval.
+- **Deleted** `soldbay-web/src/app/api/sellers/upgrade/route.ts`.
+
+### Mobile
+- New `soldbay-app/src/app/seller/petition.tsx` screen (loading/ask/pending/
+  rejected/approved states; pending mirrors the seller "awaiting review" copy;
+  approved state heals the token via `refreshToken()` then enters seller mode).
+- `src/lib/api.ts`: swapped `upgradeToSeller` → `petitionToBecomeSeller()` +
+  `getPetitionStatus()` + `refreshToken()` (+ `PetitionStatus`/`PetitionResponse`/
+  `PetitionStatusResponse` types).
+- `app/profile/index.tsx`: buyers fetch petition status and see
+  "Awaiting approval"/"Rejected"; players who can't verify are pointed at
+  `/seller/petition`; verify row now SELLER-only.
+- `app/index.tsx` (splash): SELLER branch heals a 401 from `getSellerMe` via
+  `refreshToken()` + retry. Deleted `app/seller/upgrade.tsx`.
+
+### Security verification
+`scripts/verify-petition-security.ts` (new, runs via `npx tsx`) — 31 assertions
+against the live DB, self-cleaning:
+role/status/wallet injection + SQLi screen-name, username slug-safety,
+idempotency/duplicate-row guard, petitioning grants **no** seller powers,
+deleted/no-university/existing-seller/invalid-token edges, non-admin decision
+403, admin APPROVE flips role exactly to SELLER, stale-token heal via
+refresh-token, REJECT stays BUYER + re-petition, refresh-token role from DB
+only. **ALL PASSED.**
+
+### Verification
+- `soldbay-app`: `tsc --noEmit` clean; `expo lint` 0 errors (1 pre-existing
+  warning `orders/detail.tsx`). Typed routes regenerated (`expo start`).
+- `soldbay-web`: `tsc --noEmit` clean; changed routes lint-clean;
+  `verify-petition-security.ts` PASSED.
+- Note: `test_all_endpoints.ts` still fails at [7/24] `POST /api/sellers/verify`
+  because the Vercel Blob store is configured **public** while the route
+  deliberately `put(..., { access: "private" })` for PII portals — a dashboard
+  setting, not a code defect.
+
+### Files touched
+- `soldbay-web/src/app/api/sellers/petition/route.ts` (new),
+  `soldbay-web/src/app/api/auth/refresh-token/route.ts` (new),
+  `soldbay-web/scripts/verify-petition-security.ts` (new),
+  `soldbay-web/src/app/api/admin/verifications/[id]/decision/route.ts`,
+  deleted `soldbay-web/src/app/api/sellers/upgrade/route.ts`.
+- `soldbay-app/src/app/seller/petition.tsx` (new), `soldbay-app/src/lib/api.ts`,
+  `soldbay-app/src/app/profile/index.tsx`, `soldbay-app/src/app/index.tsx`,
+  deleted `soldbay-app/src/app/seller/upgrade.tsx`.
+- Docs: `docs/daily-log.md` (this entry).
+
 ## Sep 6, 2026 — Open-items closure: in-place seller upgrade, draft-expiry cron, upload limits, DB pass
 
 Second session (Sep 6 appendix to EC-10 Work Log + project doc [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3)).

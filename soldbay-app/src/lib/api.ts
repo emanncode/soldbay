@@ -230,24 +230,45 @@ export function getSellerMe() {
   return request<SellerMeResponse>("GET", "/api/sellers/me");
 }
 
-export interface UpgradeToSellerPayload {
-  username: string;
-  businessName?: string;
-  bio?: string;
+export type PetitionStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
+
+export interface PetitionResponse {
+  ok: boolean;
+  alreadyPending: boolean;
+  sellerProfileId: string;
+  verificationStatus: "PENDING";
+  attempts: number;
 }
 
-export interface UpgradeToSellerResponse extends LoginResponse {
-  sellerProfileId: string;
-  verificationStatus: string;
+export interface PetitionStatusResponse {
+  ok: boolean;
+  petitionStatus: PetitionStatus;
+  sellerProfileId: string | null;
+  rejectionReason?: string | null;
+  verificationAttempts?: number;
 }
 
 /**
- * Converts the signed-in BUYER into a campus seller without re-running the
- * signup flow. Returns a freshly-signed token carrying the SELLER role so
- * existing sessions are updated in place.
+ * Submits a BUYER's request to become a campus seller. The user's role is NOT
+ * changed here: they stay in buyer mode until an admin approves the petition,
+ * so no new token is returned.
  */
-export function upgradeToSeller(payload: UpgradeToSellerPayload) {
-  return request<UpgradeToSellerResponse>("POST", "/api/sellers/upgrade", payload);
+export function petitionToBecomeSeller() {
+  return request<PetitionResponse>("POST", "/api/sellers/petition");
+}
+
+export function getPetitionStatus() {
+  return request<PetitionStatusResponse>("GET", "/api/sellers/petition");
+}
+
+export type RefreshTokenResponse = LoginResponse;
+
+/**
+ * Re-signs the stored token against the user's CURRENT database role. Used to
+ * heal a stale BUYER-role token right after an admin approves a petition.
+ */
+export function refreshToken() {
+  return request<RefreshTokenResponse>("POST", "/api/auth/refresh-token");
 }
 
 export interface PublicListing {

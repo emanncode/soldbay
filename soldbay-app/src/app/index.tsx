@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useRouter } from "expo-router";
 import {
+  ApiError,
   getMe,
   getSellerMe,
   getToken,
+  refreshToken,
   getLastActiveMode,
   saveLastActiveMode,
+  saveToken,
   NetworkError,
   TimeoutError,
 } from "@/lib/api";
@@ -62,8 +65,25 @@ export default function SplashScreen() {
           // pending/rejected sellers keep seller-mode access too — landing on
           // the seller dashboard, which shows the pending state with "Verify"
           // and "Continue as a Buyer" actions.
-          const seller = await getSellerMe().catch(() => null);
-          const approved = seller?.verificationStatus === "APPROVED";
+          //
+          // If the stored token still carries the pre-approval BUYER role (an
+          // admin approved this user's petition while they were offline) the
+          // seller-gated routes would 401. Detect that and re-sign the token
+          // against the current DB role via /api/auth/refresh-token.
+          let seller = await getSellerMe().catch((err: unknown) =>
+            err instanceof ApiError && err.status === 401 ? "stale" : null,
+          );
+          if (seller === "stale") {
+            try {
+              const refreshed = await refreshToken();
+              await saveToken(refreshed.token);
+              seller = await getSellerMe().catch(() => null);
+            } catch {
+              seller = null;
+            }
+          }
+          const approved =
+            seller && typeof seller !== "string" && seller.verificationStatus === "APPROVED";
           if (approved) {
             const lastMode = await getLastActiveMode();
             if (lastMode === "buyer") {

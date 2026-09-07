@@ -20,7 +20,7 @@ import {
   TabScreenShell,
   VerifiedChip,
 } from "@/components";
-import { clearToken, deleteAccount, getMe, getSellerMe, saveLastActiveMode, type UserMeResponse } from "@/lib/api";
+import { clearToken, deleteAccount, getMe, getPetitionStatus, getSellerMe, saveLastActiveMode, type PetitionStatus, type UserMeResponse } from "@/lib/api";
 import { alertDialog, confirmDialog } from "@/lib/dialogs";
 import { useModeTabs } from "@/lib/tabs";
 import { colors } from "@/theme/colors";
@@ -29,6 +29,7 @@ export default function ProfileScreen() {
   const router = useRouter();
   const [user, setUser] = useState<UserMeResponse | null>(null);
   const [isSellerVerified, setIsSellerVerified] = useState(false);
+  const [petitionStatus, setPetitionStatus] = useState<PetitionStatus | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,6 +41,10 @@ export default function ProfileScreen() {
         if (u.role === "SELLER") {
           const s = await getSellerMe().catch(() => null);
           if (s?.verified) setIsSellerVerified(true);
+        } else {
+          // Buyers may have a pending (or rejected) petition to become a seller.
+          const p = await getPetitionStatus().catch(() => null);
+          if (p) setPetitionStatus(p.petitionStatus);
         }
       } catch (err: any) {
         console.error(err);
@@ -150,13 +155,17 @@ export default function ProfileScreen() {
             icon={<ShoppingBag size={20} color={colors.neutral600} />}
             onPress={() => router.push("/orders")}
           />
-          <Divider />
-          <SettingsRow
-            label="Seller Portal Verification"
-            icon={<ShieldCheck size={20} color={colors.neutral600} />}
-            badge={isSellerVerified ? <VerifiedChip size="sm" /> : undefined}
-            onPress={() => router.push("/seller/verify")}
-          />
+          {user?.role === "SELLER" ? (
+            <>
+              <Divider />
+              <SettingsRow
+                label="Seller Portal Verification"
+                icon={<ShieldCheck size={20} color={colors.neutral600} />}
+                badge={isSellerVerified ? <VerifiedChip size="sm" /> : undefined}
+                onPress={() => router.push("/seller/verify")}
+              />
+            </>
+          ) : null}
         </View>
 
         {/* Switch Mode / Store */}
@@ -171,7 +180,14 @@ export default function ProfileScreen() {
             <SettingsRow
               label="Switch to Campus Seller"
               icon={<Store size={20} color={colors.accent} />}
-              onPress={() => router.push("/seller/upgrade")}
+              value={
+                petitionStatus === "PENDING"
+                  ? "Awaiting approval"
+                  : petitionStatus === "REJECTED"
+                    ? "Rejected"
+                    : undefined
+              }
+              onPress={() => router.push("/seller/petition")}
             />
           )}
         </View>
