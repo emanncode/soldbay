@@ -4,6 +4,73 @@ Running log of SoldBay work. Newest entry at the top. Each day is also mirrored
 as a Linear issue (`EC-*`, "Work Log — <Month D, YYYY>: …") and a dated Linear
 project document (`YYYY-MM-DD`).
 
+## Sep 7, 2026 — Stress-test audit (10-item pass) + hardening fixes
+
+Follow-on to today's petition entry (EC-11) — ran a full source-level stress-
+test audit of identity/trust, payments/escrow/commission, economics, disputes,
+verification UX, legal, session security, data-integrity crons, evidenceless
+claims, and process gaps, then shipped the in-scope fixes. Several audit
+premises were **refuted** by the actual code, and the audit surfaced **new
+critical bugs** beyond scope.
+
+### Audit findings (against actual code)
+
+**Confirmed real issues**
+- **8a draft-cron image leak (top bug)**: `purge-drafts/route.ts` selected only
+  `{ id }`, deleted rows, never read `images`/called `deleteBlobImages` → every
+  auto-purged draft leaked its Vercel Blob photos permanently.
+- **8b account-purge cron**: `purgeExpiredAccounts` only deleted sessions/
+  accounts + anonymized PII — purged users' listings/images retained indefinitely.
+- **8c cron vs pending sellers**: draft cron purged all `DRAFT` rows >30d
+  regardless of `verificationStatus`, destroying a pending seller's first draft.
+- **8d batching**: `take: 500` / `batchSize: 200`, no overflow loop.
+- **7b middleware auth**: stateless gate; most routes re-verify DB-backed —
+  **except `POST /api/listings`** which trust `body.sellerId` (no auth binding →
+  cross-account listing creation; deleted-user tokens valid 30d).
+- **1a** no liveness (document-existence-only); **1b** `matricNumber @unique`
+  global; **5a/5b** 3-attempt cap, no admin UI/manual-support channel;
+  **7a** 30-day stateless JWT, no revocation; **7c** admin = bare role check.
+
+**Refuted (audit claim wrong)**
+- **2a commission** — *is* implemented (`confirm-receipt`/`order-service.ts`:
+  deduct, bump `walletBalance`, write `PAYOUT`). Rates: 5/8/15/10/12%.
+- **2d 48hr auto-release** — *does not exist*; escrow stays locked until buyer
+  confirms or a dispute resolves.
+
+**Verified correct**: 9a mode-toggle/tab-sets/`useModeTabs`/mode-resume.
+
+**New critical findings**
+- **Schema/migration drift — fresh `migrate deploy` would FAIL**: `Order` and
+  `Dispute` have **no CREATE TABLE migration anywhere** yet later migrations
+  `ALTER "Order"`; `matricNumber` has no migration; `Listing.categoryId`
+  NOT-NULL in init but nullable in schema. Created out-of-band (`db push`).
+- **`seller/dashboard.tsx`**: `l.status === "active"` (lowercase) vs API
+  `"ACTIVE"` → stat always 0; `$` prefix instead of `₦`.
+
+### Fixes shipped (`7fb46f0`)
+
+- `purge-drafts/route.ts`: select `images` → `deleteBlobImages`; exclude PENDING
+  sellers; page-loop (500).
+- `account-retention.ts`: purge deletes purged user's listings (+ orbitals FKs
+  first) + blob images; page-loop (200).
+- `listings/route.ts` `POST`: `requireApprovedSeller` binds `sellerId` to the
+  authenticated user; `body.sellerId` no longer trusted.
+- `dashboard.tsx`: `"ACTIVE"` compare + `₦` prefix.
+- `eslint.config.js`: `no-direct-alert/ban-alert-import` — errors on `Alert`
+  imports outside `src/lib/dialogs.ts`.
+
+### Verification
+- `soldbay-web` + `soldbay-app`: `tsc --noEmit` clean; lint clean on changed
+  files (ESLint rule verified to fire on a synthetic Alert import).
+- Commit `7fb46f0` (5 files, +190/−84); `assets/` (Kanchenjunga fonts) left
+  untracked by request.
+
+### Blocked / deferred
+- **Migration-drift reconciliation**: **blocked** — `db.prisma.io` unreachable
+  (P1001). Needs `prisma migrate diff` against a reachable DB, review, commit.
+  Deliberately not hand-fabricated.
+- 1b (composite matric) + auto-release/refund-cron: product decisions deferred.
+
 ## Sep 7, 2026 — Petition-to-become-a-seller flow (replaces in-place upgrade) + security suite
 
 Replacement for Sep 6's #4: "Switch to Campus Seller" no longer re-signs the
