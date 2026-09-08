@@ -71,7 +71,7 @@ export default function SellerVerifyScreen() {
 
   const handlePickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsEditing: true,
       quality: 0.8,
     });
@@ -302,7 +302,7 @@ export default function SellerVerifyScreen() {
               Proof Image
             </Text>
             {imageUri ? (
-              <View className="relative h-24 w-full overflow-hidden rounded-md border border-neutral-300 bg-neutral-100">
+              <View className="relative h-12 w-full overflow-hidden rounded-md border border-neutral-300 bg-neutral-100">
                 <Image source={{ uri: imageUri }} className="h-full w-full" contentFit="cover" transition={200} />
                 <Pressable
                   onPress={handlePickImage}
@@ -316,7 +316,7 @@ export default function SellerVerifyScreen() {
             ) : (
               <Pressable
                 onPress={handlePickImage}
-                className="h-24 w-full items-center justify-center rounded-md border border-dashed border-neutral-300 bg-neutral-50 active:bg-neutral-100"
+                className="h-12 w-full items-center justify-center rounded-md border border-dashed border-neutral-300 bg-neutral-50 active:bg-neutral-100"
               >
                 <Upload size={28} color={colors.neutral500} />
                 <Text className="mt-1 font-manrope-medium text-small text-text-primary">

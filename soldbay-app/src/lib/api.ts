@@ -6,6 +6,7 @@ import {
   getLastActiveMode,
   type ActiveMode,
 } from "./auth-storage";
+import { Platform } from "react-native";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 
 export {
@@ -350,8 +351,7 @@ export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImage
 
   const formData = new FormData();
 
-if (typeof window !== "undefined" && typeof fetch !== "undefined") {
-      // Web path: fetch the URI as a blob, then append as a File
+if (Platform.OS === "web") {
       const response = await fetch(uri);
       const blob = await response.blob();
       if (blob.size > MAX_UPLOAD_BYTES) {
@@ -360,9 +360,8 @@ if (typeof window !== "undefined" && typeof fetch !== "undefined") {
       const file = new File([blob], filename, { type: mimeType });
       formData.append("image", file);
     } else {
-    // Native path: React-native style object works fine
-    formData.append("image", { uri: await compressImageUri(uri), name: filename, type: "image/jpeg" } as unknown as Blob);
-  }
+      formData.append("image", { uri: await compressImageUri(uri), name: filename, type: mimeType } as unknown as Blob);
+    }
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -531,7 +530,7 @@ export async function uploadListingImages(
   const uploads = uris.map(async (uri) => {
     const filename = uri.split("/").pop() ?? "listing-photo.jpg";
 
-    if (typeof window !== "undefined" && typeof fetch !== "undefined") {
+    if (Platform.OS === "web") {
       // Web path: fetch the URI as a blob, then append as a File
       const response = await fetch(uri);
       const blob = await response.blob();
