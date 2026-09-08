@@ -4,6 +4,44 @@ Running log of SoldBay work. Newest entry at the top. Each day is also mirrored
 as a Linear issue (`EC-*`, "Work Log — <Month D, YYYY>: …") and a dated Linear
 project document (`YYYY-MM-DD`).
 
+## Sep 7, 2026 — Migration-history repair: reconciliation migration shipped + live deploy
+
+Un-blocked the migration-drift item from the earlier audit. `db.prisma.io`
+became reachable again, so the reconciliation was authored, verified end-to-end
+with the real Prisma engine, and applied to the live DB.
+
+### Root cause (debugged)
+The migration **history** was irreproducible. `Order`, `Dispute`, the
+`OrderStatus` / `DisputeStatus` / `DisputeResolution` enums, `User.matricNumber`,
+and the `Listing` drift (`draftStep`, `updatedAt`,
+nullable `categoryId`/`title`/`description`/`price`, `Listing_sellerId_status_updatedAt_idx`)
+were created on the live DB **out-of-band via `prisma db push`** — no migration
+ever created them. Later migrations only did `ALTER TABLE "Order"`, so a **fresh
+`migrate deploy` aborted** with `relation "Order" does not exist` (reproduced on
+a scratch schema by replay: failed at the 4th migration,
+`20260831000000_add_order_pin_lockout`). The live DB was healthy only because it
+was never built from migrations.
+
+### Fix shipped
+- New guarded reconciliation migration
+  `prisma/migrations/20260801000000_reconcile_order_dispute/migration.sql`,
+  placed chronologically *before* the first `ALTER TABLE "Order"`. Idempotent
+  (exception handlers + `IF NOT EXISTS` + idempotent `DROP NOT NULL`) so it is a
+  safe no-op against the live DB (objects already exist) while correctly
+  bootstrapping a fresh DB. `Order` is created *without* the PIN columns — those
+  come from the later pin lockout/expiry migrations.
+
+### Verification
+- **Real Prisma engine, throwaway schema**: all 14 migrations applied cleanly on
+  a fresh schema (was: abort at #4); `prisma migrate diff --from-config-datasource
+  --to-schema` → **empty** — fresh deploy now reproduces `schema.prisma` exactly.
+- Live DB: `prisma migrate deploy` applied (no-op via guards); `migrate status`
+  clean; diff vs schema empty. All scratch schemas dropped; `public` un-polluted.
+
+### Blocked / deferred
+- 1b (composite matric) + auto-release/refund-cron: product decisions still
+  deferred (from audit entry below).
+
 ## Sep 7, 2026 — Stress-test audit (10-item pass) + hardening fixes
 
 Follow-on to today's petition entry (EC-11) — ran a full source-level stress-
@@ -66,9 +104,8 @@ critical bugs** beyond scope.
   untracked by request.
 
 ### Blocked / deferred
-- **Migration-drift reconciliation**: **blocked** — `db.prisma.io` unreachable
-  (P1001). Needs `prisma migrate diff` against a reachable DB, review, commit.
-  Deliberately not hand-fabricated.
+- Migration-drift reconciliation: **shipped** — see the entry above
+  (reconciliation migration applied to live this session; fresh deploy verified).
 - 1b (composite matric) + auto-release/refund-cron: product decisions deferred.
 
 ## Sep 7, 2026 — Petition-to-become-a-seller flow (replaces in-place upgrade) + security suite
