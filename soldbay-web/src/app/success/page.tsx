@@ -89,7 +89,7 @@ export default function SuccessPage() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                       <path
                         d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"
-                        fill="#16a34a"
+                        fill="#2E7A6E"
                       />
                       <path
                         d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"
@@ -103,13 +103,13 @@ export default function SuccessPage() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                       <path
                         d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9.4 4.1 0 0 .1-.9.3-2.1.5-2.6 2.7-4.8 5.3-5.1 2.6-.3 5.1.8 6 3.1z"
-                        fill="#2563eb"
+                        fill="#4D6F89"
                       />
                     </svg>
                   </div>
                   <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-brand-start/20">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <rect x="2" y="2" width="20" height="20" rx="4" fill="#5b3df0" />
+                      <rect x="2" y="2" width="20" height="20" rx="4" fill="#5A743E" />
                       <path
                         d="M16 8l-6 6-3-3"
                         stroke="white"

@@ -58,7 +58,7 @@ export function HowItWorks() {
               className="glass-panel flex flex-col gap-4 rounded-3xl p-8 will-change-transform"
             >
               <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-linear-to-br from-brand-start/90 to-brand-end/90 shadow-[0_0_20px_rgb(91_61_240/0.35)]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-linear-to-br from-brand-start/90 to-brand-end/90 shadow-[0_0_20px_rgb(90_116_62/0.35)]">
                   <TagIcon size={18} fill="#ffffff" />
                 </div>
                 <span className="font-display text-[32px] font-bold leading-none text-brand-light">

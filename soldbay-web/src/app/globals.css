@@ -72,111 +72,213 @@
   &:where([data-orientation="vertical"]) { @slot; }
 }
 
+/* ════════════════════════════════════════════════════════════════════════════
+   Soldbay Design System — Theme Tokens
+   Source of truth: docs/soldbay-design-system.md
+   Tailwind v4 + shadcn/ui — tokens live here, not in tailwind.config.js
+   ════════════════════════════════════════════════════════════════════════════ */
+
 @theme {
-  /* Base */
-  --color-background: #ffffff;
-  --color-foreground: #1d1d1f;
+  /* ── Light Mode ─────────────────────────────────────────────────────── */
+  --color-background: #F4F1E8;
+  --color-foreground: #2D3A1F;
 
-  /* Primary Brand (CTA) */
-  --color-primary: #ff4f18;
-  --color-primary-hover: #e03f0d;
-  --color-primary-active: #c53408;
-  --color-primary-foreground: #ffffff;
+  /* Primary (CTA / brand actions — olive ramp 500) */
+  --color-primary: #5A743E;
+  --color-primary-foreground: #F1EEE4;
 
-  /* Secondary */
-  --color-secondary: #f5f5f7;
-  --color-secondary-hover: #ebebee;
-  --color-secondary-foreground: #1d1d1f;
+  /* Secondary (green accent — used for secondary buttons, pills) */
+  --color-secondary: #5C7048;
+  --color-secondary-foreground: #F4F1E8;
 
-  /* Accent */
-  --color-accent: #ff4f18;
-  --color-accent-foreground: #ffffff;
+  /* Accent (tan — verified badges, focus rings, highlights) */
+  --color-accent: #B8A678;
+  --color-accent-foreground: #2D3A1F;
 
-  /* Muted */
-  --color-muted: #f5f5f7;
-  --color-muted-foreground: #6e6e73;
+  /* Muted (subtle backgrounds, placeholder text) */
+  --color-muted: #E8E2D0;
+  --color-muted-foreground: #8A8070;
 
-  /* Surface */
-  --color-card: #ffffff;
-  --color-card-foreground: #1d1d1f;
+  /* Card / Surface (product cards, modals, elevated containers) */
+  --color-card: #E8E2D0;
+  --color-card-foreground: #2D3A1F;
 
-  --color-popover: #ffffff;
-  --color-popover-foreground: #1d1d1f;
+  --color-popover: #E8E2D0;
+  --color-popover-foreground: #2D3A1F;
 
-  /* Form */
-  --color-border: #d2d2d7;
-  --color-input: #d2d2d7;
-  --color-ring: #ff4f18;
+  /* Form elements — input bg uses Surface; border uses --color-border */
+  --color-border: #D8D7CC;
+  --color-input: #E8E2D0;
+  --color-ring: #B8A678;
 
-  /* Status Colors */
-  --color-success: #16a34a;
-  --color-success-foreground: #ffffff;
+  /* Semantic — Success */
+  --color-success: #2E7A6E;
+  --color-success-foreground: #FFFFFF;
+  --color-success-tint: #D9E8E1;
 
-  --color-warning: #f59e0b;
-  --color-warning-foreground: #ffffff;
+  /* Semantic — Info */
+  --color-info: #4D6F89;
+  --color-info-foreground: #FFFFFF;
+  --color-info-tint: #DDE4E9;
 
-  --color-info: #2563eb;
-  --color-info-foreground: #ffffff;
+  /* Semantic — Warning */
+  --color-warning: #875931;
+  --color-warning-foreground: #FFFFFF;
+  --color-warning-tint: #EEE2D8;
 
-  --color-destructive: #dc2626;
-  --color-destructive-foreground: #ffffff;
+  /* Semantic — Destructive (Error) */
+  --color-destructive: #9C453A;
+  --color-destructive-foreground: #FFFFFF;
+  --color-destructive-tint: #EEDFDD;
 
   /* Text */
-  --color-text-primary: #1d1d1f;
-  --color-text-secondary: #6e6e73;
-  --color-text-tertiary: #8e8e93;
+  --color-text-primary: #2D3A1F;
+  --color-text-secondary: #5C7048;
+  --color-text-tertiary: #8A8070;
 
-  /* Surfaces */
-  --color-surface: #f5f5f7;
-  --color-surface-hover: #ececef;
-  --color-surface-elevated: #ffffff;
+  /* Surface variants */
+  --color-surface: #E8E2D0;
+  --color-surface-hover: #DDD6C4;
+  --color-surface-elevated: #F4F1E8;
 
-  /* Hero / Brand Gradient */
-  --color-brand-start: #5b3df0;
-  --color-brand-end: #4527c8;
+  /* Custom — Discounted pricing (Accent ramp 400) */
+  --color-accent-400: #96824F;
 
-  /* Optional Gradient Stops */
-  --color-brand-light: #8b6cff;
-  --color-brand-dark: #2e1f8d;
+  /* Brand gradient stops (olive/tan — used by landing sections & icons) */
+  --color-brand-start: #5A743E;
+  --color-brand-end: #2C381E;
+  --color-brand-light: #81A659;
+  --color-brand-dark: #1A2112;
 
-  /* Fonts */
-  --font-display: var(--font-display), "Bricolage Grotesque", sans-serif;
-  --font-sans: var(--font-sans), "Inter", sans-serif;
+  /* ── Fonts ──────────────────────────────────────────────────────────── */
+  /* --font-sans: Sora — all UI/body (default for shadcn components) */
+  --font-sans: var(--font-sans), "Sora", sans-serif;
+  /* --font-serif: Fraunces — headings/display ONLY (landing page) */
+  --font-serif: var(--font-serif), "Fraunces", serif;
+  /* --font-display: alias for Fraunces (backward compat with existing utilities) */
+  --font-display: var(--font-serif);
   --font-satisfy: var(--font-satisfy), cursive;
 
-  /* Radii — 8-point friendly */
-  --radius-sm: 8px;
-  --radius-md: 8px;
+  /* ── Spacing ───────────────────────────────────────────────────────────
+     Tailwind's default 4px scale (--spacing: 0.25rem) is in use — matches
+     the design system's space-1 (4px) … space-12 (48px). No override. */
+
+  /* ── Radius (shadcn base = radius-md = 10px) ───────────────────────── */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
-  --radius-2xl: 32px;
+  --radius-full: 999px;
 
-  /* Spacing scale (8-point grid; 4px half-step only for micro gaps) */
-  --space-1: 8px;
-  --space-2: 16px;
-  --space-3: 24px;
-  --space-4: 32px;
-  --space-5: 40px;
-  --space-6: 48px;
-  --space-7: 56px;
-  --space-8: 64px;
-  --space-10: 80px;
-  --space-12: 96px;
-  --space-14: 112px;
-  --space-16: 128px;
+  /* ── Elevation (light mode — warm olive-tinted shadows) ──────────────── */
+  --shadow-elevation-1: 0 1px 2px rgba(45,58,31,0.06);
+  --shadow-elevation-2: 0 2px 8px rgba(45,58,31,0.10);
+  --shadow-elevation-3: 0 8px 24px rgba(45,58,31,0.16);
 
-  /* Motion */
+  /* ── Motion ─────────────────────────────────────────────────────────── */
   --ease-soldbay: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* ── shadcn chart colors (fallback) ─────────────────────────────────── */
+  --color-chart-1: #5A743E;
+  --color-chart-2: #B8A678;
+  --color-chart-3: #5C7048;
+  --color-chart-4: #2E7A6E;
+  --color-chart-5: #9C453A;
+  --color-sidebar: #E8E2D0;
+  --color-sidebar-foreground: #2D3A1F;
+  --color-sidebar-primary: #5A743E;
+  --color-sidebar-primary-foreground: #F1EEE4;
+  --color-sidebar-accent: #B8A678;
+  --color-sidebar-accent-foreground: #2D3A1F;
+  --color-sidebar-border: #D8D7CC;
+  --color-sidebar-ring: #B8A678;
 }
 
+/* ════════════════════════════════════════════════════════════════════════════
+   Dark Mode — full separate set per design system Section 18
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.dark,
+:root.dark {
+  --color-background: #1A1F14;
+  --color-foreground: #F1EEE4;
+
+  --color-primary: #5A743E;
+  --color-primary-foreground: #F1EEE4;
+
+  --color-secondary: #8BA670;
+  --color-secondary-foreground: #1A1F14;
+
+  --color-accent: #C7B58A;
+  --color-accent-foreground: #1A1F14;
+
+  --color-muted: #242A1D;
+  --color-muted-foreground: #9A9480;
+
+  --color-card: #242A1D;
+  --color-card-foreground: #F1EEE4;
+
+  --color-popover: #242A1D;
+  --color-popover-foreground: #F1EEE4;
+
+  --color-border: #3F4635;
+  --color-input: #242A1D;
+  --color-ring: #C7B58A;
+
+  --color-success: #7BC4B6;
+  --color-success-foreground: #1A1F14;
+  --color-success-tint: #1F3A32;
+
+  --color-info: #86A7C1;
+  --color-info-foreground: #1A1F14;
+  --color-info-tint: #1F2D38;
+
+  --color-warning: #CF9B6E;
+  --color-warning-foreground: #1A1F14;
+  --color-warning-tint: #3A2A1A;
+
+  --color-destructive: #CC7266;
+  --color-destructive-foreground: #1A1F14;
+  --color-destructive-tint: #3A1F1A;
+
+  --color-text-primary: #F1EEE4;
+  --color-text-secondary: #8BA670;
+  --color-text-tertiary: #9A9480;
+
+  --color-surface: #242A1D;
+  --color-surface-hover: #2C331F;
+  --color-surface-elevated: #2C331F;
+
+  --color-accent-400: #C7B58A;
+
+  --color-chart-1: #7BC4B6;
+  --color-chart-2: #C7B58A;
+  --color-chart-3: #8BA670;
+  --color-chart-4: #86A7C1;
+  --color-chart-5: #CC7266;
+  --color-sidebar: #1A1F14;
+  --color-sidebar-foreground: #F1EEE4;
+  --color-sidebar-primary: #7BC4B6;
+  --color-sidebar-primary-foreground: #1A1F14;
+  --color-sidebar-accent: #C7B58A;
+  --color-sidebar-accent-foreground: #1A1F14;
+  --color-sidebar-border: #3F4635;
+  --color-sidebar-ring: #C7B58A;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Layout Utilities
+   ════════════════════════════════════════════════════════════════════════════ */
+
 /**
- * Horizontal page gutters + max width — 8-pt aligned (16 / 24 / 32).
+ * Horizontal page gutters + max width — 4px aligned (16 / 24 / 32).
  * Use for nav, sections, forms.
  */
 @utility container-page {
   margin-inline: auto;
   width: 100%;
-  max-width: 72rem; /* 1152 ≈ 6xl */
+  max-width: 72rem;
   padding-inline: 16px;
 }
 
@@ -192,62 +294,71 @@
   }
 }
 
-/** Fixed-nav offset (8×14 / 8×16) */
+/** Fixed-nav offset */
 @utility pt-nav {
-  padding-top: 112px; /* 8×14 */
+  padding-top: 112px;
 }
 
 @media (width >= 40rem) {
   .pt-nav {
-    padding-top: 128px; /* 8×16 */
+    padding-top: 128px;
   }
 }
 
+/* ════════════════════════════════════════════════════════════════════════════
+   Typography Scale (design system Section 1)
+   Headings: Fraunces (--font-serif). Body/UI: Sora (--font-sans).
+   ════════════════════════════════════════════════════════════════════════════ */
+
 @utility text-display-xl {
-  font-family: var(--font-display);
-  font-size: 56px;
-  line-height: 1.02;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-weight: 400;
 }
 
 @utility text-display-l {
-  font-family: var(--font-display);
-  font-size: 40px;
-  line-height: 1.05;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 52px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 400;
 }
 
 @utility text-display-m {
-  font-family: var(--font-display);
-  font-size: 40px;
-  line-height: 1.1;
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 400;
 }
 
 @utility text-heading-l {
-  font-family: var(--font-display);
-  font-size: 32px;
+  font-family: var(--font-serif);
+  font-size: 28px;
   line-height: 1.2;
-  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-weight: 400;
 }
 
 @utility text-heading-m {
-  font-family: var(--font-display);
-  font-size: 24px;
-  line-height: 1.3;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 @utility text-heading-s {
-  font-family: var(--font-display);
-  font-size: 20px;
-  line-height: 1.4;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
 }
 
 @utility text-body-l {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.6;
   font-weight: 400;
 }
@@ -255,7 +366,7 @@
 @utility text-body-m {
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.55;
   font-weight: 400;
 }
 
@@ -268,22 +379,25 @@
 
 @utility text-caption {
   font-family: var(--font-sans);
-  font-size: 12px;
-  line-height: 1.4;
-  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  font-weight: 400;
 }
 
-@media (width >=64rem) {
+@media (width >= 64rem) {
   .text-display-xl {
-    font-size: 96px;
+    font-size: 72px;
   }
 
   .text-display-l {
-    font-size: 60px;
+    font-size: 52px;
   }
 }
 
-/* ── Glassmorphism (landing / dark surfaces) ───────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════════
+   Glassmorphism (landing / dark surfaces) — olive/tan palette
+   ════════════════════════════════════════════════════════════════════════════ */
 
 @utility glass-panel {
   border: 1px solid rgb(255 255 255 / 0.12);
@@ -313,15 +427,14 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* Fixed full-page Soldbay atmosphere (purple brand, image-2 style composition) */
 @utility page-atmosphere {
   overflow-x: clip;
-  background-color: #070606;
+  background-color: #0F1209;
   background-image:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgb(255 79 24 / 0.25) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 80% 40%, rgb(120 53 4 / 0.2) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 15% 70%, rgb(194 65 12 / 0.15) 0%, transparent 55%),
-    linear-gradient(180deg, #0b0a0a 0%, #0a0808 40%, #070606 100%);
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgb(90 116 62 / 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 40%, rgb(184 166 120 / 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 15% 70%, rgb(92 112 72 / 0.15) 0%, transparent 55%),
+    linear-gradient(180deg, #0F1209 0%, #0C0F08 40%, #0F1209 100%);
   background-attachment: fixed;
 }
 
@@ -367,10 +480,10 @@
   background:
     radial-gradient(
       ellipse 55% 50% at 50% 45%,
-      rgb(255 255 255 / 0.14) 0%,
-      rgb(139 108 255 / 0.22) 28%,
-      rgb(91 61 240 / 0.18) 48%,
-      rgb(7 6 15 / 0) 72%
+      rgb(255 255 255 / 0.10) 0%,
+      rgb(184 166 120 / 0.18) 28%,
+      rgb(90 116 62 / 0.14) 48%,
+      rgb(15 18 9 / 0) 72%
     );
   filter: blur(2px);
 }
@@ -380,26 +493,26 @@
   border: 1px solid rgb(255 255 255 / 0.22);
   background-color: rgb(255 255 255 / 0.12);
   box-shadow:
-    0 0 0 1px rgb(139 108 255 / 0.12),
+    0 0 0 1px rgb(184 166 120 / 0.12),
     0 20px 60px rgb(0 0 0 / 0.45),
-    0 0 80px rgb(91 61 240 / 0.2),
+    0 0 80px rgb(90 116 62 / 0.15),
     inset 0 1px 0 rgb(255 255 255 / 0.16);
   backdrop-filter: blur(32px) saturate(1.55);
   -webkit-backdrop-filter: blur(32px) saturate(1.55);
 }
 
-/* Hero headline — gradient shimmer clipped to glyphs */
+/* Hero headline — gradient shimmer clipped to glyphs (olive/tan brand palette) */
 @utility text-hero-gradient {
   background-image: linear-gradient(
     105deg,
-    #ffffff 0%,
-    #f5f3ff 18%,
-    #ddd6fe 32%,
-    #c4b5fd 42%,
-    #ffffff 52%,
-    #a78bfa 68%,
-    #ede9fe 82%,
-    #ffffff 100%
+    #F1EEE4 0%,
+    #E6EDDE 18%,
+    #CABD9B 32%,
+    #B8A678 42%,
+    #F1EEE4 52%,
+    #81A659 68%,
+    #EDE9DE 82%,
+    #F1EEE4 100%
   );
   background-size: 220% auto;
   -webkit-background-clip: text;
@@ -416,8 +529,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* soft outline so thin glyphs stay readable on dark areas of the image */
-  filter: drop-shadow(0 2px 24px rgb(91 61 240 / 0.35));
+  filter: drop-shadow(0 2px 24px rgb(90 116 62 / 0.35));
 }
 
 @keyframes hero-text-shimmer {
@@ -430,7 +542,7 @@
   }
 }
 
-/* Don’t run continuous shimmer when user prefers reduced motion */
+/* Don't run continuous shimmer when user prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .text-hero-gradient {
     animation: none;

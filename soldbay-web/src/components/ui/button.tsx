@@ -5,7 +5,7 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 cursor-pointer items-center justify-center rounded-4xl border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -22,9 +22,9 @@ const buttonVariants = cva(
         /** Frosted glass — secondary actions on dark/landing */
         glass:
           "border border-white/15 bg-white/10 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.12)] backdrop-blur-xl hover:bg-white/15 hover:border-white/25",
-        /** Brand glass CTA — primary red still for solid; this is soft brand glow glass */
+        /** Brand glass CTA — olive primary for solid; soft brand glow glass */
         "glass-primary":
-          "border border-primary/40 bg-primary/85 text-primary-foreground shadow-[0_8px_32px_rgb(225_38_28/0.35),inset_0_1px_0_rgb(255_255_255/0.2)] backdrop-blur-xl hover:bg-primary",
+          "border border-primary/40 bg-primary/85 text-primary-foreground shadow-[0_8px_32px_rgb(90_116_62/0.35),inset_0_1px_0_rgb(255_255_255/0.2)] backdrop-blur-xl hover:bg-primary",
       },
       size: {
         /* Heights & padding on 8-pt: 24 / 32 / 40 / 48 / 56 */

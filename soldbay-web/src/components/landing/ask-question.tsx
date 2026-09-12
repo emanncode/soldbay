@@ -112,7 +112,7 @@ export function AskQuestion() {
                       damping: 18,
                       delay: 0.05,
                     }}
-                    className="mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-brand-start shadow-[0_0_40px_rgb(91_61_240/0.5)]"
+                    className="mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-brand-start shadow-[0_0_40px_rgb(90_116_62/0.5)]"
                   >
                     <motion.svg
                       width="32"
