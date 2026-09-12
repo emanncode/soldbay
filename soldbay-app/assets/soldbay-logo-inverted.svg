@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" fill="none">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&amp;display=swap');
+    .wordmark { font-family: 'Fraunces', serif; font-weight: 500; font-size: 72px; letter-spacing: -0.02em; }
+  </style>
+  <text class="wordmark" x="0" y="76" fill="#F4F1E8">Soldbay</text>
+  <circle cx="462" cy="28" r="5" fill="#B8A678"/>
+</svg>
