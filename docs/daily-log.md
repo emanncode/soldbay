@@ -1,271 +1,395 @@
-# Daily Work Log
+# Soldbay — Daily Log
 
-Running log of SoldBay work. Newest entry at the top. Each day is also mirrored
-as a Linear issue (`EC-*`, "Work Log — <Month D, YYYY>: …") and a dated Linear
-project document (`YYYY-MM-DD`).
+---
 
-## Sep 7, 2026 — Migration-history repair: reconciliation migration shipped + live deploy
+## 2026-09-12 — Web Theme Override, Design System Sync & Pen Design Update
 
-Un-blocked the migration-drift item from the earlier audit. `db.prisma.io`
-became reachable again, so the reconciliation was authored, verified end-to-end
-with the real Prisma engine, and applied to the live DB.
+### Summary
 
-### Root cause (debugged)
-The migration **history** was irreproducible. `Order`, `Dispute`, the
-`OrderStatus` / `DisputeStatus` / `DisputeResolution` enums, `User.matricNumber`,
-and the `Listing` drift (`draftStep`, `updatedAt`,
-nullable `categoryId`/`title`/`description`/`price`, `Listing_sellerId_status_updatedAt_idx`)
-were created on the live DB **out-of-band via `prisma db push`** — no migration
-ever created them. Later migrations only did `ALTER TABLE "Order"`, so a **fresh
-`migrate deploy` aborted** with `relation "Order" does not exist` (reproduced on
-a scratch schema by replay: failed at the 4th migration,
-`20260831000000_add_order_pin_lockout`). The live DB was healthy only because it
-was never built from migrations.
+After the logo export, two large pieces of work landed today:
 
-### Fix shipped
-- New guarded reconciliation migration
-  `prisma/migrations/20260801000000_reconcile_order_dispute/migration.sql`,
-  placed chronologically *before* the first `ALTER TABLE "Order"`. Idempotent
-  (exception handlers + `IF NOT EXISTS` + idempotent `DROP NOT NULL`) so it is a
-  safe no-op against the live DB (objects already exist) while correctly
-  bootstrapping a fresh DB. `Order` is created *without* the PIN columns — those
-  come from the later pin lockout/expiry migrations.
+1. **soldbay-web theme override** — replaced the shadcn/ui default violet/indigo
+   theme with the full Soldbay palette (olive/tan/cream + dark mode + semantic
+   colors) using Tailwind CSS v4's `@theme` system, wired Fraunces + Sora into
+   `layout.tsx`, tokenized every UI component, and re-tinted the landing + success
+   pages away from purple. Verified with TypeScript, ESLint, and a PostCSS compile.
+2. **Design system sync** — reconciled three artifacts against an updated design
+   system the user pasted in: the doc (`docs/soldbay-design-system.md`), the pen
+   design board (`design/design.pen`), and the tokens already shipped to
+   `soldbay-web`. The headline change: the **Unverified Seller card state was
+   retired** (Section 6 simplified to Sold/Unavailable), Section 10's "New seller"
+   indicator was simplified, Section 14 gained a locked "Naming clarification," and
+   Section 19's decision statuses were updated.
 
-### Verification
-- **Real Prisma engine, throwaway schema**: all 14 migrations applied cleanly on
-  a fresh schema (was: abort at #4); `prisma migrate diff --from-config-datasource
-  --to-schema` → **empty** — fresh deploy now reproduces `schema.prisma` exactly.
-- Live DB: `prisma migrate deploy` applied (no-op via guards); `migrate status`
-  clean; diff vs schema empty. All scratch schemas dropped; `public` un-polluted.
+A full detailed report of the theme override also lives in
+`docs/web-theme-override-report.md`.
 
-### Blocked / deferred
-- 1b (composite matric) + auto-release/refund-cron: product decisions still
-  deferred (from audit entry below).
+---
 
-## Sep 7, 2026 — Stress-test audit (10-item pass) + hardening fixes
+### Starting Context
 
-Follow-on to today's petition entry (EC-11) — ran a full source-level stress-
-test audit of identity/trust, payments/escrow/commission, economics, disputes,
-verification UX, legal, session security, data-integrity crons, evidenceless
-claims, and process gaps, then shipped the in-scope fixes. Several audit
-premises were **refuted** by the actual code, and the audit surfaced **new
-critical bugs** beyond scope.
+- The repo is a monorepo: `soldbay-app` (Expo/React Native mobile),
+  `soldbay-web` (Next.js 15 App Router + Tailwind CSS v4), `design/` (`.pen`
+  design boards + `DESIGN.md`), `docs/` (architecture, design system, daily log,
+  reports).
+- `soldbay-web` shipped with shadcn/ui components and landing pages using the
+  default **violet/indigo** accent theme — visually wrong for the earthy,
+  olive/tan/cream Soldbay brand.
+- The canonical brand spec is `docs/soldbay-design-system.md`: Fraunces for
+  display/marketing, Sora for UI; olive Primary, tan Accent, cream Background,
+  plus a full dark-mode + semantic set.
+- Tailwind v4 config pattern in `soldbay-web/src/app/globals.css`: design tokens
+  are defined in CSS `@theme` blocks and generate named utilities (`bg-background`,
+  `text-foreground`, `bg-primary`, `border-border`) **on demand**; unused vars are
+  tree-shaken; dark mode is a plain `.dark, :root.dark` CSS block that always
+  emits.
 
-### Audit findings (against actual code)
+---
 
-**Confirmed real issues**
-- **8a draft-cron image leak (top bug)**: `purge-drafts/route.ts` selected only
-  `{ id }`, deleted rows, never read `images`/called `deleteBlobImages` → every
-  auto-purged draft leaked its Vercel Blob photos permanently.
-- **8b account-purge cron**: `purgeExpiredAccounts` only deleted sessions/
-  accounts + anonymized PII — purged users' listings/images retained indefinitely.
-- **8c cron vs pending sellers**: draft cron purged all `DRAFT` rows >30d
-  regardless of `verificationStatus`, destroying a pending seller's first draft.
-- **8d batching**: `take: 500` / `batchSize: 200`, no overflow loop.
-- **7b middleware auth**: stateless gate; most routes re-verify DB-backed —
-  **except `POST /api/listings`** which trust `body.sellerId` (no auth binding →
-  cross-account listing creation; deleted-user tokens valid 30d).
-- **1a** no liveness (document-existence-only); **1b** `matricNumber @unique`
-  global; **5a/5b** 3-attempt cap, no admin UI/manual-support channel;
-  **7a** 30-day stateless JWT, no revocation; **7c** admin = bare role check.
+### 1 · Repo Map
 
-**Refuted (audit claim wrong)**
-- **2a commission** — *is* implemented (`confirm-receipt`/`order-service.ts`:
-  deduct, bump `walletBalance`, write `PAYOUT`). Rates: 5/8/15/10/12%.
-- **2d 48hr auto-release** — *does not exist*; escrow stays locked until buyer
-  confirms or a dispute resolves.
+Created `folder structure.md` at the repo root: a tree of the monorepo
+(`soldbay-app`, `soldbay-web`, `design/`, `docs/`) so "what lives where" is
+answerable from one file — including soldbay-web's `app/` routes, `components/ui`
+(shadcn) and `components/landing`, soldbay-app's assets/screens, and the `.pen`
+boards + their DESIGN.md.
 
-**Verified correct**: 9a mode-toggle/tab-sets/`useModeTabs`/mode-resume.
+---
 
-**New critical findings**
-- **Schema/migration drift — fresh `migrate deploy` would FAIL**: `Order` and
-  `Dispute` have **no CREATE TABLE migration anywhere** yet later migrations
-  `ALTER "Order"`; `matricNumber` has no migration; `Listing.categoryId`
-  NOT-NULL in init but nullable in schema. Created out-of-band (`db push`).
-- **`seller/dashboard.tsx`**: `l.status === "active"` (lowercase) vs API
-  `"ACTIVE"` → stat always 0; `$` prefix instead of `₦`.
+### 2 · soldbay-web Theme Override
 
-### Fixes shipped (`7fb46f0`)
+#### How decisions were made
 
-- `purge-drafts/route.ts`: select `images` → `deleteBlobImages`; exclude PENDING
-  sellers; page-loop (500).
-- `account-retention.ts`: purge deletes purged user's listings (+ orbitals FKs
-  first) + blob images; page-loop (200).
-- `listings/route.ts` `POST`: `requireApprovedSeller` binds `sellerId` to the
-  authenticated user; `body.sellerId` no longer trusted.
-- `dashboard.tsx`: `"ACTIVE"` compare + `₦` prefix.
-- `eslint.config.js`: `no-direct-alert/ban-alert-import` — errors on `Alert`
-  imports outside `src/lib/dialogs.ts`.
+- The design-system doc is the single source of truth for color/type; the task was
+  to make soldbay-web **render those tokens**, not invent new ones.
+- Kept the file's existing Tailwind v4 `@theme` pattern instead of restructuring:
+  named utilities are generated only when referenced (keeps the CSS bundle lean),
+  and the `.dark` block is plain CSS so dark mode is always emitted.
+- The locked naming from the design system (see Section 14 clarification in part 3
+  below) was honored directly: `foreground` = the olive ink / cream text pair,
+  `primary` = the CTA-fill olive, pressed uses ramp 700.
 
-### Verification
-- `soldbay-web` + `soldbay-app`: `tsc --noEmit` clean; lint clean on changed
-  files (ESLint rule verified to fire on a synthetic Alert import).
-- Commit `7fb46f0` (5 files, +190/−84); `assets/` (Kanchenjunga fonts) left
-  untracked by request.
+#### Core tokens — light mode
 
-### Blocked / deferred
-- Migration-drift reconciliation: **shipped** — see the entry above
-  (reconciliation migration applied to live this session; fresh deploy verified).
-- 1b (composite matric) + auto-release/refund-cron: product decisions deferred.
+| Token | Value | Brand role |
+|---|---|---|
+| `--color-background` | `#F4F1E8` | cream bg |
+| `--color-foreground` | `#2D3A1F` | Text/Primary (olive ink) |
+| `--color-primary` | `#5A743E` | CTA fill (ramp 500) |
+| `--color-primary-700` | `#2C381E` | pressed/active |
+| `--color-accent` | `#B8A678` | tan brand echo |
+| `--color-accent-400` | `#96824F` | discounted-price accents |
+| `--color-secondary` | `#5C7048` | secondary buttons/tags |
+| `--color-card` / `surface` | `#E8E2D0` | cards, modals |
+| `--color-border` | `#D8D7CC` | hairlines |
 
-## Sep 7, 2026 — Petition-to-become-a-seller flow (replaces in-place upgrade) + security suite
+Semantics (text/icon + tint): Success `#2E7A6E`/`#D9E8E1`, Info `#4D6F89`/`#DDE4E9`,
+Warning `#875931`/`#EEE2D8`, Destructive `#9C453A`/`#EEDFDD`.
 
-Replacement for Sep 6's #4: "Switch to Campus Seller" no longer re-signs the
-user up, and the backend no longer flips a buyer to SELLER on request. It is now
-a **Yes/No petition** — approval powers remain entirely with the admin.
+Radii: `sm` 6, base 10, `md` 10, `lg` 16, `xl` 24, `full` 999.
 
-### Backend
-- **New `POST/GET /api/sellers/petition`** (`soldbay-web/src/app/api/sellers/petition/route.ts`):
-  - Request body is **never parsed** — zero mass-assignment/injection surface
-    (username, role, status, rejectionReason, wallet from the client are all ignored).
-  - Username auto-derived server-side from the stored `User.name` (lowercased
-    `[a-z0-9]` slug, cap 30, numeric suffix loop to 50 attempts).
-  - One transaction re-checks existence/deletion/role/university; requires
-    `universityId` (403); existing SELLER → 409; PENDING → 200 idempotent;
-    REJECTED → re-petition to PENDING (clears `rejectionReason`, `verifiedAt`,
-    +1 `verificationAttempts`); concurrent `P2002` → idempotent re-fetch.
-  - `GET` returns the user's petition status (`NONE|PENDING|APPROVED|REJECTED`)
-    + `rejectionReason`/`verificationAttempts`.
-- **`POST /api/admin/verifications/[id]/decision`** rewritten transactional:
-  APPROVE hardcodes `role: "SELLER"` nested in the user update (never from the
-  request), sets `verifiedAt`, clears reason; REJECT keeps BUYER, stamps
-  reason (≤1000) + `verifiedAt: null`. Admin-only gate unchanged.
-- **New `POST /api/auth/refresh-token`**: bearer + `verifyActiveMobileToken`,
-  reloads the DB user, re-signs with the **DB role only** (client role never
-  trusted). Heals the stale BUYER-role JWT right after an admin approval.
-- **Deleted** `soldbay-web/src/app/api/sellers/upgrade/route.ts`.
+#### Core tokens — dark mode (`.dark` block)
 
-### Mobile
-- New `soldbay-app/src/app/seller/petition.tsx` screen (loading/ask/pending/
-  rejected/approved states; pending mirrors the seller "awaiting review" copy;
-  approved state heals the token via `refreshToken()` then enters seller mode).
-- `src/lib/api.ts`: swapped `upgradeToSeller` → `petitionToBecomeSeller()` +
-  `getPetitionStatus()` + `refreshToken()` (+ `PetitionStatus`/`PetitionResponse`/
-  `PetitionStatusResponse` types).
-- `app/profile/index.tsx`: buyers fetch petition status and see
-  "Awaiting approval"/"Rejected"; players who can't verify are pointed at
-  `/seller/petition`; verify row now SELLER-only.
-- `app/index.tsx` (splash): SELLER branch heals a 401 from `getSellerMe` via
-  `refreshToken()` + retry. Deleted `app/seller/upgrade.tsx`.
+| Token | Value |
+|---|---|
+| background | `#1A1F14` (near-black, olive-tinted) |
+| foreground | `#F1EEE4` |
+| primary | `#8BA670` (lightened CTA) |
+| accent | `#C7B58A` (lightened ~6%) |
+| card | `#242A1D` |
+| border | `#3F4635` |
+| semantics | Success `#7BC4B6`, Info `#86A7C1`, Warning `#CF9B6E`, Destructive `#CC7266` |
 
-### Security verification
-`scripts/verify-petition-security.ts` (new, runs via `npx tsx`) — 31 assertions
-against the live DB, self-cleaning:
-role/status/wallet injection + SQLi screen-name, username slug-safety,
-idempotency/duplicate-row guard, petitioning grants **no** seller powers,
-deleted/no-university/existing-seller/invalid-token edges, non-admin decision
-403, admin APPROVE flips role exactly to SELLER, stale-token heal via
-refresh-token, REJECT stays BUYER + re-petition, refresh-token role from DB
-only. **ALL PASSED.**
+Brand ramp (`--color-brand-*`, olive): start `#5A743E` → end `#2C381E`, light
+`#81A659`, dark `#1A2112` — used for button glows and gradients.
 
-### Verification
-- `soldbay-app`: `tsc --noEmit` clean; `expo lint` 0 errors (1 pre-existing
-  warning `orders/detail.tsx`). Typed routes regenerated (`expo start`).
-- `soldbay-web`: `tsc --noEmit` clean; changed routes lint-clean;
-  `verify-petition-security.ts` PASSED.
-- Note: `test_all_endpoints.ts` still fails at [7/24] `POST /api/sellers/verify`
-  because the Vercel Blob store is configured **public** while the route
-  deliberately `put(..., { access: "private" })` for PII portals — a dashboard
-  setting, not a code defect.
+**Spacing decision:** the pre-existing `--space-*` tokens were removed because
+Tailwind v4's default 4px spacing scale already covers the design system's
+4px-based spacing; keeping them would just re-map to equal values.
 
-### Files touched
-- `soldbay-web/src/app/api/sellers/petition/route.ts` (new),
-  `soldbay-web/src/app/api/auth/refresh-token/route.ts` (new),
-  `soldbay-web/scripts/verify-petition-security.ts` (new),
-  `soldbay-web/src/app/api/admin/verifications/[id]/decision/route.ts`,
-  deleted `soldbay-web/src/app/api/sellers/upgrade/route.ts`.
-- `soldbay-app/src/app/seller/petition.tsx` (new), `soldbay-app/src/lib/api.ts`,
-  `soldbay-app/src/app/profile/index.tsx`, `soldbay-app/src/app/index.tsx`,
-  deleted `soldbay-app/src/app/seller/upgrade.tsx`.
-- Docs: `docs/daily-log.md` (this entry).
+#### Typography
 
-## Sep 6, 2026 — Open-items closure: in-place seller upgrade, draft-expiry cron, upload limits, DB pass
+- `soldbay-web/src/app/layout.tsx` now loads **Sora** (400/500/600) as `--font-sans`
+  and **Fraunces** variable (400–700) as `--font-serif`, aliased to `--font-display`;
+  Satisfy stays as the small script accent used in the landing hero.
+- `<body>` set to `bg-background text-foreground` so both modes flow from the
+  tokens.
 
-Second session (Sep 6 appendix to EC-10 Work Log + project doc [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3)).
+#### UI components tokenized
 
-### #4 — Switch-to-campus-seller upgrades in place (no re-signup)
-Profile's "Switch to Campus Seller" used to push `/select-role` → the full signup flow. Now:
-- **Backend** `soldbay-web/src/app/api/sellers/upgrade/route.ts` (POST): authenticates the existing account via bearer/session, validates a unique lowercased username, and in one transaction creates the `SellerProfile` + flips `role` to SELLER. Because the mobile JWT carries a `role` claim (minted at login), a fresh token is **re-signed with the SELLER role** and returned — without it, every seller-gated API (`requireSeller`/`requireApprovedSeller`, uploads, verify) would 401 until re-login.
-- **Mobile** new `soldbay-app/src/app/seller/upgrade.tsx` (username + optional store name/bio → `upgradeToSeller()` in `src/lib/api.ts`), profile row rewired to it; on success saves the new token, persists `lastActiveMode="seller"`, lands on `/seller/verify`.
+All shadcn components in `components/ui/` were converted from the default
+violet/neutral scheme to token classes + the design-system radii:
+`button`, `input`, `textarea`, `select`, `checkbox`, `badge`, `card`, `popover`,
+`command`. Highlights: primary button's `glass-primary` glow re-tinted from purple
+to olive; focus rings/checks switched to `border-primary` / `focus-visible:border-primary`.
 
-### #12 — Draft-expiry cron
-Drafts are `Listing` rows stuck at `status="DRAFT"`. New `soldbay-web/src/app/api/cron/purge-drafts/route.ts` deletes drafts whose `updatedAt` is ≥30 days stale (batch 500, in a transaction, defensively clearing any orphaned order rows first); CRON_SECRET-guarded exactly like the existing `purge-accounts` job. Wired at `0 5 * * *` in `vercel.json`.
+#### Landing + success pages re-tinted
 
-### #9 — Image upload size limit: already enforced server-side; client pre-gates added
-Both upload paths already reject >5 MB and non-image MIME: `/api/upload/listing-image` and `/api/sellers/verify` (JPEG/PNG/WebP/HEIC, 5 MB cap). Closed as **verified**, plus added a **client-side 5 MB pre-gate** on the web `fetch→blob` paths of `uploadListingImages`/`uploadIdImage` so oversized files fail fast (native path already compresses to ≤1600px JPEG via `expo-image-manipulator`).
+- Purple accents (`rgb(91 61 240/…)`) → olive (`rgb(90 116 62/…)`) across
+  `components/landing/ask-question.tsx`, `how-it-works.tsx`, and
+  `components/join-form.tsx`.
+- `app/success/page.tsx` icon fills pulled to the semantic + brand set
+  (`#2E7A6E`, `#4D6F89`, `#5A743E`).
 
-### #6 / #7 / #8 — Confirmed already correct (no change needed)
-- **#6 mode-toggle placement**: lives in Profile Settings for both roles — "Switch to Buyer Mode" (sellers), "Switch to Campus Seller" (buyers, now the upgrade screen).
-- **#7 tab set/order**: matches the locked spec — buyer 5 tabs, seller 6 tabs, single source of truth in `soldbay-app/src/lib/tabs.tsx`, consistent with `docs/tab-layouts-roadmap.md`.
-- **#8 mode-resume**: splash (`soldbay-app/src/app/index.tsx`) APPROVED sellers resume `lastActiveMode`; pending/rejected land on the seller dashboard; buyers on `/buyer/home`.
+#### Verification
 
-### #10 — DB query-optimization pass (audit done)
-Hot queries audited against schema indexes — all covered: feed `GET /api/listings` (status/category/cursor) by `Listing[status,createdAt]` + `Listing[categoryId,status,createdAt]`; orders list `OR[buyerId,sellerId]` by `Order[buyerId,status,createdAt]` + `Order[sellerId,status,createdAt]`; wallet by `WalletTransaction[userId,createdAt]`; seller products by `Listing[sellerId,status,updatedAt]`. Only note: substring search (`contains` → `ILIKE '%…%'`) would benefit from a `pg_trgm` GIN index at scale — deferred, not worth an extension/migration at current volume.
+- `npx tsc --noEmit` — clean
+- `npx eslint src/` — clean
+- PostCSS + `@tailwindcss/postcss` compile of `globals.css` — clean
+- Full `next build` was **not** run: it needs Prisma + a reachable DB for the
+  home-page waitlist count that's statically generated at build.
 
-### #11 — Launch-Readiness
-Documented as **deferred** (no code): custom domain, Paystack production creds, admin dashboard on the deployed env, legal (ToS/privacy), app-store prep, and infra/rate limits are product/commercial decisions — tracked in EC-9.
+---
 
-### #5 (roadmap #15) — add-to-cart
-Still **not built** (out of scope this pass): the Cart tab is a "Coming soon" placeholder; checkout/drafts unaffected.
+### 3 · Design System Sync (doc + pen)
 
-### Verification
-- `soldbay-app`: `tsc --noEmit` clean; `expo lint` 0 errors (1 pre-existing warning `orders/detail.tsx`).
-- `soldbay-web`: `tsc --noEmit` clean; new routes lint-clean.
+The user pasted an updated design system. It was diffed against the on-disk
+doc and the three artifacts were aligned.
 
-### Files touched
-- `soldbay-web/src/app/api/sellers/upgrade/route.ts` (new), `soldbay-web/src/app/api/cron/purge-drafts/route.ts` (new), `soldbay-web/vercel.json`
-- `soldbay-app/src/app/seller/upgrade.tsx` (new), `soldbay-app/src/lib/api.ts`, `soldbay-app/src/app/profile/index.tsx`
-- Docs: `docs/daily-log.md` (this entry); Linear EC-9 "Open items" updated + comment; project doc [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3) appended.
+#### Diff: pasted version vs on-disk `soldbay-design-system.md`
 
-## Sep 6, 2026 — Confirmed-bug pass: splash redirect, retention verify, dashboard pending banner
+| Section | Change |
+|---|---|
+| 6 · Product Card States | Dropped "& Unverified Seller" from title; **retired the Unverified Seller card state** (former 6b/6c removed). Placement decision updated: stamp copy **and icon** still open (was "SOLD"; flagging text vs icon combo). Whole-card desaturation ~75%. |
+| 10 · Trust & Verification | "New seller" indicator simplified from a full pill spec to **"Neutral tag, Secondary color background"**; the Section 6b cross-reference was dropped. |
+| 14 · Core Colors | Added a **"Naming clarification (locked)"** block (see below). |
+| 19 · Still Open | Sold/Unavailable: structure + treatment decided, only stamp copy/icon open. Verified-seller: treatment decided (Section 10), **just not yet built as a component**. |
 
-Linear: [Work Log — Sep 6, 2026](https://linear.app/emanncode/issue/EC-10/work-log-sep-6-2026-confirmed-bug-pass-splash-redirect-retention) (status: Backlog) · Project document: [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3)
+**The locked naming (Section 14):** `foreground` (alias `text`) = dark olive
+`#2D3A1F` light / cream `#F1EEE4` dark — everything renders in this pair.
+`primary` (alias `button`) = CTA-fill `#5A743E` (ramp 500) light / `#8BA670` dark —
+NOT the text default, not a synonym for "important". Pressed → ramp 700 `#2C381E`.
 
-### Confirmed bugs fixed
-- **Splash no longer strands pending sellers in buyer mode**: `soldbay-app/src/app/index.tsx` still redirected SELLER users to `/buyer/home` unless APPROVED — contradicting the Sep 5 policy (approval gates publishing, not seller-mode access). Now APPROVED sellers resume `lastActiveMode` (`/seller/dashboard` vs `/buyer/home`); pending/rejected sellers land on `/seller/dashboard`. Added a pending/rejected banner there ("Complete Verification" → `/seller/verify`) so the status is discoverable and that draft listings save automatically until approval.
-- **`scripts/verify-account-retention.ts` updated for the email-reuse model**: the old post-DELETE assertion (email "fully intact") was false — DELETE now stamps `deleted+{userId}@deleted.soldbay.app` and keeps the original in `User.previousEmail`. Rewritten: STEP 2 asserts placeholder email + `previousEmail` preservation + password/name intact over a ~5yr window; STEP 3 blocks re-login with the original address (401); STEP 4 proves the freed address re-signs-up (201). Re-run → **PASSED (all 4 steps)**; script cleans up its own throwaway users.
-- **"Throwaway test accounts in prod" (#10) — checked, already clean**: new `soldbay-web/scripts/list-users.ts` lists the live DB — **0 users**, and 0 seller profiles / listings / orders / sessions / accounts / disputes / wallet transactions. The Sep 1 verification accounts were already removed; nothing to delete.
+#### Pen board updates (`design/design.pen`)
 
-### Open items (consolidated; full list now in EC-9 "Open items")
-- #14 switch-to-campus-seller re-runs full signup; #15 add-to-cart not built; mode-toggle placement undecided; exact tab set/order vs locked spec unconfirmed; multi-mode app-resume not fully built; image upload size limit not implemented; DB query-optimization pass never done; Launch-Readiness block (domain, Paystack, admin dashboard, legal, app-store prep, infra); draft expiry/auto-cleanup ("8c") — stale draft listings have no expiry/purge, lowest urgency.
+Inspected via the pencil MCP. Most sections already matched the new doc (06, 10,
+16, 19 had been updated earlier), so only the actual gaps were touched:
 
-### Verification
-- `soldbay-app`: `tsc --noEmit` clean; `expo lint` clean (1 pre-existing warning in `orders/detail.tsx`).
-- `soldbay-web`: `tsc --noEmit` clean; `scripts/verify-account-retention.ts` PASSED; live DB user-data footprint = 0.
+- **Section 14 (14 Core Colors):** inserted a "Naming clarification (locked)" note
+  between the color tables and the Marketplace note, styled to match the existing
+  caption (12px Sora, `#5A5A4F`). Frame height bumped to fit.
+- **Section 06 (Product Card States):** whole-card desaturation wording aligned
+  from ~70–80% to **~75%** to match the doc.
+- **Product Card Gallery:** deleted the two **"Product Card — Unverified Seller"**
+  demo cards (light + dark) since the new doc retires that state. (Flagged to the
+  user — easy to restore if they want the exploration kept.)
 
-### Files touched
-- `soldbay-app/src/app/index.tsx`, `soldbay-app/src/app/seller/dashboard.tsx`
-- `soldbay-web/scripts/verify-account-retention.ts`, `soldbay-web/scripts/list-users.ts` (new)
-- Docs: `docs/daily-log.md` (this entry); Linear EC-9 "Open items" section updated + comment; EC-10 created; project document [2026-09-06](https://linear.app/emanncode/document/2026-09-06-dd1373beddb3).
+Verification was structural (node geometry: no overlaps, notes fit, gallery
+intact) because the model couldn't render the captured screenshots.
 
-## Sep 5, 2026 — Relaxed seller approval gating, shared tab shell, email reuse on delete
+#### Markdown updates (`docs/soldbay-design-system.md`)
 
-Linear: [Work Log — Sep 5, 2026](https://linear.app/emanncode/issue/EC-9/work-log-sep-5-2026-relaxed-seller-approval-gating-shared-tab-shell) (status: Backlog)
+Applied the same diff as targeted edits — Section 6 title/intro, the stamp
+placement cell, whole-card wording, removal of 6b/6c + a "Still open: exact stamp
+copy / icon" line, Section 10's New seller row, Section 14's naming clarification,
+and Section 19's updated statuses. Verified with grep: no stale
+"Unverified/6b/6c/both states implemented" references remain.
 
-### Shipped
-- **Q1 — Self-purchase 403**: `soldbay-web/src/app/api/orders/checkout/route.ts` now returns 403 (was 400) when a seller buys their own listing.
-- **Q2 — Approval gates publishing, not seller mode**: added approval-free `requireSeller` (`soldbay-web/src/lib/seller-gate.ts`, built on shared `resolveSellerUser`/`findSellerProfile`); draft routes use it; `publish` + live-listing edits keep `requireApprovedSeller`. Mobile: pending sellers get full seller mode (dashboard/wallet/products/orders/profile); `create-listing` step 4 saves as draft when not approved; `verify` pending state offers "Go to Seller Dashboard" + "Continue as a Buyer".
-- **Q3 — Shared tab layout (Option 1)**: new `soldbay-app/src/lib/tabs.tsx` (`useModeTabs`) + `soldbay-app/src/components/tab-screen-shell.tsx`; refactored 9 tab screens (buyer home/search/cart/wallet, seller dashboard/products/wallet, profile, orders); removed dead `useSellerVerificationGate`. Option 2 (full expo-router nested tab layouts) documented in [`docs/tab-layouts-roadmap.md`](./tab-layouts-roadmap.md).
-- **Q4 — Free deleted emails**: `User.previousEmail` added; `DELETE /api/users/me` stores the original address and stamps `deleted+{userId}@deleted.soldbay.app`; purge nulls `previousEmail`. Migration `20260905000000_add_user_previous_email` **applied** (see Verification).
+---
 
-### idea.md items 5 & 11 worked on
-- **Item 5 — `level` field removed from the app**: earlier log claimed `level` was already absent — that was wrong; an audit found `User.level` still stored and surfaced (schema, `/signup`, `/sellers`, `/users/me`, mobile `api.ts` types). Removed it everywhere: schema column dropped (migration `20260905010000_drop_user_level`), API routes no longer read/write it, mobile `SignupPayload`/`UserMeResponse` types cleaned, `test_all_endpoints.ts` stale `level` PATCH assertion removed. Level now exists nowhere in the product — school (university) is the only attribute collected, exactly matching idea.md #5. Note: `WaitlistSignup.level` + the landing waitlist form (`join-form.tsx`) were intentionally **left untouched** — that's a separate lead-gen table, not a product account; can be pruned later if wanted.
-- **Item 11 — buyer wallet is now an explicit "coming soon" placeholder**: added `BuyerWalletComingSoon` to `wallet-view.tsx` — a dashed informational banner ("Buyer wallet — coming soon", "you pay in person at pickup, nothing to fund yet") for `BUYER` role only, with no deposit/top-up/interaction. Buyer still sees the informational "Escrow on hold" balance for tracking. Seller wallet unchanged (PAYOUT on escrow release).
+### Open Items / Notes
 
-### In-app QA checklist (next time in the app)
-1. Self-purchase → 403.
-2. Re-signup with a deleted account's email succeeds (no 409).
-3. Pending seller: seller mode works; step 4 = "Save as Draft"; direct publish 403.
-4. After approval: drafts visible + publishable from seller dashboard.
-5. Tab bar consistent across all 9 screens; active tab highlights (orders = none in buyer mode, by design).
-6. Buyer wallet reads as "coming soon" (no fund/withdraw path).
-7. No `level` in signup or profile screens; `/users/me` returns no `level` field.
+- The two Unverified Seller pen demos were **removed**, not hidden — restore if
+  wanted.
+- Full `next build` still blocked on Prisma + DB for the waitlist count.
+- Pen screenshots captured but not viewable by the model; layout verified via node
+  geometry instead — worth a quick human glance at the board.
 
-### Verification
-- Both apps: `tsc --noEmit` clean.
-- `expo lint` clean (1 pre-existing warning in `orders/detail.tsx`); web lint clean except pre-existing errors in `prisma/seed.ts`, `scripts/clear-db.ts`, `test_all_endpoints.ts`.
-- Prisma client regenerated (7.9.1).
-- Migrations **applied** (via `prisma dev` local server + `migrate deploy`): `20260905000000_add_user_previous_email`, `20260905010000_drop_user_level` — `migrate status` up to date; DB assert: `User.level` gone, `User.previousEmail` present.
+---
 
-### Files touched
-Backend: `orders/checkout/route.ts`, `lib/seller-gate.ts`, `listings/drafts` + `drafts/[id]` routes, `prisma/schema.prisma` + migrations `20260905000000_add_user_previous_email` + `20260905010000_drop_user_level`, `users/me/route.ts`, `lib/account-retention.ts`, `api/auth/signup/route.ts`, `api/sellers/route.ts`, `test_all_endpoints.ts`. Mobile: `lib/tabs.tsx` (new), `lib/auth.ts`, `lib/api.ts`, `components/tab-screen-shell.tsx` (new), `components/wallet-view.tsx`, `components/index.ts`, `buyer/{home,search,cart,wallet}`, `seller/{dashboard,products,wallet,create-listing,verify}`, `profile/index`, `orders/index`. Docs: `docs/tab-layouts-roadmap.md` (new).
+## 2026-09-12 — Logo System Design & Production Export
+
+### Summary
+
+Designed and exported the complete Soldbay logo system: a wordmark-led primary direction
+(Fraunces serif + geometric dot accent), two lighter alternate explorations (handoff mark,
+campus pin), and full production assets (SVGs + PNGs) deployed to `soldbay-app/assets/` and
+`soldbay-web/public/`.
+
+---
+
+### Starting Context
+
+The design system doc (`docs/soldbay-design-system.md`) already defined typography
+(Fraunces for display/marketing, Sora for UI), the color palette (Primary #2D3A1F,
+Background cream #F4F1E8, Accent #B8A678), and Section 22's app icon spec (40×40px,
+simple mark, iOS pre-masked / Android adaptive fg+bg layers). But no logo or wordmark
+existed yet — only placeholder files in the asset folders.
+
+The brief called for a **wordmark-led** approach (not an abstract icon-first mark), with
+Fraunces doing the heavy lifting. The wordmark itself should carry the brand character,
+not a separate symbol.
+
+---
+
+### Design Decisions — Primary Direction (Wordmark-Led)
+
+#### Why Fraunces for the wordmark
+
+Fraunces is already the brand's display typeface (Section 1 of the design system). Using
+it for the wordmark means the logo and the landing-page headlines share the same DNA —
+no disconnect between "what the brand looks like in marketing" and "what the logo looks
+like." A generic sans logotype (like many tech brands default to) would fight the
+earthy, editorial personality the palette establishes.
+
+#### Letterspacing: -0.02em
+
+Tested tighter (-0.04em) and looser (0, +0.02em) on the canvas. -0.02em is the sweet
+spot: the wordmark feels intentional and compact without the letters colliding. Fraunces
+has fairly open counters by default, so a slight negative tracking compensates without
+making it feel cramped.
+
+#### Weight: 500 (Medium)
+
+The design system notes that only 400 Regular ships in the free Fraunces preview, but
+the full variable range should be used for marketing. Weight 500 gives the wordmark
+enough presence to read as a logo (not body text) while staying below the bold/heavy
+range that would feel aggressive for a campus marketplace. 600 was tested but felt
+slightly too heavy for the friendly/approachable tone.
+
+#### The dot accent — why a dot, not an underline or bracket
+
+The brief specified "one accessory, not multiple" — a single dot, underline, or bracket.
+Evaluated all three on the canvas:
+
+- **Dot (chosen):** Sits naturally after the wordmark like a period/full-stop. Reads as
+  a deliberate full-stop that says "this is the name." Small, doesn't compete with the
+  letterforms. The Accent color (#B8A678) ties it to the brand palette without using the
+  Primary color twice (which would flatten the hierarchy).
+- **Underline:** Tested a short Accent-colored rule beneath the wordmark. Felt like a
+  design-system annotation rather than part of the logo. Also problematic at small sizes
+  where the line blurs into the descenders.
+- **Bracket:** Tested an Accent-colored closing bracket after the wordmark. Read as
+  decorative/punctuation — too literal, and confused with actual syntax at small sizes.
+
+The dot won because it's the most invisible-as-brand-device. People don't question a
+dot after a wordmark; they do question lines and brackets.
+
+#### Color: Primary #2D3A1F on cream #F4F1E8
+
+Directly from the design system's Section 14 core colors. The cream background is the
+app's actual Background token, so the lockup sits in its natural habitat. The inverted
+version (cream on Primary or dark #1A1F14) is for dark surfaces — app splash screen,
+dark-mode headers, pitch decks with dark backgrounds.
+
+---
+
+### Design Decisions — App Icon Monogram
+
+#### Why "S" alone (not "SB")
+
+The brief allowed "S" or "SB." Tested both on the canvas. "SB" at 40×40px gets muddy —
+the two letters compete and neither is legible. A single "S" in Fraunces is distinctive
+enough (the serifs and ball terminals are recognizable even at 20px effective size) and
+leaves room for the Accent dot as a secondary identifier.
+
+#### The accent dot in the icon
+
+The dot from the full lockup carries through to the icon, maintaining brand continuity.
+It sits in the bottom-right corner at a size proportional to the icon — large enough to
+read as intentional, small enough not to crowd the "S."
+
+#### iOS: no radius baked in
+
+Section 22 of the design system specifies "pre-masked for iOS's rounded-square shape
+(no radius baked in)." The export is a clean square PNG at 1024×1024. iOS applies its
+own squircle mask at runtime.
+
+#### Android: split foreground/background layers
+
+Android adaptive icons require separate fg and bg layers, each 512×512:
+- **Foreground:** Cream "S" + Accent dot on transparent background
+- **Background:** Solid #2D3A1F fill
+
+The OS composites them and applies its own masking/shape.
+
+---
+
+### Alternate Directions (Lighter Explorations)
+
+#### Alternate 1: Handoff Moment
+
+Two overlapping rounded rectangles — one in Primary (#2D3A1F), one in Accent (#B8A678)
+— with a Primary-green overlap zone. Evokes the PIN-confirmed exchange that's the actual
+product differentiator (students meet at a campus point, confirm a code, hand off the
+item).
+
+**Why it's an alternate, not primary:** It works as a mark but adds visual complexity
+the wordmark-led approach avoids. The two shapes need explanation ("what do these
+mean?") whereas a wordmark is immediately readable. The concept is strong for
+storytelling (e.g., "the moment of exchange") but too abstract for a logo that needs to
+work at 16×16 favicon size.
+
+#### Alternate 2: Campus Pin
+
+A map-pin teardrop shape with four small dots inside (2×2 grid) — references campus
+pickup points and the PIN/code confirmation mechanic. The pin is a universal "location"
+signifier; the four dots hint at a keypad without being literal.
+
+**Why it's an alternate:** The pin shape is immediately recognizable as "location" but
+doesn't say "Soldbay" — it says "map." The four dots are a subtle nod, but at small
+sizes they blur into a texture. The wordmark-led approach is more ownable because
+"Soldbay" in Fraunces is uniquely Soldbay; a pin shape could be any campus app.
+
+---
+
+### Production Export Details
+
+#### SVGs (3 files)
+
+All SVGs use `@import url()` to reference Fraunces from Google Fonts. This works in
+browsers, web contexts, and any SVG renderer with network access. For native app use
+where font loading is unreliable, the SVGs can be converted to path-based outlines.
+
+| File | Viewbox | Fill | Accent |
+|---|---|---|---|
+| `soldbay-logo-primary.svg` | 520×100 | #2D3A1F wordmark | #B8A678 dot |
+| `soldbay-logo-inverted.svg` | 520×100 | #F4F1E8 wordmark | #B8A678 dot |
+| `soldbay-wordmark-only.svg` | 440×100 | #2D3A1F wordmark | none |
+
+#### PNGs (3 files)
+
+| File | Dimensions | Color | Description |
+|---|---|---|---|
+| `icon.png` | 1024×1024 | sRGB, 8-bit RGBA | S monogram + dot on cream, no radius |
+| `android-icon-foreground.png` | 512×512 | sRGB, 8-bit RGBA | Cream S + dot, transparent bg |
+| `android-icon-background.png` | 512×512 | sRGB, 8-bit Palette | Solid #2D3A1F |
+
+#### File Placement
+
+```
+soldbay-app/assets/
+├── soldbay-logo-primary.svg
+├── soldbay-logo-inverted.svg
+├── soldbay-wordmark-only.svg
+└── images/
+    ├── icon.png                          (was placeholder)
+    ├── android-icon-foreground.png       (was placeholder)
+    └── android-icon-background.png       (was placeholder)
+
+soldbay-web/public/
+├── soldbay-logo-primary.svg
+├── soldbay-logo-inverted.svg
+└── soldbay-wordmark-only.svg
+```
+
+The old placeholder files (`logo.png`, `logo.svg`, `logo2.svg`, etc.) remain in place
+for now — they can be removed once all import references are updated to the new filenames.
+
+---
+
+### Open Items / Next Steps
+
+1. **Update import references** in app code and web code to use the new filenames
+   (`soldbay-logo-primary.svg` instead of `logo.svg`).
+2. **Remove old placeholder files** once references are confirmed working.
+3. **Test the SVGs in production** — verify Fraunces loads correctly in the app's
+   WebView and the web landing page.
+4. **Favicon** — the wordmark-only SVG or a cropped version of the icon could serve as
+   the favicon; currently `favicon.ico` in `soldbay-web/public/` is the old one.
+5. **Splash screen** — use the iOS icon (centered on cream background) for the splash,
+   per Section 22 of the design system.
+6. **Social/meta images** — the inverted lockup on a dark background would work for
+   Open Graph / Twitter card images; not yet generated.
+
+---
