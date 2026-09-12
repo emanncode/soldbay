@@ -954,7 +954,7 @@
       "y": 8309,
       "name": "14 Core Colors",
       "width": 1240,
-      "height": 676,
+      "height": 768,
       "fill": "#F4F1E8",
       "cornerRadius": 20,
       "layout": "vertical",
@@ -1692,6 +1692,19 @@
               ]
             }
           ]
+        },
+        {
+          "type": "text",
+          "id": "Ytk4H",
+          "name": "NamingClarification",
+          "fill": "#5A5A4F",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Naming clarification (locked) — `foreground` (alias `text`) = dark olive `#2D3A1F` in light mode, cream `#F1EEE4` in dark; it is the color pair text renders in by default. `primary` (alias `button`) = CTA-fill green `#5A743E` (ramp 500) light / `#8BA670` dark — NOT the text default, not a synonym for 'important'. Pressed state → ramp 700 (`#2C381E`).",
+          "lineHeight": 1.6,
+          "fontFamily": "Sora",
+          "fontSize": 12,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -11758,7 +11771,7 @@
                           "fill": "#5A5A4F",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Entire card (photo + price + title) desaturated / reduced opacity ~70–80% so it recedes against available listings in the same grid.",
+                          "content": "Entire card (photo + price + title) desaturated / reduced opacity ~75%, so it recedes visually against available listings in the same grid.",
                           "lineHeight": 1.4,
                           "fontFamily": "Sora",
                           "fontSize": 10.5,
@@ -11921,7 +11934,1421 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "qZaxc",
+      "x": 1320,
+      "y": 0,
+      "name": "Product Card Gallery",
+      "width": 1096,
+      "gap": 24,
+      "children": [
+        {
+          "type": "frame",
+          "id": "g1Grgp",
+          "name": "Product Card — Default",
+          "reusable": true,
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "QpWvs",
+              "name": "Product Image",
+              "metadata": {
+                "type": "unsplash",
+                "username": "laticoleathers",
+                "link": "https://unsplash.com/@laticoleathers",
+                "author": "Latico Leathers"
+              },
+              "clip": true,
+              "width": "fill_container",
+              "height": 176,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1760624089496-01ae68a92d58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODkxODYxOTZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xg1Or",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gPSLX",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Vintage Leather Crossbody Bag",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "hnoZm",
+                  "name": "Price Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "azFpr",
+                      "name": "Price",
+                      "fill": "$text-primary",
+                      "content": "₦15,000",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "I0Te3y",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "gUMcL",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fsxfV",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PKKP3",
+          "name": "Product Card — Discounted",
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Rjzqh",
+              "name": "Product Image",
+              "metadata": {
+                "type": "unsplash",
+                "username": "2wenty6thstreet",
+                "link": "https://unsplash.com/@2wenty6thstreet",
+                "author": "Yogesh Rahamatkar"
+              },
+              "clip": true,
+              "width": "fill_container",
+              "height": 176,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1648447269929-38b2cb32ebcd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODkxODYxOTd8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Z8vlO",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QNbZw",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Wireless Bluetooth Earbuds",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "lU4b3",
+                  "name": "Price Row",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "KqzXg",
+                      "name": "Original Price",
+                      "fill": "$border",
+                      "content": "₦8,500",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "q12XGg",
+                      "name": "Discount Price",
+                      "fill": "$accent-400",
+                      "content": "₦5,500",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Q6inH",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "E41Io",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RhUBp",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "E1aH0",
+          "name": "Product Card — Sold",
+          "opacity": 0.75,
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "vMtj7",
+              "name": "Product Image",
+              "metadata": {
+                "type": "unsplash",
+                "username": "kimick",
+                "link": "https://unsplash.com/@kimick",
+                "author": "kimia kazemi"
+              },
+              "clip": true,
+              "width": "fill_container",
+              "height": 176,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1758542988969-39a10168b2ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODkxODYxOTh8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ],
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oAzqV",
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 12,
+                  "name": "Sold Stamp",
+                  "width": 176,
+                  "height": 32,
+                  "fill": "$border",
+                  "cornerRadius": 4,
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "qnCfh",
+                  "layoutPosition": "absolute",
+                  "x": 69,
+                  "y": 18,
+                  "name": "Stamp Label",
+                  "fill": "$text-primary",
+                  "content": "SOLD",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 0.04
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bzET8",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eEjxm",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Vintage Leather Crossbody Bag",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "vrnuH",
+                  "name": "Price Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fYk4y",
+                      "name": "Price",
+                      "fill": "$text-primary",
+                      "content": "₦15,000",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "j3KTjW",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "OBJJW",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Xf3sY",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SGTpw",
+          "name": "Product Card — No Photo",
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "sT1C0",
+              "name": "No Photo Placeholder",
+              "width": "fill_container",
+              "height": 176,
+              "fill": "$surface",
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ],
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "AKBkd",
+                  "name": "Tag Icon",
+                  "width": 40,
+                  "height": 40,
+                  "icon": "tag",
+                  "library": "phosphor",
+                  "weight": 400,
+                  "fill": "$border"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pWMBF",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hqo3F",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dorm Study Lamp — Like New",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "ynSOj",
+                  "name": "Price Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wDbhm",
+                      "name": "Price",
+                      "fill": "$text-primary",
+                      "content": "₦3,500",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AA5yQ",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "SNlVs",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vR5U3",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ao00U",
+      "x": 1320,
+      "y": 379,
+      "name": "Product Card Gallery — Dark Mode",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 1096,
+      "gap": 24,
+      "children": [
+        {
+          "id": "K2irIp",
+          "type": "ref",
+          "ref": "g1Grgp",
+          "name": "Product Card — Default (Dark)",
+          "theme": {
+            "mode": "dark"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "nwqM6",
+          "name": "Product Card — Discounted (Dark)",
+          "theme": {
+            "mode": "dark"
+          },
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "tn5ZK",
+              "name": "Product Image",
+              "metadata": {
+                "type": "unsplash",
+                "username": "mkhoa0201",
+                "link": "https://unsplash.com/@mkhoa0201",
+                "author": "Khoa Nguyen"
+              },
+              "clip": true,
+              "width": "fill_container",
+              "height": 176,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1600375226700-5ce19fbe1a6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODkxODYxNzd8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hTgDx",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Z2KB0i",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Wireless Bluetooth Earbuds",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "ryqkF",
+                  "name": "Price Row",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rX7sa",
+                      "name": "Original Price",
+                      "fill": "$border",
+                      "content": "₦8,500",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "eA2ai",
+                      "name": "Discount Price",
+                      "fill": "$accent-400",
+                      "content": "₦5,500",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QVifV",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "CvsoF",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Bcbkh",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CBqg0",
+          "name": "Product Card — Sold (Dark)",
+          "theme": {
+            "mode": "dark"
+          },
+          "opacity": 0.75,
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "y7fdx4",
+              "name": "Product Image",
+              "metadata": {
+                "type": "unsplash",
+                "username": "_anubhavarora",
+                "link": "https://unsplash.com/@_anubhavarora",
+                "author": "Anubhav Arora"
+              },
+              "clip": true,
+              "width": "fill_container",
+              "height": 176,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1564159133-48b801a0c6f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODkxODYxNzh8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ],
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "i0Un3E",
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 12,
+                  "name": "Sold Stamp",
+                  "width": 176,
+                  "height": 32,
+                  "fill": "$border",
+                  "cornerRadius": 4,
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "ZiKhj",
+                  "layoutPosition": "absolute",
+                  "x": 69,
+                  "y": 18,
+                  "name": "Stamp Label",
+                  "fill": "$text-primary",
+                  "content": "SOLD",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 0.04
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WGEdh",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ARtmk",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Vintage Leather Crossbody Bag",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "Fh7GV",
+                  "name": "Price Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jCB5w",
+                      "name": "Price",
+                      "fill": "$text-primary",
+                      "content": "₦15,000",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BV8M5",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "O2BYA",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dRImB",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "w9b7PR",
+          "name": "Product Card — No Photo (Dark)",
+          "theme": {
+            "mode": "dark"
+          },
+          "width": 200,
+          "fill": "$surface",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#2D3A1F0F",
+            "offset": {
+              "x": 0,
+              "y": 1
+            },
+            "blur": 2
+          },
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "bgUFi",
+              "name": "No Photo Placeholder",
+              "width": "fill_container",
+              "height": 176,
+              "fill": "$surface",
+              "cornerRadius": [
+                16,
+                16,
+                0,
+                0
+              ],
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "x2flcx",
+                  "name": "Tag Icon",
+                  "width": 40,
+                  "height": 40,
+                  "icon": "tag",
+                  "library": "phosphor",
+                  "weight": 400,
+                  "fill": "$border"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bWdWC",
+              "name": "Text Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                12,
+                14,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HQtzH",
+                  "name": "Product Title",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dorm Study Lamp — Like New",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "N6zqi",
+                  "name": "Price Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PCf81",
+                      "name": "Price",
+                      "fill": "$text-primary",
+                      "content": "₦3,500",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M5rFig",
+                  "name": "Verified Badge Row",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "iEtQt",
+                      "name": "Shield Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "shield-check",
+                      "library": "phosphor",
+                      "weight": 600,
+                      "fill": "$accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "i9sAn",
+                      "name": "Verified Label",
+                      "fill": "$accent",
+                      "content": "Verified",
+                      "fontFamily": "$font-ui",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "j89hZa",
+      "x": 2684,
+      "y": 0,
+      "name": "EXPORT — Primary Lockup",
+      "width": 600,
+      "height": 120,
+      "gap": 6,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "aewGK",
+          "name": "Wordmark",
+          "fill": "#2D3A1F",
+          "content": "Soldbay",
+          "fontFamily": "Fraunces",
+          "fontSize": 72,
+          "fontWeight": "500",
+          "letterSpacing": -0.02
+        },
+        {
+          "type": "ellipse",
+          "id": "tygnV",
+          "name": "Dot",
+          "fill": "#B8A678",
+          "width": 10,
+          "height": 10
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vwmww",
+      "x": 2684,
+      "y": 160,
+      "name": "EXPORT — Inverted Lockup",
+      "width": 600,
+      "height": 120,
+      "gap": 6,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "FjVpN",
+          "name": "Wordmark",
+          "fill": "#F4F1E8",
+          "content": "Soldbay",
+          "fontFamily": "Fraunces",
+          "fontSize": 72,
+          "fontWeight": "500",
+          "letterSpacing": -0.02
+        },
+        {
+          "type": "ellipse",
+          "id": "COCgF",
+          "name": "Dot",
+          "fill": "#B8A678",
+          "width": 10,
+          "height": 10
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Ynb1V",
+      "x": 2684,
+      "y": 320,
+      "name": "EXPORT — Wordmark Only",
+      "width": 520,
+      "height": 120,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "iWuKm",
+          "name": "Wordmark",
+          "fill": "#2D3A1F",
+          "content": "Soldbay",
+          "fontFamily": "Fraunces",
+          "fontSize": 72,
+          "fontWeight": "500",
+          "letterSpacing": -0.02
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "K7z1IV",
+      "x": 3364,
+      "y": 0,
+      "name": "EXPORT — iOS Icon",
+      "width": 1024,
+      "height": 1024,
+      "fill": "#F4F1E8",
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "QLHTx",
+          "layoutPosition": "absolute",
+          "x": 196,
+          "y": 160,
+          "name": "S",
+          "fill": "#2D3A1F",
+          "content": "S",
+          "fontFamily": "Fraunces",
+          "fontSize": 580,
+          "fontWeight": "600",
+          "letterSpacing": -0.03
+        },
+        {
+          "type": "ellipse",
+          "id": "Ro3XU",
+          "layoutPosition": "absolute",
+          "x": 832,
+          "y": 832,
+          "name": "Dot",
+          "fill": "#B8A678",
+          "width": 72,
+          "height": 72
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "XZM8o",
+      "x": 3364,
+      "y": 1080,
+      "name": "EXPORT — Android Foreground",
+      "width": 512,
+      "height": 512,
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "BMjwW",
+          "layoutPosition": "absolute",
+          "x": 98,
+          "y": 80,
+          "name": "S",
+          "fill": "#F4F1E8",
+          "content": "S",
+          "fontFamily": "Fraunces",
+          "fontSize": 290,
+          "fontWeight": "600",
+          "letterSpacing": -0.03
+        },
+        {
+          "type": "ellipse",
+          "id": "L6qum",
+          "layoutPosition": "absolute",
+          "x": 416,
+          "y": 416,
+          "name": "Dot",
+          "fill": "#B8A678",
+          "width": 36,
+          "height": 36
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Fib87",
+      "x": 3924,
+      "y": 1080,
+      "name": "EXPORT — Android Background",
+      "width": 512,
+      "height": 512,
+      "fill": "#2D3A1F",
+      "layout": "none"
     }
   ],
+  "themes": {
+    "mode": [
+      "light",
+      "dark"
+    ]
+  },
+  "variables": {
+    "background": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F4F1E8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1A1F14",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "text-primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#2D3A1F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F1EEE4",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#B8A678",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#C7B58A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent-400": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#96824F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#96824F",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E8E2D0",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#242A1D",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#D8D7CC",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#3F4635",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "secondary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#5C7048",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#8BA670",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "text-secondary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#5C7048",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A8C090",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "font-ui": {
+      "type": "string",
+      "value": "Sora"
+    },
+    "space-1": {
+      "type": "number",
+      "value": 4
+    },
+    "space-2": {
+      "type": "number",
+      "value": 8
+    },
+    "space-3": {
+      "type": "number",
+      "value": 12
+    },
+    "space-4": {
+      "type": "number",
+      "value": 16
+    },
+    "unverified-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#5C7048",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#8BA670",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "unverified-text": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F4F1E8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1A1F14",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "soldbay-primary": {
+      "type": "color",
+      "value": "#2D3A1F"
+    },
+    "soldbay-cream": {
+      "type": "color",
+      "value": "#F4F1E8"
+    },
+    "soldbay-accent": {
+      "type": "color",
+      "value": "#B8A678"
+    },
+    "soldbay-surface": {
+      "type": "color",
+      "value": "#E8E2D0"
+    },
+    "soldbay-dark-bg": {
+      "type": "color",
+      "value": "#1A1F14"
+    },
+    "soldbay-dark-surface": {
+      "type": "color",
+      "value": "#242A1D"
+    },
+    "font-display": {
+      "type": "string",
+      "value": "Fraunces"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Sora"
+    }
+  },
   "fileToken": "f1f2b893-7234-4153-bc28-3af57617924a"
 }

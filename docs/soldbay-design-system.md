@@ -145,17 +145,24 @@ new colors introduced.
 
 ## 6. Product Card States — Sold / Unavailable
 
-Structural decision, settled before component build so it doesn't get bolted on
-as an afterthought: **the sold state overlays independently — it does not
-replace the price.**
+Same structural skeleton on every card: 1:1 photo → title → price → badge row,
+so all cards interchange seamlessly in a grid. Only the visual treatment
+changes. (The pricing/verification variants live one section to the right — see
+Sections 11 & 10 — rather than duplicating full cards here.)
+
+### 6a. Sold / Unavailable
+
+The sold state overlays independently — it does not replace the price.
 
 | Aspect               | Decision                                                                                                                                                                                                                                                                                                           |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Price behavior       | Price stays visible underneath, at reduced opacity — not replaced/removed. Lets buyers still see what an item sold for (price anchoring), and avoids conditional layout logic (card structure doesn't change between available/sold, only its visual treatment does)                                               |
-| Placement            | A stamp/ribbon across the product photo (diagonal or straight bar near the top) — not a small corner badge like the verified-seller badge. Needs to read as obviously unavailable at a glance while scrolling a feed, which a small badge doesn't achieve                                                          |
-| Whole-card treatment | Entire card (photo + price + title) desaturated/reduced opacity (~70-80%), so it visually recedes against available listings in the same grid                                                                                                                                                                      |
-| Color                | Derived from the neutral Border/Surface family (e.g. Border `#D8D7CC` background + Primary text on the stamp) — **not** the Error semantic color. Error means "something's wrong"; sold means "administrative, no longer available." Using Error here would incorrectly imply a problem rather than a normal state |
-| Still open           | Exact stamp copy/icon (if any) not yet decided — only the structural shape and color family are locked here                                                                                                                                                                                                        |
+| Placement            | A straight bar across the top of the product photo — not a small corner badge. Needs to read as obviously unavailable at a glance while scrolling a feed. Stamp copy **and icon** still being picked (was "SOLD"; flagging text vs icon combo).                                                                   |
+| Whole-card treatment | Entire card (photo + price + title) desaturated / reduced opacity (~75%). It recedes against available listings in the same grid.                                                                                                                                                                          |
+| Color                | Derived from the neutral Border/Surface family (Border `#D8D7CC` background + Primary text on the stamp) — **not** the Error semantic color. Error means "something's wrong"; sold means "administrative, no longer available." Using Error here would incorrectly imply a problem rather than a normal state         |
+| Badge                | Verified badge remains visible (unchanged) — sold status is a property of the listing, not a reflection on the seller's trustworthiness                                                                                                             |
+
+**Still open:** exact stamp copy / icon.
 
 ---
 
@@ -223,9 +230,9 @@ transacting with strangers on campus.
 
 | Element                | Treatment                                                                                                                            |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Verified seller badge  | Small badge, Accent color + custom checkmark-in-shield icon, consistent placement next to seller name (listing cards, profile, chat) |
+| Verified seller badge  | Small badge, Accent color + custom checkmark-in-shield icon (`shield-check` from Phosphor), consistent placement next to seller name (listing cards, profile, chat). Pill shape, 11px Sora, `Accent` fill + `on-primary` text |
 | Seller rating          | Star icon (Phosphor, Fill weight) + numeric rating on cards; full breakdown only on seller profile — avoids visual noise             |
-| "New seller" indicator | Neutral tag, Secondary color background — being new isn't a red flag, shouldn't look like one                                        |
+| "New seller" indicator | **Neutral tag, Secondary color background** — being new isn't a red flag and shouldn't look like one |
 | Campus/location tag    | Small pill, Border-color outline, neutral                                                                                            |
 
 ---
@@ -289,6 +296,8 @@ Soldbay-specific or where personality genuinely helps (category art).
 | Accent                  | `#B8A678`  | `#C7B58A` | Lightened ~6% in dark mode so it isn't swallowed by the dark bg |
 | Surface (cards, modals) | `#E8E2D0`  | `#242A1D` | Where product cards sit on top of Background                    |
 | Border                  | `#D8D7CC`  | `#3F4635` | Subtle in both modes                                            |
+
+**Naming clarification (locked):** `foreground` (alias `text`) = the dark olive `#2D3A1F` in light mode and cream `#F1EEE4` in dark mode — it is the color pair **that text renders in** everywhere by default. `primary` (alias `button`) = the CTA-fill green `#5A743E` (ramp 500) in light mode and `#8BA670` in dark mode — **not** the text default, not a synonym for "important". Pressed state → ramp 700 (`#2C381E`).
 
 **Marketplace note:** the Background→Surface lightness gap is fairly subtle in both
 modes (~7% light, ~4% dark) — fine for editorial content, a little flat for a dense
@@ -379,11 +388,10 @@ direct port of the light-mode text colors would fail contrast.
 - **Real lighting conditions** — test on an actual mid-range Android screen in
   daylight/glare, and run the palette through a color-blindness simulator (Stark,
   Coblis) before locking anything in.
-- **Sold/Unavailable state** — structure now decided in Section 6 (overlay stamp
-  - whole-card desaturation, price stays visible, neutral Border-family color, not
-    Error). Only the exact stamp copy/icon still needs picking.
-- **Verified-seller** — visual treatment already decided (Section 10: Accent
-  badge + checkmark-in-shield icon), just not yet built as a component.
+- **Sold/Unavailable state** — ✅ Resolved. Structure (Section 6a) and treatment
+  decided. Only the exact stamp copy / icon still needs picking.
+- **Verified-seller** — ✅ Resolved. Visual treatment already decided (Section 10:
+  Accent badge + `shield-check` icon), just not yet built as a component.
 - **Success vs. Primary contrast** — mitigated: Success shifted to teal
   (`#2E7A6E` light / `#7BC4B6` dark, hue ~170°) so it no longer reads as a second
   shade of Primary's olive. Update Section 16's Success values to match.
