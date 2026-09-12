@@ -133,17 +133,33 @@ new colors introduced.
 
 ### Input / form field
 
-| State    | Treatment                                                                                                                                                                                                        |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Default  | Surface bg, Border color outline, `radius-md` (10px)                                                                                                                                                             |
-| Focused  | Border switches to Primary, 1px → 2px                                                                                                                                                                            |
-| Filled   | Same as default, no special treatment                                                                                                                                                                            |
-| Error    | Border + helper text switch to **Error** semantic color (`#9C453A`) — reused directly rather than a dedicated field-error color, so a red form field and a red "sold out" badge read as the same visual language |
-| Disabled | Surface bg at ~60% opacity, Border color text                                                                                                                                                                    |
+| State    | Treatment                                                                                                                                                                                   |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Default  | Surface bg, Border color outline, `radius-md` (10px)                                                                                                                                        |
+| Focused  | Border switches to Primary, 1px → 2px                                                                                                                                                       |
+| Filled   | Same as default, no special treatment                                                                                                                                                       |
+| Error    | Border + helper text switch to **Error** semantic color (`#9C453A`) — reused directly for form validation (note: the product card's "Sold" state does _not_ use this color — see Section 6) |
+| Disabled | Surface bg at ~60% opacity, Border color text                                                                                                                                               |
 
 ---
 
-## 6. Product Photography Guidelines
+## 6. Product Card States — Sold / Unavailable
+
+Structural decision, settled before component build so it doesn't get bolted on
+as an afterthought: **the sold state overlays independently — it does not
+replace the price.**
+
+| Aspect               | Decision                                                                                                                                                                                                                                                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Price behavior       | Price stays visible underneath, at reduced opacity — not replaced/removed. Lets buyers still see what an item sold for (price anchoring), and avoids conditional layout logic (card structure doesn't change between available/sold, only its visual treatment does)                                               |
+| Placement            | A stamp/ribbon across the product photo (diagonal or straight bar near the top) — not a small corner badge like the verified-seller badge. Needs to read as obviously unavailable at a glance while scrolling a feed, which a small badge doesn't achieve                                                          |
+| Whole-card treatment | Entire card (photo + price + title) desaturated/reduced opacity (~70-80%), so it visually recedes against available listings in the same grid                                                                                                                                                                      |
+| Color                | Derived from the neutral Border/Surface family (e.g. Border `#D8D7CC` background + Primary text on the stamp) — **not** the Error semantic color. Error means "something's wrong"; sold means "administrative, no longer available." Using Error here would incorrectly imply a problem rather than a normal state |
+| Still open           | Exact stamp copy/icon (if any) not yet decided — only the structural shape and color family are locked here                                                                                                                                                                                                        |
+
+---
+
+## 7. Product Photography Guidelines
 
 Photos are the product on a marketplace — inconsistent treatment (mixed aspect
 ratios, no placeholder) makes even a well-designed app feel unfinished.
@@ -161,7 +177,7 @@ ratios, no placeholder) makes even a well-designed app feel unfinished.
 
 ---
 
-## 7. Grid & Breakpoints
+## 8. Grid & Breakpoints
 
 Mobile app doesn't need much breakpoint complexity; web landing + admin do.
 
@@ -184,7 +200,7 @@ under 3 columns at small widths — test with real product photos before locking
 
 ---
 
-## 8. Empty States & Illustration Style
+## 9. Empty States & Illustration Style
 
 | Screen                    | Treatment                                                                                     |
 | ------------------------- | --------------------------------------------------------------------------------------------- |
@@ -200,7 +216,7 @@ extension of the custom-icon decision, not a separate system.
 
 ---
 
-## 9. Trust & Verification Visual Language
+## 10. Trust & Verification Visual Language
 
 Important specifically for a student marketplace — buyers need to feel safe
 transacting with strangers on campus.
@@ -214,7 +230,7 @@ transacting with strangers on campus.
 
 ---
 
-## 10. Price & Currency Formatting
+## 11. Price & Currency Formatting
 
 | Case             | Format                                                                                                                                                                                                                                                                                       |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -225,7 +241,7 @@ transacting with strangers on campus.
 
 ---
 
-## 11. Notification & Badge System
+## 12. Notification & Badge System
 
 | Element                 | Treatment                                                                                                |
 | ----------------------- | -------------------------------------------------------------------------------------------------------- |
@@ -236,7 +252,7 @@ transacting with strangers on campus.
 
 ---
 
-## 12. Icon System
+## 13. Icon System
 
 **Primary set:** Phosphor Icons — replaces the brand kit's default (Feather),
 which is fine as a base but doesn't offer the weight range Phosphor does.
@@ -264,7 +280,7 @@ Soldbay-specific or where personality genuinely helps (category art).
 
 ---
 
-## 13. Core Colors — Light & Dark
+## 14. Core Colors — Light & Dark
 
 | Role                    | Light mode | Dark mode | Notes                                                           |
 | ----------------------- | ---------- | --------- | --------------------------------------------------------------- |
@@ -281,7 +297,7 @@ weight if cards feel like they aren't lifting off the page once real content is 
 
 ---
 
-## 14. Secondary Color
+## 15. Secondary Color
 
 Derived from Primary's own hue (89°) at a lighter weight, rather than introducing a
 third brand color — keeps the two-color discipline intact.
@@ -294,7 +310,7 @@ Use for secondary buttons, subheadings, tag/pill backgrounds paired with dark te
 
 ---
 
-## 15. Semantic Colors
+## 16. Semantic Colors
 
 Each has a text/icon version (AA-passing on the cream background) and a light
 surface tint (for badges, alerts, chips), matched to Surface's own lightness range.
@@ -321,7 +337,7 @@ next pass):
 
 ---
 
-## 16. Extended Palette (tints & shades)
+## 17. Extended Palette (tints & shades)
 
 Ramps for the two hues that need scaling for hover/active/disabled states.
 
@@ -341,7 +357,7 @@ _(500 is the kit's original Accent value — kept as the anchor point.)_
 
 ---
 
-## 17. Dark-Mode Semantic Colors
+## 18. Dark-Mode Semantic Colors
 
 Lightened versions of the semantic set for legibility on the dark background — a
 direct port of the light-mode text colors would fail contrast.
@@ -355,7 +371,7 @@ direct port of the light-mode text colors would fail contrast.
 
 ---
 
-## 18. Still Open / Not Derivable from Hex Values
+## 19. Still Open / Not Derivable from Hex Values
 
 - **Color psychology / cultural meaning** — worth a manual sanity check with actual
   students; olive + tan + this semantic set skews earthy/grounded, no obvious
@@ -363,16 +379,20 @@ direct port of the light-mode text colors would fail contrast.
 - **Real lighting conditions** — test on an actual mid-range Android screen in
   daylight/glare, and run the palette through a color-blindness simulator (Stark,
   Coblis) before locking anything in.
-- **Sold/Unavailable and Verified-seller states** — flagged above, not yet designed.
+- **Sold/Unavailable state** — structure now decided in Section 6 (overlay stamp
+  - whole-card desaturation, price stays visible, neutral Border-family color, not
+    Error). Only the exact stamp copy/icon still needs picking.
+- **Verified-seller** — visual treatment already decided (Section 10: Accent
+  badge + checkmark-in-shield icon), just not yet built as a component.
 - **Success vs. Primary contrast** — mitigated: Success shifted to teal
   (`#2E7A6E` light / `#7BC4B6` dark, hue ~170°) so it no longer reads as a second
-  shade of Primary's olive. Update Section 15's Success values to match.
+  shade of Primary's olive. Update Section 16's Success values to match.
 - **Background→Surface contrast for dense product feeds** — flagged above, may need
   widening once real product cards are in front of you.
 
 ---
 
-## 19. Motion & Animation Principles
+## 20. Motion & Animation Principles
 
 Lightweight on purpose — motion should make the app feel responsive, not decorative.
 
@@ -388,7 +408,7 @@ Lightweight on purpose — motion should make the app feel responsive, not decor
 
 ---
 
-## 20. Tone of Voice & Microcopy
+## 21. Tone of Voice & Microcopy
 
 **v1 decision: English only, across all UI.** Pidgin is intentionally deferred —
 planned as an optional toggle in a future version (v2+), letting users choose a
@@ -406,7 +426,7 @@ without a rework.
 
 ---
 
-## 21. App Icon / Splash Screen
+## 22. App Icon / Splash Screen
 
 | Element           | Guidance                                                                                                                                                                                                                                       |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
