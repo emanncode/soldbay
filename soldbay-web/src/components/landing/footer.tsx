@@ -55,13 +55,7 @@ export function Footer() {
                 href="/#join"
                 className="cursor-pointer text-sm text-foreground/50 transition-colors hover:text-foreground"
               >
-                Join as Buyer
-              </SmoothLink>
-              <SmoothLink
-                href="/#join"
-                className="cursor-pointer text-sm text-foreground/50 transition-colors hover:text-foreground"
-              >
-                Become a Seller
+                Join the waitlist
               </SmoothLink>
             </div>
             <div className="flex flex-col gap-3.5">
