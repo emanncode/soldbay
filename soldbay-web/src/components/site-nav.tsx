@@ -36,20 +36,6 @@ export function SiteNav() {
       transition={{ duration: 0.5, ease: soldbayEase }}
       className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl"
     >
-      {/* Mobile backdrop — covers the page behind the header */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: soldbayEase }}
-            onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 z-0 bg-black/40 backdrop-blur-sm lg:hidden"
-          />
-        )}
-      </AnimatePresence>
-
       <div className="container-page relative z-10">
         <div className="flex h-16 items-center justify-between md:h-22">
           <Link
@@ -116,7 +102,7 @@ export function SiteNav() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25, ease: soldbayEase }}
-              className="-mx-4 mb-4 rounded-2xl border border-border bg-background px-6 py-6 shadow-elevation-3 sm:mx-0 lg:hidden"
+              className="-mx-4 mb-4 border border-border bg-background px-6 py-6 shadow-elevation-3 sm:mx-0 lg:hidden"
             >
               <nav
                 className="flex flex-col gap-4"
