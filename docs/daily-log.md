@@ -2,6 +2,78 @@
 
 ---
 
+## 2026-09-14 — Copy clean-up, asset cleanup & FAQ expansion
+
+Follow-on pass after the landing polish: removed every em dash from rendered
+copy, deleted the old placeholder assets (and the broken references pointed at
+them), trimmed a mobile nav detail, then expanded the FAQ into the resolved
+post-pickup experience. Committed as `b8bbac1`, `30366ab`, `b03b932`,
+`a936f52` and pushed to `origin/master` (Vercel prod).
+
+### All em dashes removed from rendered copy
+
+- User rule: **zero `—` in any rendered output** (remaining occurrences may
+  only live inside code comments).
+- Fixed the three called-out spots — `layout.tsx` title (`Soldbay | Buy and
+  sell on campus`), `social-proof.tsx` ("goes live. You&rsquo;ll be first
+  in."), `faq-accordion.tsx` free answer ("completely free. Buyers never
+  pay…") — then an actual grep of rendered output surfaced **six more**:
+  both waitlist-proof subtitles (`lib/waitlist-proof.ts`), the question-form
+  card description, the FAQ delivery answer, and two strings in
+  `lib/api-error.ts`.
+- Verified clean: grep for the `—` glyph across `components/` + `lib/` now
+  hits comments only. `tsc --noEmit` clean.
+- Committed `b8bbac1`.
+
+### Placeholder asset cleanup
+
+- Deleted the legacy placeholders and dead references: `folder structure.md`,
+  `soldbay-app/assets/logo*.{png,svg}`, `soldbay-web/public/logo*.{png,svg}`,
+  `favicon.ico`, `hero-abstract.svg` + its `HERO_ABSTRACT_README.txt`.
+- Repositioned the accent dot on the kept wordmark SVGs (accent `cx` 462→241,
+  `cy` 28→22) so it sits tight against the trailing "y", matching the inline
+  `BrandLogo` lockup geometry.
+- Fixed references the deletion exposed:
+  - `login/page.tsx` no longer `<Image src="/logo.png">` — now
+    `<BrandLogo variant="inverted" className="relative z-10 mb-8 h-22 w-auto" />`.
+  - `soldbay-app/app.json` splash → `./assets/images/icon.png` on cream
+    `#F4F1E8`, `imageWidth` 160.
+  - Dropped the dead `@utility text-hero-image-clip` from `globals.css`.
+- Verified: no remaining references to deleted assets; `tsc` + `next build`
+  clean. Committed `30366ab`.
+
+### Mobile site-nav polish
+
+- Removed the backdrop overlay + `rounded-2xl` panel radius from the mobile
+  dropdown in `components/site-nav.tsx` (flat full-bleed panel under the
+  cream bar). Committed `b03b932`.
+
+### FAQ expanded (payment → messaging → resolution flow)
+
+- `components/landing/faq-accordion.tsx` grew from 4 to 6 Q&As:
+  - **"Can I message the seller?"** — once you've paid, in-app chat for
+    pickup details stays open through pickup and 24 hours after.
+  - **"What if there's a problem with my order?"** (restored) — 24 hours
+    after confirming pickup to sort it out with the seller; raise it with
+    Soldbay before the 48-hour window closes and payment fully releases.
+  - Both sit after "How do payments work?" and before "Is delivery
+    available?", mirroring the buyer journey.
+- Cross-checked against `docs/architecture.md` (dispute + refund/release
+  resolution, `/api/orders/[id]/dispute`,
+  `/api/admin/disputes/[id]/resolve`) — timeframes are consistent.
+- Considered adding a 4th "Talk it out" card to Why Soldbay but left it at
+  the three mechanism cards: messaging is post-sale support detail already
+  covered by the FAQ flow, and the section's intro + chips row are a
+  deliberate three-beat structure. Waitlist polls already list "In-app chat".
+- Committed `a936f52`.
+
+### Verified
+
+- `npx tsc --noEmit` clean and `next build` succeeds across the batch; pushed
+  `b8bbac1`, `30366ab`, `b03b932`, `a936f52` → `origin/master`.
+
+---
+
 ## 2026-09-14 — Landing polish: Waitlist Section, FAQ/Questions Switch, Smooth Scroll, Hero Pill
 
 Follow-up pass on the light-editorial landing, driven by build + usability feedback.
