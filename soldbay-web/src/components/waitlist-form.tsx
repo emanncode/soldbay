@@ -94,7 +94,10 @@ export function WaitlistForm({ type, onSuccess }: WaitlistFormProps) {
     { label: "Food & Drinks", selected: false },
     { label: "Services", selected: false },
     { label: "Housing", selected: false },
+    { label: "Other", selected: false },
   ]);
+
+  const [otherCategory, setOtherCategory] = useState("");
 
   const buyerPollOptions = [
     "Verified sellers",
@@ -127,6 +130,9 @@ export function WaitlistForm({ type, onSuccess }: WaitlistFormProps) {
     setCategories((prev) =>
       prev.map((c, i) => (i === index ? { ...c, selected: !c.selected } : c)),
     );
+    if (categories[index]?.label === "Other" && categories[index].selected) {
+      setOtherCategory("");
+    }
   };
 
   const togglePoll = (index: number) => {
@@ -152,7 +158,15 @@ export function WaitlistForm({ type, onSuccess }: WaitlistFormProps) {
           level: isBuyer ? formData.academicLevel : null,
           sellsWhat: isBuyer ? null : formData.sellCategory,
           frequency: isBuyer ? null : formData.sellFrequency,
-          categories: categories.filter((c) => c.selected).map((c) => c.label),
+          categories: categories
+            .filter((c) => c.selected && c.label !== "Other")
+            .map((c) => c.label)
+            .concat(
+              categories.some((c) => c.label === "Other" && c.selected) &&
+                otherCategory.trim()
+                ? [otherCategory.trim()]
+                : [],
+            ),
           pollAnswers: poll.filter((p) => p.checked).map((p) => p.label),
         }),
       });
@@ -222,6 +236,7 @@ export function WaitlistForm({ type, onSuccess }: WaitlistFormProps) {
               variant="outline"
               onClick={() => {
                 setSent(false);
+                setOtherCategory("");
                 setPoll(
                   (isBuyer ? buyerPollOptions : sellerPollOptions).map(
                     (label) => ({ label, checked: false }),
@@ -381,6 +396,15 @@ export function WaitlistForm({ type, onSuccess }: WaitlistFormProps) {
                   />
                 ))}
               </div>
+              {categories.some((c) => c.label === "Other" && c.selected) ? (
+                <Input
+                  type="text"
+                  placeholder="Tell us what category you're interested in"
+                  value={otherCategory}
+                  onChange={(e) => setOtherCategory(e.target.value)}
+                  className={fieldClass}
+                />
+              ) : null}
             </motion.div>
           ) : (
             <motion.div
