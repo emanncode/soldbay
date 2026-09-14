@@ -536,17 +536,6 @@
   animation: hero-text-shimmer 9s ease-in-out infinite;
 }
 
-/* Hero headline — fill glyphs with the abstract hero image */
-@utility text-hero-image-clip {
-  background-image: url("/hero-abstract.svg");
-  background-size: cover;
-  background-position: center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 2px 24px rgb(90 116 62 / 0.35));
-}
-
 @keyframes hero-text-shimmer {
   0%,
   100% {

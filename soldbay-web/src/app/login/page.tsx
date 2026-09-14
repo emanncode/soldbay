@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import Image from "next/image";
 import { signIn } from "next-auth/react";
+import { BrandLogo } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -77,13 +77,9 @@ export default function LoginPage() {
       <div className="form-spotlight relative z-10 flex w-full flex-col items-center">
         <div className="form-spotlight-glow" />
 
-        <Image
-          src="/logo.png"
-          alt="SoldBay"
-          width={220}
-          height={110}
-          className="relative z-10 mb-8 h-22 w-auto brightness-0 invert"
-          priority
+        <BrandLogo
+          variant="inverted"
+          className="relative z-10 mb-8 h-22 w-auto"
         />
 
         <div className="glass-panel-strong relative z-10 w-full max-w-md rounded-xl p-8">

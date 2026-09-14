@@ -4,5 +4,5 @@
     .wordmark { font-family: 'Fraunces', serif; font-weight: 500; font-size: 72px; letter-spacing: -0.02em; }
   </style>
   <text class="wordmark" x="0" y="76" fill="#F4F1E8">Soldbay</text>
-  <circle cx="462" cy="28" r="5" fill="#B8A678"/>
+  <circle cx="241" cy="22" r="5" fill="#B8A678"/>
 </svg>
