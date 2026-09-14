@@ -16,6 +16,14 @@ const faqs = [
     a: "You pay securely in the app via Paystack (card, bank transfer, or USSD). Your payment is held by Soldbay and is only paid out once you've confirmed you received your item.",
   },
   {
+    q: "Can I message the seller?",
+    a: "Yes. Once you've paid, you can chat with the seller in-app to sort out pickup details or ask questions. Chat stays open through pickup and for 24 hours after, in case anything needs sorting out.",
+  },
+  {
+    q: "What if there's a problem with my order?",
+    a: "You've got 24 hours after confirming pickup to message the seller directly and sort it out. If it's not resolved, you can raise it with Soldbay before the 48-hour window closes and your payment fully releases.",
+  },
+  {
     q: "Is delivery available?",
     a: "For now, exchanges happen at fixed pickup points we set up on your campus. No arranging meetups with a stranger yourself.",
   },
