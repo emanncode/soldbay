@@ -169,7 +169,7 @@ export function QuestionForm() {
                 Ask us anything
               </CardTitle>
               <CardDescription className="-mt-3 text-sm text-secondary">
-                Your message goes to the Soldbay team — we&rsquo;ll answer by
+                Your message goes to the Soldbay team. We&rsquo;ll answer by
                 email.
               </CardDescription>
             </CardHeader>

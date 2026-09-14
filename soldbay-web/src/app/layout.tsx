@@ -23,7 +23,7 @@ const satisfy = Satisfy({
 });
 
 export const metadata: Metadata = {
-  title: "SoldBay — Buy and sell on campus",
+  title: "SoldBay | Buy and sell on campus",
   description: "The marketplace built for university students.",
 };
 

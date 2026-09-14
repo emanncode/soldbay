@@ -31,7 +31,7 @@ export type AppError = {
 }
 
 const SERVER_GENERIC =
-  "Something went wrong on our side. This can happen when the database is waking up — please wait a moment and try again."
+  "Something went wrong on our side. This can happen when the database is waking up. Please wait a moment and try again."
 
 export function appErrorFromStatus(
   status: number,
@@ -89,7 +89,7 @@ export function appErrorFromStatus(
         return {
           variant: "server",
           status,
-          title: "Server busy — please retry",
+          title: "Server busy. Please retry",
           message: isGenericServerMessage(serverMessage)
             ? SERVER_GENERIC
             : serverMessage || SERVER_GENERIC,

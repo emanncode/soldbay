@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 const faqs = [
   {
     q: "Is it free to use?",
-    a: "Joining and browsing Soldbay is completely free — buyers never pay platform fees. Sellers keep the large majority of every sale.",
+    a: "Joining and browsing Soldbay is completely free. Buyers never pay platform fees. Sellers keep the large majority of every sale.",
   },
   {
     q: "How do payments work?",
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "Is delivery available?",
-    a: "For now, exchanges happen at fixed pickup points we set up on your campus — no arranging meetups with a stranger yourself.",
+    a: "For now, exchanges happen at fixed pickup points we set up on your campus. No arranging meetups with a stranger yourself.",
   },
   {
     q: "How do you prevent scams?",

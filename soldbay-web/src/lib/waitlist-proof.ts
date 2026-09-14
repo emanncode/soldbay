@@ -39,7 +39,7 @@ export function getWaitlistProof(count: number): WaitlistProof {
       headline: "1",
       title: "student already on the waitlist",
       subtitle:
-        "You're early — join them and be ready when Soldbay goes live on campus.",
+        "You're early. Join them and be ready when Soldbay goes live on campus.",
     }
   }
 
@@ -48,7 +48,7 @@ export function getWaitlistProof(count: number): WaitlistProof {
       headline: String(n),
       title: "students already on the waitlist",
       subtitle:
-        "From campuses across Nigeria — join the list before launch day.",
+        "From campuses across Nigeria. Join the list before launch day.",
     }
   }
 

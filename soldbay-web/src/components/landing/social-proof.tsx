@@ -55,7 +55,7 @@ export function SocialProof({ count = 0 }: SocialProofProps) {
               </h2>
               <p className="text-sm leading-normal text-primary/60">
                 Sign up now and we&rsquo;ll email you the moment your campus goes
-                live — you&rsquo;ll be first in.
+                live. You&rsquo;ll be first in.
               </p>
             </motion.div>
 
