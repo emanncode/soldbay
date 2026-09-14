@@ -48,6 +48,12 @@ module.exports = {
           tint: "#CCFBF1",
           foreground: "#FFFFFF",
         },
+        // Olive/gold brand accent (design system) — verified badge only, until the
+        // full olive theme migration. Legacy teal `accent` remains the UI accent.
+        "accent-gold": {
+          DEFAULT: "#B8A678",
+          tint: "#E8E2D0", // verified badge pill backing — a tint, not a hue
+        },
 
         // --- Semantic status -------------------------------------------------
         success: { DEFAULT: "#16A34A", tint: "#DCFCE7", foreground: "#FFFFFF" },

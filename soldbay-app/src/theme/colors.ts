@@ -16,6 +16,10 @@ export const colors = {
   accentHover: "#0F766E",
   /** A tint of the accent, not a second hue. Verified chip, selected states. */
   accentTint: "#CCFBF1",
+  /** Olive/gold brand accent (design system), used by the verified badge. Not yet the general UI accent — legacy teal stays until the full theme migration. */
+  accentGold: "#B8A678",
+  /** Tint of accentGold — verified badge pill backing, not a second hue. */
+  accentGoldTint: "#E8E2D0",
 
   success: "#16A34A",
   successTint: "#DCFCE7",
