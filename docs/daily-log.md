@@ -2,6 +2,98 @@
 
 ---
 
+## 2026-09-14 — Landing polish: Waitlist Section, FAQ/Questions Switch, Smooth Scroll, Hero Pill
+
+Follow-up pass on the light-editorial landing, driven by build + usability feedback.
+Three interactive sections replaced the previous static blocks, and all in-page
+links now smooth-scroll. Committed as `9bf5198` (docs), `1a7b6c3` (app verified
+badge), `b492398` (web landing rebuild) and pushed to `origin/master` (Vercel
+prod). A follow-up `f65f6e3` fixes the FAQ answer text color class.
+
+### Waitlist section — same dark band, Buyer/Seller switch
+
+- **`components/waitlist-form.tsx` (new, reusable)**: the full signup card
+  (name / email / university / level-or-category / frequency / category chips /
+  poll checkboxes → `/api/waitlist` POST, inline "You're on the list!" success
+  state + "Join the other side" back button) extracted so the same form works
+  inline on the landing **and** in the standalone `/join/*` pages.
+- **`components/join-form.tsx`**: rewritten as a thin page wrapper around
+  `WaitlistForm`; standalone pages pass `onSuccess={() => router.push("/success")}`.
+- **`components/landing/join-waitlist.tsx` (new)**: dark credibility band
+  (`dark bg-background py-24 md:py-32`, `id="join"`), centered eyebrow
+  "— Join Waitlist", heading, sub, and a **Buyer / Seller slide-switch pill** —
+  `motion.span layoutId="join-role-pill"` green bg (spring 400/34), content
+  crossfade-slides (~0.28s `soldbayEase`) via `AnimatePresence mode="wait"`.
+  Tapping the already-active mode does nothing. Wired into `app/page.tsx`
+  directly after `<Hero />`; brand nav gains a `join` link first in order.
+- **All landing CTAs repointed from `/join/buyer|seller` → `/#join`** (nav
+  desktop + mobile, hero pill, social-proof button, footer "Join as Buyer" /
+  "Become a Seller"). No landing CTA routes externally anymore.
+
+### FAQ + Ask-a-question — one dark band, one switch
+
+- **`components/landing/faq-questions.tsx` (new)**: combined section, same dark
+  band + centered header as the waitlist, `id="faq"`. One **FAQ / Questions**
+  pill (`layoutId="faq-questions-pill"`), **FAQ default with the sliding bg**;
+  tapping Questions slides the content to the question card and back. Same
+  copy/pill/slide rules as the Buyer/Seller switch.
+- **`components/landing/faq-accordion.tsx` (new)**: the 4-Q&A accordion extracted
+  as a presentational piece (animated expand/collapse, rotating plus icon).
+- **`components/question-form.tsx` (new, reusable)**: the ask-a-question card
+  (name / email / question → `/api/questions` POST, inline "Question sent"
+  success + "Ask another question") as its own component, mirroring the waitlist
+  form pattern.
+- `components/landing/faq.tsx` and `ask-question.tsx` **deleted** (replaced by
+  the combined section; `page.tsx` now renders `<FaqQuestions />`).
+- Tail-polish commit `f65f6e3`: FAQ answer text color class corrected in
+  `faq-accordion.tsx`.
+
+### Input-field consistency (waitlist vs question)
+
+- The waitlist form was using raw `<input>` elements, which left the browser's
+  default blue focus ring. All waitlist text inputs now use the `Input` UI
+  component with the same `fieldClass` as the question form — identical border,
+  cream `bg-background` fill on `bg-surface` cards, focus-visible ring.
+
+### Smooth-scroll section links
+
+- **`components/smooth-link.tsx` (new)**: a `Link` wrapper that intercepts
+  `/#section` clicks, `preventDefault()`s the instant jump, and
+  `scrollIntoView({ behavior: "smooth" })` (instant under `prefers-reduced-motion`).
+  Falls back to normal navigation for everything else.
+- Swapped into **every** in-page link: nav desktop links + "Join the waitlist"
+  button, mobile menu links + button, hero "Join the waitlist" + "See how it
+  works" pills, social-proof CTA, footer "Join as Buyer" / "Become a Seller".
+- The `#how` / `#why` / `#join` / `#faq` sections gained
+  `scroll-mt-20 md:scroll-mt-24` so section tops land below the fixed header.
+
+### Hero dual-pill behavior
+
+- Removed the `onMouseLeave` reset — the green `layoutId` pill **stays** on the
+  hovered option (default stays `join` on load) until you hover the other.
+- Click now flashes a light pressed overlay (`bg-white/25`, ~300ms) on the
+  clicked pill, plus moves the bg there for touch/keyboard users.
+
+### Assorted
+
+- `container-page` max-width widened 72rem → **126rem** (editorial full-bleed look).
+- `app/success/page.tsx` + `page-shell.tsx` finished converting off the dark glass/
+  spotlight treatment to the light surface cards + `page-atmosphere-light`.
+- `components/ui/input.tsx` base class switched `border` → `border-none` so
+  callers control the border via tokens.
+- `components/brand-logo.tsx` (new): inline wordmark lockup using the self-hosted
+  Fraunces (the earlier `public/` SVGs' Google-Fonts `@import` fall back to Times
+  inside SVG-as-image). Nav + footer use it.
+
+### Verified
+
+- `npx tsc --noEmit` clean, ESLint clean on all changed files, full
+  `next build` succeeds (all public pages static).
+- Pushed: `docs(design)` 9bf5198, `feat(app)` 1a7b6c3, `feat(web)` b492398 →
+  `origin/master`; Vercel prod deploy triggered.
+
+---
+
 ## 2026-09-13 — Landing Page → Light Editorial Design (design.pen → soldbay-web)
 
 The landing design was rebuilt in `design/design.pen` as a new **light editorial**
@@ -20,13 +112,13 @@ mirrors that pen board.
   full lockup wordmark + tan dot, links `gap-8`, olive pill "Join the waitlist"
   CTA; mobile dropdown converted to cream.
 - **Hero (`components/landing/hero.tsx`)**: light editorial two-column. Left:
-  eyebrow (rule + "ESCROW-PROTECTED CAMPUS COMMERCE"), headline *"The campus
-  marketplace where money moves last."*, subhead, primary pill (→ `/join/buyer`)
-  + outline pill (→ `#how`), trust row (verified students / escrow / PIN handoff).
-  Right: **Money Flow card** (`bg-surface`, border, radius-16) — "How money
-  moves" header + escrow chip, three steps (List it → Pay into escrow → Confirm
-  with PIN), footnote. Inline hero waitlist capture removed — landing CTAs route
-  to the `/join/*` pages, which keep the working `/api/waitlist` POST.
+  eyebrow (rule + "ESCROW-PROTECTED CAMPUS COMMERCE"), headline _"The campus
+  marketplace where money moves last."_, subhead, primary pill (→ `/join/buyer`)
+  - outline pill (→ `#how`), trust row (verified students / escrow / PIN handoff).
+    Right: **Money Flow card** (`bg-surface`, border, radius-16) — "How money
+    moves" header + escrow chip, three steps (List it → Pay into escrow → Confirm
+    with PIN), footnote. Inline hero waitlist capture removed — landing CTAs route
+    to the `/join/*` pages, which keep the working `/api/waitlist` POST.
 - **How It Works (`components/landing/how-it-works.tsx`)**: three `bg-surface`
   radius-16 cards, olive icon tiles + tan Fraunces numbers (01/02/03).
 - **Why Soldbay (`components/landing/why-soldbay.tsx`)**: dark credibility band
@@ -51,7 +143,7 @@ mirrors that pen board.
 The day's earlier code-based landing (dark glass, stored in `design/design.pen`
 alongside the app design system) was rejected: **"design in pen file design.pen
 not code… i want a new design not that bull shit there."** The landing is now a
-visual design board in `design/design.pen`, and the code lands *after* the design
+visual design board in `design/design.pen`, and the code lands _after_ the design
 is approved (see the code-mirror entry above/below).
 
 Direction reset to a **light editorial** look — a clean break from dark-glass:
@@ -70,8 +162,8 @@ Built one tall page frame **`bSAyP` "Soldbay Landing — Light Editorial"
    ls -0.02 + tan dot, links `gap 32`, olive pill CTA (`#5A743E`, radius 999,
    h 48, pad [0,28]).
 2. **02 Hero** (688) — eyebrow (tan rule 40×2 `#B8A678` + caps label), headline
-   Fraunces 64 w500 ls -0.03 lh 1.04 *"The campus marketplace where money moves
-   last."*, Sora 18 sub, primary + outline CTAs (outline `#2D3A1F` 1.5px),
+   Fraunces 64 w500 ls -0.03 lh 1.04 _"The campus marketplace where money moves
+   last."_, Sora 18 sub, primary + outline CTAs (outline `#2D3A1F` 1.5px),
    trust row (verified students / escrow / PIN handoff), and a **Money Flow card**
    (`$surface`, border, r16): "How money moves" header + escrow chip (stroke
    `#96824F`, r999, h28), 3 steps (List it → Pay into escrow → Confirm with PIN,
@@ -97,7 +189,7 @@ Built one tall page frame **`bSAyP` "Soldbay Landing — Light Editorial"
 - **Circular sizing**: a `fit_content` parent with a `fill_container` child
   collapses both to near-zero ("Collapsed size"); gave the HIW card `Body` frames
   an explicit `width: "fill_container"` to break the cycle.
-- `fingerprint` was flagged invalid for *new* icon nodes (despite existing in the
+- `fingerprint` was flagged invalid for _new_ icon nodes (despite existing in the
   doc) → swapped to `badge-check` on the new icons.
 - Page geometry verified via `Get` `bounds` + `c.problems` (clip/collapse audit),
   not pixels: no clipping remains; section heights sum cleanly
@@ -241,17 +333,17 @@ boards + their DESIGN.md.
 
 #### Core tokens — light mode
 
-| Token | Value | Brand role |
-|---|---|---|
-| `--color-background` | `#F4F1E8` | cream bg |
-| `--color-foreground` | `#2D3A1F` | Text/Primary (olive ink) |
-| `--color-primary` | `#5A743E` | CTA fill (ramp 500) |
-| `--color-primary-700` | `#2C381E` | pressed/active |
-| `--color-accent` | `#B8A678` | tan brand echo |
-| `--color-accent-400` | `#96824F` | discounted-price accents |
-| `--color-secondary` | `#5C7048` | secondary buttons/tags |
-| `--color-card` / `surface` | `#E8E2D0` | cards, modals |
-| `--color-border` | `#D8D7CC` | hairlines |
+| Token                      | Value     | Brand role               |
+| -------------------------- | --------- | ------------------------ |
+| `--color-background`       | `#F4F1E8` | cream bg                 |
+| `--color-foreground`       | `#2D3A1F` | Text/Primary (olive ink) |
+| `--color-primary`          | `#5A743E` | CTA fill (ramp 500)      |
+| `--color-primary-700`      | `#2C381E` | pressed/active           |
+| `--color-accent`           | `#B8A678` | tan brand echo           |
+| `--color-accent-400`       | `#96824F` | discounted-price accents |
+| `--color-secondary`        | `#5C7048` | secondary buttons/tags   |
+| `--color-card` / `surface` | `#E8E2D0` | cards, modals            |
+| `--color-border`           | `#D8D7CC` | hairlines                |
 
 Semantics (text/icon + tint): Success `#2E7A6E`/`#D9E8E1`, Info `#4D6F89`/`#DDE4E9`,
 Warning `#875931`/`#EEE2D8`, Destructive `#9C453A`/`#EEDFDD`.
@@ -260,15 +352,15 @@ Radii: `sm` 6, base 10, `md` 10, `lg` 16, `xl` 24, `full` 999.
 
 #### Core tokens — dark mode (`.dark` block)
 
-| Token | Value |
-|---|---|
-| background | `#1A1F14` (near-black, olive-tinted) |
-| foreground | `#F1EEE4` |
-| primary | `#8BA670` (lightened CTA) |
-| accent | `#C7B58A` (lightened ~6%) |
-| card | `#242A1D` |
-| border | `#3F4635` |
-| semantics | Success `#7BC4B6`, Info `#86A7C1`, Warning `#CF9B6E`, Destructive `#CC7266` |
+| Token      | Value                                                                       |
+| ---------- | --------------------------------------------------------------------------- |
+| background | `#1A1F14` (near-black, olive-tinted)                                        |
+| foreground | `#F1EEE4`                                                                   |
+| primary    | `#8BA670` (lightened CTA)                                                   |
+| accent     | `#C7B58A` (lightened ~6%)                                                   |
+| card       | `#242A1D`                                                                   |
+| border     | `#3F4635`                                                                   |
+| semantics  | Success `#7BC4B6`, Info `#86A7C1`, Warning `#CF9B6E`, Destructive `#CC7266` |
 
 Brand ramp (`--color-brand-*`, olive): start `#5A743E` → end `#2C381E`, light
 `#81A659`, dark `#1A2112` — used for button glows and gradients.
@@ -318,12 +410,12 @@ doc and the three artifacts were aligned.
 
 #### Diff: pasted version vs on-disk `soldbay-design-system.md`
 
-| Section | Change |
-|---|---|
-| 6 · Product Card States | Dropped "& Unverified Seller" from title; **retired the Unverified Seller card state** (former 6b/6c removed). Placement decision updated: stamp copy **and icon** still open (was "SOLD"; flagging text vs icon combo). Whole-card desaturation ~75%. |
-| 10 · Trust & Verification | "New seller" indicator simplified from a full pill spec to **"Neutral tag, Secondary color background"**; the Section 6b cross-reference was dropped. |
-| 14 · Core Colors | Added a **"Naming clarification (locked)"** block (see below). |
-| 19 · Still Open | Sold/Unavailable: structure + treatment decided, only stamp copy/icon open. Verified-seller: treatment decided (Section 10), **just not yet built as a component**. |
+| Section                   | Change                                                                                                                                                                                                                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 6 · Product Card States   | Dropped "& Unverified Seller" from title; **retired the Unverified Seller card state** (former 6b/6c removed). Placement decision updated: stamp copy **and icon** still open (was "SOLD"; flagging text vs icon combo). Whole-card desaturation ~75%. |
+| 10 · Trust & Verification | "New seller" indicator simplified from a full pill spec to **"Neutral tag, Secondary color background"**; the Section 6b cross-reference was dropped.                                                                                                  |
+| 14 · Core Colors          | Added a **"Naming clarification (locked)"** block (see below).                                                                                                                                                                                         |
+| 19 · Still Open           | Sold/Unavailable: structure + treatment decided, only stamp copy/icon open. Verified-seller: treatment decided (Section 10), **just not yet built as a component**.                                                                                    |
 
 **The locked naming (Section 14):** `foreground` (alias `text`) = dark olive
 `#2D3A1F` light / cream `#F1EEE4` dark — everything renders in this pair.
@@ -468,6 +560,7 @@ own squircle mask at runtime.
 #### Android: split foreground/background layers
 
 Android adaptive icons require separate fg and bg layers, each 512×512:
+
 - **Foreground:** Cream "S" + Accent dot on transparent background
 - **Background:** Solid #2D3A1F fill
 
@@ -511,19 +604,19 @@ All SVGs use `@import url()` to reference Fraunces from Google Fonts. This works
 browsers, web contexts, and any SVG renderer with network access. For native app use
 where font loading is unreliable, the SVGs can be converted to path-based outlines.
 
-| File | Viewbox | Fill | Accent |
-|---|---|---|---|
-| `soldbay-logo-primary.svg` | 520×100 | #2D3A1F wordmark | #B8A678 dot |
+| File                        | Viewbox | Fill             | Accent      |
+| --------------------------- | ------- | ---------------- | ----------- |
+| `soldbay-logo-primary.svg`  | 520×100 | #2D3A1F wordmark | #B8A678 dot |
 | `soldbay-logo-inverted.svg` | 520×100 | #F4F1E8 wordmark | #B8A678 dot |
-| `soldbay-wordmark-only.svg` | 440×100 | #2D3A1F wordmark | none |
+| `soldbay-wordmark-only.svg` | 440×100 | #2D3A1F wordmark | none        |
 
 #### PNGs (3 files)
 
-| File | Dimensions | Color | Description |
-|---|---|---|---|
-| `icon.png` | 1024×1024 | sRGB, 8-bit RGBA | S monogram + dot on cream, no radius |
-| `android-icon-foreground.png` | 512×512 | sRGB, 8-bit RGBA | Cream S + dot, transparent bg |
-| `android-icon-background.png` | 512×512 | sRGB, 8-bit Palette | Solid #2D3A1F |
+| File                          | Dimensions | Color               | Description                          |
+| ----------------------------- | ---------- | ------------------- | ------------------------------------ |
+| `icon.png`                    | 1024×1024  | sRGB, 8-bit RGBA    | S monogram + dot on cream, no radius |
+| `android-icon-foreground.png` | 512×512    | sRGB, 8-bit RGBA    | Cream S + dot, transparent bg        |
+| `android-icon-background.png` | 512×512    | sRGB, 8-bit Palette | Solid #2D3A1F                        |
 
 #### File Placement
 
