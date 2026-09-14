@@ -2,6 +2,19 @@
 
 ---
 
+## 2026-09-14 — Buyer waitlist: "Other" category
+
+- **`components/waitlist-form.tsx`**: the buyer Interested Categories chip row
+  now ends with an **"Other"** chip. When selected, a free-text input appears
+  (placeholder *"Tell us what category you're interested in"*). On submit, the
+  free-text value is appended to the `categories` array; if left empty it's
+  silently dropped (no empty strings saved). `otherCategory` is cleared when
+  the chip is unselected or when the user clicks "Join the other side" from
+  the success state.
+- Committed `7eb6c1c`, pushed to `origin/master`.
+
+---
+
 ## 2026-09-14 — Copy clean-up, asset cleanup & FAQ expansion
 
 Follow-on pass after the landing polish: removed every em dash from rendered
