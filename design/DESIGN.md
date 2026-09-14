@@ -17,8 +17,9 @@ system exists to make that trust legible. It is deliberately quiet.
    accent — so it appears on primary actions, active states, and brand marks. Nowhere else.
 3. **Whitespace is structure.** Grouping comes from space, not from boxes and borders.
 4. **Consistency over cleverness.** A pattern that already exists is reused as-is.
-5. **Trust is communicated in words, not decoration.** Escrow state, verification state,
-   and money movement are always spelled out in text.
+5. **Trust is communicated in words, not decoration.** Escrow state and money movement
+   are always spelled out in text. (Exception: the verified badge is icon-only — a
+   custom checkmark-in-shield in Accent gold, per the locked design system.)
 
 The brand mark is a **plain wordmark** — styled text, no icon. The previous purple-blue
 gradient logo and the red accent are dropped entirely.
@@ -33,7 +34,9 @@ gradient logo and the red accent are dropped entirely.
 |---|---|---|
 | Accent (the only brand hue) | `accent` | `#0D9488` |
 | Accent pressed | `accent-hover` | `#0F766E` |
-| Accent tint (verified chip, selected) | `accent-tint` | `#CCFBF1` |
+| Accent tint (selected states) | `accent-tint` | `#CCFBF1` |
+| Accent gold (verified badge icon) | `accent-gold` | `#B8A678` |
+| Accent gold tint (verified badge pill) | `accent-gold-tint` | `#E8E2D0` |
 | Success | `success` | `#16A34A` |
 | Success tint | `success-tint` | `#DCFCE7` |
 | Error | `error` | `#DC2626` |
@@ -136,8 +139,9 @@ Filled) · Stat Card · Sticky Action Bar · Confirm Pair · Logo Wordmark · St
   **no layout shift**.
 - Text Field labels sit **above** the field (Medium weight) — never floating. Focus is a
   2px accent ring. Errors are a red border plus red `Small` text **below** the field.
-- **Verified Chip and Escrow Stepper always carry a text label.** Never colour-only,
-  never icon-only — colour is a redundant channel here, not the signal.
+- **Verified Chip is icon-only** — a custom-drawn checkmark-in-shield in Accent gold
+  (`#B8A678`), no text label, never the stock Lucide/Phosphor shield-check. Escrow
+  Stepper always carries its text label.
 - **Toasts are never teal.** Teal is reserved for brand and primary actions. Success is a
   green left border, error is a red left border. Toasts sit above the tab bar, last about
   3 seconds, and never block interaction.

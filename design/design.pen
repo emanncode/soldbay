@@ -2213,7 +2213,7 @@
               "id": "OfA8w",
               "name": "MPLabel",
               "fill": "#2D3A1F",
-              "content": "Marketplace-specific states to design separately (not yet built — flagging for next pass):",
+              "content": "Marketplace-specific states — both resolved:",
               "fontFamily": "Sora",
               "fontSize": 13,
               "fontWeight": "700"
@@ -2225,7 +2225,7 @@
               "fill": "#5A5A4F",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "- Sold / Unavailable — its own state, distinct from generic Error; a desaturated grey-red or Border/neutral tone reads better as 'no longer available' than alarming red.",
+              "content": "- Sold / Unavailable — resolved. See Section 6.",
               "fontFamily": "Sora",
               "fontSize": 13,
               "fontWeight": "normal"
@@ -2237,7 +2237,7 @@
               "fill": "#5A5A4F",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "- Verified seller / campus-verified — a trust signal, likely an extension of Accent rather than one of the four semantics above.",
+              "content": "- Verified seller / campus-verified — resolved. See Section 10.",
               "fontFamily": "Sora",
               "fontSize": 13,
               "fontWeight": "normal"
@@ -8388,34 +8388,30 @@
                       "type": "frame",
                       "id": "AQcz0",
                       "name": "VB",
-                      "fill": "#B8A678",
+                      "fill": "#E8E2D0",
                       "cornerRadius": 999,
                       "gap": 4,
                       "padding": [
                         6,
-                        10
+                        8
                       ],
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "n6PX7",
-                          "name": "VBI",
-                          "width": 12,
-                          "height": 12,
-                          "icon": "shield-check",
-                          "library": "lucide",
-                          "fill": "#2D3A1F"
-                        },
-                        {
-                          "type": "text",
-                          "id": "bLLBe",
-                          "name": "VBT",
-                          "fill": "#2D3A1F",
-                          "content": "Verified seller",
-                          "fontFamily": "Sora",
-                          "fontSize": 10.5,
-                          "fontWeight": "600"
+                          "type": "path",
+                          "id": "ZXAqa",
+                          "name": "Verified Icon",
+                          "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                          "fillRule": "evenodd",
+                          "viewBox": [
+                            0,
+                            0,
+                            16,
+                            16
+                          ],
+                          "fill": "$accent",
+                          "width": 14,
+                          "height": 14
                         }
                       ]
                     }
@@ -8428,7 +8424,7 @@
                   "fill": "#5A5A4F",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Small badge, Accent + custom checkmark-in-shield. Consistent spot next to seller name on cards, profile, chat.",
+                  "content": "Small, icon-only badge — custom checkmark-in-shield (Accent). Consistent spot next to seller name on cards, profile, chat.",
                   "lineHeight": 1.55,
                   "fontFamily": "Sora",
                   "fontSize": 11,
@@ -11862,6 +11858,73 @@
                 },
                 {
                   "type": "frame",
+                  "id": "ddxGT",
+                  "name": "SC_Verified badge",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "gap": 10,
+                  "padding": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "fSFer",
+                      "name": "SC_Chip_Verified badge",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "#E6EDDE",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lGgP6",
+                          "name": "SC_ChipNo_Verified badge",
+                          "fill": "#2C381E",
+                          "content": "05",
+                          "fontFamily": "Sora",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t5TSpW",
+                      "name": "SC_Meta_Verified badge",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZeQvM",
+                          "name": "SC_T_Verified badge",
+                          "fill": "#2D3A1F",
+                          "content": "Verified badge",
+                          "fontFamily": "Sora",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pwd3I",
+                          "name": "SC_D_Verified badge",
+                          "fill": "#5A5A4F",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Stays visible, unchanged, even when a card is Sold — sold status is a property of the listing, not a reflection on the seller's trustworthiness",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Sora",
+                          "fontSize": 10.5,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
                   "id": "m24Ch",
                   "name": "SC_Still open",
                   "width": "fill_container",
@@ -11887,7 +11950,7 @@
                           "id": "tfzz9",
                           "name": "SC_ChipNo_Still open",
                           "fill": "#3C3420",
-                          "content": "05",
+                          "content": "06",
                           "fontFamily": "Sora",
                           "fontSize": 11,
                           "fontWeight": "700"
@@ -12044,25 +12107,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "gUMcL",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "fsxfV",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "mEA8F",
+                      "name": "Verified Icon",
+                      "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -12179,25 +12237,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "E41Io",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "RhUBp",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "Isq13",
+                      "name": "Verified Icon",
+                      "geometry": "M1 1l14 0 0 14-14 0z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -12336,25 +12389,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "OBJJW",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "Xf3sY",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "lhwLS",
+                      "name": "Verified Icon",
+                      "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -12465,25 +12513,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "SNlVs",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "vR5U3",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "gQvOl",
+                      "name": "Verified Icon",
+                      "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -12626,25 +12669,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "CvsoF",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "Bcbkh",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "x45Dkb",
+                      "name": "Verified Icon",
+                      "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -12786,25 +12824,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "O2BYA",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "dRImB",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "BujFs",
+                      "name": "Verified Icon",
+                      "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -12918,25 +12951,20 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "iEtQt",
-                      "name": "Shield Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "shield-check",
-                      "library": "phosphor",
-                      "weight": 600,
-                      "fill": "$accent"
-                    },
-                    {
-                      "type": "text",
-                      "id": "i9sAn",
-                      "name": "Verified Label",
+                      "type": "path",
+                      "id": "FaJ8m",
+                      "name": "Verified Icon",
+                      "geometry": "M8 1.3l6.3 2.4v4.9c0 3.6-2.6 6.1-6.3 6.7-3.7-0.6-6.3-3.1-6.3-6.7v-4.9z m-3.8 8.5l1.6-1.6 2 2-1.6 1.6z m3.6 2l-1.6-1.6 4.2-4.2 1.6 1.6z",
+                      "fillRule": "evenodd",
+                      "viewBox": [
+                        0,
+                        0,
+                        16,
+                        16
+                      ],
                       "fill": "$accent",
-                      "content": "Verified",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
+                      "width": 14,
+                      "height": 14
                     }
                   ]
                 }
@@ -13118,6 +13146,2139 @@
       "height": 512,
       "fill": "#2D3A1F",
       "layout": "none"
+    },
+    {
+      "type": "frame",
+      "id": "bSAyP",
+      "x": 4516,
+      "y": 0,
+      "name": "Soldbay Landing — Light Editorial",
+      "clip": true,
+      "width": 1440,
+      "fill": "$background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fGsz4",
+          "name": "01 Nav",
+          "width": "fill_container",
+          "height": 88,
+          "stroke": "#D8D7CC",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "padding": [
+            0,
+            120
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "pi28C",
+              "name": "Brand",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Vbgkc",
+                  "name": "Wordmark",
+                  "fill": "#2D3A1F",
+                  "content": "Soldbay",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 40,
+                  "fontWeight": "500",
+                  "letterSpacing": -0.02
+                },
+                {
+                  "type": "ellipse",
+                  "id": "XFvE6",
+                  "name": "Dot",
+                  "fill": "#B8A678",
+                  "width": 6,
+                  "height": 6
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IUw6g",
+              "name": "Links",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PbPC1",
+                  "name": "How it works",
+                  "fill": "#2D3A1F99",
+                  "content": "How it works",
+                  "fontFamily": "Sora",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "rqKbt",
+                  "name": "Why Soldbay",
+                  "fill": "#2D3A1F99",
+                  "content": "Why Soldbay",
+                  "fontFamily": "Sora",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ltVKv",
+                  "name": "FAQ",
+                  "fill": "#2D3A1F99",
+                  "content": "FAQ",
+                  "fontFamily": "Sora",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "fbIG9",
+                  "name": "Questions",
+                  "fill": "#2D3A1F99",
+                  "content": "Questions",
+                  "fontFamily": "Sora",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "r9bv7",
+              "name": "Nav CTA",
+              "height": 48,
+              "fill": "#5A743E",
+              "cornerRadius": 999,
+              "gap": 8,
+              "padding": [
+                0,
+                28
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Nhy7M",
+                  "name": "Label",
+                  "fill": "#F4F1E8",
+                  "content": "Join the waitlist",
+                  "fontFamily": "Sora",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Kmw98",
+          "name": "02 Hero",
+          "width": "fill_container",
+          "gap": 80,
+          "padding": [
+            72,
+            120
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Cjmc7",
+              "name": "Copy",
+              "width": 590,
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "PTWis",
+                  "name": "Eyebrow",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "veBg3",
+                      "name": "Rule",
+                      "fill": "#B8A678",
+                      "width": 40,
+                      "height": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "lvWuP",
+                      "name": "Label",
+                      "fill": "#5C7048",
+                      "content": "ESCROW-PROTECTED CAMPUS COMMERCE",
+                      "fontFamily": "Sora",
+                      "fontSize": 13,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.16
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "mJuVI",
+                  "name": "Headline",
+                  "fill": "#2D3A1F",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The campus marketplace where money moves last.",
+                  "lineHeight": 1.04,
+                  "fontFamily": "Fraunces",
+                  "fontSize": 64,
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03
+                },
+                {
+                  "type": "text",
+                  "id": "w5z8T",
+                  "name": "Subhead",
+                  "fill": "#5C7048",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Buy from verified students, pay into escrow, and confirm the handoff with a PIN — your money only moves once the item is in your hands.",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Sora",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "GIHWm",
+                  "name": "CTAs",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "kAwPn",
+                      "name": "Hero CTA",
+                      "height": 48,
+                      "fill": "#5A743E",
+                      "cornerRadius": 999,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        28
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XhUuy",
+                          "name": "Label",
+                          "fill": "#F4F1E8",
+                          "content": "Join the waitlist",
+                          "fontFamily": "Sora",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sGVdn",
+                      "name": "Outline CTA",
+                      "height": 48,
+                      "cornerRadius": 999,
+                      "stroke": "#2D3A1F",
+                      "strokeWidth": 1.5,
+                      "padding": [
+                        0,
+                        28
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "VzsHY",
+                          "name": "Label",
+                          "fill": "#2D3A1F",
+                          "content": "See how it works",
+                          "fontFamily": "Sora",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "KvkvO",
+                  "name": "Trust",
+                  "gap": 24,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Rid70",
+                      "name": "Verified students",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "QgiMi",
+                          "name": "Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "shield-check",
+                          "library": "lucide",
+                          "fill": "#5A743E"
+                        },
+                        {
+                          "type": "text",
+                          "id": "sEw5L",
+                          "name": "Label",
+                          "fill": "#2D3A1FAA",
+                          "content": "Verified students",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "B9V75q",
+                      "name": "Escrow-held payment",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "S3mee",
+                          "name": "Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "#5A743E"
+                        },
+                        {
+                          "type": "text",
+                          "id": "c3VY0j",
+                          "name": "Label",
+                          "fill": "#2D3A1FAA",
+                          "content": "Escrow-held payment",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JqIJd",
+                      "name": "PIN-confirmed handoff",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "pzhQD",
+                          "name": "Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "badge-check",
+                          "library": "lucide",
+                          "fill": "#5A743E"
+                        },
+                        {
+                          "type": "text",
+                          "id": "J8xib",
+                          "name": "Label",
+                          "fill": "#2D3A1FAA",
+                          "content": "PIN-confirmed handoff",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MPlxJ",
+              "name": "Money Flow Card",
+              "width": 520,
+              "fill": "$surface",
+              "cornerRadius": 16,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 28,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "y2eia",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VajST",
+                      "name": "Title",
+                      "fill": "#2D3A1FAA",
+                      "content": "HOW MONEY MOVES",
+                      "fontFamily": "Sora",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 0.14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Swk0Z",
+                      "name": "Escrow Chip",
+                      "height": 28,
+                      "cornerRadius": 999,
+                      "stroke": "#96824F",
+                      "strokeWidth": 1,
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "sDaPt",
+                          "name": "Lock",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "#96824F"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pOiTA",
+                          "name": "Label",
+                          "fill": "#96824F",
+                          "content": "Escrow-protected",
+                          "fontFamily": "Sora",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aSpHB",
+                  "name": "Steps",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "n7pzy4",
+                      "name": "List it",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "a0syjn",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "x9M90",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "package",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QwMQg",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "U72tF2",
+                              "name": "Title",
+                              "fill": "#2D3A1F",
+                              "content": "List it",
+                              "fontFamily": "Sora",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "bCY7s",
+                              "name": "Desc",
+                              "fill": "#2D3A1F99",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Verify with your matric number, then post textbooks, gadgets, snacks or services.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Sora",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wEMxP",
+                      "name": "Pay into escrow",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XJwLp",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "M6jPg",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JDIks",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "p85Rc",
+                              "name": "Title",
+                              "fill": "#2D3A1F",
+                              "content": "Pay into escrow",
+                              "fontFamily": "Sora",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "uASKU",
+                              "name": "Desc",
+                              "fill": "#2D3A1F99",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "The buyer pays in-app. Soldbay holds the money — the seller can't touch it yet.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Sora",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xfkQw",
+                      "name": "Confirm with PIN",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mvMNI",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Ue2Mv",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "badge-check",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nmAXr",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JnCA7",
+                              "name": "Title",
+                              "fill": "#2D3A1F",
+                              "content": "Confirm with PIN",
+                              "fontFamily": "Sora",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "bXc5A",
+                              "name": "Desc",
+                              "fill": "#2D3A1F99",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Meet at a campus pickup point and enter your 4-digit PIN to release the payment.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Sora",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JTmTH",
+                  "name": "Footnote",
+                  "width": "fill_container",
+                  "fill": "#F4F1E8",
+                  "cornerRadius": 12,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "gap": 10,
+                  "padding": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "ZP6R6",
+                      "name": "Lock",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "#96824F"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rLLOq",
+                      "name": "Text",
+                      "fill": "#2D3A1FAA",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Funds stay in escrow until you confirm the handoff. No release, no payment.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Sora",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "r8j7aw",
+          "name": "03 How It Works",
+          "width": "fill_container",
+          "stroke": "#D8D7CC",
+          "strokeWidth": {
+            "top": 1
+          },
+          "layout": "vertical",
+          "gap": 56,
+          "padding": [
+            88,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "qJEFu",
+              "name": "Header",
+              "width": 1200,
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "aWQh2",
+                  "name": "Eyebrow",
+                  "fill": "#5C7048",
+                  "content": "HOW IT WORKS",
+                  "fontFamily": "Sora",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 0.16
+                },
+                {
+                  "type": "text",
+                  "id": "KSfbJ",
+                  "name": "Title",
+                  "fill": "#2D3A1F",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "From listing to handoff, in three steps.",
+                  "lineHeight": 1.1,
+                  "textAlign": "center",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 44,
+                  "fontWeight": "500",
+                  "letterSpacing": -0.02
+                },
+                {
+                  "type": "text",
+                  "id": "E3y9N3",
+                  "name": "Sub",
+                  "fill": "#5C7048",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Money is held in escrow the entire way — released only when you confirm the item is in your hands.",
+                  "lineHeight": 1.55,
+                  "textAlign": "center",
+                  "fontFamily": "Sora",
+                  "fontSize": 17,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ClgLP",
+              "name": "Cards",
+              "width": 1200,
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YgHE3",
+                  "name": "List it",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 16,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 28,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "keE2w",
+                      "name": "Top",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "A68Trw",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "oWVxA",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "package",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "WNRD2",
+                          "name": "Num",
+                          "fill": "#96824F",
+                          "content": "01",
+                          "fontFamily": "Fraunces",
+                          "fontSize": 40,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.02
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "G7N3x",
+                      "name": "Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FkJ3Q",
+                          "name": "Title",
+                          "fill": "#2D3A1F",
+                          "content": "List it",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eV02x",
+                          "name": "Desc",
+                          "fill": "#2D3A1F99",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Sellers verify with their student matric number, then post textbooks, gadgets, snacks or services in minutes.",
+                          "lineHeight": 1.55,
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LTTch",
+                  "name": "Pay into escrow",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 16,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 28,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "F8q8tS",
+                      "name": "Top",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "B6wNU",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "SoGu0",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "wsNwH",
+                          "name": "Num",
+                          "fill": "#96824F",
+                          "content": "02",
+                          "fontFamily": "Fraunces",
+                          "fontSize": 40,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.02
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FFLQN",
+                      "name": "Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XzRcQ",
+                          "name": "Title",
+                          "fill": "#2D3A1F",
+                          "content": "Pay into escrow",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "xcQsA",
+                          "name": "Desc",
+                          "fill": "#2D3A1F99",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "You pay securely in-app. Soldbay holds the money until the handoff is confirmed — the seller can't touch it yet.",
+                          "lineHeight": 1.55,
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "C2f4uG",
+                  "name": "Meet & confirm",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 16,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 28,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q3StEd",
+                      "name": "Top",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ZocWW",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "eN3LV",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "badge-check",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "q3KkKp",
+                          "name": "Num",
+                          "fill": "#96824F",
+                          "content": "03",
+                          "fontFamily": "Fraunces",
+                          "fontSize": 40,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.02
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Fy6yG",
+                      "name": "Body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "C13rp",
+                          "name": "Title",
+                          "fill": "#2D3A1F",
+                          "content": "Meet & confirm",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lLNy1",
+                          "name": "Desc",
+                          "fill": "#2D3A1F99",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Meet at a campus pickup point and enter your 4-digit PIN. Payment releases the moment you do.",
+                          "lineHeight": 1.55,
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "RYhf2",
+          "name": "04 Why Soldbay",
+          "width": "fill_container",
+          "fill": "#1A1F14",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            96,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "fmf2V",
+              "name": "Row",
+              "width": 1200,
+              "gap": 96,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hE9ue",
+                  "name": "Copy",
+                  "width": 520,
+                  "layout": "vertical",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "a4iaS1",
+                      "name": "Eyebrow",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "XJsJB",
+                          "name": "Rule",
+                          "fill": "#C7B58A",
+                          "width": 40,
+                          "height": 2
+                        },
+                        {
+                          "type": "text",
+                          "id": "tMQDu",
+                          "name": "Label",
+                          "fill": "#C7B58A",
+                          "content": "WHY SOLDBAY",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.16
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "iaTd2",
+                      "name": "Title",
+                      "fill": "#F1EEE4",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Why not just another WhatsApp or Jiji deal?",
+                      "lineHeight": 1.1,
+                      "fontFamily": "Fraunces",
+                      "fontSize": 44,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.02
+                    },
+                    {
+                      "type": "text",
+                      "id": "fqYpX",
+                      "name": "Copy",
+                      "fill": "#F1EEE499",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Most campus deals run on trust-me vibes — send the money, hope the seller shows up, hope the item works. Soldbay moves that trust into the mechanism itself: verified students, money held in escrow, and a handoff you confirm with your own PIN.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Sora",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lkY5E",
+                      "name": "Chips",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VzvUc",
+                          "name": "No send-and-block",
+                          "height": 32,
+                          "cornerRadius": 999,
+                          "stroke": "#C7B58A",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            14
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FhCYM",
+                              "name": "Label",
+                              "fill": "#C7B58A",
+                              "content": "No send-and-block",
+                              "fontFamily": "Sora",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "I1MrP9",
+                          "name": "No stranger meetups",
+                          "height": 32,
+                          "cornerRadius": 999,
+                          "stroke": "#C7B58A",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            14
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "U9zEl",
+                              "name": "Label",
+                              "fill": "#C7B58A",
+                              "content": "No stranger meetups",
+                              "fontFamily": "Sora",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g7Y8WC",
+                          "name": "No release without you",
+                          "height": 32,
+                          "cornerRadius": 999,
+                          "stroke": "#C7B58A",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            14
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bo6E3",
+                              "name": "Label",
+                              "fill": "#C7B58A",
+                              "content": "No release without you",
+                              "fontFamily": "Sora",
+                              "fontSize": 13,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "emsjB",
+                  "name": "Mechanisms",
+                  "width": 560,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RYZcO",
+                      "name": "Verified students, only",
+                      "width": "fill_container",
+                      "fill": "#242A1D",
+                      "cornerRadius": 16,
+                      "stroke": "#3F4635",
+                      "strokeWidth": 1,
+                      "gap": 18,
+                      "padding": 24,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ibDAi",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "DxlGb",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "badge-check",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mbNTA",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uGqXg",
+                              "name": "Title",
+                              "fill": "#F1EEE4",
+                              "content": "Verified students, only",
+                              "fontFamily": "Sora",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ODy6L",
+                              "name": "Desc",
+                              "fill": "#F1EEE470",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Every seller signs up with their student matric number and is verified before any listing goes live.",
+                              "lineHeight": 1.55,
+                              "fontFamily": "Sora",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q4G7rh",
+                      "name": "Escrow on every order",
+                      "width": "fill_container",
+                      "fill": "#242A1D",
+                      "cornerRadius": 16,
+                      "stroke": "#3F4635",
+                      "strokeWidth": 1,
+                      "gap": 18,
+                      "padding": 24,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "kKIrb",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "GBp8r",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "gHvEI",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ZRn4u",
+                              "name": "Title",
+                              "fill": "#F1EEE4",
+                              "content": "Escrow on every order",
+                              "fontFamily": "Sora",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "cMVhj",
+                              "name": "Desc",
+                              "fill": "#F1EEE470",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Payment goes to Soldbay, never straight to the seller. If the handoff never happens, the money returns to the buyer.",
+                              "lineHeight": 1.55,
+                              "fontFamily": "Sora",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GFM1R",
+                      "name": "PIN-confirmed handoff",
+                      "width": "fill_container",
+                      "fill": "#242A1D",
+                      "cornerRadius": 16,
+                      "stroke": "#3F4635",
+                      "strokeWidth": 1,
+                      "gap": 18,
+                      "padding": 24,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "CsPAR",
+                          "name": "Icon Tile",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "#5A743E",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "LWmqc",
+                              "name": "Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "shield-check",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XeQAC",
+                          "name": "Body",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "r25ZrG",
+                              "name": "Title",
+                              "fill": "#F1EEE4",
+                              "content": "PIN-confirmed handoff",
+                              "fontFamily": "Sora",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "X0FcTD",
+                              "name": "Desc",
+                              "fill": "#F1EEE470",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "At pickup you confirm receipt with a 4-digit PIN before the seller is paid. Nothing is released without your say-so.",
+                              "lineHeight": 1.55,
+                              "fontFamily": "Sora",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JuSwY",
+          "name": "05 Social Proof",
+          "width": "fill_container",
+          "stroke": "#D8D7CC",
+          "strokeWidth": {
+            "top": 1
+          },
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            72,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Lnc1N",
+              "name": "Eyebrow",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "LeAyW",
+                  "name": "Rule",
+                  "fill": "#B8A678",
+                  "width": 40,
+                  "height": 2
+                },
+                {
+                  "type": "text",
+                  "id": "S4FVPn",
+                  "name": "Label",
+                  "fill": "#5C7048",
+                  "content": "IN EARLY ACCESS",
+                  "fontFamily": "Sora",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 0.16
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MCkoW",
+              "name": "Stats",
+              "width": 1200,
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "szGxc",
+                  "name": "Big",
+                  "width": 300,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nP672",
+                      "name": "Number",
+                      "fill": "#2D3A1F",
+                      "content": "128",
+                      "lineHeight": 1,
+                      "fontFamily": "Fraunces",
+                      "fontSize": 96,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03
+                    },
+                    {
+                      "type": "text",
+                      "id": "vRNz0",
+                      "name": "Caption",
+                      "fill": "#5C7048",
+                      "content": "on the waitlist",
+                      "fontFamily": "Sora",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OUKKU",
+                  "name": "Text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Xyg4U",
+                      "name": "Title",
+                      "fill": "#2D3A1F",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Join them — Soldbay launches campus by campus across Nigeria.",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Fraunces",
+                      "fontSize": 28,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.01
+                    },
+                    {
+                      "type": "text",
+                      "id": "CD4kA",
+                      "name": "Sub",
+                      "fill": "#2D3A1F99",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Sign up now and we'll email you the moment your campus goes live — you'll be first in.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Sora",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "igZXv",
+                  "name": "CTA",
+                  "height": 52,
+                  "fill": "#5A743E",
+                  "cornerRadius": 999,
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    32
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RD8Mo",
+                      "name": "Label",
+                      "fill": "#F4F1E8",
+                      "content": "Join the waitlist",
+                      "fontFamily": "Sora",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "q8CSss",
+                      "name": "Arrow",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "arrow-right",
+                      "library": "lucide",
+                      "fill": "#F4F1E8"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oBjiC",
+          "name": "06 FAQ",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": [
+            72,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Q3QXN",
+              "name": "Eyebrow",
+              "fill": "#5C7048",
+              "content": "FREQUENTLY ASKED QUESTIONS",
+              "fontFamily": "Sora",
+              "fontSize": 13,
+              "fontWeight": "600",
+              "letterSpacing": 0.16
+            },
+            {
+              "type": "frame",
+              "id": "Blmh8",
+              "name": "Header",
+              "width": 1200,
+              "layout": "vertical",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BMqxW",
+                  "name": "Title",
+                  "fill": "#2D3A1F",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Everything you need to know before we launch.",
+                  "lineHeight": 1.1,
+                  "textAlign": "center",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 44,
+                  "fontWeight": "500",
+                  "letterSpacing": -0.02
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RKo4k",
+              "name": "List",
+              "width": 1200,
+              "stroke": "#D8D7CC",
+              "strokeWidth": {
+                "top": 1,
+                "bottom": 1
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EiloT",
+                  "name": "Is it free to use?",
+                  "width": "fill_container",
+                  "stroke": "#D8D7CC",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q8U9s6",
+                      "name": "Q",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "A8Z4X",
+                          "name": "Text",
+                          "fill": "#2D3A1F",
+                          "content": "Is it free to use?",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "aOtTT",
+                          "name": "Plus",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "plus",
+                          "library": "lucide",
+                          "fill": "#5C7048"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "G0gtO",
+                      "name": "A",
+                      "fill": "#2D3A1F99",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Joining and browsing Soldbay is completely free — buyers never pay platform fees. Sellers keep the large majority of every sale.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Sora",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "D8Up2",
+                  "name": "How do payments work?",
+                  "width": "fill_container",
+                  "stroke": "#D8D7CC",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HO5Z0",
+                      "name": "Q",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pItMB",
+                          "name": "Text",
+                          "fill": "#2D3A1F",
+                          "content": "How do payments work?",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "x8hav",
+                          "name": "Plus",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "plus",
+                          "library": "lucide",
+                          "fill": "#5C7048"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "sQH4Q",
+                      "name": "A",
+                      "fill": "#2D3A1F99",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You pay securely in-app via Paystack. Your payment is held by Soldbay and is only paid out once you confirm you received your item.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Sora",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "c6ZyrV",
+                  "name": "Is delivery available?",
+                  "width": "fill_container",
+                  "stroke": "#D8D7CC",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "l31ELB",
+                      "name": "Q",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yW0ms",
+                          "name": "Text",
+                          "fill": "#2D3A1F",
+                          "content": "Is delivery available?",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "zHN6w",
+                          "name": "Plus",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "plus",
+                          "library": "lucide",
+                          "fill": "#5C7048"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "U5pLc",
+                      "name": "A",
+                      "fill": "#2D3A1F99",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "For now, exchanges happen at fixed pickup points we set up on your campus — no arranging meetups with a stranger yourself.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Sora",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mjCB7",
+                  "name": "How do you prevent scams?",
+                  "width": "fill_container",
+                  "stroke": "#D8D7CC",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AaYOS",
+                      "name": "Q",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "A4EzfJ",
+                          "name": "Text",
+                          "fill": "#2D3A1F",
+                          "content": "How do you prevent scams?",
+                          "fontFamily": "Sora",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "fiAQq",
+                          "name": "Plus",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "plus",
+                          "library": "lucide",
+                          "fill": "#5C7048"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "G8YHbC",
+                      "name": "A",
+                      "fill": "#2D3A1F99",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Every seller signs up with their student matric number and goes through verification before listings go live. Held payments and after-sale ratings flag problem sellers fast.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Sora",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gZQgf",
+          "name": "07 Footer",
+          "width": "fill_container",
+          "fill": "#1A1F14",
+          "layout": "vertical",
+          "gap": 40,
+          "padding": [
+            72,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "bbEl1",
+              "name": "Row",
+              "width": 1200,
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SKVzZ",
+                  "name": "Left",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "E9E9b",
+                      "name": "Brand",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "s5uxYm",
+                          "name": "Wordmark",
+                          "fill": "#F4F1E8",
+                          "content": "Soldbay",
+                          "fontFamily": "Fraunces",
+                          "fontSize": 32,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.02
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "RumiE",
+                          "name": "Dot",
+                          "fill": "#C7B58A",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "tXeBg",
+                      "name": "Tagline",
+                      "fill": "#F1EEE499",
+                      "content": "The student marketplace — money moves last.",
+                      "fontFamily": "Sora",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XvSHL",
+                      "name": "Domain",
+                      "height": 30,
+                      "cornerRadius": 999,
+                      "stroke": "#C7B58A",
+                      "strokeWidth": 1,
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        14
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Ju3os",
+                          "name": "Text",
+                          "fill": "#C7B58A",
+                          "content": "soldbay.shop",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "MXnWm",
+                          "name": "Arrow",
+                          "width": 13,
+                          "height": 13,
+                          "icon": "arrow-up-right",
+                          "library": "lucide",
+                          "fill": "#C7B58A"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "W6MEVp",
+                      "name": "Copyright",
+                      "fill": "#F1EEE470",
+                      "content": "© 2026 Soldbay. All rights reserved.",
+                      "fontFamily": "Sora",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M03rf",
+                  "name": "Columns",
+                  "gap": 88,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "sKEhp",
+                      "name": "For Students",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "htlrl",
+                          "name": "Head",
+                          "fill": "#F1EEE4",
+                          "content": "For Students",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.1
+                        },
+                        {
+                          "type": "text",
+                          "id": "Rz8UC",
+                          "name": "Join as Buyer",
+                          "fill": "#F1EEE470",
+                          "content": "Join as Buyer",
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "a0nYb6",
+                          "name": "Become a Seller",
+                          "fill": "#F1EEE470",
+                          "content": "Become a Seller",
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aO90j",
+                      "name": "Company",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "POzxY",
+                          "name": "Head",
+                          "fill": "#F1EEE4",
+                          "content": "Company",
+                          "fontFamily": "Sora",
+                          "fontSize": 13,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.1
+                        },
+                        {
+                          "type": "text",
+                          "id": "BcZOq",
+                          "name": "Privacy Policy",
+                          "fill": "#F1EEE470",
+                          "content": "Privacy Policy",
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "nBdDM",
+                          "name": "Terms of Service",
+                          "fill": "#F1EEE470",
+                          "content": "Terms of Service",
+                          "fontFamily": "Sora",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {

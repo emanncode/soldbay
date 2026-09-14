@@ -2,6 +2,153 @@
 
 ---
 
+## 2026-09-13 — Landing Page → Light Editorial Design (design.pen → soldbay-web)
+
+The landing design was rebuilt in `design/design.pen` as a new **light editorial**
+direction (cream `#F4F1E8` base, olive ink `#2D3A1F`, olive CTAs `#5A743E`, tan
+accents `#B8A678`/`#C7B58A`, Fraunces display + Sora body) — a deliberate break
+from the old dark-glass look. This log entry covers the code implementation that
+mirrors that pen board.
+
+### Soldbay-web implementation
+
+- **Shell (`globals.css` + `components/page-shell.tsx`)**: new
+  `page-atmosphere-light` utility (cream base with faint olive/tan radial washes,
+  no grain). `PageShell` now uses it; the dark `page-atmosphere`/noise/glass
+  utilities remain for the admin login page.
+- **Nav (`components/site-nav.tsx`)**: flat cream bar, `border-b border-border`,
+  full lockup wordmark + tan dot, links `gap-8`, olive pill "Join the waitlist"
+  CTA; mobile dropdown converted to cream.
+- **Hero (`components/landing/hero.tsx`)**: light editorial two-column. Left:
+  eyebrow (rule + "ESCROW-PROTECTED CAMPUS COMMERCE"), headline *"The campus
+  marketplace where money moves last."*, subhead, primary pill (→ `/join/buyer`)
+  + outline pill (→ `#how`), trust row (verified students / escrow / PIN handoff).
+  Right: **Money Flow card** (`bg-surface`, border, radius-16) — "How money
+  moves" header + escrow chip, three steps (List it → Pay into escrow → Confirm
+  with PIN), footnote. Inline hero waitlist capture removed — landing CTAs route
+  to the `/join/*` pages, which keep the working `/api/waitlist` POST.
+- **How It Works (`components/landing/how-it-works.tsx`)**: three `bg-surface`
+  radius-16 cards, olive icon tiles + tan Fraunces numbers (01/02/03).
+- **Why Soldbay (`components/landing/why-soldbay.tsx`)**: dark credibility band
+  (`#1A1F14`, tan rules/chips, `#242A1D` mechanism cards, `#3F4635` strokes).
+- **Social Proof (`components/landing/social-proof.tsx`)**: light stat band —
+  live count via `getWaitlistProof` in Fraunces 96 + "Join them…" copy + pill CTA.
+- **FAQ (`components/landing/faq.tsx`)**: custom plus-icon accordion (4 Q&As from
+  pen), full-bleed bordered rows (`border-y border-border`), light theme.
+- **Forms/success**: `ask-question.tsx`, `join-form.tsx`, `success/page.tsx`
+  restyled to light surface cards (dropped glass/spotlight); inputs on cream.
+- **Footer (`components/landing/footer.tsx`)**: dark band, inverted wordmark +
+  tagline, `soldbay.shop` tan chip, For Students / Company columns.
+- Verified: `tsc --noEmit` clean, ESLint clean on all changed files, full
+  `next build` succeeds (all public pages static).
+
+---
+
+## 2026-09-13 — Landing Design Board (design.pen): Light Editorial Direction
+
+### Decision
+
+The day's earlier code-based landing (dark glass, stored in `design/design.pen`
+alongside the app design system) was rejected: **"design in pen file design.pen
+not code… i want a new design not that bull shit there."** The landing is now a
+visual design board in `design/design.pen`, and the code lands *after* the design
+is approved (see the code-mirror entry above/below).
+
+Direction reset to a **light editorial** look — a clean break from dark-glass:
+
+- Cream base `#F4F1E8`, olive ink `#2D3A1F`, olive CTAs `#5A743E`,
+- Tan accents `#B8A678` (light) / `#C7B58A` (on dark), cards `$surface` `#E8E2D0`
+  with `$border` `#D8D7CC` hairlines,
+- Fraunces display (headlines, numbers) + Sora body/UI.
+
+### The board
+
+Built one tall page frame **`bSAyP` "Soldbay Landing — Light Editorial"
+(1440×3266)** holding 7 sections:
+
+1. **01 Nav** (88) — cream bar, `border-b #D8D7CC`, wordmark Fraunces 40 w500
+   ls -0.02 + tan dot, links `gap 32`, olive pill CTA (`#5A743E`, radius 999,
+   h 48, pad [0,28]).
+2. **02 Hero** (688) — eyebrow (tan rule 40×2 `#B8A678` + caps label), headline
+   Fraunces 64 w500 ls -0.03 lh 1.04 *"The campus marketplace where money moves
+   last."*, Sora 18 sub, primary + outline CTAs (outline `#2D3A1F` 1.5px),
+   trust row (verified students / escrow / PIN handoff), and a **Money Flow card**
+   (`$surface`, border, r16): "How money moves" header + escrow chip (stroke
+   `#96824F`, r999, h28), 3 steps (List it → Pay into escrow → Confirm with PIN,
+   olive icon tiles), footnote strip (`#F4F1E8`, border, r12).
+3. **03 How It Works** — eyebrow/title/sub centered, 3 `$surface` cards (r16,
+   stroke `$border`), olive icon tiles r10 h44 + tan Fraunces numbers `#96824F`
+   (01/02/03).
+4. **04 Why Soldbay** — dark credibility band `#1A1F14` with gap 8: eyebrow rule
+   `#C7B58A`, cream headline, 3 tan chips (stroke `#C7B58A`, h32), 3 mechanism
+   cards `#242A1D` stroke `#3F4635` (r16, pad 24).
+5. **05 Social Proof** — stat band: Fraunces 96 number + "on the waitlist",
+   "Join them — Soldbay launches campus by campus…" + olive CTA (r999, h52).
+6. **06 FAQ** — centered label/title + 4 Q&A rows, full-bleed `border-y #D8D7CC`,
+   row icons +, answers 14px.
+7. **07 Footer** — dark band `#1A1F14`: inverted wordmark + tagline, `soldbay.shop`
+   tan chip (stroke `#C7B58A`, h30), © line, For Students / Company columns
+   (head 13px w600 ls 0.1, links 14px `#F1EEE470`).
+
+### Tooling notes / issues hit in the pen schema
+
+- `alignItems` only accepts `start | center | end` — `"stretch"` rejects the node
+  build (whole block rolls back); fixed by sizing cards content-driven.
+- **Circular sizing**: a `fit_content` parent with a `fill_container` child
+  collapses both to near-zero ("Collapsed size"); gave the HIW card `Body` frames
+  an explicit `width: "fill_container"` to break the cycle.
+- `fingerprint` was flagged invalid for *new* icon nodes (despite existing in the
+  doc) → swapped to `badge-check` on the new icons.
+- Page geometry verified via `Get` `bounds` + `c.problems` (clip/collapse audit),
+  not pixels: no clipping remains; section heights sum cleanly
+  88 + 688 + 566 + 627 + 294 + 708 + 295 = 3266.
+
+### Status
+
+- Board design is complete and verified; **uncommitted** (pending the commit
+  decision already asked for on the earlier badge/pen work).
+- Code conversion to mirror this board: see the light-editorial code entry above.
+
+---
+
+## 2026-09-13 — Landing Page Redesign (soldbay-web)
+
+Reworked the landing page against the locked design system and finalized
+logo assets. All section structure/logic kept; this was a content + visual pass.
+
+- **Header (`components/site-nav.tsx`)**: full-lockup wordmark (Soldbay in
+  Fraunces Medium + tan accent dot) left, nav + olive "Join Waitlist" CTA right.
+  The nav pill flipped to the cream brand surface so the primary (dark-olive)
+  lockup is legible over the dark hero. Nav now anchors `/#how`, `/#why`,
+  `/#faq`, `/#questions`.
+- **Hero (`components/landing/hero.tsx`)**: new copy — "The campus marketplace
+  where money moves last." with a Sora subhead on escrow-held-until-PIN-confirmed
+  handoff. Waitlist capture (name / email / university / buyer-or-seller toggle)
+  posts to the existing `/api/waitlist` route, success state inline. Right side is
+  a built **list → escrow → PIN flow** element (3 steps + "funds stay in escrow"
+  footnote) — no stock illustration.
+- **How It Works (`components/landing/how-it-works.tsx`)**: rebuilt as
+  **List it / Pay into escrow / Meet & confirm**, three radius-lg glass cards.
+- **Why Soldbay (`components/landing/why-soldbay.tsx`, new)**: "Why not just
+  another WhatsApp or Jiji deal?" — differentiation mechanisms (matric-verified
+  students, escrow on every order, PIN-confirmed handoff) in three cards, drawn
+  from the escrow/PIN/verify mechanics already specced in the design system.
+- **Why Soldbay wired into `app/page.tsx`** between HowItWorks and SocialProof.
+- **Footer (`components/landing/footer.tsx`)**: finalized wordmark-only logo
+  (inverted variant for the dark surface) + new `soldbay.shop` pill.
+- **`components/brand-logo.tsx` (new)**: inline wordmark/lockup SVG that inherits
+  the self-hosted Fraunces from `next/font`. Rendered inline (not `<img>`) because
+  web fonts don't load inside SVG-as-image, so the finalized `public/` SVGs' remote
+  `@import` would fall back to Times. Geometry matches the finalized assets
+  exactly (weight 500, letter-spacing -0.02em, dot at 462/28 in the 520×100 lockup).
+- **`lib/universities.ts` (new)**: shared campus list; `join-form.tsx` now imports
+  it instead of a local copy.
+- Verified: `tsc --noEmit` clean, ESLint clean for changed files (pre-existing
+  `no-explicit-any` errors remain in `prisma/seed.ts`, `scripts/*`, tests), and a
+  full `next build` succeeds with `/` prerendered static.
+
+---
+
 ## 2026-09-12 — Web Theme Override, Design System Sync & Pen Design Update
 
 ### Summary
@@ -23,6 +170,29 @@ After the logo export, two large pieces of work landed today:
 
 A full detailed report of the theme override also lives in
 `docs/web-theme-override-report.md`.
+
+---
+
+### Verified Seller Badge Update
+
+- Made the verified-seller badge **icon-only** everywhere: a custom-drawn
+  checkmark-in-shield (filled shield, check punched out via the `evenodd` fill rule)
+  in Accent — no text label, no stock Phosphor/Lucide shield-check.
+- **Pen** (`design/design.pen`): swapped all 7 product-card `shield-check` badges
+  (component `g1Grgp` + 6 gallery variants) and the Section 10 profile/chat demo
+  pill (`VB`) for the custom path; deleted the "Verified" / "Verified seller" labels;
+  pill backing changed from solid Accent to `#E8E2D0` cream so the Accent icon stays
+  visible; DSVerified caption updated to "small, icon-only badge".
+- **App** (`soldbay-app`): `VerifiedChip` rewritten icon-only (dropped the text label
+  and Lucide `CheckCircle`); added `accent-gold` / `accent-gold-tint` tokens to
+  `tailwind.config.js` and `src/theme/colors.ts`. The single chip drives listing
+  cards, seller profile, and chat/verify consistently.
+- **Docs**: `design/DESIGN.md` (verified-chip rule is now icon-only, colour table
+  gains `accent-gold` rows, trust principle gains the verified-badge exception);
+  `docs/soldbay-design-system.md` Section 19 bullet updated to "locked and applied".
+- Pen quirk noted: `Replace` fails on nodes inside a component definition; used
+  `Delete` + `Insert` there instead. Path geometry is elided in `Get` output unless
+  `includePathGeometry: true` is passed.
 
 ---
 
