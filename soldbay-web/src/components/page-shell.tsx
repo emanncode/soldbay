@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils"
 
 /**
- * Shared landing-style shell: fixed brand atmosphere + grain.
- * Used by home, join, and success so every public page matches.
+ * Shared landing-style shell: light editorial atmosphere (cream + olive/tan
+ * washes) defined in globals.css. Used by home, join, and success.
  */
 export function PageShell({
   children,
@@ -12,8 +12,7 @@ export function PageShell({
   className?: string
 }) {
   return (
-    <div className={cn("page-atmosphere relative min-h-screen", className)}>
-      <div className="page-noise" aria-hidden />
+    <div className={cn("page-atmosphere-light relative min-h-screen text-foreground", className)}>
       <div className="relative z-10">{children}</div>
     </div>
   )

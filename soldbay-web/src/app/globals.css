@@ -278,7 +278,7 @@
 @utility container-page {
   margin-inline: auto;
   width: 100%;
-  max-width: 72rem;
+  max-width: 126rem;
   padding-inline: 16px;
 }
 
@@ -435,6 +435,21 @@
     radial-gradient(ellipse 70% 50% at 80% 40%, rgb(184 166 120 / 0.15) 0%, transparent 50%),
     radial-gradient(ellipse 50% 40% at 15% 70%, rgb(92 112 72 / 0.15) 0%, transparent 55%),
     linear-gradient(180deg, #0F1209 0%, #0C0F08 40%, #0F1209 100%);
+  background-attachment: fixed;
+}
+
+/**
+ * Light editorial landing atmosphere (new design). Uses --color-background base
+ * with faint olive/tan radial washes — no grain, matches the design.pen board.
+ */
+@utility page-atmosphere-light {
+  overflow-x: clip;
+  background-color: #F4F1E8;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 78% -8%, rgb(184 166 120 / 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 40% at 8% 28%, rgb(90 116 62 / 0.10) 0%, transparent 52%),
+    radial-gradient(ellipse 60% 45% at 92% 78%, rgb(184 166 120 / 0.16) 0%, transparent 55%),
+    linear-gradient(180deg, #F4F1E8 0%, #F7F4EC 45%, #F4F1E8 100%);
   background-attachment: fixed;
 }
 

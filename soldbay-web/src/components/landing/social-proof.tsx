@@ -1,10 +1,11 @@
 "use client"
 
-import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 import { AnimatedSection } from "@/components/animated-section"
 import { motion, useReducedMotion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { scaleInVariants, scrollViewport } from "@/lib/motion"
+import { SmoothLink } from "@/components/smooth-link"
+import { fadeUpVariants, scaleInVariants, scrollViewport } from "@/lib/motion"
 import { getWaitlistProof } from "@/lib/waitlist-proof"
 
 type SocialProofProps = {
@@ -14,40 +15,62 @@ type SocialProofProps = {
 export function SocialProof({ count = 0 }: SocialProofProps) {
   const reduceMotion = useReducedMotion()
   const proof = getWaitlistProof(count)
-  const isEmpty = count <= 0
 
   return (
-    <AnimatedSection className="py-16 md:py-24">
-      <div className="container-page max-w-3xl">
+    <AnimatedSection className="border-t border-border py-20 md:py-28">
+      <div className="container-page">
         <motion.div
           initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={scrollViewport}
-          variants={scaleInVariants}
-          className="glass-panel-strong rounded-3xl px-8 py-12 text-center sm:px-12 will-change-transform"
+          className="flex flex-col items-center gap-3"
         >
-          <p className="font-display text-[clamp(2.75rem,8vw,5rem)] font-bold leading-none text-brand-light md:text-[80px]">
-            {proof.headline}
-          </p>
-          <p className="mt-4 font-display text-heading-m text-white">{proof.title}</p>
-          <p className="mt-4 text-body-m text-white/55">{proof.subtitle}</p>
+          <motion.div variants={fadeUpVariants} className="flex items-center gap-3">
+            <span className="h-0.5 w-10 bg-accent" aria-hidden />
+            <p className="text-caption font-semibold uppercase tracking-widest text-secondary">
+              In early access
+            </p>
+          </motion.div>
 
-          {isEmpty ? (
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button asChild variant="glass-primary" size="lg" className="font-semibold">
-                <Link href="/join/buyer">Be the first buyer</Link>
+          <div className="mt-10 flex w-full flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-12">
+            <motion.div
+              variants={fadeUpVariants}
+              className="flex shrink-0 flex-col gap-2"
+            >
+              <p className="font-display text-6xl font-medium leading-none tracking-tight text-foreground md:text-8xl">
+                {proof.headline}
+              </p>
+              <p className="text-sm font-medium text-secondary">
+                on the waitlist
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUpVariants}
+              className="flex min-w-0 flex-1 flex-col gap-3 text-center lg:px-2 lg:text-left"
+            >
+              <h2 className="font-display text-3xl font-medium leading-tight text-foreground md:text-5xl">
+                Join them as Soldbay launches, campus by campus, across
+                Nigeria.
+              </h2>
+              <p className="text-sm leading-normal text-primary/60">
+                Sign up now and we&rsquo;ll email you the moment your campus goes
+                live — you&rsquo;ll be first in.
+              </p>
+            </motion.div>
+
+            <motion.div variants={scaleInVariants} className="shrink-0">
+              <Button
+                asChild
+                className="h-14 rounded-full px-8 font-semibold"
+              >
+                <SmoothLink href="/#join">
+                  Join the waitlist
+                  <ArrowRight className="size-4" aria-hidden />
+                </SmoothLink>
               </Button>
-              <Button asChild variant="glass" size="lg" className="font-semibold">
-                <Link href="/join/seller">Be the first seller</Link>
-              </Button>
-            </div>
-          ) : (
-            <div className="mt-8">
-              <Button asChild variant="glass" size="lg" className="font-semibold">
-                <Link href="/join/buyer">Join the waitlist</Link>
-              </Button>
-            </div>
-          )}
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </AnimatedSection>

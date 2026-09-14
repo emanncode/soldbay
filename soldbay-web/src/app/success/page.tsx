@@ -22,18 +22,16 @@ export default function SuccessPage() {
       <div className="flex min-h-screen flex-col pt-nav">
         <div className="flex flex-1 items-center justify-center px-4 py-16 sm:px-6">
           <motion.div
-            className="form-spotlight w-full max-w-[520px]"
+            className="w-full max-w-[520px]"
             variants={formCardEntry}
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
           >
-            {/* Lightened focal area behind the card */}
-            <div className="form-spotlight-glow" aria-hidden />
-            <Card className="glass-panel-focus relative z-10 border-white/20 bg-transparent py-0 text-center shadow-none ring-0">
+            <Card className="rounded-2xl border border-border bg-surface py-0 text-center shadow-none ring-0">
               <CardHeader className="items-center px-8 pt-12 md:px-12">
                 <motion.div
                   variants={formFieldEntry}
-                  className="mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-success shadow-[0_0_32px_rgb(22_163_74/0.45)]"
+                  className="mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-success shadow-elevation-3"
                 >
                   <motion.svg
                     width="32"
@@ -59,10 +57,10 @@ export default function SuccessPage() {
                 </motion.div>
 
                 <motion.div variants={formFieldEntry}>
-                  <CardTitle className="font-display text-display-m text-white">
+                  <CardTitle className="font-display text-3xl font-medium text-foreground">
                     You&rsquo;re on the list!
                   </CardTitle>
-                  <CardDescription className="mt-4 max-w-sm text-body-m leading-relaxed text-white/60">
+                  <CardDescription className="mt-4 max-w-sm text-[16px] leading-relaxed text-secondary">
                     We&rsquo;ll notify you when Soldbay launches on your campus. Hang
                     tight &mdash; we&rsquo;ll be there soon.
                   </CardDescription>
@@ -71,12 +69,12 @@ export default function SuccessPage() {
 
               <CardContent className="flex flex-col items-center px-8 pb-12 md:px-12">
                 <motion.div variants={formFieldEntry} className="w-full">
-                  <Separator className="my-8 w-full bg-white/10" />
+                  <Separator className="my-8 w-full bg-border" />
                 </motion.div>
 
                 <motion.p
                   variants={formFieldEntry}
-                  className="text-body-s font-semibold text-white/90"
+                  className="text-[14px] font-semibold text-foreground"
                 >
                   Tell your campus friends
                 </motion.p>
@@ -85,7 +83,7 @@ export default function SuccessPage() {
                   variants={formFieldEntry}
                   className="mt-4 flex items-center gap-4"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-success/15">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                       <path
                         d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"
@@ -99,7 +97,7 @@ export default function SuccessPage() {
                       />
                     </svg>
                   </div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-info/15">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                       <path
                         d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9.4 4.1 0 0 .1-.9.3-2.1.5-2.6 2.7-4.8 5.3-5.1 2.6-.3 5.1.8 6 3.1z"
@@ -107,7 +105,7 @@ export default function SuccessPage() {
                       />
                     </svg>
                   </div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-brand-start/20">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                       <rect x="2" y="2" width="20" height="20" rx="4" fill="#5A743E" />
                       <path
@@ -124,9 +122,8 @@ export default function SuccessPage() {
                 <motion.div variants={formFieldEntry} className="mt-8 w-full">
                   <Button
                     asChild
-                    variant="glass"
                     size="lg"
-                    className="w-full font-semibold"
+                    className="w-full rounded-full font-semibold"
                   >
                     <Link href="/">Back to homepage</Link>
                   </Button>
