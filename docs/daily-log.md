@@ -2,6 +2,77 @@
 
 ---
 
+## 2026-09-15 — Design: Mobile Feed / Browse screen assembly (Linear EC-28)
+
+Completed the design and full screen assembly for the Soldbay Feed / Browse mobile
+experience in `design/design.pen`, fulfilling the design checklist of Linear issue
+**[EC-28: [Tier 1 · 1/7] Feed / Browse (Home)](https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home)**
+and strictly adhering to `docs/soldbay-design-system.md`.
+
+- **Simplified Feed Header**: stripped of peripheral branding to maximize browsing
+  density and speed. The header contains ONLY the search bar (`width: fill_container`,
+  height 44, Phosphor `magnifying-glass`, `$surface` + `$border`) and the notification
+  bell button (`44×44px` with `$accent` unread dot). Entirely removed: the "Soldbay"
+  wordmark, the campus display, the message icon, and the cart button.
+- **Campus Immutability Confirmed**: campus is selected once at student signup/matriculation
+  and is strictly fixed and non-editable. It does not display anywhere in the Feed/Browse
+  header or feed screens; it only ever appears on the Profile screen (also non-editable).
+- **Shared Product Card Component & Seller Business Name**: updated the locked Product
+  Card component across all states (`default`, `discounted`, `sold`, `no-photo`) and both modes:
+  - Added seller's business name next to the 14px verified checkmark shield icon in the badge row
+    below the price (`layout: horizontal`, `gap: 5px`, `alignItems: center`, `width: fill_container`).
+  - Typography: Sora (`$font-ui`), Caption size (`12px`), Regular weight (`fontWeight: normal`),
+    Primary text color (`$text-primary`). Styled subtly to avoid competing with the 15-16px bold price above.
+  - Truncation Rule: strictly single line (`textGrowth: fixed-width`, `width: fill_container`). Truncates
+    with ellipsis (`…`) if the business name exceeds available column width — never wraps to a 2nd line,
+    preserving identical card height across the grid.
+  - Sold State Desaturation: card frame `opacity: 0.75` ensures the business name text desaturates
+    at 75% alongside the photo, title, and price.
+  - Shared Context Verification: confirmed and demonstrated at the exact same 171px column width
+    across both Feed/Browse and Search Results (`Screen/Search — Results` added to canvas).
+- **Pinned Category & Filter Chip Row**: pinned directly under the simplified header
+  row using Phosphor icons (`14×14`, 400 inactive, bold active), `radius-full` pills,
+  and established color tones:
+  - Active "All": Secondary olive fill (`$secondary` `#5C7048` light / `#8BA670` dark)
+    with on-primary text `#F1EEE4` / `#1A1F14`.
+  - Active category filter: Accent gold fill (`$accent` `#B8A678` light / `#C7B58A` dark)
+    with contrasting text `#2D3A1F` / `#1A1F14`.
+  - Inactive chips: Surface fill (`$surface`) + 1px Border outline (`$border`) +
+    `$text-secondary` text and icons.
+  - Filter trigger chip: Phosphor `faders` icon, "Filters" label, and active count badge.
+- **4-Tab Buyer Navigation**: replaced legacy 5-tab bar with a strict 4-tab buyer-only
+  nav: `Browse` (active) · `Search` · `Orders` · `Profile`. Completely removed the `+` / Sell
+  FAB (posting is strictly gated to verified sellers, never injected into buyer browse)
+  and removed `Wallet` (buyers have no wallet destination).
+- **Buyer-Only Empty State CTAs (Section 9 & EC-28)**:
+  - Completely removed the "Post a listing" button and eliminated all seller-recruiting copy
+    (e.g., *"Be the first student on your campus to sell"*), as buyers have no capability to sell.
+  - **Variant A (Filtered Empty State)**: when active filters or search yield 0 results, displays
+    *"No listings found"* and promotes **"Clear filters"** to the primary button position
+    (`$soldbay-primary`, 10px radius, Phosphor `arrow-clockwise` icon, high contrast `#F1EEE4`/`#10150C` text).
+    Removed the secondary text link.
+  - **Variant B (Genuinely Empty Campus Feed)**: when the campus feed itself has 0 listings with
+    no filters applied, displays *"No listings yet"* and copy *"Check back soon for new listings"*
+    with **no actionable button** (since there is nothing a buyer can action).
+  - Maintained Section 9 custom vector line illustration in Primary and Accent colors only (crate shelf
+    line art in a 96×96px Surface medallion).
+- **Loading Skeleton Screens (Section 20)**: Surface-colored blocks matching the
+  exact geometry of the product grid (image block, two title lines, price line,
+  and seller badge dot/bar) to eliminate layout shift — no spinners.
+- **Pull-to-Refresh Treatment (Section 20)**: standard platform pull pattern with
+  Primary-tinted spinner arc (`#5A743E` light / `#8BA670` dark) inside an
+  `elevation-2` Surface medallion, paired with status microcopy ("Updating fresh drops…").
+- **Full Assembled Screens (Light & Dark Mode)**: built ten complete 390×844 mobile
+  screen frames on the canvas (`x: 6200` to `x: 8310`) complete with Status Bar, Simplified Header
+  (search + notification only), Pinned Chip Row, Feed Body, and 4-Tab Buyer Nav Bar:
+  - Light (`y: 200`): Populated, Pull-to-Refresh, Loading Skeleton, Filtered Empty, Empty Feed (No Listings).
+  - Dark (`y: 1080`): Populated, Pull-to-Refresh, Loading Skeleton, Filtered Empty, Empty Feed (No Listings).
+- **Component System Gallery & Specs**: placed isolated component breakdown board
+  at `x: 1320, y: 780` (with side-by-side empty state variants) and Section 23 Mobile Feed Specifications
+  board at `x: 6200, y: 1960` (width 2110px). Documented in `feed-screen-design-spec.md`.
+
+---
+
 ## 2026-09-14 — Buyer waitlist: "Other" category
 
 - **`components/waitlist-form.tsx`**: the buyer Interested Categories chip row
