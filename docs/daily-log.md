@@ -3,6 +3,7 @@
 ## 2026-09-16 — Mobile: Buyer Feed Screen Implementation (`soldbay-app`)
 - **Quality Assurance**: 
 - **UI Polish**: Updated the active state of icons in `BuyerBottomNav` to use the Phosphor `fill` weight instead of `bold` for better visual indication.
+- **UI Polish**: Increased the shadow depth of `ListingCard` and `SkeletonCard` from `elevation.card` to `elevation.raised` (elevation level 2) to ensure they look distinctly lifted off the background instead of feeling flat. Fixed a React Native bug where iOS shadows were being clipped by `overflow-hidden` on the same View container.
   - Ran `npx expo lint` on the mobile app and fixed a cascading render warning (`react-hooks/set-state-in-effect`) by restructuring the `fetchListings` effect.
   - Ran `npm run lint` on the web app and fixed multiple strict typing issues (`@typescript-eslint/no-explicit-any`) in the database seeding scripts.
   - Both web and mobile codebases now pass ESLint and TypeScript checks with 0 errors and 0 warnings.
