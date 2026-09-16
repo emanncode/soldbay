@@ -15,7 +15,7 @@ async function warmup(prisma: PrismaClient, retries = 5, delayMs = 1500) {
       await prisma.$queryRawUnsafe("SELECT 1");
       console.log("✅ Database connection established.");
       return;
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.warn(`Connection attempt failed: ${e.message || e}`);
       if (i < retries - 1) {
         await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -65,8 +65,8 @@ async function main() {
     await prisma.category.deleteMany();
 
     console.log("✅ Database cleared successfully!");
-  } catch (error: any) {
-    console.error("❌ Error clearing database:", error.message || error);
+  } catch (error: unknown) {
+    console.error("❌ Error clearing database:", (error as Error).message || error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();

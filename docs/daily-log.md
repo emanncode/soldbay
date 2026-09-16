@@ -1,6 +1,10 @@
 # Soldbay — Daily Log
 
 ## 2026-09-16 — Mobile: Buyer Feed Screen Implementation (`soldbay-app`)
+- **Quality Assurance**: 
+  - Ran `npx expo lint` on the mobile app and fixed a cascading render warning (`react-hooks/set-state-in-effect`) by restructuring the `fetchListings` effect.
+  - Ran `npm run lint` on the web app and fixed multiple strict typing issues (`@typescript-eslint/no-explicit-any`) in the database seeding scripts.
+  - Both web and mobile codebases now pass ESLint and TypeScript checks with 0 errors and 0 warnings.
 
 Successfully built and wired the core buyer feed screen according to the `feed-screen-design-spec.md` and EC-28:
 

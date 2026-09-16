@@ -1,5 +1,4 @@
 import { TouchableOpacity, Text, View } from "react-native";
-import { IconProps } from "phosphor-react-native";
 
 interface FilterChipProps {
   label: string;

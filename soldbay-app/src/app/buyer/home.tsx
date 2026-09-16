@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { View, FlatList, RefreshControl, ScrollView, SafeAreaView, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -25,11 +25,41 @@ export default function BuyerHomeScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   
-  // Real app would track `hasMore` and `nextCursor`
-  
-  const fetchListings = async (isRefresh = false) => {
+  useEffect(() => {
+    let isActive = true;
+    
+    const fetchInitialListings = async () => {
+      // Defer state update to avoid synchronous setState in effect body
+      await Promise.resolve();
+      if (!isActive) return;
+      
+      setLoading(true);
+      try {
+        const res = await getListings({
+          categorySlug: activeCategory,
+          search: searchQuery,
+        });
+        if (isActive) setListings(res.items || []);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        if (isActive) {
+          setLoading(false);
+          setRefreshing(false);
+        }
+      }
+    };
+
+    fetchInitialListings();
+
+    return () => {
+      isActive = false;
+    };
+  }, [activeCategory, searchQuery]);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
     try {
-      if (!isRefresh) setLoading(true);
       const res = await getListings({
         categorySlug: activeCategory,
         search: searchQuery,
@@ -38,19 +68,9 @@ export default function BuyerHomeScreen() {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false);
       setRefreshing(false);
     }
-  };
-
-  useEffect(() => {
-    fetchListings();
   }, [activeCategory, searchQuery]);
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    fetchListings(true);
-  };
 
   const getCategoryIcon = (slug: string) => {
     switch (slug) {
@@ -64,7 +84,6 @@ export default function BuyerHomeScreen() {
 
   const renderHeader = () => (
     <View className="bg-background pt-2 pb-4">
-      {/* Search & Bell Row */}
       <View className="flex-row items-center px-4 mb-4 gap-3">
         <SearchBar 
           className="flex-1"
@@ -75,7 +94,6 @@ export default function BuyerHomeScreen() {
         <NotificationBell hasUnread onPress={() => {}} />
       </View>
 
-      {/* Filter Chips Row */}
       <ScrollView 
         horizontal 
         showsHorizontalScrollIndicator={false} 

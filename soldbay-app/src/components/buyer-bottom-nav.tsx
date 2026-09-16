@@ -10,7 +10,6 @@ interface BuyerBottomNavProps {
 }
 
 export function BuyerBottomNav({ activeTab, onTabChange }: BuyerBottomNavProps) {
-  const isDark = false; // Could be read from a hook if needed, but Tailwind handles colors usually. We'll use color tokens for Phosphor icons.
   const activeColor = colors.primary;
   const inactiveColor = colors.textSecondary;
 

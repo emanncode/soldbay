@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import "dotenv/config";
 import { prisma } from "@/lib/prisma";
 import { signMobileToken } from "@/lib/sign-mobile-token";
@@ -32,7 +34,7 @@ const testBuyerEmail = `buyer.${testRunId}@oauife.edu.ng`;
 const testSellerUsername = `seller_${testRunId}`;
 const testPassword = "Password123!";
 
-function createMockRequest(url: string, options: { method?: string; body?: any; token?: string; isFormData?: boolean; formData?: FormData } = {}) {
+function createMockRequest(url: string, options: { method?: string; body?: unknown; token?: string; isFormData?: boolean; formData?: FormData } = {}) {
   const headers: Record<string, string> = {};
   if (options.token) {
     headers["authorization"] = `Bearer ${options.token}`;
@@ -288,7 +290,7 @@ async function runTests() {
   // 13. GET /api/listings (Search & filters)
   {
     const req = createMockRequest(`http://localhost:3000/api/listings?q=Engineering&universityId=${universityId}`);
-    const res = await getListings(req as any);
+    const res = await getListings(req as never);
     const data = await res.json();
     const items = data.items || data.listings || [];
     if (res.status !== 200 || !Array.isArray(items) || items.length === 0) {

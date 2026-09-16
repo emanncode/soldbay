@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps, ViewStyle, TextStyle, View } from "react-native";
+import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps, View } from "react-native";
 import { forwardRef } from "react";
 
 export interface ButtonProps extends TouchableOpacityProps {
