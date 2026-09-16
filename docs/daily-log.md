@@ -1,5 +1,21 @@
 # Soldbay — Daily Log
 
+## 2026-09-16 — Mobile: Buyer Feed Screen Implementation (`soldbay-app`)
+
+Successfully built and wired the core buyer feed screen according to the `feed-screen-design-spec.md` and EC-28:
+
+- **NotificationBell Component**: Built `notification-bell.tsx` (44x44px button with Phosphor `bell` icon and accent unread dot) completing the simplified header layout.
+- **Buyer Feed Screen (`src/app/buyer/home.tsx`)**:
+  - Implemented the full UI for the main Browse/Feed screen.
+  - Composed the simplified header (using `SearchBar` and `NotificationBell`).
+  - Added the horizontally scrolling `FilterChip` category row (Filters, All, Textbooks, Tech, Fashion, Dorm).
+  - Used a 2-column `FlatList` to render `ListingCard` elements, pulling from the disconnected `getMockListings` API data.
+  - Integrated the fully functional geometry-matched `SkeletonCard` for loading states and the `EmptyState` component for filtered/empty contexts.
+  - Implemented standard platform `RefreshControl` pull-to-refresh tinted in the primary brand color.
+  - Added the locked 4-tab `BuyerBottomNav` to the bottom safe area.
+- **Routing**: Rewrote `src/app/index.tsx` to directly redirect to the new `/buyer/home` screen (`<Redirect href="/buyer/home" />`).
+
+
 ## 2026-09-16 — Mobile: Rebuilding Core UI Component Library (`soldbay-app`)
 
 Following the complete reset of `soldbay-app/src/components/`, the core UI component library has been meticulously rebuilt from scratch according to the exact specifications in `design/design.pen`, `feed-screen-design-spec.md`, and `docs/soldbay-design-system.md`:
