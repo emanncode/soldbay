@@ -9,7 +9,6 @@ import { SmoothLink } from "@/components/smooth-link";
 import { soldbayEase } from "@/lib/motion";
 
 const links = [
-  { href: "/#join", label: "join" },
   { href: "/#how", label: "Process" },
   { href: "/#why", label: "Why us" },
   { href: "/#faq", label: "FAQ" },
