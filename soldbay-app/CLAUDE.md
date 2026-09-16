@@ -4,27 +4,25 @@
 
 Source of truth for screen architecture, design tokens, and components:
 
-- **Design spec**: [design/DESIGN.md](../design/DESIGN.md) — read this before styling anything
-- **Pen.dev canvas**: `design/starter.pen` (39 screens, 36 components). Encrypted — open it
-  through the Pencil MCP tools only, never with `Read` or `grep`
-- **Token implementation**: [tailwind.config.js](tailwind.config.js) and
-  [src/theme/](src/theme/)
+- **Design spec**: [docs/soldbay-design-system.md](../docs/soldbay-design-system.md) and [design/design.pen](../design/design.pen) — primary source of truth
+- **Token implementation**: [tailwind.config.js](tailwind.config.js) and [src/theme/](src/theme/)
 
 ## Core Design Rules
 
-- **Typography**: **Manrope only**, three weights — 400 / 500 / 600. There is no
-  header/body font split. Use the type utilities (`text-display`, `text-h1`, `text-h2`,
+- **Typography**: Sora for UI/body, Fraunces display for marketing. Mobile app uses UI font scale:
+  three weights — 400 / 500 / 600. Use the type utilities (`text-display`, `text-h1`, `text-h2`,
   `text-body`, `text-body-medium`, `text-body-semibold`, `text-small`, `text-caption`);
   never set a raw `fontSize`. Body copy is never below 16; caption 12 is the floor.
-- **Colour**: **one accent** — teal `#0D9488` (pressed `#0F766E`, tint `#CCFBF1`). It
-  appears on primary actions, active states, and the brand mark; nowhere else. Base
-  background `#FAFAFA`, elevated surfaces `#FFFFFF`, text `#171717`. Status colours are
-  `success #16A34A` / `error #DC2626` / `warning #D97706` — there is no fifth.
-- **No glassmorphism or blur.** Rejected deliberately (old-Android GPU cost; it also
-  contradicts the minimal personality). Depth = surface contrast + [elevation
-  tokens](src/theme/elevation.ts) only. Do not reintroduce `expo-blur`,
-  `expo-glass-effect`, or `expo-linear-gradient`.
-- **Cards never get a border** — elevation only. Never border + shadow on one surface.
+- **Colour**:
+  - **Primary**: Olive CTA `#5A743E` (pressed `#2C381E`, disabled `#CDDBBD`, text `#F1EEE4`).
+  - **Secondary**: Olive secondary `#5C7048` (dark `#8BA670`).
+  - **Accent**: Tan brand accent `#B8A678` (dark `#C7B58A`, discounted price `#96824F`).
+  - **Canvas & Surface**: Base background `#F4F1E8` (dark `#1A1F14`), Surface `#E8E2D0` (dark `#242A1D`).
+  - **Text**: Text primary `#2D3A1F` (dark `#F1EEE4`), secondary `#5C7048`, tertiary `#8A8070`.
+  - **Semantic Status**: Success `#2E7A6E` (teal), Info `#4D6F89` (slate blue), Warning `#875931` (terracotta), Error/Destructive `#9C453A` (brick red).
+- **No glassmorphism or blur on mobile.** Depth = surface contrast + [elevation
+  tokens](src/theme/elevation.ts) (warm olive-tinted shadows in light mode, surface lightness step + border in dark mode).
+- **Cards never get a border in light mode** — elevation only. Never border + shadow on one surface in light mode.
 - **No hover states.** Touch-first. Pressed state is a deeper shade.
 - **Spacing** 4 / 8 / 12 / 16 / 24 / 32. **Radius** `sm 6` / `md 10` / `lg 16` /
   `full 999` (no `xl`). Buttons and inputs 48 high; **48×48 minimum touch target, no

@@ -12,7 +12,7 @@ export function useProtectedRoute() {
   useEffect(() => {
     getToken().then((token) => {
       if (!token) {
-        router.replace("/login");
+        router.replace("/");
       }
     });
   }, [router]);

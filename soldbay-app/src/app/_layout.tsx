@@ -27,6 +27,7 @@ export default function RootLayout() {
           "Manrope-Medium": Manrope_500Medium,
           "Manrope-SemiBold": Manrope_600SemiBold,
           "Satisfy-Regular": Satisfy_400Regular,
+          "Fraunces-SemiBold": require("../../assets/fonts/Fraunces-SemiBold.ttf"),
         });
       } catch (error) {
         if (Platform.OS !== "web") {
@@ -49,28 +50,6 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="login" />
-      <Stack.Screen name="signup" />
-      <Stack.Screen name="select-role" />
-      <Stack.Screen name="forgot-password/index" />
-      <Stack.Screen name="forgot-password/enter-code" />
-      <Stack.Screen name="forgot-password/new-password" />
-      <Stack.Screen name="forgot-password/success" />
-      <Stack.Screen name="select-university" />
-      <Stack.Screen name="orders" />
-      <Stack.Screen name="orders/detail" />
-      <Stack.Screen name="profile" />
-      <Stack.Screen name="seller/verify" />
-      <Stack.Screen name="seller/dashboard" />
-      <Stack.Screen name="seller/products" />
-      <Stack.Screen name="seller/wallet" />
-      <Stack.Screen name="seller/create-listing" />
-      <Stack.Screen name="buyer/home" />
-      <Stack.Screen name="buyer/search" />
-      <Stack.Screen name="buyer/cart" />
-      <Stack.Screen name="buyer/wallet" />
-      <Stack.Screen name="buyer/listing-detail" />
-      <Stack.Screen name="buyer/checkout" />
     </Stack>
   );
 }

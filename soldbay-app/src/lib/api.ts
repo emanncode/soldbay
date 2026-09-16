@@ -8,6 +8,11 @@ import {
 } from "./auth-storage";
 import { Platform } from "react-native";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
+import {
+  getMockListings,
+  getMockCategories,
+  getMockListingById,
+} from "./mock-data";
 
 export {
   getToken,
@@ -20,6 +25,8 @@ export {
 export const setToken = saveToken;
 export const removeToken = clearToken;
 
+// Disconnect mobile frontend from backend by default so the app runs standalone with local mocks
+export const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCKS !== "false";
 
 export const BASE_URL =
   process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
@@ -301,6 +308,9 @@ export function getListings(
     limit?: number;
   } = {},
 ) {
+  if (USE_MOCK_DATA) {
+    return getMockListings(params);
+  }
   const query = new URLSearchParams();
   if (params.categorySlug) query.set("category", params.categorySlug);
   if (params.search) query.set("search", params.search);
@@ -317,6 +327,9 @@ export interface ListingDetail extends PublicListing {
 }
 
 export function getListingById(id: string) {
+  if (USE_MOCK_DATA) {
+    return getMockListingById(id);
+  }
   return request<ListingDetail>("GET", `/api/listings/${id}`);
 }
 
@@ -328,6 +341,9 @@ export interface Category {
 }
 
 export function getCategories() {
+  if (USE_MOCK_DATA) {
+    return getMockCategories();
+  }
   return request<Category[]>("GET", "/api/categories");
 }
 
