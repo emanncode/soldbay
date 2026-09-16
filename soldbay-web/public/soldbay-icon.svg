@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&amp;display=swap');
+    .glyph { font-family: 'Fraunces', serif; font-weight: 600; font-size: 580px; letter-spacing: -0.03em; }
+  </style>
+  <rect width="1024" height="1024" rx="224" fill="#F4F1E8"/>
+  <text class="glyph" x="196" y="690" fill="#2D3A1F">S</text>
+  <circle cx="586" cy="691" r="36" fill="#B8A678"/>
+</svg>
