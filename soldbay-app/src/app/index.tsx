@@ -11,11 +11,22 @@ import {
   SoldStamp,
   TextbooksIcon,
   VerifiedShieldIcon,
+  Button,
+  TextField,
+  SearchBar,
+  BuyerBottomNav,
+  FilterChip,
+  ListingCard,
+  SkeletonCard,
+  EmptyState,
 } from "@/components";
+import { MagnifyingGlass, BookOpen, DeviceMobile, TShirt, Lamp, Faders, SquaresFour, ArrowClockwise } from "phosphor-react-native";
+import { useState } from "react";
 import { colors } from "@/theme/colors";
 import { elevation } from "@/theme/elevation";
 
 export default function IndexPage() {
+  const [activeTab, setActiveTab] = useState<"browse" | "search" | "orders" | "profile">("browse");
   return (
     <ScrollView className="flex-1 bg-background">
       <ScrollView
@@ -295,6 +306,103 @@ export default function IndexPage() {
             </Text>
           </View>
         </View>
+
+        {/* 6. Buttons & Forms */}
+        <View className="mb-4">
+          <Text className="mb-1.5 font-manrope-semibold text-body-semibold uppercase tracking-wider text-text-secondary">
+            6. Buttons & Forms
+          </Text>
+
+          <View style={elevation.card} className="rounded-lg bg-surface-elevated p-4">
+            <View className="mb-4 flex-row flex-wrap gap-2">
+              <Button label="Primary" />
+              <Button label="Outline" variant="outline" />
+              <Button label="Secondary" variant="secondary" />
+              <Button label="Ghost" variant="ghost" />
+            </View>
+            <View className="mb-4">
+              <TextField label="Text Input" placeholder="Placeholder text..." />
+            </View>
+            <View className="mb-4">
+              <TextField label="Error Input" error="This field is required" defaultValue="Invalid value" />
+            </View>
+            <View>
+              <SearchBar placeholder="Search textbooks, tech, dorm..." />
+            </View>
+          </View>
+        </View>
+
+        {/* 7. Navigation & Filtering */}
+        <View className="mb-4">
+          <Text className="mb-1.5 font-manrope-semibold text-body-semibold uppercase tracking-wider text-text-secondary">
+            7. Navigation & Filtering
+          </Text>
+
+          <View style={elevation.card} className="rounded-lg bg-surface-elevated p-4">
+            <Text className="font-manrope-medium text-caption text-text-secondary mb-2">Filter Chips</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row overflow-visible">
+              <View className="flex-row gap-2 pb-2">
+                <FilterChip label="Filters" badgeCount={2} icon={Faders} onPress={() => {}} />
+                <FilterChip label="All" isActive variant="secondary" icon={SquaresFour} onPress={() => {}} />
+                <FilterChip label="Textbooks" icon={BookOpen} onPress={() => {}} />
+                <FilterChip label="Tech" icon={DeviceMobile} isActive variant="accent" onPress={() => {}} />
+              </View>
+            </ScrollView>
+
+            <Text className="font-manrope-medium text-caption text-text-secondary mt-4 mb-2">Buyer Bottom Nav</Text>
+            <View className="border border-border rounded-lg overflow-hidden">
+              <BuyerBottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+            </View>
+          </View>
+        </View>
+
+        {/* 8. Listing Cards & Skeletons */}
+        <View className="mb-4">
+          <Text className="mb-1.5 font-manrope-semibold text-body-semibold uppercase tracking-wider text-text-secondary">
+            8. Listing Cards & Skeletons
+          </Text>
+
+          <View className="flex-row flex-wrap gap-3">
+            <ListingCard 
+              title="MacBook Pro M1 2020 8GB/256GB" 
+              price={500000} 
+              sellerName="Kemi Thrift Store" 
+            />
+            <ListingCard 
+              title="AirPods Pro Gen 2" 
+              price={85000}
+              discountPrice={70000}
+              sellerName="Campus Gadgets Hub Long Name" 
+            />
+            <ListingCard 
+              title="Calculus Early Transcendentals 9th Ed." 
+              price={15000} 
+              sellerName="Ade & Sons" 
+              isSold 
+            />
+            <SkeletonCard />
+          </View>
+        </View>
+
+        {/* 9. Empty States */}
+        <View className="mb-10">
+          <Text className="mb-1.5 font-manrope-semibold text-body-semibold uppercase tracking-wider text-text-secondary">
+            9. Empty States
+          </Text>
+
+          <View style={elevation.card} className="rounded-lg bg-surface-elevated overflow-hidden mb-4">
+            <View className="h-[300px]">
+              <EmptyState variant="filtered" onClearFilters={() => {}} />
+            </View>
+          </View>
+
+          <View style={elevation.card} className="rounded-lg bg-surface-elevated overflow-hidden">
+            <View className="h-[300px]">
+              <EmptyState variant="empty" />
+            </View>
+          </View>
+        </View>
+
       </ScrollView>
     </ScrollView>
   );
