@@ -5,6 +5,7 @@
 - **UI Polish**: Updated the active state of icons in `BuyerBottomNav` to use the Phosphor `fill` weight instead of `bold` for better visual indication.
 - **UI Polish**: Increased the shadow depth of `ListingCard` and `SkeletonCard` from `elevation.card` to `elevation.raised` (elevation level 2) to ensure they look distinctly lifted off the background instead of feeling flat. Fixed a React Native bug where iOS shadows were being clipped by `overflow-hidden` on the same View container.
 - **Layout Polish**: 
+- **Refactoring (Tailwind)**: Scanned the entire mobile app codebase (`src/components` and `src/app`) and replaced all arbitrary Tailwind classes (e.g., `h-[44px]`, `text-[13px]`, `text-[#F1EEE4]`) with their standard scale equivalents (e.g., `h-11`, `text-sm`, `text-primary-foreground`) strictly defined by the configured design system.
   - Refactored `BuyerHomeScreen` to keep the Header (Search, Bell, Filter Chips) strictly fixed at the top, and `BuyerBottomNav` firmly fixed at the bottom. The core `FlatList` now scrolls independently under both elements.
   - Added physical elevation (`elevation.raised`) to all core floating UI pieces: `SearchBar`, `NotificationBell`, `FilterChip`, and `BuyerBottomNav` so they visually lift above the scrolling list.
   - Ran `npx expo lint` on the mobile app and fixed a cascading render warning (`react-hooks/set-state-in-effect`) by restructuring the `fetchListings` effect.

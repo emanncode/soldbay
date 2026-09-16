@@ -32,7 +32,7 @@ export function ListingCard({
     >
       <View className="rounded-2xl overflow-hidden w-full">
         {/* Image Block */}
-        <View className="w-full h-[176px] bg-surface items-center justify-center relative">
+        <View className="w-full h-44 bg-surface items-center justify-center relative">
           {imageUrl ? (
             <Image
               source={{ uri: imageUrl }}
@@ -56,7 +56,7 @@ export function ListingCard({
         {/* Content Block */}
         <View className="p-3">
           <Text
-            className="font-sora text-[13px] text-foreground mb-1.5 leading-[18px]"
+            className="font-sora text-sm text-foreground mb-1.5 leading-tight"
             numberOfLines={2}
           >
             {title}
@@ -66,15 +66,15 @@ export function ListingCard({
           <View className="flex-row items-center mb-2">
             {hasDiscount ? (
               <>
-                <Text className="font-sora-bold text-[15px] text-accent-400 mr-2">
+                <Text className="font-sora-bold text-base text-accent-400 mr-2">
                   ₦{displayPrice.toLocaleString()}
                 </Text>
-                <Text className="font-sora text-[11px] text-border line-through">
+                <Text className="font-sora text-xs text-border line-through">
                   ₦{price.toLocaleString()}
                 </Text>
               </>
             ) : (
-              <Text className="font-sora-bold text-[15px] text-foreground">
+              <Text className="font-sora-bold text-base text-foreground">
                 ₦{displayPrice.toLocaleString()}
               </Text>
             )}
@@ -84,7 +84,7 @@ export function ListingCard({
           <View className="flex-row items-center w-full">
             <VerifiedShieldIcon size={14} />
             <Text
-              className="font-sora text-[12px] text-foreground ml-[5px] flex-1"
+              className="font-sora text-xs text-foreground ml-1 flex-1"
               numberOfLines={1}
               ellipsizeMode="tail"
             >

@@ -25,7 +25,7 @@ export function SoldStamp({
   }[size];
 
   const textStyle = {
-    sm: "text-[10px] font-manrope-semibold tracking-wider",
+    sm: "text-xs font-manrope-semibold tracking-wider",
     md: "text-caption font-manrope-semibold tracking-widest",
     lg: "text-body font-manrope-semibold tracking-widest",
   }[size];

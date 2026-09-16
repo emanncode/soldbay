@@ -8,16 +8,20 @@ interface NotificationBellProps {
   onPress?: () => void;
 }
 
-export function NotificationBell({ hasUnread = false, onPress }: NotificationBellProps) {
+export function NotificationBell({
+  hasUnread = false,
+  onPress,
+}: NotificationBellProps) {
   return (
-    <TouchableOpacity style={elevation.raised}
+    <TouchableOpacity
+      style={elevation.raised}
       activeOpacity={0.7}
       onPress={onPress}
-      className="w-[44px] h-[44px] bg-surface border border-border rounded-md items-center justify-center relative"
+      className="w-11 h-11 bg-surface border border-border rounded-full items-center justify-center relative"
     >
       <Bell size={20} color={colors.textPrimary} weight="regular" />
       {hasUnread && (
-        <View className="absolute top-[10px] right-[10px] w-[7px] h-[7px] rounded-full bg-accent" />
+        <View className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-accent" />
       )}
     </TouchableOpacity>
   );

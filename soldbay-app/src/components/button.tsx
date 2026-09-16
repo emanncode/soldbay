@@ -36,18 +36,18 @@ export const Button = forwardRef<View, ButtonProps>(
     }
 
     let sizeClass = "";
-    let textSizeClass = "text-[16px] leading-[24px] font-sora-medium";
+    let textSizeClass = "text-base leading-6 font-sora-medium";
     switch (size) {
       case "default":
-        sizeClass = "h-[48px] px-6";
+        sizeClass = "h-12 px-6";
         break;
       case "sm":
-        sizeClass = "h-[36px] px-4";
-        textSizeClass = "text-[14px] leading-[20px] font-sora-medium";
+        sizeClass = "h-9 px-4";
+        textSizeClass = "text-sm leading-5 font-sora-medium";
         break;
       case "lg":
-        sizeClass = "h-[56px] px-8";
-        textSizeClass = "text-[18px] leading-[26px] font-sora-semibold";
+        sizeClass = "h-14 px-8";
+        textSizeClass = "text-lg leading-7 font-sora-semibold";
         break;
     }
 

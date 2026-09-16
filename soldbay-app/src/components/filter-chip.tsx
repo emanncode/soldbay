@@ -26,22 +26,22 @@ export function FilterChip({
     borderClass = "border-transparent";
     if (variant === "secondary") {
       bgClass = "bg-secondary";
-      textClass = "text-[#F1EEE4] dark:text-[#1A1F14]";
+      textClass = "text-primary-foreground dark:text-neutral-900";
     } else {
       bgClass = "bg-accent";
-      textClass = "text-[#2D3A1F] dark:text-[#1A1F14]";
+      textClass = "text-foreground dark:text-neutral-900";
     }
   }
 
   // Adjust padding depending on if it's the filter trigger or regular category
   const isFilterTrigger = badgeCount !== undefined;
-  const paddingClass = isFilterTrigger ? "px-[12px]" : "px-[14px]";
+  const paddingClass = isFilterTrigger ? "px-3" : "px-3.5";
 
   return (
     <TouchableOpacity style={elevation.raised}
       activeOpacity={0.7}
       onPress={onPress}
-      className={`h-[32px] rounded-full flex-row items-center justify-center py-[7px] ${paddingClass} ${bgClass} ${borderClass}`}
+      className={`h-8 rounded-full flex-row items-center justify-center py-1.5 ${paddingClass} ${bgClass} ${borderClass}`}
     >
       {Icon && (
         <View className="mr-1.5">
@@ -60,12 +60,12 @@ export function FilterChip({
           />
         </View>
       )}
-      <Text className={`text-[13px] font-sora-medium ${textClass}`}>
+      <Text className={`text-sm font-sora-medium ${textClass}`}>
         {label}
       </Text>
       {badgeCount !== undefined && badgeCount > 0 && (
         <View className="ml-1.5 bg-accent rounded-full w-4 h-4 items-center justify-center">
-          <Text className="text-[10px] font-sora-bold text-[#2D3A1F] leading-none mt-[1px]">
+          <Text className="text-xs font-sora-bold text-foreground leading-none mt-px">
             {badgeCount}
           </Text>
         </View>

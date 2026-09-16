@@ -13,7 +13,7 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(
 
     let borderClass = "border-border border";
     if (error) {
-      borderClass = "border-[#9C453A] border-2"; // Error color
+      borderClass = "border-error border-2"; // Error color
     } else if (isFocused) {
       borderClass = "border-primary border-2";
     }
@@ -23,7 +23,7 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(
     return (
       <View className={`w-full ${className || ""}`}>
         {label && (
-          <Text className="text-[14px] font-sora-medium text-foreground mb-2">
+          <Text className="text-sm font-sora-medium text-foreground mb-2">
             {label}
           </Text>
         )}
@@ -38,13 +38,13 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(
             props.onBlur?.(e);
           }}
           placeholderTextColor="#A8C090"
-          className={`h-[48px] px-4 rounded-md font-sora text-[16px] text-foreground ${bgClass} ${borderClass}`}
+          className={`h-12 px-4 rounded-md font-sora text-base text-foreground ${bgClass} ${borderClass}`}
           {...props}
         />
         {(error || helperText) && (
           <Text
-            className={`text-[13px] mt-1.5 font-sora ${
-              error ? "text-[#9C453A]" : "text-text-secondary"
+            className={`text-sm mt-1.5 font-sora ${
+              error ? "text-error" : "text-text-secondary"
             }`}
           >
             {error || helperText}

@@ -22,7 +22,7 @@ export function BuyerBottomNav({ activeTab, onTabChange }: BuyerBottomNavProps) 
   ];
 
   return (
-    <View style={elevation.raised} className="h-[62px] w-full flex-row justify-around items-center bg-surface border-t border-border px-4 pb-[10px] pt-[6px]">
+    <View style={elevation.raised} className="h-16 w-full flex-row justify-around items-center bg-surface border-t border-border px-4 pb-2.5 pt-1.5">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         const Icon = tab.icon;
@@ -33,11 +33,11 @@ export function BuyerBottomNav({ activeTab, onTabChange }: BuyerBottomNavProps) 
             key={tab.id}
             activeOpacity={0.7}
             onPress={() => onTabChange(tab.id)}
-            className="items-center justify-center min-w-[64px]"
+            className="items-center justify-center min-w-16"
           >
             <Icon size={22} weight={isActive ? "fill" : "regular"} color={color} />
             <Text
-              className={`text-[11px] mt-1 ${
+              className={`text-xs mt-1 ${
                 isActive ? "font-sora-semibold text-primary" : "font-sora text-text-secondary"
               }`}
             >
