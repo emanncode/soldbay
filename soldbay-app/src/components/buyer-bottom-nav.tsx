@@ -34,7 +34,7 @@ export function BuyerBottomNav({ activeTab, onTabChange }: BuyerBottomNavProps) 
             onPress={() => onTabChange(tab.id)}
             className="items-center justify-center min-w-[64px]"
           >
-            <Icon size={22} weight={isActive ? "bold" : "regular"} color={color} />
+            <Icon size={22} weight={isActive ? "fill" : "regular"} color={color} />
             <Text
               className={`text-[11px] mt-1 ${
                 isActive ? "font-sora-semibold text-primary" : "font-sora text-text-secondary"
