@@ -1,4 +1,5 @@
 import { TouchableOpacity, Text, View } from "react-native";
+import { elevation } from "../theme/elevation";
 
 interface FilterChipProps {
   label: string;
@@ -37,21 +38,23 @@ export function FilterChip({
   const paddingClass = isFilterTrigger ? "px-[12px]" : "px-[14px]";
 
   return (
-    <TouchableOpacity
+    <TouchableOpacity style={elevation.raised}
       activeOpacity={0.7}
       onPress={onPress}
       className={`h-[32px] rounded-full flex-row items-center justify-center py-[7px] ${paddingClass} ${bgClass} ${borderClass}`}
     >
       {Icon && (
         <View className="mr-1.5">
-          <Icon 
-            size={14} 
-            weight={isActive ? "bold" : "regular"} 
-            // In a real app we might pass the precise color derived from the textClass, 
+          <Icon
+            size={14}
+            weight={isActive ? "bold" : "regular"}
+            // In a real app we might pass the precise color derived from the textClass,
             // but for simplicity we rely on inheriting or we can force it here.
             color={
               isActive
-                ? (variant === "secondary" ? "#F1EEE4" : "#2D3A1F")
+                ? variant === "secondary"
+                  ? "#F1EEE4"
+                  : "#2D3A1F"
                 : "#5C7048" // text-secondary light mode approx
             }
           />

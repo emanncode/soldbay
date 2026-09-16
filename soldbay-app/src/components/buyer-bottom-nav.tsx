@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { House, MagnifyingGlass, Package, User } from "phosphor-react-native";
+import { elevation } from "../theme/elevation";
 import { colors } from "../theme/colors";
 
 type TabValue = "browse" | "search" | "orders" | "profile";
@@ -21,7 +22,7 @@ export function BuyerBottomNav({ activeTab, onTabChange }: BuyerBottomNavProps) 
   ];
 
   return (
-    <View className="h-[62px] w-full flex-row justify-around items-center bg-surface border-t border-border px-4 pb-[10px] pt-[6px]">
+    <View style={elevation.raised} className="h-[62px] w-full flex-row justify-around items-center bg-surface border-t border-border px-4 pb-[10px] pt-[6px]">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         const Icon = tab.icon;

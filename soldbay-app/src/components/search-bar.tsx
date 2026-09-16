@@ -1,11 +1,12 @@
 import { View, TextInput, TextInputProps } from "react-native";
+import { elevation } from "../theme/elevation";
 import { MagnifyingGlass } from "phosphor-react-native";
 import { forwardRef } from "react";
 import { colors } from "../theme/colors";
 
 export const SearchBar = forwardRef<TextInput, TextInputProps>(({ className, ...props }, ref) => {
   return (
-    <View
+    <View style={elevation.raised}
       className={`h-[44px] flex-row items-center bg-surface border border-border rounded-md px-3 ${
         className || ""
       }`}
