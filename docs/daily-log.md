@@ -1,5 +1,20 @@
 # Soldbay — Daily Log
 
+## 2026-09-16 — Mobile: Rebuilding Core UI Component Library (`soldbay-app`)
+
+Following the complete reset of `soldbay-app/src/components/`, the core UI component library has been meticulously rebuilt from scratch according to the exact specifications in `design/design.pen`, `feed-screen-design-spec.md`, and `docs/soldbay-design-system.md`:
+
+- **Button (`button.tsx`)**: Implemented Primary, Secondary, Outline, and Ghost variants supporting dynamic loading states and left-aligned leading icons. Follows Section 5 specs (`bg-primary`, `rounded-md`).
+- **TextField (`text-field.tsx`)**: Rebuilt form input fields with integrated label, default state (`bg-surface`), focus state (`border-primary`), and inline validation error text mapping directly to the semantic Error color (`#9C453A`).
+- **SearchBar (`search-bar.tsx`)**: Recreated the 44px high search bar specifically for the simplified header, utilizing the newly installed `phosphor-react-native` for the `magnifying-glass` icon.
+- **ListingCard (`listing-card.tsx`)**: Built the comprehensive product card supporting the 1:1 square photo aspect ratio (176px), discounted pricing (strikethrough + accent highlight), Sold overlay (`opacity-75` + `SoldStamp`), no-photo empty state (`Tag` icon), and the inline `VerifiedShieldIcon` badge row.
+- **SkeletonCard (`skeleton-card.tsx`)**: Added the precise geometry-matched loading skeleton to eliminate layout shift during feed initialization.
+- **EmptyState (`empty-state.tsx`)**: Built the two primary variants (Filtered to Zero vs. Genuinely Empty) utilizing the custom `EmptyCrateIllustration` and precise typography.
+- **FilterChip (`filter-chip.tsx`)**: Configured the scrolling taxonomy pill component supporting Secondary ("All" active state) and Accent (Category active state) pairings with leading Phosphor icons and inline badge counts for the "Filters" trigger.
+- **BuyerBottomNav (`buyer-bottom-nav.tsx`)**: Implemented the fixed 4-tab buyer navigation bar (`Browse`, `Search`, `Orders`, `Profile`) locking out any seller-specific functionality as per EC-28.
+- **Dependencies**: Replaced Expo's default vector icons with `phosphor-react-native` to strictly conform to Section 13 (Phosphor Icons) of the design system. Ensured full TypeScript compatibility across all newly added components.
+
+
 ## 2026-09-16 — Mobile: Project Logo & App Icon Update (iOS, Android Foreground, Design System)
 
 - **Screen & Component Library Reset (`soldbay-app`)**:
