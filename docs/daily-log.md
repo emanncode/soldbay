@@ -1,5 +1,101 @@
 # Soldbay — Daily Log
 
+## 2026-09-16 — Mobile: Project Logo & App Icon Update (iOS, Android Foreground, Design System)
+
+- **Screen & Component Library Reset (`soldbay-app`)**:
+  - Cleared all non-active, legacy screens and component templates from `soldbay-app/src/components/` and `soldbay-app/src/app/`, resetting the app to a clean-slate state.
+  - Reset `soldbay-app/src/app/index.tsx` into a clean interactive showcase screen.
+  - Updated root layout `_layout.tsx` to mount the clean root navigation.
+- **Color Design System Alignment**:
+  - Verified and strictly aligned all color tokens across `design/design.pen`, `docs/soldbay-design-system.md` (Sections 4, 14–18), `soldbay-web/src/app/globals.css`, and `soldbay-app/src/theme/colors.ts`.
+  - Added `darkMode: "class"` and dark surface/border variants to `soldbay-app/tailwind.config.js`.
+  - Exposed dark elevation tokens (`surfaceModal: "#333B24"`, `borderElevated: "#4A523E"`) in `soldbay-app/src/theme/colors.ts`.
+- **Custom Icon System Implementation (`soldbay-app/src/components/icons/`)**:
+  - Built custom React Native SVG icons based on `design/design.pen` vectors:
+    - `VerifiedShieldIcon` (custom checkmark-in-shield path geometry, ID: `ZXAqa`).
+    - `SoldStamp` (administrative unavailable stamp badge with `-4°` tilt, IDs: `oAzqV`/`j2Uor`).
+    - `CampusPickupIcon` (campus safe meetup pin with mortarboard cap, ID: `EECdL`).
+    - `CampusDeliveryIcon` (3D parcel on-campus courier icon, ID: `Owa0b`).
+    - `CategoryIcons` (brand taxonomy icons for Textbooks, Electronics, Fashion, Dorm).
+    - `EmptyCrateIllustration` (bespoke line-art crate shelf with discovery sparkles, IDs: `pt_filt_crate`, `pt37ac8`).
+    - `SoldbayMark` (circular medallion mark).
+- **Deleted Legacy & Expo-Generated Icons**:
+  - Completely removed all default/old Expo icons from `soldbay-app/assets/`: `assets/expo.icon/`, `assets/images/tabIcons/`, `assets/images/expo-badge.png`, `assets/images/expo-badge-white.png`, `assets/images/expo-logo.png`, `assets/images/react-logo*.png`, and `assets/images/tutorial-web.png`.
+  - Ensured all app icons reference exclusively official Soldbay design system assets.
+- **Project Logo & App Icon Specifications (Section 22 & `design/design.pen`)**:
+  - Implemented the official project logo mark and app icon exports:
+    - **iOS App Icon (`EXPORT — iOS Icon`, 1024×1024)**: Cream background (`#F4F1E8`), Fraunces SemiBold "S" glyph in Dark Olive (`#2D3A1F`, 580px font size at `x: 196, y: 160`), signature Tan Accent period dot (`#B8A678`, 72×72px at `x: 550, y: 655`).
+    - **Android Adaptive Icon Foreground (`EXPORT — Android Foreground`, 512×512)**: Transparent background, Fraunces SemiBold "S" in Cream (`#F4F1E8`, 290px font size at `x: 98, y: 80`), Tan Accent dot (`#B8A678`, 36×36px at `x: 275, y: 328`).
+    - **Android Adaptive Icon Background (`EXPORT — Android Background`, 512×512)**: Solid Dark Olive (`#2D3A1F`). Updated `app.json` `adaptiveIcon.backgroundColor` to `#2D3A1F` (was `#E6F4FE`).
+    - **Android Themed Monochrome Icon (512×512)**: Pure white glyphs on transparent background for Android 13+ Material You themed icons.
+    - **Web Favicon (64×64)**: Clean scaled version of the signature mark.
+- **Font & Asset Integration**:
+  - Downloaded and registered `Fraunces-SemiBold.ttf` in `soldbay-app/assets/fonts/`.
+  - Loaded `Fraunces-SemiBold` in `soldbay-app/src/app/_layout.tsx` and configured `fontFamily.fraunces` in `tailwind.config.js`.
+  - Generated all 5 production PNG assets (`icon.png`, `android-icon-foreground.png`, `android-icon-background.png`, `android-icon-monochrome.png`, `favicon.png`) with Pillow using the exact pixel coordinates from `design.pen`.
+- **Reusable Component & Index Showcase**:
+  - Created `SoldbayAppIcon` (`src/components/icons/soldbay-app-icon.tsx`) supporting `variant="ios"`, `variant="android"`, and `variant="monochrome"`.
+  - Updated `soldbay-app/src/app/index.tsx` to render the interactive showcase for the project logo variants and custom icons.
+- **Web Logo & Favicon Assets (`soldbay-web`)**:
+  - Generated multi-resolution `favicon.ico` (16×16, 32×32, 48×48) in `soldbay-web/public/` and `soldbay-web/src/app/` using the new Fraunces SemiBold "S." project logo mark.
+  - Generated `apple-touch-icon.png` (180×180), `icon.png` (64×64), and `favicon.png` (64×64).
+  - Created vector SVG assets: `soldbay-icon.svg` (light) and `soldbay-icon-inverted.svg` (dark/inverted).
+  - Updated `soldbay-web/src/components/brand-logo.tsx` to export `BrandIcon` and support standalone mark rendering (`variant="mark" | "mark-inverted"`).
+- **Verification**:
+  - `tsc --noEmit` on both `soldbay-app` and `soldbay-web` passed with 0 errors.
+  - `expo lint` on `soldbay-app` passed with 0 errors and 0 warnings.
+
+---
+
+## 2026-09-15 — Frontend: Feed / Browse screen implementation in soldbay-app (Linear EC-28)
+
+Implemented the Feed / Browse screen and component system in `soldbay-app`, bringing the
+approved `design/design.pen` specifications and Linear **[EC-28](https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home)**
+to the React Native / Expo application:
+
+- **Simplified Header (`src/app/buyer/home.tsx`)**:
+  - Contains only the `SearchBar` (`flex-1`) and a 44×44px Notification Bell button with an Accent
+    gold unread dot indicator.
+  - Completely removed the wordmark logo, AAUA campus name display, message icon, and cart button.
+- **Pinned Category & Filter Chip Row**:
+  - Horizontal chip list with leading icons: "Filters" count trigger chip, "All" chip (secondary tone),
+    and category pills ("Textbooks", "Tech", "Fashion", "Dorm", etc.) with Accent gold active styling.
+  - Enhanced `FilterChip` (`src/components/filter-chip.tsx`) to support leading icons, badge counts,
+    and tone pairings (`variant: "secondary" | "accent"`).
+- **Product Card (`src/components/listing-card.tsx`)**:
+  - Updated card geometry to 16px radius (`rounded-lg`) and 1:1 square photo aspect ratio.
+  - Verified badge row: `[checkmark shield icon] [seller business name]` in Sora 12px caption, single-line
+    with ellipsis truncation (`numberOfLines={1}`, `ellipsizeMode="tail"`).
+  - Discounted state: strikethrough original price and highlighted sale price.
+  - Sold state: overlay `SOLD` stamp banner and `opacity: 0.75` on entire card container.
+  - No photo state: surface placeholder tile with centered Tag icon.
+- **Loading Skeleton (`src/components/skeleton-card.tsx`)**:
+  - Created reusable skeleton blocks matching the exact geometry of `ListingCard` (1:1 image block,
+    two title lines, price line, seller badge dot/bar) to eliminate layout shift during loading.
+- **Infinite Scroll with Cursor Pagination**:
+  - Backed by backend cursor pagination (`getListings({ cursor, limit: 16 })`).
+  - Native `FlatList` with 2 columns (`numColumns={2}`, `columnWrapperStyle={{ gap: 16 }}`).
+  - `onEndReached` trigger with `onEndReachedThreshold={0.5}`, loading indicator footer, and end-of-feed
+    milestone notice (*"You've reached the end of AAUA listings"*).
+  - Resilient mid-scroll retry banner (*"Couldn't load more items · Tap to retry"*).
+  - Primary-tinted `RefreshControl` pull-to-refresh.
+- **Buyer-Only Empty States**:
+  - Filtered to zero: *"No listings found"* with promoted primary CTA button *"Clear filters"*.
+  - Genuinely empty campus feed: *"No listings yet"* + *"Check back soon for new listings"* with no button.
+- **4-Tab Buyer Navigation (`src/lib/tabs.tsx`)**:
+  - Switched buyer tabs to `Browse` (active) · `Search` · `Orders` · `Profile`. Removed `+`/Sell and `Wallet`.
+- **Backend Disconnection & Standalone Mock Layer (`src/lib/mock-data.ts`, `src/lib/api.ts`)**:
+  - Fully disconnected the mobile app from the live backend server by default (`USE_MOCK_DATA = true`, `EXPO_PUBLIC_USE_MOCKS=true`).
+  - Added realistic campus mock data (Textbooks, Tech, Fashion, Dorm) with verified student businesses ("Kemi Thrift Store", "Campus Gadgets Hub", "AAUA Book Nook", "Ade & Sons Dorm Store"), discounted items, sold items, and no-photo placeholders.
+  - Mock API implements realistic client-side category filtering, search query filtering, cursor-based pagination, and simulated latency for reviewing skeleton loading and empty states offline.
+- **Removed Deprecated & Non-Relevant Screens from `soldbay-app`**:
+  - Deleted all legacy/unrelated screen files (`buyer/cart.tsx`, `buyer/wallet.tsx`, `buyer/checkout`, `buyer/search.tsx`, `buyer/listing-detail.tsx`, `seller/`, `handoff/`, `forgot-password/`, `orders/`, `profile/`, `login.tsx`, `signup.tsx`, `select-role.tsx`, `select-university.tsx`).
+  - Preserved strictly the core screens we built and are using today: `buyer/home.tsx` (the Feed / Browse screen), `index.tsx` (direct redirect to `/buyer/home`), `_layout.tsx`, and `global.css`.
+  - Updated `_layout.tsx` Stack to register only `index` and `buyer/home`.
+- **Validation**:
+  - `expo lint` passed with 0 errors and 0 warnings.
+  - TypeScript typecheck (`tsc --noEmit`) passed with 0 errors.
+
 ---
 
 ## 2026-09-15 — Design: Mobile Feed / Browse screen assembly (Linear EC-28)

@@ -205,7 +205,7 @@ under 3 columns at small widths — test with real product photos before locking
 
 | Screen                    | Treatment                                                                                     |
 | ------------------------- | --------------------------------------------------------------------------------------------- |
-| Empty cart                | Custom illustration + short Sora copy + CTA ("Browse listings")                               |
+| No orders yet             | Custom illustration + short Sora copy + CTA ("Browse listings")                               |
 | No search results         | Same illustration family, lighter tone — "No results for 'x'" + suggestion to broaden filters |
 | No messages yet           | Illustration + action prompt (e.g. "Message a seller to get started")                         |
 | No listings from a seller | Text + icon only — lower-stakes screen, doesn't need a full illustration                      |
@@ -246,7 +246,7 @@ transacting with strangers on campus.
 
 | Element                 | Treatment                                                                                                |
 | ----------------------- | -------------------------------------------------------------------------------------------------------- |
-| Cart count              | Small circular badge (`radius-full`), Error color background — standard convention, draws the eye        |
+| Order update            | Small circular badge (`radius-full`), Error color background — on Orders tab when pickup or PIN changes   |
 | Unread messages         | Same treatment on the messages tab icon                                                                  |
 | New listing indicator   | Subtle dot (no number) on relevant category/tab — less urgent than a count                               |
 | Push notification style | Platform-level, out of scope here — keep icon + accent color matched to in-app treatment for consistency |
@@ -264,7 +264,7 @@ MIT-licensed, free.
 | State                                                       | Weight           |
 | ----------------------------------------------------------- | ---------------- |
 | Inactive (nav, tabs, toggleable icons)                      | Regular or Light |
-| Active (selected tab, active toggle — favorite, cart, etc.) | Bold or Fill     |
+| Active (selected tab, active toggle)                        | Bold or Fill     |
 
 **Custom icons — reserved for:**
 
@@ -422,7 +422,7 @@ Lightweight on purpose — motion should make the app feel responsive, not decor
 | Loading states       | Skeleton screens (Surface-colored blocks in the shape of content) for product grids/lists — not spinners                          |
 | Pull-to-refresh      | Standard platform pattern, tinted in Primary color                                                                                |
 | Card press feedback  | Subtle scale-down (~98%) or elevation drop on press                                                                               |
-| Success confirmation | Small, quick checkmark micro-animation (e.g. "added to cart") — not a full-screen celebration                                     |
+| Success confirmation | Small, quick checkmark micro-animation (e.g. "order placed") — not a full-screen celebration                                      |
 
 ---
 
@@ -437,7 +437,7 @@ without a rework.
 | Context             | Recommendation                                                                                                                       |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Base language       | Standard English for all core UI (buttons, labels, errors)                                                                           |
-| Personality moments | Light, warm, a little informal — "Your cart's empty" not "No items in cart," "Message the seller" not "Initiate contact with vendor" |
+| Personality moments | Light, warm, a little informal — "Your feed's empty" not "No results found," "Message the seller" not "Initiate contact with vendor" |
 | Error messages      | Specific and actionable, never blame the user — "That link's expired, try again" not "Invalid request"                               |
 | Empty states        | Already covered in Section 8 — friendly, action-oriented copy                                                                        |
 | Future (v2+)        | Optional Pidgin toggle — user-selected, not default; scope (marketing copy only vs. full UI) still to be decided when it's built     |
@@ -446,8 +446,11 @@ without a rework.
 
 ## 22. App Icon / Splash Screen
 
-| Element           | Guidance                                                                                                                                                                                                                                       |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| App icon          | Must work at 40×40px — simple mark/symbol in Primary on Background (or inverted), not fine detail or a full wordmark                                                                                                                           |
-| Splash screen     | Logo mark centered on Background (light) / dark Background (dark mode aware), no spinner needed if launch is fast. One acceptable place for a touch of Fraunces (e.g. wordmark beneath the mark) since it's a one-time, non-interactive moment |
-| Platform variants | iOS: icon pre-masked to their rounded-square shape (no radius baked in, iOS applies its own mask). Android: adaptive icon with separate foreground/background layers                                                                           |
+| Element           | Guidance / Specification                                                                                                                                                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| App icon          | Must work at 40×40px — simple signature Fraunces "S" mark with Accent Tan period dot, not fine detail or a full wordmark.                                                                                                                      |
+| Splash screen     | Logo mark centered on Background (light `#F4F1E8` / dark `#1A1F14`), no spinner needed if launch is fast. One acceptable place for a touch of Fraunces (e.g. wordmark beneath the mark) since it's a one-time, non-interactive moment.        |
+| **iOS Icon** (1024×1024) | Cream background (`#F4F1E8`), Fraunces SemiBold 580px "S" in Dark Olive (`#2D3A1F`), Accent Tan dot (`#B8A678`, 72×72px) tucked next to the bottom curve. No baked corner radius (iOS applies squircle mask).                                 |
+| **Android Foreground** (512×512) | Transparent canvas, Fraunces SemiBold 290px "S" in Cream (`#F4F1E8`), Accent Tan dot (`#B8A678`, 36×36px) at `(275, 328)`.                                                                                                                      |
+| **Android Background** (512×512) | Solid Dark Olive (`#2D3A1F`).                                                                                                                                                                                                                   |
+| **Android Monochrome** (512×512) | White "S" and Accent dot on transparent for Android 13+ Material You themed icons.                                                                                                                                                               |
