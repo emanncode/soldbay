@@ -8,3 +8,5 @@ export * from "./listing-card";
 export * from "./skeleton-card";
 export * from "./empty-state";
 export * from "./notification-bell";
+export * from "./brand-logo";
+export * from "./user-avatar";

@@ -41,14 +41,18 @@ export class ApiError extends Error {
 }
 
 export class NetworkError extends Error {
-  constructor(message = "No internet connection. Please check your network and try again.") {
+  constructor(
+    message = "No internet connection. Please check your network and try again.",
+  ) {
     super(message);
     this.name = "NetworkError";
   }
 }
 
 export class TimeoutError extends Error {
-  constructor(message = "The server took too long to respond. Please try again.") {
+  constructor(
+    message = "The server took too long to respond. Please try again.",
+  ) {
     super(message);
     this.name = "TimeoutError";
   }
@@ -357,27 +361,34 @@ export function getUniversities() {
   return request<University[]>("GET", "/api/universities");
 }
 
-export async function uploadIdImage(uri: string): Promise<{ ok: boolean; idImageUrl: string }> {
+export async function uploadIdImage(
+  uri: string,
+): Promise<{ ok: boolean; idImageUrl: string }> {
   const token = await getToken();
 
   const filename = uri.split("/").pop() ?? "portal-screenshot.jpg";
   const match = /\.(\w+)$/.exec(filename);
   const ext = match?.[1]?.toLowerCase() ?? "jpeg";
-  const mimeType = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+  const mimeType =
+    ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
 
   const formData = new FormData();
 
-if (Platform.OS === "web") {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      if (blob.size > MAX_UPLOAD_BYTES) {
-        throw new ApiError("Image must be under 5 MB.", 400);
-      }
-      const file = new File([blob], filename, { type: mimeType });
-      formData.append("image", file);
-    } else {
-      formData.append("image", { uri: await compressImageUri(uri), name: filename, type: mimeType } as unknown as Blob);
+  if (Platform.OS === "web") {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    if (blob.size > MAX_UPLOAD_BYTES) {
+      throw new ApiError("Image must be under 5 MB.", 400);
     }
+    const file = new File([blob], filename, { type: mimeType });
+    formData.append("image", file);
+  } else {
+    formData.append("image", {
+      uri: await compressImageUri(uri),
+      name: filename,
+      type: mimeType,
+    } as unknown as Blob);
+  }
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -392,10 +403,17 @@ if (Platform.OS === "web") {
         if (xhr.status >= 200 && xhr.status < 300) {
           resolve(data);
         } else {
-          reject(new ApiError(data.error ?? "Upload failed. Please try again.", xhr.status));
+          reject(
+            new ApiError(
+              data.error ?? "Upload failed. Please try again.",
+              xhr.status,
+            ),
+          );
         }
       } catch {
-        reject(new Error(`Server returned ${xhr.status} with no valid JSON body`));
+        reject(
+          new Error(`Server returned ${xhr.status} with no valid JSON body`),
+        );
       }
     };
 
@@ -482,18 +500,16 @@ async function compressImageUri(uri: string): Promise<string> {
   }
 }
 
-function buildNativeFormData(
-  uri: string,
-  field = "image",
-): FormData {
+function buildNativeFormData(uri: string, field = "image"): FormData {
   const filename = uri.split("/").pop() ?? "listing-photo.jpg";
   const mimeType = "image/jpeg";
 
   const formData = new FormData();
-  formData.append(
-    field,
-    { uri, name: filename, type: mimeType } as unknown as Blob,
-  );
+  formData.append(field, {
+    uri,
+    name: filename,
+    type: mimeType,
+  } as unknown as Blob);
 
   return formData;
 }
@@ -517,10 +533,7 @@ function postImage(
           resolve(data.url);
         } else {
           reject(
-            new ApiError(
-              data.error ?? "Image upload failed.",
-              xhr.status,
-            ),
+            new ApiError(data.error ?? "Image upload failed.", xhr.status),
           );
         }
       } catch {
@@ -538,9 +551,7 @@ function postImage(
   });
 }
 
-export async function uploadListingImages(
-  uris: string[],
-): Promise<string[]> {
+export async function uploadListingImages(uris: string[]): Promise<string[]> {
   const token = await getToken();
 
   const uploads = uris.map(async (uri) => {
@@ -553,8 +564,11 @@ export async function uploadListingImages(
       if (blob.size > MAX_UPLOAD_BYTES) {
         throw new ApiError("Image must be under 5 MB.", 400);
       }
-      const mimeType =
-        /\.png$/i.test(filename) ? "image/png" : /\.webp$/i.test(filename) ? "image/webp" : "image/jpeg";
+      const mimeType = /\.png$/i.test(filename)
+        ? "image/png"
+        : /\.webp$/i.test(filename)
+          ? "image/webp"
+          : "image/jpeg";
       const formData = new FormData();
       formData.append("image", new File([blob], filename, { type: mimeType }));
       return postImage("/api/upload/listing-image", formData, token);
@@ -577,15 +591,29 @@ export interface ForgotPasswordResponse {
 }
 
 export function forgotPassword(email: string) {
-  return request<ForgotPasswordResponse>("POST", "/api/auth/forgot-password", { email });
+  return request<ForgotPasswordResponse>("POST", "/api/auth/forgot-password", {
+    email,
+  });
 }
 
 export function verifyOtp(email: string, otp: string) {
-  return request<{ ok: boolean; valid: boolean }>("POST", "/api/auth/verify-otp", { email, otp });
+  return request<{ ok: boolean; valid: boolean }>(
+    "POST",
+    "/api/auth/verify-otp",
+    { email, otp },
+  );
 }
 
-export function resetPassword(payload: { email: string; otp: string; newPassword: string }) {
-  return request<{ ok: boolean; message: string }>("POST", "/api/auth/reset-password", payload);
+export function resetPassword(payload: {
+  email: string;
+  otp: string;
+  newPassword: string;
+}) {
+  return request<{ ok: boolean; message: string }>(
+    "POST",
+    "/api/auth/reset-password",
+    payload,
+  );
 }
 
 /* ─── Listing Drafts ────────────────────────────────────── */
@@ -603,7 +631,10 @@ export interface DraftListing {
 }
 
 export function createDraft() {
-  return request<{ ok: boolean; id: string; draftStep: number }>("POST", "/api/listings/drafts");
+  return request<{ ok: boolean; id: string; draftStep: number }>(
+    "POST",
+    "/api/listings/drafts",
+  );
 }
 
 export function getDraft(id: string) {
@@ -618,18 +649,22 @@ export function deleteDraft(id: string) {
   return request<{ ok: boolean }>("DELETE", `/api/listings/drafts/${id}`);
 }
 
-export function patchDraft(id: string, payload: Partial<DraftListing> & { categorySlug?: string }) {
-  return request<{ ok: boolean; id: string; draftStep: number; updatedAt: string }>(
-    "PATCH",
-    `/api/listings/drafts/${id}`,
-    payload
-  );
+export function patchDraft(
+  id: string,
+  payload: Partial<DraftListing> & { categorySlug?: string },
+) {
+  return request<{
+    ok: boolean;
+    id: string;
+    draftStep: number;
+    updatedAt: string;
+  }>("PATCH", `/api/listings/drafts/${id}`, payload);
 }
 
 export function publishDraft(id: string) {
   return request<{ ok: boolean; id: string; status: string }>(
     "POST",
-    `/api/listings/drafts/${id}/publish`
+    `/api/listings/drafts/${id}/publish`,
   );
 }
 
@@ -682,7 +717,10 @@ export function getOrderDetail(id: string) {
   return request<OrderDetailResponse>("GET", `/api/orders/${id}`);
 }
 
-export function checkoutOrder(payload: { listingId: string; pickupLocation: string }) {
+export function checkoutOrder(payload: {
+  listingId: string;
+  pickupLocation: string;
+}) {
   return request<{
     ok: boolean;
     orderId: string;
@@ -697,7 +735,7 @@ export function verifyOrderPin(orderId: string, pin: string) {
   return request<{ ok: boolean; id: string; status: string }>(
     "POST",
     `/api/orders/${orderId}/verify-pin`,
-    { pin }
+    { pin },
   );
 }
 
@@ -715,7 +753,7 @@ export function revealOrderPin(orderId: string) {
 export function confirmOrderReceipt(orderId: string) {
   return request<{ ok: boolean; id: string; status: string }>(
     "POST",
-    `/api/orders/${orderId}/confirm-receipt`
+    `/api/orders/${orderId}/confirm-receipt`,
   );
 }
 
@@ -723,17 +761,14 @@ export function disputeOrder(orderId: string, reason: string) {
   return request<{ ok: boolean; disputeId: string; status: string }>(
     "POST",
     `/api/orders/${orderId}/dispute`,
-    { reason }
+    { reason },
   );
 }
 
 /* ─── Wallet ─────────────────────────────────────────────── */
 
 export type WalletTransactionType =
-  | "ESCROW_HOLD"
-  | "ESCROW_RELEASE"
-  | "REFUND"
-  | "PAYOUT";
+  "ESCROW_HOLD" | "ESCROW_RELEASE" | "REFUND" | "PAYOUT";
 
 export interface WalletTransaction {
   id: string;
@@ -755,4 +790,3 @@ export interface WalletResponse {
 export function getWallet() {
   return request<WalletResponse>("GET", "/api/wallet");
 }
-

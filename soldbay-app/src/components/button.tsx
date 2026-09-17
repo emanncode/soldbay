@@ -36,18 +36,18 @@ export const Button = forwardRef<View, ButtonProps>(
     }
 
     let sizeClass = "";
-    let textSizeClass = "text-base leading-6 font-sora-medium";
+    let textSizeClass = "text-body-semibold";
     switch (size) {
       case "default":
-        sizeClass = "h-12 px-6";
+        sizeClass = "h-6 px-3";
         break;
       case "sm":
-        sizeClass = "h-9 px-4";
-        textSizeClass = "text-sm leading-5 font-sora-medium";
+        sizeClass = "h-4 px-2";
+        textSizeClass = "text-small-medium";
         break;
       case "lg":
-        sizeClass = "h-14 px-8";
-        textSizeClass = "text-lg leading-7 font-sora-semibold";
+        sizeClass = "h-7 px-4";
+        textSizeClass = "text-h2";
         break;
     }
 
@@ -63,7 +63,7 @@ export const Button = forwardRef<View, ButtonProps>(
           <ActivityIndicator color={variant === "primary" ? "#F4F1E8" : "#5A743E"} />
         ) : (
           <>
-            {icon && <View className="mr-2">{icon}</View>}
+            {icon && <View className="mr-1">{icon}</View>}
             <Text className={`${textClass} ${textSizeClass}`}>{label}</Text>
           </>
         )}
