@@ -14489,7 +14489,9 @@
                               "content": "Verified students, only",
                               "fontFamily": "Sora",
                               "fontSize": 16,
-                              "fontWeight": "600"
+                              "fontWeight": "600",
+"someKey": "someValue",
+"nextKey": "nextValue",
                             },
                             {
                               "type": "text",
@@ -17018,341 +17020,187 @@
         },
         {
           "type": "frame",
-          "id": "shdaa9b3",
-          "name": "Simplified Header (Search + Notification)",
-          "theme": {
-            "mode": "light"
-          },
+          "id": "hdr_with_logo",
+          "name": "Header with Soldbay Logo & Search",
           "width": "fill_container",
-          "height": 56,
-          "gap": 10,
+          "layout": "vertical",
+          "gap": 8,
           "padding": [
             6,
-            16
+            0
           ],
-          "alignItems": "center",
           "children": [
             {
               "type": "frame",
-              "id": "srab15f",
-              "name": "Search Bar",
+              "id": "hdr_brand_row",
+              "name": "Header Brand Row (Soldbay Logo + Bell)",
               "width": "fill_container",
               "height": 44,
-              "fill": "$surface",
-              "cornerRadius": 10,
-              "stroke": "$border",
-              "strokeWidth": 1,
-              "gap": 10,
               "padding": [
-                0,
-                14
+                4,
+                16
               ],
               "alignItems": "center",
+              "justifyContent": "space-between",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "ice84c6",
-                  "name": "Search Icon",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "magnifying-glass",
-                  "library": "phosphor",
-                  "fill": "$text-secondary"
+                  "type": "frame",
+                  "id": "soldbay_logo_lockup",
+                  "name": "Soldbay Logo",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tx_soldbay_logo",
+                      "name": "Soldbay Wordmark",
+                      "fill": "$text-primary",
+                      "content": "Soldbay",
+                      "fontFamily": "Fraunces",
+                      "fontSize": 26,
+                      "fontWeight": "700",
+                      "letterSpacing": -0.02
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "el_soldbay_dot",
+                      "name": "Accent Dot",
+                      "fill": "$accent",
+                      "width": 7,
+                      "height": 7
+                    }
+                  ]
                 },
                 {
-                  "type": "text",
-                  "id": "txde5f0",
-                  "name": "Search Placeholder",
-                  "opacity": 0.75,
-                  "fill": "$text-secondary",
-                  "content": "Search textbooks, tech, dorm…",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
+                  "type": "frame",
+                  "id": "hdr_actions_cluster",
+                  "name": "Header Actions Cluster",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bn_notification_circle",
+                      "name": "Circular Notification Button",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "$surface",
+                      "cornerRadius": 999,
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ic_notif_bell",
+                          "name": "Bell Icon",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "bell",
+                          "library": "phosphor",
+                          "fill": "$text-primary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "badge_notif_count",
+                          "layoutPosition": "absolute",
+                          "x": 24,
+                          "y": -2,
+                          "name": "Count Badge",
+                          "width": 18,
+                          "height": 18,
+                          "fill": "$accent",
+                          "cornerRadius": 999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tx_notif_count",
+                              "name": "Count",
+                              "fill": "$text-primary",
+                              "content": "6",
+                              "fontFamily": "Sora",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "av_user_profile",
+                      "name": "User Profile Avatar",
+                      "width": 40,
+                      "height": 40,
+                      "cornerRadius": 999,
+                      "clipContent": true,
+                      "fill": "$border",
+                      "children": [
+                        {
+                          "type": "image",
+                          "id": "img_user_dp",
+                          "name": "User DP",
+                          "width": 40,
+                          "height": 40,
+                          "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200&q=80"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             },
             {
               "type": "frame",
-              "id": "bn52548",
-              "name": "Notification Button",
-              "width": 44,
-              "height": 44,
-              "fill": "$surface",
-              "cornerRadius": 10,
-              "stroke": "$border",
-              "strokeWidth": 1,
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "ic60b00",
-                  "name": "Bell Icon",
-                  "width": 20,
-                  "height": 20,
-                  "icon": "bell",
-                  "library": "phosphor",
-                  "fill": "$text-primary"
-                },
-                {
-                  "type": "frame",
-                  "id": "dt2c0e7",
-                  "layoutPosition": "absolute",
-                  "x": 27,
-                  "y": 9,
-                  "name": "Unread Dot",
-                  "width": 7,
-                  "height": 7,
-                  "fill": "$accent",
-                  "cornerRadius": 999
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "cfda9f4",
-          "name": "Chips Container",
-          "width": "fill_container",
-          "padding": [
-            2,
-            16
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "cr2a43b",
-              "name": "Pinned Chip Row",
-              "theme": {
-                "mode": "light"
-              },
+              "id": "hdr_search_row",
+              "name": "Search Row",
               "width": "fill_container",
-              "gap": 8,
+              "height": 44,
               "padding": [
-                2,
-                0
+                0,
+                16
               ],
-              "alignItems": "center",
               "children": [
                 {
                   "type": "frame",
-                  "id": "ch65154",
-                  "name": "Filter Chip",
+                  "id": "srab15f",
+                  "name": "Search Bar",
+                  "width": "fill_container",
+                  "height": 44,
                   "fill": "$surface",
-                  "cornerRadius": 999,
+                  "cornerRadius": 10,
                   "stroke": "$border",
                   "strokeWidth": 1,
-                  "gap": 6,
+                  "gap": 10,
                   "padding": [
-                    7,
-                    12
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "ica7561",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "faders",
-                      "library": "phosphor",
-                      "fill": "$text-secondary"
-                    },
-                    {
-                      "type": "text",
-                      "id": "tx2d062",
-                      "name": "Label",
-                      "fill": "$text-primary",
-                      "content": "Filters",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "500"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "ch555fb",
-                  "name": "Chip — All (Active)",
-                  "fill": "$secondary",
-                  "cornerRadius": 999,
-                  "gap": 6,
-                  "padding": [
-                    7,
+                    0,
                     14
                   ],
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
-                      "id": "icb4026",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "squares-four",
-                      "library": "phosphor",
-                      "fill": "#F1EEE4"
-                    },
-                    {
-                      "type": "text",
-                      "id": "tx2c45e",
-                      "name": "Label",
-                      "fill": "#F1EEE4",
-                      "content": "All",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "ch29042",
-                  "name": "Chip — Textbooks",
-                  "fill": "$surface",
-                  "cornerRadius": 999,
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "gap": 6,
-                  "padding": [
-                    7,
-                    14
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "icc7ac5",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "book-open",
+                      "id": "ice84c6",
+                      "name": "Search Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "magnifying-glass",
                       "library": "phosphor",
                       "fill": "$text-secondary"
                     },
                     {
                       "type": "text",
-                      "id": "tx7fb2e",
-                      "name": "Label",
+                      "id": "txde5f0",
+                      "name": "Search Placeholder",
+                      "opacity": 0.75,
                       "fill": "$text-secondary",
-                      "content": "Textbooks",
+                      "content": "Search textbooks, tech, dorm…",
                       "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "500"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "ch1112e",
-                  "name": "Chip — Tech",
-                  "fill": "$surface",
-                  "cornerRadius": 999,
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "gap": 6,
-                  "padding": [
-                    7,
-                    14
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "icd0dcf",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "device-mobile",
-                      "library": "phosphor",
-                      "fill": "$text-secondary"
-                    },
-                    {
-                      "type": "text",
-                      "id": "tx23b5e",
-                      "name": "Label",
-                      "fill": "$text-secondary",
-                      "content": "Tech",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "500"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "chdfef2",
-                  "name": "Chip — Fashion",
-                  "fill": "$surface",
-                  "cornerRadius": 999,
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "gap": 6,
-                  "padding": [
-                    7,
-                    14
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "icf8ade",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "t-shirt",
-                      "library": "phosphor",
-                      "fill": "$text-secondary"
-                    },
-                    {
-                      "type": "text",
-                      "id": "tx21342",
-                      "name": "Label",
-                      "fill": "$text-secondary",
-                      "content": "Fashion",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "500"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "ch205db",
-                  "name": "Chip — Dorm",
-                  "fill": "$surface",
-                  "cornerRadius": 999,
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "gap": 6,
-                  "padding": [
-                    7,
-                    14
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "ic5dc11",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "lamp",
-                      "library": "phosphor",
-                      "fill": "$text-secondary"
-                    },
-                    {
-                      "type": "text",
-                      "id": "txe6068",
-                      "name": "Label",
-                      "fill": "$text-secondary",
-                      "content": "Dorm",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "500"
+                      "fontSize": 14,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -17398,28 +17246,28 @@
                 },
                 {
                   "type": "frame",
-                  "id": "stade0d",
-                  "name": "Sort Selector",
-                  "gap": 3,
+                  "id": "btn_see_all",
+                  "name": "See All Link",
+                  "gap": 4,
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "text",
-                      "id": "txd67a8",
-                      "name": "Sort Label",
+                      "id": "tx_see_all",
+                      "name": "See All Label",
                       "fill": "$text-secondary",
-                      "content": "34 items · Recent",
+                      "content": "See all",
                       "fontFamily": "$font-ui",
-                      "fontSize": 12,
-                      "fontWeight": "500"
+                      "fontSize": 13,
+                      "fontWeight": "600"
                     },
                     {
                       "type": "icon",
-                      "id": "icc1ba0",
-                      "name": "Caret",
-                      "width": 11,
-                      "height": 11,
-                      "icon": "caret-down",
+                      "id": "ic_see_all_caret",
+                      "name": "Caret Right",
+                      "width": 12,
+                      "height": 12,
+                      "icon": "caret-right",
                       "library": "phosphor",
                       "fill": "$text-secondary"
                     }
