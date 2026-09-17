@@ -15,7 +15,7 @@
  *
  * Prefer NativeWind classNames (`bg-primary`, `bg-accent`, `text-text-primary`) in JSX.
  * These constants exist for the APIs that take a colour prop rather than a class:
- * Lucide icons (`color`), `ActivityIndicator`, `TextInput` placeholder/selection,
+* Lucide icons (`color`), `ActivityIndicator`, `TextInput` placeholder/selection,
  * `StatusBar`, and RN shadow props.
  *
  * If you change a value here, change tailwind.config.js to match.
@@ -23,6 +23,8 @@
 
 export const colors = {
   // --- Primary (Olive — CTA / brand actions, ramp 500) ----------------------
+  /** Exact design system token $soldbay-primary (#2D3A1F). */
+  soldbayPrimary: "#2D3A1F",
   /** Primary CTA background (#5A743E). */
   primary: "#5A743E",
   /** Pressed/active state (#2C381E, ramp 700). */
@@ -141,6 +143,7 @@ export const darkColors = {
   textInverse: "#1A1F14",
 
   primary: "#5A743E",
+  soldbayPrimary: "#8BA670",
   primaryHover: "#2C381E",
   primaryPressed: "#2C381E",
   primaryForeground: "#F1EEE4",
