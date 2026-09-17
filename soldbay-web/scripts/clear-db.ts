@@ -15,8 +15,9 @@ async function warmup(prisma: PrismaClient, retries = 5, delayMs = 1500) {
       await prisma.$queryRawUnsafe("SELECT 1");
       console.log("✅ Database connection established.");
       return;
-    } catch (e: unknown) {
-      console.warn(`Connection attempt failed: ${e.message || e}`);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.warn(`Connection attempt failed: ${msg}`);
       if (i < retries - 1) {
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       }
