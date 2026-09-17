@@ -9,12 +9,12 @@ export interface VerifiedShieldIconProps {
 /**
  * SOLDBAY CUSTOM VERIFIED SHIELD CHECKMARK ICON
  *
- * Source: design/design.pen (ID: ZXAqa) & docs/soldbay-design-system.md (Sections 10 & 13)
+ * Source: design/design.pen (ID: ZXAqa / mEA8F) & docs/soldbay-design-system.md (Sections 10 & 13)
  * Custom-drawn shield with internal checkmark path, locked Accent color.
  * Reserved exclusively for verified campus sellers.
  */
 export function VerifiedShieldIcon({
-  size = 16,
+  size = 14,
   color = colors.accent,
 }: VerifiedShieldIconProps) {
   return (
