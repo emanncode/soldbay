@@ -246,7 +246,7 @@ transacting with strangers on campus.
 
 | Element                 | Treatment                                                                                                |
 | ----------------------- | -------------------------------------------------------------------------------------------------------- |
-| Order update            | Small circular badge (`radius-full`), Error color background — on Orders tab when pickup or PIN changes   |
+| Order update            | Small circular badge (`radius-full`), Error color background — on Orders tab when pickup or PIN changes  |
 | Unread messages         | Same treatment on the messages tab icon                                                                  |
 | New listing indicator   | Subtle dot (no number) on relevant category/tab — less urgent than a count                               |
 | Push notification style | Platform-level, out of scope here — keep icon + accent color matched to in-app treatment for consistency |
@@ -261,10 +261,10 @@ MIT-licensed, free.
 
 **Active/inactive state pattern:**
 
-| State                                                       | Weight           |
-| ----------------------------------------------------------- | ---------------- |
-| Inactive (nav, tabs, toggleable icons)                      | Regular or Light |
-| Active (selected tab, active toggle)                        | Bold or Fill     |
+| State                                  | Weight           |
+| -------------------------------------- | ---------------- |
+| Inactive (nav, tabs, toggleable icons) | Regular or Light |
+| Active (selected tab, active toggle)   | Bold or Fill     |
 
 **Custom icons — reserved for:**
 
@@ -446,11 +446,11 @@ without a rework.
 
 ## 22. App Icon / Splash Screen
 
-| Element           | Guidance / Specification                                                                                                                                                                                                                         |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| App icon          | Must work at 40×40px — simple signature Fraunces "S" mark with Accent Tan period dot, not fine detail or a full wordmark.                                                                                                                      |
-| Splash screen     | Logo mark centered on Background (light `#F4F1E8` / dark `#1A1F14`), no spinner needed if launch is fast. One acceptable place for a touch of Fraunces (e.g. wordmark beneath the mark) since it's a one-time, non-interactive moment.        |
-| **iOS Icon** (1024×1024) | Cream background (`#F4F1E8`), Fraunces SemiBold 580px "S" in Dark Olive (`#2D3A1F`), Accent Tan dot (`#B8A678`, 72×72px) tucked next to the bottom curve. No baked corner radius (iOS applies squircle mask).                                 |
-| **Android Foreground** (512×512) | Transparent canvas, Fraunces SemiBold 290px "S" in Cream (`#F4F1E8`), Accent Tan dot (`#B8A678`, 36×36px) at `(275, 328)`.                                                                                                                      |
-| **Android Background** (512×512) | Solid Dark Olive (`#2D3A1F`).                                                                                                                                                                                                                   |
-| **Android Monochrome** (512×512) | White "S" and Accent dot on transparent for Android 13+ Material You themed icons.                                                                                                                                                               |
+| Element                          | Guidance / Specification                                                                                                                                                                                                               |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App icon                         | Must work at 40×40px — simple signature Fraunces "S" mark with Accent Tan period dot, not fine detail or a full wordmark.                                                                                                              |
+| Splash screen                    | Logo mark centered on Background (light `#F4F1E8` / dark `#1A1F14`), no spinner needed if launch is fast. One acceptable place for a touch of Fraunces (e.g. wordmark beneath the mark) since it's a one-time, non-interactive moment. |
+| **iOS Icon** (1024×1024)         | Cream background (`#F4F1E8`), Fraunces SemiBold 580px "S" in Dark Olive (`#2D3A1F`), Accent Tan dot (`#B8A678`, 72×72px) tucked next to the bottom curve. No baked corner radius (iOS applies squircle mask).                          |
+| **Android Foreground** (512×512) | Transparent canvas, Fraunces SemiBold 290px "S" in Cream (`#F4F1E8`), Accent Tan dot (`#B8A678`, 36×36px) at `(275, 328)`.                                                                                                             |
+| **Android Background** (512×512) | Solid Dark Olive (`#2D3A1F`).                                                                                                                                                                                                          |
+| **Android Monochrome** (512×512) | White "S" and Accent dot on transparent for Android 13+ Material You themed icons.                                                                                                                                                     |
