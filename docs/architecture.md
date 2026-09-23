@@ -38,14 +38,14 @@ postgres://<user>:<password>@db.prisma.io:5432/postgres?sslmode=verify-full
 ```
 
 **Free-tier characteristics & implications:**
-| Characteristic | Impact |
-|----------------|--------|
-| **Auto-sleep after inactivity** | Compute sleeps ~15–25 s cold start on first request after idle |
-| **Connection limit** | 10 concurrent (configured in `prisma.ts`) |
-| **No persistent connections** | Each serverless invocation gets a fresh connection via pooler |
-| **Storage limit** | ~500 MB (sufficient for MVP) |
-| **No read replicas / PITR** | Single primary; backups manual via `pg_dump` if needed |
-| **Region** | Fixed (usually `us-east-1` or `eu-west-1`); latency from Nigeria ~180–250 ms |
+| Characteristic                  | Impact                                                                       |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| **Auto-sleep after inactivity** | Compute sleeps ~15–25 s cold start on first request after idle               |
+| **Connection limit**            | 10 concurrent (configured in `prisma.ts`)                                    |
+| **No persistent connections**   | Each serverless invocation gets a fresh connection via pooler                |
+| **Storage limit**               | ~500 MB (sufficient for MVP)                                                 |
+| **No read replicas / PITR**     | Single primary; backups manual via `pg_dump` if needed                       |
+| **Region**                      | Fixed (usually `us-east-1` or `eu-west-1`); latency from Nigeria ~180–250 ms |
 
 **Mitigations in code (`src/lib/prisma.ts`):**
 
@@ -362,8 +362,8 @@ Requires `TEST_MODE=true` and valid `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WR
 
 ## 10. Environment Variables (Required)
 
-| Variable                | Source                    | Required     | Notes                                                                  |
-| ----------------------- | ------------------------- | ------------ | ---------------------------------------------------------------------- |
+| Variable                | Source                    | Required    | Notes                                                                  |
+| ----------------------- | ------------------------- | ----------- | ---------------------------------------------------------------------- |
 | `DATABASE_URL`          | Prisma Postgres dashboard | ✅           | `postgres://...@db.prisma.io:5432/...`                                 |
 | `AUTH_SECRET`           | `openssl rand -base64 32` | ✅           | HS256 secret for NextAuth + mobile JWT                                 |
 | `AUTH_URL`              | Vercel deployment URL     | ✅           | `https://soldbay.shop` (prod) or `http://192.168.x.x:3000` (local LAN) |
@@ -372,7 +372,7 @@ Requires `TEST_MODE=true` and valid `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WR
 | `CRON_SECRET`           | Generate random string    | ✅           | Protects cron endpoints                                                |
 | `PAYSTACK_SECRET_KEY`   | Paystack dashboard        | 🔴 Prod only | `sk_test_...` or `sk_live_...`                                         |
 | `NEXTAUTH_URL`          | Same as `AUTH_URL`        | ✅           | NextAuth canonical URL                                                 |
-| `TEST_MODE`             | `"true"` / `"false"`      | Dev only     | Bypasses Paystack; **never true in prod**                              |
+| `TEST_MODE`             | `"true"` / `"false"`      | Dev only    | Bypasses Paystack; **never true in prod**                              |
 
 ---
 

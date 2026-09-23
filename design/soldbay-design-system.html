@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Soldbay Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --primary-text: #031f21;
+      --secondary-text: #063f42;
+      --bg-card: #ffd0a6;
+      --bg-base: #ffffff;
+      --accent: #f47a32;
+      --border-light: #008080;
+      --border-dark: #67b8b3;
+      --discount-fill: #ffb980;
+      --discount-stroke: #f47a32;
+      --success: #14532d;
+      --warning: #6b4e00;
+      --error: #8b1a10;
+      --info: #0d3b7a;
+      --dark-bg: #031f21;
+      --dark-bg-step: #063f42;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 999px;
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 24px;
+      --sp-6: 32px;
+      --sp-7: 48px;
+      --sp-8: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg-base);
+      color: var(--primary-text);
+      font-family: "Sora", sans-serif;
+      padding: var(--sp-6) var(--sp-4) var(--sp-8);
+    }
+
+    .wrap {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-family: "Fraunces", serif;
+      font-weight: 700;
+      font-size: 34px;
+      margin: 0 0 var(--sp-1);
+    }
+
+    .page-sub {
+      color: var(--secondary-text);
+      font-size: 15px;
+      margin: 0 0 var(--sp-7);
+    }
+
+    section {
+      margin-bottom: var(--sp-7);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 var(--sp-4);
+      padding-bottom: var(--sp-2);
+      border-bottom: 1px solid rgba(3, 31, 33, 0.15);
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--secondary-text);
+      margin: var(--sp-5) 0 var(--sp-3);
+    }
+
+    /* Color swatches */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--sp-3);
+    }
+
+    .swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(3, 31, 33, 0.1);
+    }
+
+    .swatch-color {
+      height: 64px;
+    }
+
+    .swatch-info {
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-base);
+    }
+
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+    }
+
+    .swatch-hex {
+      font-size: 12px;
+      color: var(--secondary-text);
+      font-family: monospace;
+    }
+
+    /* Type scale */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-4);
+      padding: var(--sp-3) 0;
+      border-bottom: 1px dashed rgba(3, 31, 33, 0.1);
+    }
+
+    .type-label {
+      width: 130px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--secondary-text);
+      font-family: monospace;
+    }
+
+    .type-sample {
+      flex: 1;
+    }
+
+    .large-title {
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .title-1 {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .title-2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .title-3 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .headline {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .body-t {
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .callout {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .subheadline {
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .footnote {
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    .caption-1 {
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .caption-2 {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Spacing */
+    .space-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-2);
+    }
+
+    .space-bar {
+      background: var(--accent);
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .space-label {
+      width: 60px;
+      font-size: 13px;
+      font-family: monospace;
+      color: var(--secondary-text);
+    }
+
+    /* Radius */
+    .radius-grid {
+      display: flex;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+    }
+
+    .radius-box {
+      width: 90px;
+      height: 90px;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(3, 31, 33, 0.15);
+    }
+
+    /* Elevation */
+    .elev-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-4);
+    }
+
+    .elev-card {
+      padding: var(--sp-4);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .elev-light {
+      background: var(--bg-base);
+      box-shadow: 0 2px 8px rgba(3, 31, 33, 0.08);
+    }
+
+    .elev-dark {
+      background: var(--dark-bg);
+      color: var(--bg-card);
+      border: 1px solid rgba(103, 184, 179, 0.24);
+    }
+
+    /* Components */
+    .comp-row {
+      display: flex;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: var(--sp-3);
+    }
+
+    .btn {
+      background: var(--accent);
+      color: var(--primary-text);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: "Sora", sans-serif;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary-text);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .badge-discount {
+      display: inline-block;
+      background: var(--discount-fill);
+      color: var(--primary-text);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--discount-stroke);
+    }
+
+    .status-row {
+      display: flex;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      color: white;
+    }
+
+    .header-demo {
+      background: var(--bg-base);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      border: 1px solid rgba(3, 31, 33, 0.1);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-3);
+    }
+
+    .screen-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .bell {
+      font-size: 18px;
+    }
+
+    .search-bar {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: var(--sp-2) var(--sp-3);
+      font-size: 15px;
+      color: var(--secondary-text);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1 class="page-title">Soldbay Design System</h1>
+    <p class="page-sub">
+      Locked reference — Orange &amp; Teal palette, Sora + Fraunces
+      typography, 4px spacing scale.
+    </p>
+
+    <section>
+      <h2>Color</h2>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #031f21"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Primary text</span><span class="swatch-hex">#031F21</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #063f42"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Secondary text / dark bg</span><span class="swatch-hex">#063F42</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #ffd0a6"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Card background</span><span class="swatch-hex">#FFD0A6</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #f47a32"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Accent</span><span class="swatch-hex">#F47A32</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #008080"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Border (light)</span><span class="swatch-hex">#008080</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #67b8b3"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Border/text (dark)</span><span class="swatch-hex">#67B8B3</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #ffb980"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Discount fill</span><span class="swatch-hex">#FFB980</span>
+          </div>
+        </div>
+      </div>
+
+      <h3>Semantic colors</h3>
+      <div class="status-row">
+        <span class="status-pill" style="background: #14532d">Success</span>
+        <span class="status-pill" style="background: #6b4e00">Warning</span>
+        <span class="status-pill" style="background: #8b1a10">Error</span>
+        <span class="status-pill" style="background: #0d3b7a">Info</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Typography — Sora</h2>
+      <div class="type-row">
+        <span class="type-label">Large Title / 34</span><span class="type-sample large-title">Soldbay</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Title 1 / 28</span><span class="type-sample title-1">Order confirmed</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Title 2 / 22</span><span class="type-sample title-2">Calculus textbook</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Title 3 / 20</span><span class="type-sample title-3">Browse</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Headline / 17</span><span class="type-sample headline">Calculus textbook, 3rd
+          edition</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Body / 17</span><span class="type-sample body-t">Lightly used, all pages intact.</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Callout / 16</span><span class="type-sample callout">Pickup available at Hall B.</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Subheadline / 15</span><span class="type-sample subheadline">₦4,500 · Posted 2 hours
+          ago</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Footnote / 13</span><span class="type-sample footnote">Payment held in escrow until
+          pickup.</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Caption 1 / 12</span><span class="type-sample caption-1">Verified seller</span>
+      </div>
+      <div class="type-row">
+        <span class="type-label">Caption 2 / 11</span><span class="type-sample caption-2">2:41 PM</span>
+      </div>
+
+      <h3>Fraunces — Web/Admin display only</h3>
+      <p style="
+            font-family: &quot;Fraunces&quot;, serif;
+            font-weight: 700;
+            font-size: 28px;
+            margin: 0;
+          ">
+        Soldbay Admin
+      </p>
+    </section>
+
+    <section>
+      <h2>Spacing — 4px base scale</h2>
+      <div class="space-row">
+        <span class="space-label">4</span>
+        <div class="space-bar" style="width: 4px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">8</span>
+        <div class="space-bar" style="width: 8px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">12</span>
+        <div class="space-bar" style="width: 12px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">16</span>
+        <div class="space-bar" style="width: 16px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">24</span>
+        <div class="space-bar" style="width: 24px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">32</span>
+        <div class="space-bar" style="width: 32px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">48</span>
+        <div class="space-bar" style="width: 48px"></div>
+      </div>
+      <div class="space-row">
+        <span class="space-label">64</span>
+        <div class="space-bar" style="width: 64px"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Corner radius</h2>
+      <div class="radius-grid">
+        <div class="radius-box" style="border-radius: 8px">sm · 8</div>
+        <div class="radius-box" style="border-radius: 12px">md · 12</div>
+        <div class="radius-box" style="border-radius: 16px">lg · 16</div>
+        <div class="radius-box" style="border-radius: 999px">full</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Elevation</h2>
+      <div class="elev-grid">
+        <div class="elev-card elev-light">Light mode — shadow</div>
+        <div class="elev-card elev-dark">Dark mode — step + border</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Components</h2>
+      <h3>Buttons &amp; badges</h3>
+      <div class="comp-row">
+        <button class="btn">Buy now</button>
+        <span class="badge">Verified seller</span>
+        <span class="badge-discount">−20% off</span>
+      </div>
+
+      <h3>Screen header (wayfinding)</h3>
+      <div class="header-demo">
+        <div class="header-top">
+          <span class="screen-title">Browse</span>
+          <span class="bell">🔔</span>
+        </div>
+        <div class="search-bar">Search Soldbay…</div>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>
