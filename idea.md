@@ -1,8 +1,1 @@
-in v2, we have buyer can choose between Pickup coordination(after payment both vendors and seller will be able to msg eachother decide where to meet up(especially for goods that are not small like bed, table, bed frame, etc), every conversation will have to made on the app, no taking conversation outside app) pickup at pickup point(vendors will go drop the goods there)
-
-
-let's put faq and question in the same file, but you know, it has to be component based not too much code in one file, so it will be switch state, faq and question in one pill, faq default with the bg, then if they need to ask question they tap the question and then it switches to question mode, then if they want to go back to faq they tap the faq again and it takes them back to faq, we will give it a slide animation for the pill and then the switch animation for the main content will be a slide too, if user taps question it changes to the question content, so gives a quick slide no too much delay but still noticable still, and same if they want tap faq when their in question mode. but if they on question mode it doesn't do anything it stays like that and same for faq mode too
-
-
-
-now the waitlist form, let's bring it from the it's own page to the landing page, so no external page that the landing page is routing too, we will have a sectin called "-(the special dash) Join Waitlist" and the nav link will be "join", this section will be coming after the hero section with the bg and color combination like the why us section same as the nav link its own nav link will be coming before section link too, then the same faq question switch will be what we will be using so instead of faq question it will be buyer seller, then the form below, the join the wailist button button will not be making the animation switch only the form itself will be making the animation switch 
+we should have vendors username on the product card

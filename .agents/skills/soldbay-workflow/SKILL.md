@@ -44,18 +44,23 @@ The current priority sequence for screen design passes:
 **Tier 1 — Buyer core loop**
 
 1. [x] Feed/Browse
-2. [X] Search & Filters
-3. Product Detail
-4. Checkout
-5. Pickup-Window Selection
+2. [x] Search & Filters
+3. [x] Product Detail
+4. [x] Checkout
+5. [x] Pickup-Window Selection
 6. Order Status + Handoff
+6. [X] Order Status + Handoff
 7. Messaging/Chat
+7. [X] Messaging/Chat
 8. Rate & Review
+8. [X] Rate & Review
 9. Notifications
+9. [X] Notifications
 
 **Tier 2 — Onboarding, seller side, shared account screens**
 
 - Signup/Auth
+- [X] Signup/Auth
 - Create/Edit Listing (seller)
 - Seller Dashboard
 - Profile/Settings
