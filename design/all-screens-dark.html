@@ -1,0 +1,2204 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Soldbay - Complete App Prototypes (1-14)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary-text: #ffffff;
+      --secondary-text: #67b8b3;
+      --bg-card: #063f42;
+      --bg-base: #031f21;
+      --accent: #f47a32;
+      --border-light: rgba(103, 184, 179, 0.24);
+      --border-dark: #67b8b3;
+      --discount-fill: #ffb980;
+      --discount-stroke: #f47a32;
+      --success: #4ade80;
+      --warning: #facc15;
+      --error: #f87171;
+      --info: #60a5fa;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 999px;
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 24px;
+      --sp-6: 32px;
+      --sp-7: 48px;
+      --sp-8: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #eef2f2;
+      color: #031f21;
+      font-family: "Sora", sans-serif;
+      padding: var(--sp-6);
+    }
+
+    .presentation-title {
+      font-family: "Fraunces", serif;
+      font-weight: 700;
+      font-size: 34px;
+      margin: 0 0 var(--sp-2) 0;
+    }
+
+    .presentation-desc {
+      color: #063f42;
+      font-size: 15px;
+      margin: 0 0 var(--sp-6) 0;
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .screens-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 64px;
+    }
+
+    .screen-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen-label {
+      text-align: center;
+      margin-bottom: var(--sp-3);
+      font-weight: 700;
+      font-size: 15px;
+      color: #063f42;
+    }
+
+    /* Screen container */
+    .screen {
+      width: 375px;
+      height: 812px;
+      background: var(--bg-base);
+      color: var(--primary-text);
+      border-radius: 40px;
+      border: 8px solid #000;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .screen-content {
+      flex: 1;
+      padding: var(--sp-6) var(--sp-4);
+      overflow-y: auto;
+      padding-bottom: 120px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .screen-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Typography */
+    h1.title-2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    h2.headline {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0 0 var(--sp-3) 0;
+    }
+
+    .body-t {
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .footnote {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--secondary-text);
+    }
+
+    .caption {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-text);
+    }
+
+    /* Layout Elements */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-5);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+
+    .back-btn,
+    .icon-btn {
+      background: var(--bg-base);
+      color: var(--primary-text);
+      border: 1px solid rgba(103, 184, 179, 0.24);
+      box-shadow: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--primary-text);
+      padding: 0;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: var(--sp-3);
+      display: flex;
+      align-items: center;
+      margin-bottom: var(--sp-4);
+      color: var(--primary-text);
+      gap: 8px;
+    }
+
+    .search-bar i {
+      color: var(--secondary-text);
+      font-size: 18px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: transparent;
+      font-family: "Sora", sans-serif;
+      font-size: 15px;
+      width: 100%;
+      outline: none;
+      color: var(--primary-text);
+    }
+
+    /* Forms & Inputs */
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: var(--sp-2);
+    }
+
+    .input {
+      width: 100%;
+      padding: var(--sp-3);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-family: "Sora", sans-serif;
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+    }
+
+    textarea.input {
+      height: 100px;
+      resize: none;
+    }
+
+    /* Buttons */
+    .btn { color: #031f21;
+      width: 100%;
+      background: var(--accent);
+      color: var(--primary-text);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: "Sora", sans-serif;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: var(--border-light);
+      color: var(--primary-text);
+    }
+
+    .action-bar {
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      padding: var(--sp-3) var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+      border-top: 1px solid rgba(103, 184, 179, 0.1);
+      display: flex;
+      gap: var(--sp-3);
+      z-index: 5;
+    }
+
+    /* Chips */
+    .chip-row {
+      display: flex;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .chip-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-light);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip.active {
+      background: var(--bg-card);
+      color: var(--primary-text);
+      border-color: transparent;
+    }
+
+
+    /* Form Additions */
+    .optional {
+      color: var(--secondary-text);
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--secondary-text);
+    }
+
+    .checkbox-row input {
+      margin-top: 2px;
+    }
+
+    .row {
+      display: flex;
+      gap: var(--sp-3);
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: var(--sp-6) var(--sp-4);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+      opacity: 0.5;
+    }
+
+    .empty-state-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: var(--sp-2);
+    }
+
+    /* Profile / Seller Switch Additions */
+    .profile-header {
+      text-align: center;
+      margin-bottom: var(--sp-5);
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto var(--sp-3);
+    }
+
+    .profile-handle {
+      margin: 0 0 var(--sp-1);
+      font-size: 20px;
+    }
+
+    .badge-warning {
+      background: rgba(107, 78, 0, 0.1);
+      color: var(--warning);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .upload-box {
+      border: 2px dashed rgba(103, 184, 179, 0.2);
+      border-radius: var(--radius-md);
+      padding: var(--sp-4);
+      text-align: center;
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+
+    .upload-icon {
+      font-size: 24px;
+      color: var(--secondary-text);
+    }
+
+    .upload-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-5);
+    }
+
+    .product-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(103, 184, 179, 0.1);
+    }
+
+    .product-img {
+      height: 140px;
+      background: #67b8b3;
+      color: #031f21;
+      position: relative;
+    }
+
+    .img-overlay-header {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .wishlist-btn {
+      background: rgba(255, 208, 166, 0.2);
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--primary-text);
+      margin-left: auto;
+      font-size: 16px;
+    }
+
+    .product-info {
+      padding: var(--sp-2);
+    }
+
+    .product-price {
+      font-weight: 700;
+      font-size: 15px;
+      margin: 0 0 4px;
+    }
+
+    .product-title {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Badges & Status */
+    .badge-discount {
+      background: var(--discount-fill);
+      border: 1.5px solid var(--discount-stroke);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+    }
+
+    .badge-verified {
+      width: 16px;
+      height: 16px;
+      background: var(--primary-text);
+      color: #031f21;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .badge-unverified {
+      background: rgba(103, 184, 179, 0.1);
+      color: var(--secondary-text);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-pill { color: #031f21 !important;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      color: white;
+      display: inline-block;
+    }
+
+    .status-warning {
+      background: var(--warning);
+    }
+
+    .status-success {
+      background: var(--success);
+    }
+
+    /* List Item */
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid rgba(103, 184, 179, 0.08);
+    }
+
+    .list-item-img {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: #67b8b3;
+      color: #031f21;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--secondary-text);
+    }
+
+    .list-item-content {
+      flex: 1;
+    }
+
+    .list-item-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin: 0 0 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .list-item-sub {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin: 0;
+    }
+
+    .list-item-right {
+      text-align: right;
+    }
+
+    /* Seller Info Row */
+    .seller-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-3) 0;
+      border-top: 1px solid rgba(103, 184, 179, 0.1);
+      border-bottom: 1px solid rgba(103, 184, 179, 0.1);
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+    }
+
+    .seller-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--primary-text);
+    }
+
+    /* Chat Bubbles */
+    .chat-bubble {
+      max-width: 80%;
+      padding: var(--sp-3);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-2);
+      font-size: 15px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .chat-sent {
+      background: #008080;
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+      margin-left: auto;
+    }
+
+    .chat-received {
+      background: var(--bg-card);
+      color: var(--primary-text);
+      border-bottom-left-radius: 4px;
+      margin-right: auto;
+    }
+
+    .chat-read-tooltip {
+      position: absolute;
+      bottom: -24px;
+      right: 0;
+      background: var(--primary-text);
+      color: #031f21;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    /* PIN Reveal */
+    .pin-box {
+      background: var(--border-light);
+      padding: var(--sp-5);
+      text-align: center;
+      border-radius: var(--radius-md);
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+    }
+
+    .pin-number {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      margin: var(--sp-2) 0;
+    }
+
+    /* Bottom Nav (Elevated / Floating style) */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: var(--bg-base);
+      color: var(--primary-text);
+      border-top: 1px solid rgba(103, 184, 179, 0.24);
+      box-shadow: none;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: 20px;
+      border-radius: 24px 24px 40px 40px;
+      z-index: 10;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--secondary-text);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .nav-icon {
+      font-size: 24px;
+    }
+
+    /* Notification Dot */
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--discount-fill);
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 class="presentation-title">Soldbay Core Screens (1-14)</h1>
+  <p class="presentation-desc">All locked screens and functional prototypes based on the rigorous product logic.</p>
+
+  <div class="screens-container">
+    <!-- Sign Up (Incomplete) -->
+        <div class="screen-wrapper">
+      <div class="screen-label">1. Login</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div style="height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: var(--sp-5);">
+            <div style="width: 56px; height: 56px; background: var(--accent); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <i class="ph-bold ph-shopping-bag" style="color: #fff; font-size: 28px;"></i>
+            </div>
+            <span style="font-family: 'Sora', sans-serif; font-weight: 800; font-size: 22px; color: var(--primary-text); letter-spacing: -0.5px;">Soldbay</span>
+          </div>
+          
+          <h1 class="title-2" style="margin-bottom: var(--sp-2)">
+            Welcome back
+          </h1>
+          <p class="callout" style="margin: 0 0 var(--sp-5) 0;">
+            Log in to continue to Soldbay.
+          </p>
+
+          <label class="field-label">Email or Matric Number</label>
+          <input type="text" class="input" placeholder="e.g. bolu@example.com" />
+
+          <label class="field-label">Password</label>
+          <input type="password" class="input" placeholder="••••••••" />
+
+          <button class="btn" style="margin-top: var(--sp-4);">Log In</button>
+          
+          <div style="text-align: center; margin-top: var(--sp-5); font-size: 15px;">
+            <span style="color: var(--secondary-text);">Don't have an account? </span>
+            <span style="font-weight: 600; color: var(--primary-text);">Sign Up</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="screen-wrapper">
+      <div class="screen-label">2. Sign Up (Disabled State)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div style="height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: var(--sp-5);">
+            <div style="width: 56px; height: 56px; background: var(--accent); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <i class="ph-bold ph-shopping-bag" style="color: #fff; font-size: 28px;"></i>
+            </div>
+            <span style="font-family: 'Sora', sans-serif; font-weight: 800; font-size: 22px; color: var(--primary-text); letter-spacing: -0.5px;">Soldbay</span>
+          </div>
+          
+          <h1 class="title-2" style="margin-bottom: var(--sp-5)">
+            Create an account
+          </h1>
+
+          <div class="row">
+            <div class="col">
+              <label class="field-label">First Name</label>
+              <input type="text" class="input" placeholder="e.g. John" />
+            </div>
+            <div class="col">
+              <label class="field-label">Surname</label>
+              <input type="text" class="input" placeholder="e.g. Doe" />
+            </div>
+          </div>
+
+          <label class="field-label">Matric Number</label>
+          <input type="text" class="input" placeholder="e.g. 19/1234" />
+
+          <label class="field-label">Email</label>
+          <input type="email" class="input" placeholder="name@example.com" />
+
+          <label class="field-label">Phone Number <span class="optional">(optional)</span></label>
+          <input type="tel" class="input" placeholder="0800 000 0000" />
+
+          <label class="field-label">Campus</label>
+          <input type="text" class="input" placeholder="Select your campus" readonly value="" />
+
+          <div class="checkbox-row" style="margin-top: var(--sp-5)">
+            <input type="checkbox" id="tc1" />
+            <label for="tc1">I agree to the Terms of Service and Privacy Policy. I understand
+              that Soldbay is a marketplace for students.</label>
+          </div>
+
+          <button class="btn" disabled style="margin-top: var(--sp-5);">Create Account</button>
+          <div style="text-align: center; margin-top: var(--sp-5); font-size: 15px;">
+            <span style="color: var(--secondary-text);">Already have an account? </span>
+            <span style="font-weight: 600; color: var(--primary-text);">Log In</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up (Active) -->
+    <div class="screen-wrapper">
+      <div class="screen-label">3. Sign Up (Active State)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div style="height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: var(--sp-5);">
+            <div style="width: 56px; height: 56px; background: var(--accent); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <i class="ph-bold ph-shopping-bag" style="color: #fff; font-size: 28px;"></i>
+            </div>
+            <span style="font-family: 'Sora', sans-serif; font-weight: 800; font-size: 22px; color: var(--primary-text); letter-spacing: -0.5px;">Soldbay</span>
+          </div>
+          
+          <h1 class="title-2" style="margin-bottom: var(--sp-5)">
+            Create an account
+          </h1>
+
+          <div class="row">
+            <div class="col">
+              <label class="field-label">First Name</label>
+              <input type="text" class="input" value="Bolu" />
+            </div>
+            <div class="col">
+              <label class="field-label">Surname</label>
+              <input type="text" class="input" value="Adebayo" />
+            </div>
+          </div>
+
+          <label class="field-label">Matric Number</label>
+          <input type="text" class="input" value="19/1234" />
+
+          <label class="field-label">Email</label>
+          <input type="email" class="input" value="bolu@example.com" />
+
+          <label class="field-label">Phone Number <span class="optional">(optional)</span></label>
+          <input type="tel" class="input" value="08012345678" />
+
+          <label class="field-label">Campus</label>
+          <!-- Placeholder replaced with selected value -->
+          <input type="text" class="input" style="color: var(--primary-text); font-weight: 600"
+            value="University of Lagos" readonly />
+
+          <div class="checkbox-row" style="margin-top: var(--sp-5)">
+            <input type="checkbox" id="tc2" checked />
+            <label for="tc2">I agree to the Terms of Service and Privacy Policy. I understand
+              that Soldbay is a marketplace for students.</label>
+          </div>
+
+          <button class="btn" style="margin-top: var(--sp-5);">Create Account</button>
+          <div style="text-align: center; margin-top: var(--sp-5); font-size: 15px;">
+            <span style="color: var(--secondary-text);">Already have an account? </span>
+            <span style="font-weight: 600; color: var(--primary-text);">Log In</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campus Picker (Default) -->
+    <div class="screen-wrapper">
+      <div class="screen-label">4. Campus Picker (Default)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Select Campus</h1>
+          </div>
+
+          <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" placeholder="Search institutions..." />
+          </div>
+
+          <div style="margin-top: var(--sp-2)">
+            <div class="list-item">Ahmadu Bello University</div>
+            <div class="list-item">Babcock University</div>
+            <div class="list-item">Covenant University</div>
+            <div class="list-item">Federal University of Technology, Akure</div>
+            <div class="list-item">Federal University of Technology, Minna</div>
+            <div class="list-item">Obafemi Awolowo University</div>
+            <div class="list-item">University of Abuja</div>
+            <div class="list-item">University of Ibadan</div>
+            <div class="list-item">University of Ilorin</div>
+            <div class="list-item">University of Lagos</div>
+            <div class="list-item">University of Nigeria, Nsukka</div>
+            <div class="list-item" style="border-bottom: none">
+              Yaba College of Technology
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campus Picker (Filtered) -->
+    <div class="screen-wrapper">
+      <div class="screen-label">5. Campus Picker (Filtered)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Select Campus</h1>
+          </div>
+
+          <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" value="Lagos" />
+          </div>
+
+          <div style="margin-top: var(--sp-2)">
+            <div class="list-item">Lagos State University (LASU)</div>
+            <div class="list-item selected">University of Lagos</div>
+            <div class="list-item" style="border-bottom: none">
+              Pan-Atlantic University, Lagos
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campus Picker (Empty) -->
+    <div class="screen-wrapper">
+      <div class="screen-label">6. Campus Picker (Empty)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Select Campus</h1>
+          </div>
+
+          <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" value="Harvard" />
+          </div>
+
+          <div class="empty-state">
+            <div class="empty-state-icon">🏫</div>
+            <div class="empty-state-title">No campus found</div>
+            <div class="body-t">
+              We couldn't find an institution matching your search. Try a
+              different term.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Switch to Seller -->
+    <div class="screen-wrapper">
+      <div class="screen-label">7. Switch to Seller (Profile)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Switch to Seller</h1>
+          </div>
+
+          <div class="profile-header">
+            <div class="profile-avatar"><i class="ph-fill ph-user"></i></div>
+            <h2 class="profile-handle">@bolu_a</h2>
+            <div class="badge-warning">Unverified</div>
+          </div>
+
+          <p class="body-t" style="
+              margin-bottom: var(--sp-5);
+              text-align: center;
+              color: var(--secondary-text);
+            ">
+            To start selling on Soldbay, you must verify your student identity.
+            Both proofs are required.
+          </p>
+
+          <h3 style="margin-top: 0">1. Student ID</h3>
+          <div class="upload-box">
+            <span class="upload-icon"><i class="ph ph-camera"></i></span>
+            <span class="upload-text">Tap to upload your Student ID</span>
+          </div>
+
+          <h3>2. Student Portal</h3>
+          <div class="upload-box">
+            <span class="upload-icon"><i class="ph ph-laptop"></i></span>
+            <span class="upload-text">Upload a screenshot of your student portal homepage</span>
+          </div>
+
+          <div style="margin-top: var(--sp-6)">
+            <button class="btn">Submit for Verification</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="screen-wrapper">
+      <div class="screen-label">8. Feed/Browse</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <h1 class="title-2">Browse</h1>
+            <button class="icon-btn"><i class="ph ph-bell"></i></button>
+          </div>
+
+          <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" placeholder="Search Soldbay..." />
+          </div>
+
+          <div class="chip-row">
+            <div class="chip active">All</div>
+            <div class="chip">Textbooks</div>
+            <div class="chip">Electronics</div>
+            <div class="chip">Fashion</div>
+          </div>
+
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/E2E8E8/063f42?text=Math') center/cover;">
+                <div class="img-overlay-header">
+                  <span class="badge-discount">−20%</span>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Calculus Textbook</p>
+                <p class="product-price" style="margin-top: 4px;">₦4,000</p>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/FFD0A6/031f21?text=Fridge') center/cover;">
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Mini Fridge</p>
+                <p class="product-price" style="margin-top: 4px;">₦12,500</p>
+              </div>
+            </div>
+            <div class="product-card" style="opacity: 0.6;">
+              <div class="product-img"
+                style="display:flex; align-items:center; justify-content:center; font-weight:bold; background:#d0d0d0; color: #555;">
+                SOLD
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Lab Coat</p>
+                <p class="product-price" style="margin-top: 4px;">₦2,000</p>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/E2E8E8/063f42?text=Fan') center/cover;">
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Standing Fan</p>
+                <p class="product-price" style="margin-top: 4px;">₦45,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item active"><i class="ph-fill ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">9. Search & Filters</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="search-bar" style="margin: 0; width: 100%;">
+              <i class="ph ph-arrow-left"></i>
+              <input type="text" value="Desk Lamp" />
+              <i class="ph ph-x" style="margin-left: auto;"></i>
+            </div>
+          </div>
+
+          <div class="chip-row">
+            <div class="chip">Electronics <i class="ph ph-caret-down"></i></div>
+            <div class="chip">Under ₦5k <i class="ph ph-caret-down"></i></div>
+            <div class="chip active">Verified Only</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--sp-3);">
+            <span class="caption">12 results</span>
+            <span class="caption" style="color: var(--primary-text); display:flex; align-items:center; gap: 4px;">Sort
+              by: Newest <i class="ph ph-caret-down"></i></span>
+          </div>
+
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/FFD0A6/031f21?text=Lamp') center/cover;">
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph-fill ph-heart" style="color: var(--accent);"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">LED Desk Lamp</p>
+                <p class="product-price" style="margin-top: 4px;">₦3,500</p>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/E2E8E8/063f42?text=Lamp2') center/cover;">
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Study Lamp</p>
+                <p class="product-price" style="margin-top: 4px;">₦4,200</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item active"><i class="ph-fill ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">10. Product Detail</div>
+      <div class="screen" style="padding-bottom: 0;">
+        <div
+          style="height: 300px; background: url('https://placehold.co/800x600/E2E8E8/063f42?text=Calculus+Textbook') center/cover; position: relative;">
+          <button class="icon-btn" style="position: absolute; top: 24px; left: 16px;"><i
+              class="ph ph-arrow-left"></i></button>
+          <span class="badge-discount" style="position: absolute; top: 24px; right: 16px;">−20%</span>
+        </div>
+
+        <div class="screen-content" style="padding-top: var(--sp-4);">
+          <h1 class="title-2" style="margin-bottom: 8px;">Calculus Textbook, 3rd Ed.</h1>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);">
+            <span style="font-size: 20px; font-weight: 700;">₦4,000</span>
+          </div>
+
+          <div class="seller-row">
+            <div class="seller-avatar"><i class="ph ph-user"></i></div>
+            <div style="flex: 1;">
+              <p style="margin: 0; font-weight: 600; font-size: 15px;">Samuel B.</p>
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
+                <p style="margin: 0; font-size: 13px; color: var(--secondary-text);">@samuel_b</p>
+                <div
+                  style="display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; color: var(--accent);">
+                  <i class="ph-fill ph-star"></i> 4.8 (24)
+                </div>
+              </div>
+            </div>
+            <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+          </div>
+
+          <h2 class="headline">Description</h2>
+          <p class="body-t">Lightly used. All pages intact, no highlighting. Selling because I just passed the course.
+            Pickup at Hall B.</p>
+
+          <p class="footnote" style="text-align: center; margin-top: var(--sp-5); text-decoration: underline;">Report
+            this listing</p>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-heart"
+              style="font-size: 20px;"></i></button>
+          <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-chat-circle"
+              style="font-size: 20px;"></i></button>
+          <button class="btn" style="flex:1;">Buy Now</button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">11. Product Detail (Seller View)</div>
+      <div class="screen" style="padding-bottom: 0;">
+        <div
+          style="height: 300px; background: url('https://placehold.co/800x600/E2E8E8/063f42?text=Calculus+Textbook') center/cover; position: relative;">
+          <button class="icon-btn" style="position: absolute; top: 24px; left: 16px;"><i
+              class="ph ph-arrow-left"></i></button>
+          <span class="badge-discount" style="position: absolute; top: 24px; right: 16px;">−20%</span>
+        </div>
+
+        <div class="screen-content" style="padding-top: var(--sp-4);">
+          <h1 class="title-2" style="margin-bottom: 8px;">Calculus Textbook, 3rd Ed.</h1>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);">
+            <span style="font-size: 20px; font-weight: 700;">₦4,000</span>
+          </div>
+
+          <div class="seller-row">
+            <div class="seller-avatar"><i class="ph ph-user"></i></div>
+            <div style="flex: 1;">
+              <p style="margin: 0; font-weight: 600; font-size: 15px;">Samuel B.</p>
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
+                <p style="margin: 0; font-size: 13px; color: var(--secondary-text);">@samuel_b</p>
+                <div
+                  style="display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; color: var(--accent);">
+                  <i class="ph-fill ph-star"></i> 4.8 (24)
+                </div>
+              </div>
+            </div>
+            <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+          </div>
+
+          <h2 class="headline">Description</h2>
+          <p class="body-t">Lightly used. All pages intact, no highlighting. Selling because I just passed the course.
+            Pickup at Hall B.</p>
+
+          <p class="footnote" style="text-align: center; margin-top: var(--sp-5); text-decoration: underline;">Report
+            this listing</p>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-heart"
+              style="font-size: 20px;"></i></button>
+          <button class="btn btn-secondary" style="flex:1; opacity:0.5; cursor:not-allowed;">This is your
+            listing</button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">12. Checkout</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Checkout</h1>
+            </div>
+          </div>
+
+          <div class="list-item"
+            style="border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: var(--sp-3); margin-bottom: var(--sp-5);">
+            <div class="list-item-img"
+              style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+            <div class="list-item-content">
+              <p class="list-item-title">Calculus Textbook</p>
+              <p class="list-item-sub">Samuel B.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="list-item-title">₦4,000</p>
+            </div>
+          </div>
+
+          <h2 class="headline">Order Summary</h2>
+          <div class="list-item" style="border: none; padding: 8px 0;">
+            <div class="list-item-content">
+              <p class="list-item-title" style="font-weight: 400;">Item Price</p>
+            </div>
+            <div class="list-item-right">
+              <p class="list-item-title">₦4,000</p>
+            </div>
+          </div>
+          <div class="list-item"
+            style="padding: 16px 0; border-bottom: none; border-top: 1px solid var(--border-light);">
+            <div class="list-item-content">
+              <p class="list-item-title" style="font-size: 17px;">Total</p>
+            </div>
+            <div class="list-item-right">
+              <p class="list-item-title" style="font-size: 17px;">₦4,000</p>
+            </div>
+          </div>
+
+          <p class="footnote"
+            style="background: rgba(103, 184, 179,0.05); padding: 12px; border-radius: 8px; margin: var(--sp-4) 0 var(--sp-5); display: flex; align-items:center; gap: 8px;">
+            <i class="ph-fill ph-lock-key" style="font-size: 20px;"></i> <span>Payment is <b>held</b> safely until you
+              confirm pickup.</span>
+          </p>
+
+          <h2 class="headline">Payment Method</h2>
+          <div
+            style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Paystack</span>
+            <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+          </div>
+          <div
+            style="border: 1px solid rgba(103, 184, 179,0.15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Flutterwave</span>
+            <i class="ph ph-circle" style="color: rgba(103, 184, 179,0.2); font-size: 20px;"></i>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn">Confirm Purchase</button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">13. Pickup-Window Selection</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Schedule Pickup</h1>
+            </div>
+          </div>
+
+          <div
+            style="background: rgba(248, 113, 113, 0.15); color: var(--error); padding: 12px; border-radius: 8px; margin-bottom: var(--sp-5); font-size: 13px; font-weight: 600; display:flex; gap:8px;">
+            <i class="ph-fill ph-warning-circle" style="font-size:20px;"></i>
+            Pickup window has passed. Please negotiate a new time with the seller.
+          </div>
+
+          <h2 class="headline">Meeting Point</h2>
+          <div class="input" style="background: rgba(103, 184, 179,0.03); margin-bottom: var(--sp-5);">Student Center
+            Main Entrance</div>
+
+          <h2 class="headline">Select Date</h2>
+          <div class="chip-row">
+            <div class="chip">Today</div>
+            <div class="chip active">Tomorrow, Oct 14</div>
+            <div class="chip">Wed, Oct 15</div>
+          </div>
+
+          <h2 class="headline" style="margin-top: var(--sp-4);">Select Time</h2>
+          <div class="chip-row">
+            <div class="chip">Morning (8am - 12pm)</div>
+            <div class="chip active">Afternoon (12pm - 4pm)</div>
+          </div>
+
+        </div>
+        <div class="action-bar">
+          <button class="btn">Reschedule</button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">14. Order Status (Buyer - PIN Entry)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Order #A12B</h1>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <span class="status-pill status-warning" style="margin-bottom: var(--sp-3);">Awaiting Handoff</span>
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+
+          <div class="pin-box" style="background: transparent; padding: 0;">
+            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 16px;">
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(103, 184, 179,0.02);">
+                4</div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(103, 184, 179,0.02);">
+                8</div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: var(--bg-base);
+      color: var(--primary-text);">
+              </div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: var(--bg-base);
+      color: var(--primary-text);">
+              </div>
+            </div>
+            <p class="caption">Ask the seller for their 4-digit handoff PIN after physically inspecting your item at the
+              pickup point.</p>
+          </div>
+
+          <div style="margin-top: var(--sp-6);">
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Re-attempt Handoff</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Report Issue / Dispute</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title" style="color: var(--error);">Cancel Order</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">15. Order Status (Seller - Locked)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Order #A12B</h1>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <span class="status-pill status-warning" style="margin-bottom: var(--sp-3);">Awaiting Handoff</span>
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+
+          <div class="pin-box" style="background: transparent; padding: 0;">
+            <button class="btn btn-secondary"
+              style="opacity: 0.5; cursor: not-allowed; margin-bottom: 12px; color: var(--secondary-text);"><i
+                class="ph-fill ph-lock-key"></i> Reveal Handoff PIN (Locked)</button>
+            <p class="caption">PIN remains locked until the buyer confirms they are at the pickup point.</p>
+          </div>
+
+          <div style="margin-top: var(--sp-6);">
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Re-attempt Handoff</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Report Issue / Dispute</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title" style="color: var(--error);">Cancel Order</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">16. Order Status (Seller - Active)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Order #A12B</h1>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <span class="status-pill status-warning" style="margin-bottom: var(--sp-3);">Awaiting Handoff</span>
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+
+          <div class="pin-box" style="background: transparent; padding: 0;">
+            <div
+              style="background: var(--border-light); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; font-weight: 600; display:flex; gap:8px; text-align: left;">
+              <i class="ph-fill ph-info" style="font-size:20px; color: var(--accent);"></i>
+              Buyer is at Student Center. Hand over item and tap to reveal.
+            </div>
+            <button class="btn"><i class="ph-fill ph-lock-key-open"></i> Tap to Reveal Handoff PIN</button>
+          </div>
+
+          <div style="margin-top: var(--sp-6);">
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Re-attempt Handoff</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Report Issue / Dispute</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title" style="color: var(--error);">Cancel Order</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">17. Order Status (Seller - Revealed)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Order #A12B</h1>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <span class="status-pill status-warning" style="margin-bottom: var(--sp-3);">Awaiting Handoff</span>
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+
+          <div class="pin-box"
+            style="background: rgba(244, 122, 50, 0.1); border: 1px solid rgba(244, 122, 50, 0.3); padding: var(--sp-4);">
+            <p class="caption" style="color: var(--accent); margin-bottom: 8px;">Your One-Time Handoff PIN</p>
+            <p class="pin-number" style="margin: 0; color: var(--primary-text); font-size: 48px;">4829</p>
+          </div>
+          <p class="footnote" style="text-align: center; margin-top: var(--sp-3);">Payment is held safely until pickup
+            is confirmed. Funds release to the seller automatically upon PIN verification or expiry.</p>
+
+          <div style="margin-top: var(--sp-6);">
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Re-attempt Handoff</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title">Report Issue / Dispute</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content">
+                <p class="list-item-title" style="color: var(--error);">Cancel Order</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">18. Messaging</div>
+      <div class="screen">
+        <div class="header"
+          style="padding: var(--sp-4); border-bottom: 1px solid var(--border-light); margin: 0; background: var(--bg-base);
+      color: var(--primary-text); z-index: 2;">
+          <button class="icon-btn" style="margin-right: var(--sp-3);"><i class="ph ph-arrow-left"></i></button>
+          <div class="seller-avatar" style="width: 32px; height: 32px; font-size: 16px;"><i class="ph ph-user"></i>
+          </div>
+          <div style="flex: 1; margin-left: 8px;">
+            <p style="margin: 0; font-weight: 600; font-size: 15px; line-height: 1.2;">Samuel B.</p>
+          </div>
+          <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+        </div>
+
+        <div class="screen-content" style="background: var(--bg-base);
+      color: var(--primary-text); padding-bottom: 180px;">
+          <p class="caption" style="text-align: center; margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);">Today</p>
+
+          <div class="chat-bubble chat-received">
+            Hey! Are you still available to meet at the Student Center?
+          </div>
+          <p class="caption" style="margin-bottom: var(--sp-3);">10:14 AM</p>
+
+          <div class="chat-bubble chat-sent">
+            Yes, I'm heading there now.
+          </div>
+          <p class="caption" style="text-align: right; margin-bottom: var(--sp-3);">10:15 AM</p>
+
+          <div class="chat-bubble chat-sent">
+            <span class="chat-read-tooltip">Read at 10:17</span>
+            I'm wearing a red cap, standing by the entrance.
+          </div>
+          <p class="caption" style="text-align: right; margin-bottom: var(--sp-3);">10:16 AM</p>
+        </div>
+
+        <div class="action-bar" style="align-items: center; border-radius: 0;">
+          <input type="text" class="input" style="margin: 0; flex: 1; border-radius: var(--radius-full);"
+            placeholder="Type a message..." />
+          <button class="btn" style="width: auto; border-radius: 50%; width: 48px; height: 48px; padding: 0;"><i
+              class="ph-fill ph-paper-plane-right" style="font-size:20px;"></i></button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">19. Rate & Review</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Review</h1>
+            </div>
+            <span style="font-weight: 600; font-size: 15px; color: var(--secondary-text);">Skip</span>
+          </div>
+
+          <div class="seller-row"
+            style="border: none; justify-content: center; flex-direction: column; text-align: center; margin-top: var(--sp-4);">
+            <div class="seller-avatar" style="width: 64px; height: 64px; font-size: 32px;"><i class="ph ph-user"></i>
+            </div>
+            <p style="margin: 8px 0 0; font-weight: 600; font-size: 17px;">Samuel B.</p>
+          </div>
+
+          <h2 class="title-2" style="text-align: center; margin: var(--sp-5) 0 var(--sp-4);">How was your experience?
+          </h2>
+
+          <div
+            style="display: flex; justify-content: center; gap: 8px; font-size: 36px; color: var(--accent); margin-bottom: var(--sp-6);">
+            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+              class="ph-fill ph-star"></i><i class="ph ph-star" style="color: #e0e0e0;"></i>
+          </div>
+
+          <label class="field-label">Written Review (Optional)</label>
+          <textarea class="input" placeholder="What went well? What could be better?"></textarea>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn">Submit Review</button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">20. Notifications</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <h1 class="title-2">Notifications</h1>
+          </div>
+
+          <div class="list-item" style="background: rgba(103, 184, 179,0.02); margin: 0 -16px; padding: 16px;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-package"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title"><span class="dot"></span>Order Update</p>
+              <p class="list-item-sub">Samuel B. confirmed the pickup time.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">2m</p>
+            </div>
+          </div>
+
+          <div class="list-item" style="padding: 16px 0;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-chat-circle"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title">New Message</p>
+              <p class="list-item-sub">Bolu: "I'm at the gate"</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">1h</p>
+            </div>
+          </div>
+
+          <div class="list-item" style="padding: 16px 0;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-currency-circle-dollar"></i>
+            </div>
+            <div class="list-item-content">
+              <p class="list-item-title">Listing Sold</p>
+              <p class="list-item-sub">Your 'Lab Coat' was purchased.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">Yesterday</p>
+            </div>
+          </div>
+
+          <div class="list-item" style="padding: 16px 0;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-shield-check"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title">Verification</p>
+              <p class="list-item-sub">Your student identity is verified.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">Oct 10</p>
+            </div>
+          </div>
+
+          <div class="list-item" style="padding: 16px 0;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-clock"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title">Pickup Reminder</p>
+              <p class="list-item-sub">You have a meeting with Samuel B. in 1 hour at Student Center.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">Oct 8</p>
+            </div>
+          </div>
+
+          <div class="list-item" style="padding: 16px 0;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-lock-key-open"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title">Handoff Complete</p>
+              <p class="list-item-sub">PIN verified. Payment has been released.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">Oct 5</p>
+            </div>
+          </div>
+
+          <div class="list-item" style="padding: 16px 0; border-bottom: none;">
+            <div class="list-item-img" style="background: transparent;"><i class="ph ph-warning-circle"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title">Dispute Update</p>
+              <p class="list-item-sub">Our team is reviewing your claim for Order #A12B.</p>
+            </div>
+            <div class="list-item-right">
+              <p class="caption">Oct 2</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">21. Create Listing (Seller)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-x"></i></button>
+              <h1 class="title-2">New Listing</h1>
+            </div>
+            <span style="font-size: 15px; font-weight: 600; color: var(--secondary-text);">Draft</span>
+          </div>
+
+          <label class="field-label">Photos (Up to 5)</label>
+          <div class="chip-row" style="margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text); gap: var(--sp-3);">
+            <div
+              style="min-width: 100px; height: 100px; border-radius: var(--radius-md); background: url('https://placehold.co/200x200/E2E8E8/063f42?text=Img') center/cover; position: relative;">
+              <div
+                style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); color: white; font-size: 11px; text-align: center; padding: 2px;">
+                Cover</div>
+            </div>
+            <div
+              style="min-width: 100px; height: 100px; border-radius: var(--radius-md); border: 2px dashed rgba(103, 184, 179, 0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--secondary-text);">
+              <i class="ph ph-plus"></i>
+            </div>
+          </div>
+
+          <label class="field-label">Title</label>
+          <input type="text" class="input" placeholder="What are you selling?" />
+
+          <label class="field-label">Category</label>
+          <div style="position: relative;">
+            <input type="text" class="input" placeholder="Select category" readonly />
+            <span style="position: absolute; right: 16px; top: 12px;"><i class="ph ph-caret-down"></i></span>
+          </div>
+
+          <label class="field-label">Condition</label>
+          <div class="chip-row">
+            <div class="chip active">New</div>
+            <div class="chip">Used - Good</div>
+          </div>
+
+          <div style="display: flex; gap: var(--sp-3);">
+            <div style="flex: 1;"><label class="field-label">Price (₦)</label><input type="number" class="input"
+                placeholder="0" /></div>
+            <div style="flex: 1;"><label class="field-label">Discount Price (opt)</label><input type="number"
+                class="input" placeholder="0" /></div>
+          </div>
+
+          <label class="field-label">Description</label>
+          <textarea class="input" placeholder="Describe the item..."></textarea>
+
+          <button class="btn" style="margin-top: var(--sp-4);">Post Listing</button>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item active"><i class="ph-fill ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">22. Seller Dashboard</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <h1 class="title-2">Seller Hub</h1><button class="icon-btn"><i class="ph ph-bell"></i></button>
+          </div>
+          <div
+            style="background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-5);">
+            <h3 style="margin: 0 0 4px; font-size: 13px; color: var(--secondary-text);">Total Balance</h3>
+            <p style="font-size: 28px; font-weight: 700; margin: 0;">₦12,500.00</p>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light); font-weight: 600; font-size: 13px; cursor: pointer;">
+              <span>View Wallet</span>
+              <i class="ph ph-caret-right"></i>
+            </div>
+          </div>
+          <div class="chip-row">
+            <div class="chip active">Active</div>
+            <div class="chip">Sold</div>
+            <div class="chip">Unlisted</div>
+          </div>
+
+          <h2 class="headline" style="margin-top: var(--sp-4);">Action Needed</h2>
+          <div
+            style="border: 1px solid rgba(103, 184, 179,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: var(--sp-2);">
+              <span class="status-pill status-warning">Awaiting Handoff</span><span class="caption">2h ago</span>
+            </div>
+            <div class="list-item" style="border: none; padding: 0;">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Math') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Math Textbook</p>
+                <p class="list-item-sub">Buyer: @samuel_b</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item active"><i class="ph-fill ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">23. Profile (Buyer)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header" style="justify-content: flex-end;"><button class="icon-btn"><i
+                class="ph ph-gear"></i></button></div>
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <div
+              style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-card); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 32px;">
+              <i class="ph ph-user"></i></div>
+            <h2 style="font-weight: 700; font-size: 22px; margin: 0 0 4px;">John Doe</h2>
+            <p class="footnote">@johndoe</p>
+          </div>
+          <div
+            style="display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border-light); font-size: 15px; font-weight: 600;">
+            <span>Matric Number</span><span style="font-weight: 400; color: var(--secondary-text);">19/1234</span>
+          </div>
+          <div
+            style="display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border-light); font-size: 15px; font-weight: 600;">
+            <span>Campus</span><span style="font-weight: 400; color: var(--secondary-text);">Unilag</span>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <div class="list-item" style="border-bottom: 1px solid var(--border-light); padding: 16px 0;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i
+                  class="ph ph-clock-counter-clockwise" style="font-size:24px;"></i></div>
+              <div class="list-item-content">
+                <p class="list-item-title" style="font-size: 15px;">Order History</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item" style="border-bottom: none; padding: 16px 0;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i
+                  class="ph ph-heart" style="font-size:24px;"></i></div>
+              <div class="list-item-content">
+                <p class="list-item-title" style="font-size: 15px;">Wishlist</p>
+              </div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+          </div>
+
+          <div
+            style="margin-top: 24px; padding: 16px; background: var(--bg-card); border-radius: 12px; text-align: center;">
+            <h3 style="margin: 0 0 8px;">Sell on Soldbay</h3>
+            <p class="body-t" style="margin-bottom: 16px;">Verify your student ID to start selling.</p>
+            <button class="btn">Switch to Seller</button>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item active"><i class="ph-fill ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">24. Wallet (Seller)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header"><button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Wallet</h1>
+          </div>
+          <div
+            style="background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);">
+            <div
+              style="text-align: center; border-bottom: 1px solid var(--border-light); padding-bottom: var(--sp-4); margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);">
+              <h3 style="margin: 0 0 8px; font-size: 13px; color: var(--secondary-text);">Total Balance</h3>
+              <p style="font-size: 36px; font-weight: 700; margin: 0;">₦12,500.00</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: var(--sp-3);">
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; background: var(--border-light); padding: var(--sp-3); border-radius: var(--radius-sm);">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--secondary-text);">
+                    Withdrawable</p>
+                  <p style="margin: 0; font-size: 17px; font-weight: 700;">₦8,500.00</p>
+                </div>
+                <button class="btn" style="width: auto; padding: 10px 16px; font-size: 13px;">Withdraw</button>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 var(--sp-3);">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--secondary-text);">Held</p>
+                  <p style="margin: 0; font-size: 15px; font-weight: 600;">₦4,000.00</p>
+                </div>
+                <i class="ph-fill ph-lock-key" style="color: var(--secondary-text); font-size: 16px; opacity: 0.5;"></i>
+              </div>
+            </div>
+          </div>
+          <div
+            style="display: flex; justify-content: space-between; padding: 16px 0; font-size: 15px; font-weight: 600;">
+            <span>Payout Method</span><span style="font-weight: 400; color: var(--secondary-text);">GTBank
+              ****1234</span>
+          </div>
+          <h2 class="headline" style="margin-top: 24px;">Transactions</h2>
+          <div class="list-item">
+            <div class="list-item-img" style="background: rgba(74, 222, 128, 0.15); color: var(--success);"><i
+                class="ph ph-arrow-down-left"></i></div>
+            <div class="list-item-content">
+              <p class="list-item-title">Sale Credited</p>
+            </div>
+            <div class="list-item-right">
+              <p class="list-item-title" style="color: var(--success);">+₦4,000</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">25. Dispute Flow</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header"><button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Report Issue</h1>
+          </div>
+          <label class="field-label">Reason for dispute</label>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+            <div class="chip">Item not as described</div>
+            <div class="chip active"><i class="ph-fill ph-check-circle"
+                style="color: var(--accent); font-size: 16px;"></i> Handoff failure / PIN issue</div>
+          </div>
+
+          <label class="field-label">Additional Details</label>
+          <textarea class="input" placeholder="Explain what went wrong..."></textarea>
+
+          <label class="field-label" style="margin-top: 16px;">Attach Evidence</label>
+          <div
+            style="height: 100px; border-radius: var(--radius-md); border: 2px dashed rgba(103, 184, 179, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: 24px;">
+            <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
+            <span style="font-size: 13px; font-weight: 600;">Tap to upload photos</span>
+          </div>
+
+          <div style="margin-top: 32px; border-top: 1px solid var(--border-light); padding-top: 24px;">
+            <h2 class="headline">Dispute Status Demo</h2>
+            <div style="padding-left: 20px; border-left: 2px solid var(--accent); position: relative;">
+              <div
+                style="position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Submitted</p>
+              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 24px;">Oct 12, 10:45 AM</p>
+
+              <div
+                style="position: absolute; left: -6px; top: 48px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Under Review</p>
+              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 24px;">Our team is reviewing the
+                claim.</p>
+
+              <div
+                style="position: absolute; left: -6px; top: 96px; width: 10px; height: 10px; border-radius: 50%; background: #67b8b3; color: #031f21;">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Resolved</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

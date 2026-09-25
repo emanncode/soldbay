@@ -1,0 +1,2049 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Soldbay Component Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary-text: #031f21;
+      --secondary-text: #063f42;
+      --bg-card: #ffd0a6;
+      --bg-base: #ffffff;
+      --accent: #f47a32;
+      --border-light: #008080;
+      --border-dark: #67b8b3;
+      --discount-fill: #ffb980;
+      --discount-stroke: #f47a32;
+      --success: #14532d;
+      --warning: #6b4e00;
+      --error: #8b1a10;
+      --info: #0d3b7a;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 999px;
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 24px;
+      --sp-6: 32px;
+      --sp-7: 48px;
+      --sp-8: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #eef2f2;
+      color: var(--primary-text);
+      font-family: "Sora", sans-serif;
+      padding: var(--sp-6);
+    }
+
+    .presentation-title {
+      font-family: "Fraunces", serif;
+      font-weight: 700;
+      font-size: 34px;
+      margin: 0 0 var(--sp-2) 0;
+    }
+
+    .presentation-desc {
+      color: var(--secondary-text);
+      font-size: 15px;
+      margin: 0 0 var(--sp-6) 0;
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .components-container {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .component-section {
+      background: var(--bg-base);
+      padding: var(--sp-5);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .component-label {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--secondary-text);
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+      border-bottom: 2px solid #eef2f2;
+      padding-bottom: 8px;
+    }
+
+    .component-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .component-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 280px;
+      flex: 1;
+    }
+
+    .component-state-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+      background: #eef2f2;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      align-self: flex-start;
+    }
+
+    .component-wrapper {
+      position: relative;
+      border: 1px dashed rgba(3, 31, 33, 0.1);
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--bg-base);
+    }
+
+    .component-wrapper.dark {
+      background: var(--primary-text);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Reused styles from all-screens.html */
+    .screen-content {
+      padding: 0;
+    }
+
+    h1.title-2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    h2.headline {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0 0 var(--sp-3) 0;
+    }
+
+    .body-t {
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .footnote {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--secondary-text);
+    }
+
+    .caption {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-text);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-5);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+
+    .back-btn,
+    .icon-btn {
+      background: var(--bg-base);
+      border: 1px solid rgba(3, 31, 33, 0.05);
+      box-shadow: 0 2px 8px rgba(3, 31, 33, 0.08);
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--primary-text);
+      padding: 0;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    .search-bar {
+      background: rgba(3, 31, 33, 0.05);
+      border-radius: var(--radius-sm);
+      padding: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+
+    .search-bar i {
+      color: var(--secondary-text);
+      font-size: 18px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: transparent;
+      font-family: "Sora", sans-serif;
+      font-size: 15px;
+      width: 100%;
+      outline: none;
+      color: var(--primary-text);
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: var(--sp-2);
+    }
+
+    .input {
+      width: 100%;
+      padding: var(--sp-3);
+      border: 1px solid rgba(3, 31, 33, 0.15);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-family: "Sora", sans-serif;
+    }
+
+    textarea.input {
+      height: 100px;
+      resize: none;
+    }
+
+    .input.error {
+      border-color: var(--error);
+      background: rgba(139, 26, 16, 0.05);
+    }
+
+    .btn {
+      width: 100%;
+      background: var(--accent);
+      color: var(--primary-text);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: "Sora", sans-serif;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:disabled,
+    .btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: rgba(3, 31, 33, 0.05);
+      color: var(--primary-text);
+    }
+
+    .action-bar {
+      padding: var(--sp-3) var(--sp-4);
+      background: var(--bg-base);
+      border-top: 1px solid rgba(3, 31, 33, 0.1);
+      display: flex;
+      gap: var(--sp-3);
+    }
+
+    .chip-row {
+      display: flex;
+      gap: var(--sp-2);
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .chip-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(3, 31, 33, 0.15);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip.active {
+      background: var(--bg-card);
+      color: var(--primary-text);
+      border-color: transparent;
+    }
+
+    .optional {
+      color: var(--secondary-text);
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--secondary-text);
+    }
+
+    .checkbox-row input {
+      margin-top: 2px;
+    }
+
+    .row {
+      display: flex;
+      gap: var(--sp-3);
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: var(--sp-6) var(--sp-4);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: var(--sp-4);
+      background: var(--bg-base);
+      color: var(--primary-text);
+      opacity: 0.5;
+    }
+
+    .empty-state-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: var(--sp-2);
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto;
+    }
+
+    .badge-warning {
+      background: rgba(107, 78, 0, 0.1);
+      color: var(--warning);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .upload-box {
+      border: 2px dashed rgba(3, 31, 33, 0.2);
+      border-radius: var(--radius-md);
+      padding: var(--sp-4);
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+
+    .upload-icon {
+      font-size: 24px;
+      color: var(--secondary-text);
+    }
+
+    .upload-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-text);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+
+    .product-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(3, 31, 33, 0.1);
+    }
+
+    .product-img {
+      height: 140px;
+      background: #e0e0e0;
+      position: relative;
+    }
+
+    .img-overlay-header {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .wishlist-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--primary-text);
+      margin-left: auto;
+      font-size: 16px;
+    }
+
+    .product-info {
+      padding: var(--sp-2);
+    }
+
+    .product-price {
+      font-weight: 700;
+      font-size: 15px;
+      margin: 0 0 4px;
+    }
+
+    .product-title {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge-discount {
+      background: var(--discount-fill);
+      border: 1.5px solid var(--discount-stroke);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+    }
+
+    .badge-verified {
+      width: 16px;
+      height: 16px;
+      background: var(--primary-text);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .badge-unverified {
+      background: rgba(3, 31, 33, 0.1);
+      color: var(--secondary-text);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      color: white;
+      display: inline-block;
+    }
+
+    .status-warning {
+      background: var(--warning);
+    }
+
+    .status-success {
+      background: var(--success);
+    }
+
+    .status-error {
+      background: var(--error);
+    }
+
+    .status-info {
+      background: var(--info);
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid rgba(3, 31, 33, 0.08);
+    }
+
+    .list-item-img {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: #e0e0e0;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--secondary-text);
+    }
+
+    .list-item-content {
+      flex: 1;
+    }
+
+    .list-item-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin: 0 0 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .list-item-sub {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin: 0;
+    }
+
+    .list-item-right {
+      text-align: right;
+    }
+
+    .seller-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-3) 0;
+      border-top: 1px solid rgba(3, 31, 33, 0.1);
+      border-bottom: 1px solid rgba(3, 31, 33, 0.1);
+    }
+
+    .seller-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--primary-text);
+    }
+
+    .chat-bubble {
+      max-width: 80%;
+      padding: var(--sp-3);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-2);
+      font-size: 15px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .chat-sent {
+      background: var(--bg-card);
+      color: var(--primary-text);
+      border-bottom-right-radius: 4px;
+      margin-left: auto;
+    }
+
+    .chat-received {
+      background: #f0f0f0;
+      color: var(--primary-text);
+      border-bottom-left-radius: 4px;
+      margin-right: auto;
+    }
+
+    .chat-read-tooltip {
+      position: absolute;
+      bottom: -24px;
+      right: 0;
+      background: var(--primary-text);
+      color: white;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    .pin-box {
+      background: rgba(3, 31, 33, 0.05);
+      padding: var(--sp-5);
+      text-align: center;
+      border-radius: var(--radius-md);
+    }
+
+    .pin-number {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      margin: var(--sp-2) 0;
+    }
+
+    .bottom-nav {
+      height: 80px;
+      background: var(--bg-base);
+      box-shadow: 0 -10px 30px rgba(3, 31, 33, 0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: 20px;
+      border-radius: 24px 24px 40px 40px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--secondary-text);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .nav-icon {
+      font-size: 24px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--discount-fill);
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    /* Extra styles for requested elements */
+    .skeleton-box {
+      background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: var(--radius-sm);
+    }
+
+    @keyframes loading {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    .toast {
+      background: var(--primary-text);
+      color: white;
+      padding: var(--sp-3) var(--sp-4);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .inline-context {
+      background: rgba(3, 31, 33, 0.12);
+      padding: var(--sp-3);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--primary-text);
+    }
+
+    .modal {
+      background: var(--bg-base);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .timeline-stepper {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+    }
+
+    .timeline-step {
+      display: flex;
+      gap: 16px;
+      position: relative;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 5px;
+      top: 12px;
+      bottom: -36px;
+      width: 2px;
+      background: #e0e0e0;
+    }
+
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      z-index: 1;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .timeline-dot.active {
+      background: var(--accent);
+    }
+
+    .timeline-content p {
+      margin: 0;
+    }
+
+    .toggle {
+      width: 44px;
+      height: 24px;
+      background: rgba(3, 31, 33, 0.2);
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .toggle.on {
+      background: var(--accent);
+    }
+
+    .toggle.on::after {
+      left: 22px;
+    }
+  
+    .theme-dark {
+      --primary-text: #ffffff;
+      --secondary-text: #67b8b3;
+      --bg-card: #063f42;
+      --bg-base: #031f21;
+      --accent: #f47a32;
+      --border-light: rgba(103, 184, 179, 0.24);
+      --border-dark: #67b8b3;
+      --discount-fill: #ffb980;
+      --discount-stroke: #f47a32;
+      --success: #4ade80;
+      --warning: #facc15;
+      --error: #f87171;
+      --info: #60a5fa;
+    }
+    
+    .theme-dark .btn { color: #031f21; }
+    .theme-dark .btn-secondary { background: var(--border-light); color: var(--primary-text) !important; }
+    
+    .theme-dark .chat-sent { background: #008080; color: #ffffff; }
+    .theme-dark .chat-received { background: var(--bg-card); color: var(--primary-text); }
+
+    
+    .theme-dark .badge-verified { color: #031f21 !important; }
+    .theme-dark .chat-read-tooltip { color: #031f21 !important; }
+    .theme-dark .status-pill { color: #031f21 !important; }
+    .theme-dark .component-section {
+      background: var(--bg-base);
+      color: var(--primary-text);
+      border: 1px solid var(--border-light);
+    }
+    .theme-dark .component-label {
+      color: var(--secondary-text);
+      border-bottom-color: var(--border-light);
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1 class="presentation-title">Soldbay Component Library</h1>
+  <p class="presentation-desc">Extracted reusable components built with Soldbay's design tokens. Rendered with actual
+    HTML and CSS.</p>
+
+  
+  <div style="display: flex; gap: 64px; align-items: flex-start; max-width: 1800px; margin: 0 auto;">
+    <div style="flex: 1;">
+      <h2 style="font-family: 'Fraunces', serif; color: var(--primary-text); margin-bottom: 24px;">Light Mode</h2>
+      <div class="components-container">
+
+    <!-- NAVIGATION/STRUCTURE -->
+    <div class="component-section">
+      <div class="component-label">Navigation / Structure</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Buyer Tab Bar</div>
+          <div class="component-wrapper" style="padding-bottom: 24px; background: #f8f8f8;">
+            <div class="bottom-nav" style="position: relative; box-shadow: none;">
+              <div class="nav-item active"><i class="ph-fill ph-house nav-icon"></i> Browse</div>
+              <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+              <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+              <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Seller Tab Bar</div>
+          <div class="component-wrapper" style="padding-bottom: 24px; background: #f8f8f8;">
+            <div class="bottom-nav" style="position: relative; box-shadow: none;">
+              <div class="nav-item active"><i class="ph-fill ph-chart-bar nav-icon"></i> Hub</div>
+              <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+              <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+              <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Screen Header</div>
+          <div class="component-wrapper">
+            <div class="header" style="margin:0;">
+              <h1 class="title-2">Dashboard</h1>
+              <button class="icon-btn"><i class="ph ph-bell"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Search Bar (Empty / Focused / Typed)</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="search-bar">
+              <i class="ph ph-magnifying-glass"></i>
+              <input type="text" placeholder="Search Soldbay..." />
+            </div>
+            <div class="search-bar" style="border: 1px solid var(--accent);">
+              <i class="ph ph-magnifying-glass" style="color:var(--accent);"></i>
+              <input type="text" placeholder="Search Soldbay..." autofocus />
+            </div>
+            <div class="search-bar">
+              <i class="ph ph-magnifying-glass"></i>
+              <input type="text" value="Textbook" />
+              <i class="ph ph-x" style="margin-left:auto; cursor:pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="component-section">
+      <div class="component-label">Cards</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Product Card (Default / Discount / No-Photo / Sold)</div>
+          <div class="component-wrapper" style="display:flex; flex-wrap:wrap; gap:16px; background:#f8f8f8;">
+            <div class="product-card" style="width: 160px; background:var(--bg-base);">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/E2E8E8/063f42?text=Math') center/cover;">
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Math Textbook</p>
+                <p class="product-price" style="margin-top: 4px;">₦4,000</p>
+              </div>
+            </div>
+
+            <div class="product-card" style="width: 160px; background:var(--bg-base);">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/FFD0A6/031f21?text=Fridge') center/cover;">
+                <div class="img-overlay-header">
+                  <span class="badge-discount">−20%</span>
+                  <button class="wishlist-btn"><i class="ph-fill ph-heart" style="color:var(--accent);"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@john_d</span>
+                    <span class="badge-unverified" style="font-size:8px; padding:2px 4px;">Unverified</span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 3.2
+                  </div>
+                </div>
+                <p class="product-title">Mini Fridge</p>
+                <p class="product-price" style="margin-top: 4px;">₦12,500</p>
+              </div>
+            </div>
+
+            <div class="product-card" style="width: 160px; background:var(--bg-base); opacity:0.6;">
+              <div class="product-img"
+                style="display:flex; align-items:center; justify-content:center; font-weight:bold; background:#d0d0d0; color: #555;">
+                SOLD
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                </div>
+                <p class="product-title">Lab Coat</p>
+                <p class="product-price" style="margin-top: 4px;">₦2,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Order/Transaction Card (Status States)</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+                <p class="list-item-sub">Samuel B.</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill status-warning" style="margin-bottom:4px;">Pending pickup</span>
+                <p class="list-item-title" style="margin:0;">₦4,000</p>
+              </div>
+            </div>
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill" style="background:#d97706; margin-bottom:4px;">Awaiting handoff</span>
+              </div>
+            </div>
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill status-success" style="margin-bottom:4px;">Completed</span>
+              </div>
+            </div>
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill status-error" style="margin-bottom:4px;">Disputed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="component-section">
+      <div class="component-label">Buttons</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Primary (Default / Disabled)</div>
+          <div class="component-wrapper" style="display:flex; gap:16px;">
+            <button class="btn" style="width:140px;">Active</button>
+            <button class="btn disabled" style="width:140px;" disabled>Disabled</button>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Secondary / Outline</div>
+          <div class="component-wrapper" style="display:flex; gap:16px;">
+            <button class="btn btn-secondary" style="width:140px;">Secondary</button>
+            <button class="btn"
+              style="width:140px; background:transparent; border:2px solid var(--accent); color:var(--accent);">Outline</button>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Icon Button & Self-Purchase Blocked</div>
+          <div class="component-wrapper" style="display:flex; gap:16px; align-items:center;">
+            <button class="icon-btn"><i class="ph ph-bell"></i></button>
+            <button class="btn btn-secondary" style="flex:1; opacity:0.5; cursor:not-allowed;">This is your
+              listing</button>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Action Bar Composite</div>
+          <div class="component-wrapper" style="padding:0;">
+            <div class="action-bar" style="position:relative; border-top:none;">
+              <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-heart"
+                  style="font-size: 20px;"></i></button>
+              <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-chat-circle"
+                  style="font-size: 20px;"></i></button>
+              <button class="btn" style="flex:1;">Buy Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES & PILLS -->
+    <div class="component-section">
+      <div class="component-label">Badges & Pills</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Verified / Unverified</div>
+          <div class="component-wrapper" style="display:flex; gap:16px; align-items:center;">
+            <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+            <span class="badge-unverified">Unverified</span>
+            <div class="badge-warning">Unverified (Large)</div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Discount & Status Pills</div>
+          <div class="component-wrapper" style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+            <span class="badge-discount">−20%</span>
+            <span class="status-pill status-success">Success</span>
+            <span class="status-pill status-warning">Warning</span>
+            <span class="status-pill status-error">Error</span>
+            <span class="status-pill status-info">Info</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="component-section">
+      <div class="component-label">Inputs</div>
+      <div class="component-grid">
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Form Pattern (Text, Textarea, Select, States)</div>
+          <div class="component-wrapper" style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+            <div>
+              <label class="field-label">Default Input</label>
+              <input type="text" class="input" placeholder="Placeholder..." />
+            </div>
+            <div>
+              <label class="field-label">Filled Input</label>
+              <input type="text" class="input" value="User Typed Text" />
+            </div>
+            <div>
+              <label class="field-label">Error Input</label>
+              <input type="text" class="input error" value="Invalid data" />
+            </div>
+            <div>
+              <label class="field-label">Select / Dropdown (Closed)</label>
+              <div style="position: relative;">
+                <input type="text" class="input" value="University of Lagos" readonly style="margin:0;" />
+                <span style="position: absolute; right: 16px; top: 12px;"><i class="ph ph-caret-down"></i></span>
+              </div>
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label class="field-label">Textarea</label>
+              <textarea class="input" placeholder="Type long description here..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Toggle / Switch</div>
+          <div class="component-wrapper" style="display:flex; gap:16px; align-items:center;">
+            <div class="toggle"></div>
+            <div class="toggle on"></div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">PIN Entry Box (Individual Digits)</div>
+          <div class="component-wrapper">
+            <div style="display: flex; gap: 12px;">
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                4</div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                8</div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+              </div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTS -->
+    <div class="component-section">
+      <div class="component-label">Lists</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Generic List Item</div>
+          <div class="component-wrapper">
+            <div class="list-item" style="border:none;">
+              <div class="list-item-img" style="background: transparent;"><i class="ph ph-clock"></i></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Pickup Reminder</p>
+                <p class="list-item-sub">You have a meeting with Samuel B.</p>
+              </div>
+              <div class="list-item-right">
+                <p class="caption">Oct 8</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Seller Info Row / Chat Header</div>
+          <div class="component-wrapper">
+            <div class="seller-row" style="border:none; margin:0;">
+              <div class="seller-avatar"><i class="ph ph-user"></i></div>
+              <div style="flex: 1;">
+                <p style="margin: 0; font-weight: 600; font-size: 15px;">Samuel B.</p>
+                <p style="margin: 2px 0 0; font-size: 13px; color: var(--secondary-text);">@samuel_b</p>
+              </div>
+              <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Chat Message Bubbles (Sent/Received/Read-Receipt)</div>
+          <div class="component-wrapper" style="padding: 24px; background: #fafafa;">
+            <div class="chat-bubble chat-received">
+              Hey! Are you still available to meet at the Student Center?
+            </div>
+            <div class="chat-bubble chat-sent">
+              <span class="chat-read-tooltip">Read at 10:17</span>
+              I'm wearing a red cap, standing by the entrance.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="component-section">
+      <div class="component-label">Feedback</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Empty State</div>
+          <div class="component-wrapper">
+            <div class="empty-state" style="padding: var(--sp-4);">
+              <div class="empty-state-icon">🏫</div>
+              <div class="empty-state-title">No campus found</div>
+              <div class="body-t">We couldn't find an institution matching your search.</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Loading Skeleton</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:8px;">
+            <div class="skeleton-box" style="width: 100%; height: 120px;"></div>
+            <div class="skeleton-box" style="width: 60%; height: 20px;"></div>
+            <div class="skeleton-box" style="width: 40%; height: 16px;"></div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Toast / Banner</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="toast"><i class="ph-fill ph-check-circle" style="color:var(--success);"></i> Profile updated
+              successfully</div>
+            <div
+              style="background: rgba(248, 113, 113, 0.15); color: var(--error); padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; display:flex; gap:8px;">
+              <i class="ph-fill ph-warning-circle" style="font-size:20px;"></i>
+              Pickup window has passed.
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Inline Context Box & Modal</div>
+          <div class="component-wrapper">
+            <div class="inline-context" style="margin-bottom:16px;">
+              <i class="ph-fill ph-lock-key" style="color:var(--accent);"></i> Payment is <b>held</b> safely until you
+              confirm pickup.
+            </div>
+            <div class="modal">
+              <h2 class="headline">Confirm Action</h2>
+              <p class="body-t" style="margin-bottom:24px;">Are you sure you want to cancel this order?</p>
+              <div style="display:flex; gap:12px;">
+                <button class="btn btn-secondary" style="padding:12px;">Back</button>
+                <button class="btn" style="padding:12px; background:var(--error); color:white;">Cancel Order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISC / NEW -->
+    <div class="component-section">
+      <div class="component-label">Misc & New Components</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Filter Chips</div>
+          <div class="component-wrapper">
+            <div class="chip-row">
+              <div class="chip active">All</div>
+              <div class="chip">Electronics <i class="ph ph-caret-down"></i></div>
+              <div class="chip">Fashion</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Upload Box</div>
+          <div class="component-wrapper">
+            <div class="upload-box">
+              <span class="upload-icon"><i class="ph ph-camera"></i></span>
+              <span class="upload-text">Tap to upload your Student ID</span>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Countdown Timer</div>
+          <div class="component-wrapper" style="text-align:center;">
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+        </div>
+
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Wallet Balance Breakdown</div>
+          <div class="component-wrapper" style="display:flex; gap:24px;">
+            <div style="flex:1; background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4);">
+              <h3 style="margin: 0 0 4px; font-size: 13px; color: var(--secondary-text);">Total Balance (Compact)</h3>
+              <p style="font-size: 28px; font-weight: 700; margin: 0;">₦12,500.00</p>
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(3,31,33,0.1); font-weight: 600; font-size: 13px; cursor: pointer;">
+                <span>View Wallet</span>
+                <i class="ph ph-caret-right"></i>
+              </div>
+            </div>
+            <div style="flex:1; background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4);">
+              <div
+                style="text-align: center; border-bottom: 1px solid rgba(3,31,33,0.1); padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="margin: 0 0 8px; font-size: 13px; color: var(--secondary-text);">Total Balance (Full)</h3>
+                <p style="font-size: 36px; font-weight: 700; margin: 0;">₦12,500.00</p>
+              </div>
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: var(--sp-3); border-radius: var(--radius-sm); margin-bottom:12px;">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--secondary-text);">
+                    Withdrawable</p>
+                  <p style="margin: 0; font-size: 17px; font-weight: 700;">₦8,500.00</p>
+                </div>
+                <button class="btn" style="width: auto; padding: 10px 16px; font-size: 13px;">Withdraw</button>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 var(--sp-3);">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--secondary-text);">Held</p>
+                  <p style="margin: 0; font-size: 15px; font-weight: 600;">₦4,000.00</p>
+                </div>
+                <i class="ph-fill ph-lock-key" style="color: var(--secondary-text); font-size: 16px; opacity: 0.5;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Dispute Status Timeline Stepper</div>
+          <div class="component-wrapper">
+            <div style="padding-left: 20px; border-left: 2px solid var(--accent); position: relative;">
+              <div
+                style="position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Submitted</p>
+              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 24px;">Oct 12, 10:45 AM</p>
+
+              <div
+                style="position: absolute; left: -6px; top: 48px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Under Review</p>
+              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 24px;">Our team is reviewing the
+                claim.</p>
+
+              <div
+                style="position: absolute; left: -6px; top: 96px; width: 10px; height: 10px; border-radius: 50%; background: #e0e0e0;">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Resolved</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Rate & Review Stars</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div>
+              <p class="caption">Interactive</p>
+              <div style="display: flex; gap: 8px; font-size: 36px; color: var(--accent);">
+                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                  class="ph-fill ph-star"></i><i class="ph ph-star" style="color: #e0e0e0;"></i>
+              </div>
+            </div>
+            <div>
+              <p class="caption">Read-only Aggregate</p>
+              <div
+                style="display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; color: var(--accent);">
+                <i class="ph-fill ph-star"></i> 4.8 (24)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Payment Method Selector</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:12px;">
+            <div
+              style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-weight: 600;">Paystack</span>
+              <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+            </div>
+            <div
+              style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-weight: 600;">Flutterwave</span>
+              <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">PIN Reveal Full Mechanic</div>
+          <div class="component-wrapper" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+            <div class="pin-box" style="background: rgba(3,31,33,0.05); padding: 24px;">
+              <p class="caption">Buyer Entry Frame</p>
+              <div style="display: flex; justify-content: center; gap: 12px; margin: 16px 0;">
+                <div
+                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                  4</div>
+                <div
+                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+                </div>
+              </div>
+            </div>
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+              <p class="caption">Seller: Inactive / Locked</p>
+              <button class="btn btn-secondary" style="opacity: 0.5; cursor: not-allowed; margin: 12px 0;"><i
+                  class="ph-fill ph-lock-key"></i> Reveal PIN (Locked)</button>
+            </div>
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+              <p class="caption">Seller: Active</p>
+              <button class="btn" style="margin: 12px 0;"><i class="ph-fill ph-lock-key-open"></i> Tap to Reveal
+                PIN</button>
+            </div>
+            <div class="pin-box"
+              style="background: rgba(244, 122, 50, 0.1); border: 1px solid rgba(244, 122, 50, 0.3); padding: 24px;">
+              <p class="caption" style="color: var(--accent); margin-bottom: 8px;">Seller: Revealed</p>
+              <p class="pin-number" style="margin: 0; color: var(--primary-text); font-size: 48px;">4829</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    </div>
+    <div style="flex: 1;" class="theme-dark">
+      <h2 style="font-family: 'Fraunces', serif; color: #031f21; margin-bottom: 24px;">Dark Mode</h2>
+      <div class="components-container" style="margin: 0;">
+
+    <!-- NAVIGATION/STRUCTURE -->
+    <div class="component-section">
+      <div class="component-label">Navigation / Structure</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Buyer Tab Bar</div>
+          <div class="component-wrapper" style="padding-bottom: 24px; background: #f8f8f8;">
+            <div class="bottom-nav" style="position: relative; box-shadow: none;">
+              <div class="nav-item active"><i class="ph-fill ph-house nav-icon"></i> Browse</div>
+              <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+              <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+              <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Seller Tab Bar</div>
+          <div class="component-wrapper" style="padding-bottom: 24px; background: #f8f8f8;">
+            <div class="bottom-nav" style="position: relative; box-shadow: none;">
+              <div class="nav-item active"><i class="ph-fill ph-chart-bar nav-icon"></i> Hub</div>
+              <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+              <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+              <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Screen Header</div>
+          <div class="component-wrapper">
+            <div class="header" style="margin:0;">
+              <h1 class="title-2">Dashboard</h1>
+              <button class="icon-btn"><i class="ph ph-bell"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Search Bar (Empty / Focused / Typed)</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="search-bar">
+              <i class="ph ph-magnifying-glass"></i>
+              <input type="text" placeholder="Search Soldbay..." />
+            </div>
+            <div class="search-bar" style="border: 1px solid var(--accent);">
+              <i class="ph ph-magnifying-glass" style="color:var(--accent);"></i>
+              <input type="text" placeholder="Search Soldbay..." autofocus />
+            </div>
+            <div class="search-bar">
+              <i class="ph ph-magnifying-glass"></i>
+              <input type="text" value="Textbook" />
+              <i class="ph ph-x" style="margin-left:auto; cursor:pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="component-section">
+      <div class="component-label">Cards</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Product Card (Default / Discount / No-Photo / Sold)</div>
+          <div class="component-wrapper" style="display:flex; flex-wrap:wrap; gap:16px; background:#f8f8f8;">
+            <div class="product-card" style="width: 160px; background:var(--bg-base);">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/E2E8E8/063f42?text=Math') center/cover;">
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 4.8
+                  </div>
+                </div>
+                <p class="product-title">Math Textbook</p>
+                <p class="product-price" style="margin-top: 4px;">₦4,000</p>
+              </div>
+            </div>
+
+            <div class="product-card" style="width: 160px; background:var(--bg-base);">
+              <div class="product-img"
+                style="background: url('https://placehold.co/400x400/FFD0A6/031f21?text=Fridge') center/cover;">
+                <div class="img-overlay-header">
+                  <span class="badge-discount">−20%</span>
+                  <button class="wishlist-btn"><i class="ph-fill ph-heart" style="color:var(--accent);"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@john_d</span>
+                    <span class="badge-unverified" style="font-size:8px; padding:2px 4px;">Unverified</span>
+                  </div>
+                  <div
+                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
+                    <i class="ph-fill ph-star"></i> 3.2
+                  </div>
+                </div>
+                <p class="product-title">Mini Fridge</p>
+                <p class="product-price" style="margin-top: 4px;">₦12,500</p>
+              </div>
+            </div>
+
+            <div class="product-card" style="width: 160px; background:var(--bg-base); opacity:0.6;">
+              <div class="product-img"
+                style="display:flex; align-items:center; justify-content:center; font-weight:bold; background:#d0d0d0; color: #555;">
+                SOLD
+                <div class="img-overlay-header">
+                  <div></div>
+                  <button class="wishlist-btn"><i class="ph ph-heart"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                  <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
+                    <span
+                      style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
+                    <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
+                        class="ph-fill ph-shield-check"></i></span>
+                  </div>
+                </div>
+                <p class="product-title">Lab Coat</p>
+                <p class="product-price" style="margin-top: 4px;">₦2,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Order/Transaction Card (Status States)</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+                <p class="list-item-sub">Samuel B.</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill status-warning" style="margin-bottom:4px;">Pending pickup</span>
+                <p class="list-item-title" style="margin:0;">₦4,000</p>
+              </div>
+            </div>
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill" style="background:#d97706; margin-bottom:4px;">Awaiting handoff</span>
+              </div>
+            </div>
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill status-success" style="margin-bottom:4px;">Completed</span>
+              </div>
+            </div>
+            <div class="list-item"
+              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              <div class="list-item-img"
+                style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Calculus Textbook</p>
+              </div>
+              <div class="list-item-right">
+                <span class="status-pill status-error" style="margin-bottom:4px;">Disputed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="component-section">
+      <div class="component-label">Buttons</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Primary (Default / Disabled)</div>
+          <div class="component-wrapper" style="display:flex; gap:16px;">
+            <button class="btn" style="width:140px;">Active</button>
+            <button class="btn disabled" style="width:140px;" disabled>Disabled</button>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Secondary / Outline</div>
+          <div class="component-wrapper" style="display:flex; gap:16px;">
+            <button class="btn btn-secondary" style="width:140px;">Secondary</button>
+            <button class="btn"
+              style="width:140px; background:transparent; border:2px solid var(--accent); color:var(--accent);">Outline</button>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Icon Button & Self-Purchase Blocked</div>
+          <div class="component-wrapper" style="display:flex; gap:16px; align-items:center;">
+            <button class="icon-btn"><i class="ph ph-bell"></i></button>
+            <button class="btn btn-secondary" style="flex:1; opacity:0.5; cursor:not-allowed;">This is your
+              listing</button>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Action Bar Composite</div>
+          <div class="component-wrapper" style="padding:0;">
+            <div class="action-bar" style="position:relative; border-top:none;">
+              <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-heart"
+                  style="font-size: 20px;"></i></button>
+              <button class="btn btn-secondary" style="width: auto; padding: 16px 20px;"><i class="ph ph-chat-circle"
+                  style="font-size: 20px;"></i></button>
+              <button class="btn" style="flex:1;">Buy Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES & PILLS -->
+    <div class="component-section">
+      <div class="component-label">Badges & Pills</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Verified / Unverified</div>
+          <div class="component-wrapper" style="display:flex; gap:16px; align-items:center;">
+            <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+            <span class="badge-unverified">Unverified</span>
+            <div class="badge-warning">Unverified (Large)</div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Discount & Status Pills</div>
+          <div class="component-wrapper" style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+            <span class="badge-discount">−20%</span>
+            <span class="status-pill status-success">Success</span>
+            <span class="status-pill status-warning">Warning</span>
+            <span class="status-pill status-error">Error</span>
+            <span class="status-pill status-info">Info</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="component-section">
+      <div class="component-label">Inputs</div>
+      <div class="component-grid">
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Form Pattern (Text, Textarea, Select, States)</div>
+          <div class="component-wrapper" style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+            <div>
+              <label class="field-label">Default Input</label>
+              <input type="text" class="input" placeholder="Placeholder..." />
+            </div>
+            <div>
+              <label class="field-label">Filled Input</label>
+              <input type="text" class="input" value="User Typed Text" />
+            </div>
+            <div>
+              <label class="field-label">Error Input</label>
+              <input type="text" class="input error" value="Invalid data" />
+            </div>
+            <div>
+              <label class="field-label">Select / Dropdown (Closed)</label>
+              <div style="position: relative;">
+                <input type="text" class="input" value="University of Lagos" readonly style="margin:0;" />
+                <span style="position: absolute; right: 16px; top: 12px;"><i class="ph ph-caret-down"></i></span>
+              </div>
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label class="field-label">Textarea</label>
+              <textarea class="input" placeholder="Type long description here..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Toggle / Switch</div>
+          <div class="component-wrapper" style="display:flex; gap:16px; align-items:center;">
+            <div class="toggle"></div>
+            <div class="toggle on"></div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">PIN Entry Box (Individual Digits)</div>
+          <div class="component-wrapper">
+            <div style="display: flex; gap: 12px;">
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                4</div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                8</div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+              </div>
+              <div
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTS -->
+    <div class="component-section">
+      <div class="component-label">Lists</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Generic List Item</div>
+          <div class="component-wrapper">
+            <div class="list-item" style="border:none;">
+              <div class="list-item-img" style="background: transparent;"><i class="ph ph-clock"></i></div>
+              <div class="list-item-content">
+                <p class="list-item-title">Pickup Reminder</p>
+                <p class="list-item-sub">You have a meeting with Samuel B.</p>
+              </div>
+              <div class="list-item-right">
+                <p class="caption">Oct 8</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Seller Info Row / Chat Header</div>
+          <div class="component-wrapper">
+            <div class="seller-row" style="border:none; margin:0;">
+              <div class="seller-avatar"><i class="ph ph-user"></i></div>
+              <div style="flex: 1;">
+                <p style="margin: 0; font-weight: 600; font-size: 15px;">Samuel B.</p>
+                <p style="margin: 2px 0 0; font-size: 13px; color: var(--secondary-text);">@samuel_b</p>
+              </div>
+              <span class="badge-verified"><i class="ph-fill ph-shield-check"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Chat Message Bubbles (Sent/Received/Read-Receipt)</div>
+          <div class="component-wrapper" style="padding: 24px; background: #fafafa;">
+            <div class="chat-bubble chat-received">
+              Hey! Are you still available to meet at the Student Center?
+            </div>
+            <div class="chat-bubble chat-sent">
+              <span class="chat-read-tooltip">Read at 10:17</span>
+              I'm wearing a red cap, standing by the entrance.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="component-section">
+      <div class="component-label">Feedback</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Empty State</div>
+          <div class="component-wrapper">
+            <div class="empty-state" style="padding: var(--sp-4);">
+              <div class="empty-state-icon">🏫</div>
+              <div class="empty-state-title">No campus found</div>
+              <div class="body-t">We couldn't find an institution matching your search.</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Loading Skeleton</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:8px;">
+            <div class="skeleton-box" style="width: 100%; height: 120px;"></div>
+            <div class="skeleton-box" style="width: 60%; height: 20px;"></div>
+            <div class="skeleton-box" style="width: 40%; height: 16px;"></div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Toast / Banner</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="toast"><i class="ph-fill ph-check-circle" style="color:var(--success);"></i> Profile updated
+              successfully</div>
+            <div
+              style="background: rgba(248, 113, 113, 0.15); color: var(--error); padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; display:flex; gap:8px;">
+              <i class="ph-fill ph-warning-circle" style="font-size:20px;"></i>
+              Pickup window has passed.
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Inline Context Box & Modal</div>
+          <div class="component-wrapper">
+            <div class="inline-context" style="margin-bottom:16px;">
+              <i class="ph-fill ph-lock-key" style="color:var(--accent);"></i> Payment is <b>held</b> safely until you
+              confirm pickup.
+            </div>
+            <div class="modal">
+              <h2 class="headline">Confirm Action</h2>
+              <p class="body-t" style="margin-bottom:24px;">Are you sure you want to cancel this order?</p>
+              <div style="display:flex; gap:12px;">
+                <button class="btn btn-secondary" style="padding:12px;">Back</button>
+                <button class="btn" style="padding:12px; background:var(--error); color:white;">Cancel Order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISC / NEW -->
+    <div class="component-section">
+      <div class="component-label">Misc & New Components</div>
+      <div class="component-grid">
+        <div class="component-item">
+          <div class="component-state-label">Filter Chips</div>
+          <div class="component-wrapper">
+            <div class="chip-row">
+              <div class="chip active">All</div>
+              <div class="chip">Electronics <i class="ph ph-caret-down"></i></div>
+              <div class="chip">Fashion</div>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Upload Box</div>
+          <div class="component-wrapper">
+            <div class="upload-box">
+              <span class="upload-icon"><i class="ph ph-camera"></i></span>
+              <span class="upload-text">Tap to upload your Student ID</span>
+            </div>
+          </div>
+        </div>
+        <div class="component-item">
+          <div class="component-state-label">Countdown Timer</div>
+          <div class="component-wrapper" style="text-align:center;">
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+        </div>
+
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Wallet Balance Breakdown</div>
+          <div class="component-wrapper" style="display:flex; gap:24px;">
+            <div style="flex:1; background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4);">
+              <h3 style="margin: 0 0 4px; font-size: 13px; color: var(--secondary-text);">Total Balance (Compact)</h3>
+              <p style="font-size: 28px; font-weight: 700; margin: 0;">₦12,500.00</p>
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(3,31,33,0.1); font-weight: 600; font-size: 13px; cursor: pointer;">
+                <span>View Wallet</span>
+                <i class="ph ph-caret-right"></i>
+              </div>
+            </div>
+            <div style="flex:1; background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4);">
+              <div
+                style="text-align: center; border-bottom: 1px solid rgba(3,31,33,0.1); padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="margin: 0 0 8px; font-size: 13px; color: var(--secondary-text);">Total Balance (Full)</h3>
+                <p style="font-size: 36px; font-weight: 700; margin: 0;">₦12,500.00</p>
+              </div>
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: var(--sp-3); border-radius: var(--radius-sm); margin-bottom:12px;">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--secondary-text);">
+                    Withdrawable</p>
+                  <p style="margin: 0; font-size: 17px; font-weight: 700;">₦8,500.00</p>
+                </div>
+                <button class="btn" style="width: auto; padding: 10px 16px; font-size: 13px;">Withdraw</button>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 var(--sp-3);">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--secondary-text);">Held</p>
+                  <p style="margin: 0; font-size: 15px; font-weight: 600;">₦4,000.00</p>
+                </div>
+                <i class="ph-fill ph-lock-key" style="color: var(--secondary-text); font-size: 16px; opacity: 0.5;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Dispute Status Timeline Stepper</div>
+          <div class="component-wrapper">
+            <div style="padding-left: 20px; border-left: 2px solid var(--accent); position: relative;">
+              <div
+                style="position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Submitted</p>
+              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 24px;">Oct 12, 10:45 AM</p>
+
+              <div
+                style="position: absolute; left: -6px; top: 48px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Under Review</p>
+              <p style="font-size: 13px; color: var(--secondary-text); margin: 0 0 24px;">Our team is reviewing the
+                claim.</p>
+
+              <div
+                style="position: absolute; left: -6px; top: 96px; width: 10px; height: 10px; border-radius: 50%; background: #e0e0e0;">
+              </div>
+              <p style="font-weight: 600; font-size: 15px; margin: 0 0 4px;">Resolved</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Rate & Review Stars</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
+            <div>
+              <p class="caption">Interactive</p>
+              <div style="display: flex; gap: 8px; font-size: 36px; color: var(--accent);">
+                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                  class="ph-fill ph-star"></i><i class="ph ph-star" style="color: #e0e0e0;"></i>
+              </div>
+            </div>
+            <div>
+              <p class="caption">Read-only Aggregate</p>
+              <div
+                style="display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; color: var(--accent);">
+                <i class="ph-fill ph-star"></i> 4.8 (24)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Payment Method Selector</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:12px;">
+            <div
+              style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-weight: 600;">Paystack</span>
+              <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+            </div>
+            <div
+              style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-weight: 600;">Flutterwave</span>
+              <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">PIN Reveal Full Mechanic</div>
+          <div class="component-wrapper" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+            <div class="pin-box" style="background: rgba(3,31,33,0.05); padding: 24px;">
+              <p class="caption">Buyer Entry Frame</p>
+              <div style="display: flex; justify-content: center; gap: 12px; margin: 16px 0;">
+                <div
+                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                  4</div>
+                <div
+                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+                </div>
+              </div>
+            </div>
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+              <p class="caption">Seller: Inactive / Locked</p>
+              <button class="btn btn-secondary" style="opacity: 0.5; cursor: not-allowed; margin: 12px 0;"><i
+                  class="ph-fill ph-lock-key"></i> Reveal PIN (Locked)</button>
+            </div>
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+              <p class="caption">Seller: Active</p>
+              <button class="btn" style="margin: 12px 0;"><i class="ph-fill ph-lock-key-open"></i> Tap to Reveal
+                PIN</button>
+            </div>
+            <div class="pin-box"
+              style="background: rgba(244, 122, 50, 0.1); border: 1px solid rgba(244, 122, 50, 0.3); padding: 24px;">
+              <p class="caption" style="color: var(--accent); margin-bottom: 8px;">Seller: Revealed</p>
+              <p class="pin-number" style="margin: 0; color: var(--primary-text); font-size: 48px;">4829</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    </div>
+  </div>
+  </div>
+</body>
