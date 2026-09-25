@@ -167,7 +167,7 @@
 </head>
 <body>
 
-  <h1 class="presentation-title">Soldbay Core Screens (1-14)</h1>
+  <h1 class="presentation-title">Soldbay Core Screens (1-31)</h1>
   <p class="presentation-desc">All locked screens and functional prototypes based on the rigorous product logic.</p>
 
   <div class="screens-container">
@@ -423,57 +423,229 @@
       </div>
 
       <!-- Switch to Seller -->
-      <div class="screen-wrapper">
-        <div class="screen-label">7. Switch to Seller (Profile)</div>
-        <div class="screen">
+
+    <div class="screen-wrapper">
+      <div class="screen-label">7. Switch to Seller (Default)</div>
+      <div class="screen">
         <div class="screen-content">
           <div class="header">
             <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
             <h1 class="title-2">Switch to Seller</h1>
           </div>
-
+          
           <div class="profile-header">
             <div class="profile-avatar"><i class="ph-fill ph-user"></i></div>
             <h2 class="profile-handle">@bolu_a</h2>
             <div class="badge-warning">Unverified</div>
           </div>
-
-          <p
-            class="body-t"
-            style="
-              margin-bottom: var(--sp-5);
-              text-align: center;
-              color: var(--secondary-text);
-            "
-          >
-            To start selling on Soldbay, you must verify your student identity.
-            Both proofs are required.
+          
+          <p class="body-t" style="margin-bottom: var(--sp-5); text-align: center; color: var(--secondary-text);">
+            Verify your student identity with either your Student ID or your Student Portal — it must reflect your current level/session.
           </p>
-
-          <h3 style="margin-top: 0">1. Student ID</h3>
-          <div class="upload-box">
-            <span class="upload-icon"><i class="ph ph-camera"></i></span>
-            <span class="upload-text">Tap to upload your Student ID</span>
+          
+          
+          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student ID</span>
+            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
           </div>
-
-          <h3>2. Student Portal</h3>
-          <div class="upload-box">
-            <span class="upload-icon"><i class="ph ph-laptop"></i></span>
-            <span class="upload-text"
-              >Upload a screenshot of your student portal homepage</span
-            >
+          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student Portal</span>
+            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
           </div>
+          
+          
+          <div style="margin-top: var(--sp-6);">
+            <button class="btn" disabled style='opacity: 0.5;'>Submit for Verification</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-          <div style="margin-top: var(--sp-6)">
+    <div class="screen-wrapper">
+      <div class="screen-label">8. Switch to Seller (Student ID — Empty)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Switch to Seller</h1>
+          </div>
+          
+          <div class="profile-header">
+            <div class="profile-avatar"><i class="ph-fill ph-user"></i></div>
+            <h2 class="profile-handle">@bolu_a</h2>
+            <div class="badge-warning">Unverified</div>
+          </div>
+          
+          <p class="body-t" style="margin-bottom: var(--sp-5); text-align: center; color: var(--secondary-text);">
+            Verify your student identity with either your Student ID or your Student Portal — it must reflect your current level/session.
+          </p>
+          
+          
+          <div style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student ID</span>
+            <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+          </div>
+          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student Portal</span>
+            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+          </div>
+          
+          <h3 style="margin-top: 0">Front of Student ID</h3>
+          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5);">
+            <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
+            <span style="font-size: 13px; font-weight: 600;">Tap to upload front</span>
+          </div>
+          <h3 style="margin-top: 0">Back of Student ID</h3>
+          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5);">
+            <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
+            <span style="font-size: 13px; font-weight: 600;">Tap to upload back</span>
+          </div>
+          
+          <div style="margin-top: var(--sp-6);">
+            <button class="btn" disabled style='opacity: 0.5;'>Submit for Verification</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">9. Switch to Seller (Student ID — Filled)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Switch to Seller</h1>
+          </div>
+          
+          <div class="profile-header">
+            <div class="profile-avatar"><i class="ph-fill ph-user"></i></div>
+            <h2 class="profile-handle">@bolu_a</h2>
+            <div class="badge-warning">Unverified</div>
+          </div>
+          
+          <p class="body-t" style="margin-bottom: var(--sp-5); text-align: center; color: var(--secondary-text);">
+            Verify your student identity with either your Student ID or your Student Portal — it must reflect your current level/session.
+          </p>
+          
+          
+          <div style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student ID</span>
+            <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+          </div>
+          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student Portal</span>
+            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h3 style="margin: 0">Front of Student ID</h3>
+            <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px;"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
+          </div>
+          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); background: url('https://placehold.co/800x504/E2E8E8/063f42?text=ID+Front') center/cover; margin-bottom: var(--sp-5);"></div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h3 style="margin: 0">Back of Student ID</h3>
+            <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px;"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
+          </div>
+          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); background: url('https://placehold.co/800x504/E2E8E8/063f42?text=ID+Back') center/cover; margin-bottom: var(--sp-5);"></div>
+          
+          <div style="margin-top: var(--sp-6);">
             <button class="btn">Submit for Verification</button>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">10. Switch to Seller (Student Portal — Empty)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Switch to Seller</h1>
+          </div>
+          
+          <div class="profile-header">
+            <div class="profile-avatar"><i class="ph-fill ph-user"></i></div>
+            <h2 class="profile-handle">@bolu_a</h2>
+            <div class="badge-warning">Unverified</div>
+          </div>
+          
+          <p class="body-t" style="margin-bottom: var(--sp-5); text-align: center; color: var(--secondary-text);">
+            Verify your student identity with either your Student ID or your Student Portal — it must reflect your current level/session.
+          </p>
+          
+          
+          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student ID</span>
+            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+          </div>
+          <div style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student Portal</span>
+            <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+          </div>
+          
+          <h3 style="margin-top: 0">Student Portal Screenshot</h3>
+          <div style="min-height: 200px; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5); padding: var(--sp-5);">
+            <i class="ph ph-laptop" style="font-size: 32px; margin-bottom: 8px;"></i>
+            <span style="font-size: 13px; font-weight: 600; text-align: center;">Tap to upload phone or laptop screenshot</span>
+          </div>
+          
+          <div style="margin-top: var(--sp-6);">
+            <button class="btn" disabled style='opacity: 0.5;'>Submit for Verification</button>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">11. Switch to Seller (Student Portal — Filled)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+            <h1 class="title-2">Switch to Seller</h1>
+          </div>
+          
+          <div class="profile-header">
+            <div class="profile-avatar"><i class="ph-fill ph-user"></i></div>
+            <h2 class="profile-handle">@bolu_a</h2>
+            <div class="badge-warning">Unverified</div>
+          </div>
+          
+          <p class="body-t" style="margin-bottom: var(--sp-5); text-align: center; color: var(--secondary-text);">
+            Verify your student identity with either your Student ID or your Student Portal — it must reflect your current level/session.
+          </p>
+          
+          
+          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student ID</span>
+            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+          </div>
+          <div style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-weight: 600;">Student Portal</span>
+            <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h3 style="margin: 0">Student Portal Screenshot</h3>
+            <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px;"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
+          </div>
+          <div style="width: 100%; border-radius: var(--radius-md); margin-bottom: var(--sp-5); border: 1px solid rgba(3,31,33,0.1);">
+            <img src="https://placehold.co/1170x2532/E2E8E8/063f42?text=Portal+Screenshot" style="width: 100%; height: auto; border-radius: var(--radius-md); display: block;" alt="Portal Screenshot" />
+          </div>
+          
+          <div style="margin-top: var(--sp-6);">
+            <button class="btn">Submit for Verification</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
     <div class="screen-wrapper">
-      <div class="screen-label">8. Feed/Browse</div>
+      <div class="screen-label">12. Feed/Browse</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -593,7 +765,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">9. Search & Filters</div>
+      <div class="screen-label">13. Search & Filters</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -672,7 +844,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">10. Product Detail</div>
+      <div class="screen-label">14. Product Detail</div>
       <div class="screen" style="padding-bottom: 0;">
         <div style="height: 300px; background: url('https://placehold.co/800x600/E2E8E8/063f42?text=Calculus+Textbook') center/cover; position: relative;">
           <button class="icon-btn" style="position: absolute; top: 24px; left: 16px;"><i class="ph ph-arrow-left"></i></button>
@@ -722,7 +894,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">11. Product Detail (Seller View)</div>
+      <div class="screen-label">15. Product Detail (Seller View)</div>
       <div class="screen" style="padding-bottom: 0;">
         <div style="height: 300px; background: url('https://placehold.co/800x600/E2E8E8/063f42?text=Calculus+Textbook') center/cover; position: relative;">
           <button class="icon-btn" style="position: absolute; top: 24px; left: 16px;"><i class="ph ph-arrow-left"></i></button>
@@ -771,7 +943,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">12. Checkout</div>
+      <div class="screen-label">16. Checkout</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -832,7 +1004,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">13. Pickup-Window Selection</div>
+      <div class="screen-label">17. Pickup-Window Selection</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -878,8 +1050,57 @@
       </div>
     </div>
 
+    
+
     <div class="screen-wrapper">
-      <div class="screen-label">14. Order Status (Buyer - PIN Entry)</div>
+      <div class="screen-label">18. Order Status (Buyer - Not Arrived)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header">
+            <div class="header-left">
+              <button class="icon-btn"><i class="ph ph-arrow-left"></i></button>
+              <h1 class="title-2">Order #A12B</h1>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <span class="status-pill status-warning" style="margin-bottom: var(--sp-3);">Awaiting Handoff</span>
+            <p class="caption" style="margin: 0 0 4px;">Auto-Release Window</p>
+            <p style="font-size: 32px; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums;">47:22:15</p>
+          </div>
+          
+          <div style="text-align: center; margin-bottom: 24px;">
+            <button class="btn">I've Arrived — Notify Seller</button>
+            <p class="caption" style="margin-top: var(--sp-3);">Let the seller know you're at the pickup point.</p>
+          </div>
+          
+          <div style="margin-top: var(--sp-6);">
+            <div class="list-item">
+              <div class="list-item-content"><p class="list-item-title">Re-attempt Handoff</p></div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content"><p class="list-item-title">Report Issue / Dispute</p></div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item">
+              <div class="list-item-content"><p class="list-item-title" style="color: var(--error);">Cancel Order</p></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-house nav-icon"></i> Browse</div>
+          <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
+          <div class="nav-item active"><i class="ph-fill ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-user nav-icon"></i> Profile</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">19. Order Status (Buyer - PIN Entry)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -931,7 +1152,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">15. Order Status (Seller - Locked)</div>
+      <div class="screen-label">20. Order Status (Seller - Locked)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -978,7 +1199,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">16. Order Status (Seller - Active)</div>
+      <div class="screen-label">21. Order Status (Seller - Active)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -1028,7 +1249,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">17. Order Status (Seller - Revealed)</div>
+      <div class="screen-label">22. Order Status (Seller - Revealed)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -1076,7 +1297,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">18. Messaging</div>
+      <div class="screen-label">23. Messaging</div>
       <div class="screen">
         <div class="header" style="padding: var(--sp-4); border-bottom: 1px solid rgba(3,31,33,0.1); margin: 0; background: var(--bg-base); z-index: 2;">
           <button class="icon-btn" style="margin-right: var(--sp-3);"><i class="ph ph-arrow-left"></i></button>
@@ -1123,7 +1344,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">19. Rate & Review</div>
+      <div class="screen-label">24. Rate & Review</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -1164,7 +1385,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">20. Notifications</div>
+      <div class="screen-label">25. Notifications</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -1246,7 +1467,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">21. Create Listing (Seller)</div>
+      <div class="screen-label">26. Create Listing (Seller)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header">
@@ -1304,7 +1525,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">22. Seller Dashboard</div>
+      <div class="screen-label">27. Seller Dashboard</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header"><h1 class="title-2">Seller Hub</h1><button class="icon-btn"><i class="ph ph-bell"></i></button></div>
@@ -1341,7 +1562,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">23. Profile (Buyer)</div>
+      <div class="screen-label">28. Profile (Buyer)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header" style="justify-content: flex-end;"><button class="icon-btn"><i class="ph ph-gear"></i></button></div>
@@ -1388,7 +1609,63 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">24. Wallet (Seller)</div>
+      <div class="screen-label">29. Profile (Seller)</div>
+      <div class="screen">
+        <div class="screen-content">
+          <div class="header" style="justify-content: flex-end;"><button class="icon-btn"><i class="ph ph-gear"></i></button></div>
+          <div style="text-align: center; margin-bottom: var(--sp-5);">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-card); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 32px;"><i class="ph ph-storefront"></i></div>
+            <h2 style="font-weight: 700; font-size: 22px; margin: 0 0 4px;">John Doe <span class="badge-verified" style="display:inline-flex; vertical-align:middle; width: 20px; height: 20px; font-size:12px; margin-left:4px; align-items:center; justify-content:center;"><i class="ph-fill ph-shield-check" style="font-size:12px;"></i></span></h2>
+            <p class="footnote">@johndoesells</p>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 8px;">
+              <i class="ph-fill ph-star"></i> 4.8 <span style="color: var(--secondary-text); font-weight: 400;">(24 reviews)</span>
+            </div>
+          </div>
+          
+          <div style="margin-top: 16px;">
+            <div class="list-item" style="border-bottom: 1px solid rgba(3,31,33,0.08); padding: 16px 0;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i class="ph ph-tag" style="font-size:24px;"></i></div>
+              <div class="list-item-content"><p class="list-item-title" style="font-size: 15px;">Listings</p></div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item" style="border-bottom: 1px solid rgba(3,31,33,0.08); padding: 16px 0;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i class="ph ph-shield" style="font-size:24px;"></i></div>
+              <div class="list-item-content"><p class="list-item-title" style="font-size: 15px;">Account Security</p></div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item" style="border-bottom: 1px solid rgba(3,31,33,0.08); padding: 16px 0;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i class="ph ph-question" style="font-size:24px;"></i></div>
+              <div class="list-item-content"><p class="list-item-title" style="font-size: 15px;">Help & Support</p></div>
+              <div class="list-item-right"><i class="ph ph-caret-right"></i></div>
+            </div>
+            <div class="list-item" style="border-bottom: 1px solid rgba(3,31,33,0.08); padding: 16px 0;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i class="ph ph-info" style="font-size:24px;"></i></div>
+              <div class="list-item-content"><p class="list-item-title" style="font-size: 15px;">App Version</p></div>
+              <div class="list-item-right"><p class="list-item-title" style="font-size: 15px; color: var(--secondary-text);">v1.0.0</p></div>
+            </div>
+            <div class="list-item" style="border-bottom: none; padding: 16px 0; margin-top: 16px;">
+              <div class="list-item-img" style="background: transparent; width: 32px; height: 32px;"><i class="ph ph-arrows-left-right" style="font-size:24px;"></i></div>
+              <div class="list-item-content"><p class="list-item-title" style="font-size: 15px;">Switch to Buyer</p></div>
+              <div class="list-item-right">
+                <div style="width: 44px; height: 24px; background: var(--accent); border-radius: 12px; position: relative;">
+                  <div style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ph ph-chart-bar nav-icon"></i> Hub</div>
+          <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
+          <div class="nav-item"><i class="ph ph-plus-circle nav-icon"></i> Post</div>
+          <div class="nav-item active"><i class="ph-fill ph-user nav-icon"></i> Profile</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-wrapper">
+      <div class="screen-label">30. Wallet (Seller)</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header"><button class="icon-btn"><i class="ph ph-arrow-left"></i></button><h1 class="title-2">Wallet</h1></div>
@@ -1438,7 +1715,7 @@
     </div>
 
     <div class="screen-wrapper">
-      <div class="screen-label">25. Dispute Flow</div>
+      <div class="screen-label">31. Dispute Flow</div>
       <div class="screen">
         <div class="screen-content">
           <div class="header"><button class="icon-btn"><i class="ph ph-arrow-left"></i></button><h1 class="title-2">Report Issue</h1></div>
