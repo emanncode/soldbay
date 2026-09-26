@@ -13,7 +13,13 @@
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     /* CSS Variables */
+    
     :root {
+      --border-subtle: rgba(3, 31, 33, 0.1);
+      --border-subtle-15: rgba(3, 31, 33, 0.15);
+      --border-subtle-20: rgba(3, 31, 33, 0.2);
+      
+
       --primary-text: #031f21;
       --secondary-text: #063f42;
       --bg-card: #ffd0a6;
@@ -122,7 +128,7 @@
 
     .component-wrapper {
       position: relative;
-      border: 1px dashed rgba(3, 31, 33, 0.1);
+      border: 1px dashed var(--border-subtle);
       padding: 16px;
       border-radius: 8px;
       background: var(--bg-base);
@@ -234,16 +240,16 @@
       margin-bottom: var(--sp-2);
     }
 
-    .input {
+    .input { color: var(--primary-text);
       width: 100%;
       padding: var(--sp-3);
-      border: 1px solid rgba(3, 31, 33, 0.15);
+      border: 1px solid var(--border-subtle-15);
       border-radius: var(--radius-sm);
       font-size: 15px;
       font-family: "Sora", sans-serif;
     }
 
-    textarea.input {
+    textarea.input { color: var(--primary-text);
       height: 100px;
       resize: none;
     }
@@ -285,7 +291,7 @@
     .action-bar {
       padding: var(--sp-3) var(--sp-4);
       background: var(--bg-base);
-      border-top: 1px solid rgba(3, 31, 33, 0.1);
+      border-top: 1px solid var(--border-subtle);
       display: flex;
       gap: var(--sp-3);
     }
@@ -304,7 +310,7 @@
     .chip {
       padding: 8px 16px;
       border-radius: var(--radius-full);
-      border: 1px solid rgba(3, 31, 33, 0.15);
+      border: 1px solid var(--border-subtle-15);
       font-size: 13px;
       font-weight: 600;
       color: var(--secondary-text);
@@ -391,7 +397,7 @@
     }
 
     .upload-box {
-      border: 2px dashed rgba(3, 31, 33, 0.2);
+      border: 2px dashed var(--border-subtle-20);
       border-radius: var(--radius-md);
       padding: var(--sp-4);
       text-align: center;
@@ -422,7 +428,7 @@
     .product-card {
       border-radius: var(--radius-md);
       overflow: hidden;
-      border: 1px solid rgba(3, 31, 33, 0.1);
+      border: 1px solid var(--border-subtle);
     }
 
     .product-img {
@@ -497,7 +503,7 @@
     }
 
     .badge-unverified {
-      background: rgba(3, 31, 33, 0.1);
+      background: var(--border-subtle);
       color: var(--secondary-text);
       padding: 2px 8px;
       border-radius: var(--radius-full);
@@ -579,8 +585,8 @@
       align-items: center;
       gap: var(--sp-2);
       padding: var(--sp-3) 0;
-      border-top: 1px solid rgba(3, 31, 33, 0.1);
-      border-bottom: 1px solid rgba(3, 31, 33, 0.1);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .seller-avatar {
@@ -775,7 +781,7 @@
     .toggle {
       width: 44px;
       height: 24px;
-      background: rgba(3, 31, 33, 0.2);
+      background: var(--border-subtle-20);
       border-radius: 12px;
       position: relative;
       cursor: pointer;
@@ -802,7 +808,12 @@
       left: 22px;
     }
   
+    
     .theme-dark {
+      --border-subtle: var(--border-light);
+      --border-subtle-15: var(--border-light);
+      --border-subtle-20: var(--border-light);
+
       --primary-text: #ffffff;
       --secondary-text: #67b8b3;
       --bg-card: #063f42;
@@ -822,6 +833,20 @@
     .theme-dark .btn-secondary { background: var(--border-light); color: var(--primary-text) !important; }
     
     .theme-dark .chat-sent { background: #008080; color: #ffffff; }
+
+    /* Dark Mode Overrides from all-screens-dark.html */
+    .theme-dark .input { color: var(--primary-text); border: 1px solid var(--border-light) !important; background: transparent; }
+    .theme-dark textarea.input { color: var(--primary-text); background: var(--border-light) !important; border: 1px solid var(--border-light) !important; }
+    .theme-dark .search-bar { background: var(--bg-card) !important; border: 1px solid var(--border-light) !important; }
+    .theme-dark .pin-box { border: 2px solid var(--border-light) !important; background: var(--bg-base); }
+    .theme-dark .list-item { border-bottom: 1px solid var(--border-light) !important; }
+    
+    /* Also handle any inline border colors that use rgba(3,31,33, 0.1 or 0.15 or 0.2) in dark mode */
+    /* Since we can't easily target inline styles with CSS without a class, we'll let them be for now unless the user specifically meant them. */
+
+    
+    .theme-dark .avatar-fallback { background: #67b8b3 !important; color: #031f21 !important; }
+
     .theme-dark .chat-received { background: var(--bg-card); color: var(--primary-text); }
 
     
@@ -932,10 +957,7 @@
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
                         class="ph-fill ph-shield-check"></i></span>
                   </div>
-                  <div
-                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
-                  </div>
+                  
                 </div>
                 <p class="product-title">Math Textbook</p>
                 <p class="product-price" style="margin-top: 4px;">₦4,000</p>
@@ -958,10 +980,7 @@
                       style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@john_d</span>
                     <span class="badge-unverified" style="font-size:8px; padding:2px 4px;">Unverified</span>
                   </div>
-                  <div
-                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 3.2
-                  </div>
+                  
                 </div>
                 <p class="product-title">Mini Fridge</p>
                 <p class="product-price" style="margin-top: 4px;">₦12,500</p>
@@ -998,7 +1017,7 @@
           <div class="component-state-label">Order/Transaction Card (Status States)</div>
           <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1011,7 +1030,7 @@
               </div>
             </div>
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1022,7 +1041,7 @@
               </div>
             </div>
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1033,7 +1052,7 @@
               </div>
             </div>
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1141,6 +1160,20 @@
                 <span style="position: absolute; right: 16px; top: 12px;"><i class="ph ph-caret-down"></i></span>
               </div>
             </div>
+
+            <div style="position: relative;">
+              <label class="field-label">Select / Dropdown (Open)</label>
+              <div style="position: relative;">
+                <input type="text" class="input" value="University of Lagos" readonly style="margin:0; border-color: var(--accent);" />
+                <span style="position: absolute; right: 16px; top: 12px; color: var(--accent);"><i class="ph ph-caret-up"></i></span>
+              </div>
+              <div style="position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; overflow: hidden;">
+                <div style="padding: 12px 16px; font-size: 15px; cursor: pointer; color: var(--primary-text);">Ahmadu Bello University</div>
+                <div style="padding: 12px 16px; font-size: 15px; background: rgba(244,122,50,0.1); color: var(--accent); cursor: pointer; font-weight: 600;">University of Lagos</div>
+                <div style="padding: 12px 16px; font-size: 15px; cursor: pointer; color: var(--primary-text);">Obafemi Awolowo University</div>
+              </div>
+            </div>
+
             <div style="grid-column: 1 / -1;">
               <label class="field-label">Textarea</label>
               <textarea class="input" placeholder="Type long description here..."></textarea>
@@ -1161,16 +1194,16 @@
           <div class="component-wrapper">
             <div style="display: flex; gap: 12px;">
               <div
-                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
                 4</div>
               <div
-                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
                 8</div>
               <div
                 style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
               </div>
               <div
-                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
               </div>
             </div>
           </div>
@@ -1210,6 +1243,21 @@
             </div>
           </div>
         </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Avatar (Photo & Initials)</div>
+          <div class="component-wrapper" style="display:flex; gap:24px; align-items:center;">
+            <div style="text-align: center;">
+              <div style="width: 44px; height: 44px; background: url('https://placehold.co/88x88/E2E8E8/063f42?text=P') center/cover; border-radius: var(--radius-full); margin: 0 auto 8px;"></div>
+              <span style="font-size: 11px; color: var(--secondary-text);">Photo</span>
+            </div>
+            <div style="text-align: center;">
+              <div class="avatar-fallback" style="width: 44px; height: 44px; background: #ffd0a6; color: var(--accent); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; margin: 0 auto 8px;">CE</div>
+              <span style="font-size: 11px; color: var(--secondary-text);">Initials</span>
+            </div>
+          </div>
+        </div>
+
         <div class="component-item" style="flex: 1 1 100%;">
           <div class="component-state-label">Chat Message Bubbles (Sent/Received/Read-Receipt)</div>
           <div class="component-wrapper" style="padding: 24px; background: #fafafa;">
@@ -1293,15 +1341,55 @@
             </div>
           </div>
         </div>
-        <div class="component-item">
-          <div class="component-state-label">Upload Box</div>
-          <div class="component-wrapper">
-            <div class="upload-box">
-              <span class="upload-icon"><i class="ph ph-camera"></i></span>
-              <span class="upload-text">Tap to upload your Student ID</span>
+        
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Upload Box (ID Card & Portal)</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:24px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+              <div>
+                <h3 style="margin: 0 0 8px; font-size: 15px; color: var(--primary-text);">Student ID (Empty)</h3>
+                <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text);">
+                  <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
+                  <span style="font-size: 13px; font-weight: 600;">Tap to upload front</span>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Student ID (Filled)</h3>
+                  <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px; color: var(--primary-text);"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
+                </div>
+                <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); background: url('https://placehold.co/800x504/E2E8E8/063f42?text=ID+Front') center/cover;"></div>
+              </div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+              <div>
+                <h3 style="margin: 0 0 8px; font-size: 15px; color: var(--primary-text);">Portal (Empty)</h3>
+                <div style="min-height: 200px; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); padding: var(--sp-5);">
+                  <i class="ph ph-laptop" style="font-size: 32px; margin-bottom: 8px;"></i>
+                  <span style="font-size: 13px; font-weight: 600; text-align: center;">Tap to upload phone or laptop screenshot</span>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Portal (Filled - Adaptive Examples)</h3>
+                </div>
+                <div style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;">
+                  <div style="flex: 0 0 160px; height: 284px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); overflow: hidden;">
+                    <img src="https://placehold.co/1170x2532/E2E8E8/063f42?text=Phone" style="width: 100%; height: auto; display: block;" alt="Phone" />
+                  </div>
+                  <div style="flex: 0 0 300px; height: 187px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); overflow: hidden;">
+                    <img src="https://placehold.co/2560x1600/E2E8E8/063f42?text=Laptop" style="width: 100%; height: auto; display: block;" alt="Laptop" />
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
         </div>
+
         <div class="component-item">
           <div class="component-state-label">Countdown Timer</div>
           <div class="component-wrapper" style="text-align:center;">
@@ -1317,14 +1405,14 @@
               <h3 style="margin: 0 0 4px; font-size: 13px; color: var(--secondary-text);">Total Balance (Compact)</h3>
               <p style="font-size: 28px; font-weight: 700; margin: 0;">₦12,500.00</p>
               <div
-                style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(3,31,33,0.1); font-weight: 600; font-size: 13px; cursor: pointer;">
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle); font-weight: 600; font-size: 13px; cursor: pointer;">
                 <span>View Wallet</span>
                 <i class="ph ph-caret-right"></i>
               </div>
             </div>
             <div style="flex:1; background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4);">
               <div
-                style="text-align: center; border-bottom: 1px solid rgba(3,31,33,0.1); padding-bottom: 16px; margin-bottom: 16px;">
+                style="text-align: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 16px; margin-bottom: 16px;">
                 <h3 style="margin: 0 0 8px; font-size: 13px; color: var(--secondary-text);">Total Balance (Full)</h3>
                 <p style="font-size: 36px; font-weight: 700; margin: 0;">₦12,500.00</p>
               </div>
@@ -1402,9 +1490,9 @@
               <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
             </div>
             <div
-              style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+              style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
               <span style="font-weight: 600;">Flutterwave</span>
-              <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+              <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
             </div>
           </div>
         </div>
@@ -1416,19 +1504,19 @@
               <p class="caption">Buyer Entry Frame</p>
               <div style="display: flex; justify-content: center; gap: 12px; margin: 16px 0;">
                 <div
-                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
                   4</div>
                 <div
                   style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
                 </div>
               </div>
             </div>
-            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed var(--border-subtle-20);">
               <p class="caption">Seller: Inactive / Locked</p>
               <button class="btn btn-secondary" style="opacity: 0.5; cursor: not-allowed; margin: 12px 0;"><i
                   class="ph-fill ph-lock-key"></i> Reveal PIN (Locked)</button>
             </div>
-            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed var(--border-subtle-20);">
               <p class="caption">Seller: Active</p>
               <button class="btn" style="margin: 12px 0;"><i class="ph-fill ph-lock-key-open"></i> Tap to Reveal
                 PIN</button>
@@ -1453,27 +1541,7 @@
           </div>
         </div>
 
-        <div class="component-item" style="flex: 1 1 100%;">
-          <div class="component-state-label">Upload Box (Filled States & Change Button)</div>
-          <div class="component-wrapper" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Front of Student ID</h3>
-                <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px; color: var(--primary-text);"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
-              </div>
-              <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); background: url('https://placehold.co/800x504/E2E8E8/063f42?text=ID+Front') center/cover; margin-bottom: var(--sp-5);"></div>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Student Portal Screenshot</h3>
-                <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px; color: var(--primary-text);"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
-              </div>
-              <div style="width: 100%; border-radius: var(--radius-md); margin-bottom: var(--sp-5); border: 1px solid rgba(3,31,33,0.1);">
-                <img src="https://placehold.co/1170x2532/E2E8E8/063f42?text=Portal+Screenshot" style="width: 100%; height: auto; border-radius: var(--radius-md); display: block;" alt="Portal Screenshot" />
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
 
       </div>
@@ -1482,7 +1550,7 @@
 
     </div>
     <div style="flex: 1;" class="theme-dark">
-      <h2 style="font-family: 'Fraunces', serif; color: #031f21; margin-bottom: 24px;">Dark Mode</h2>
+      <h2 style="font-family: 'Fraunces', serif; color: var(--primary-text); margin-bottom: 24px;">Dark Mode</h2>
       <div class="components-container" style="margin: 0;">
 
     <!-- NAVIGATION/STRUCTURE -->
@@ -1491,7 +1559,7 @@
       <div class="component-grid">
         <div class="component-item">
           <div class="component-state-label">Buyer Tab Bar</div>
-          <div class="component-wrapper" style="padding-bottom: 24px; background: #f8f8f8;">
+          <div class="component-wrapper" style="padding-bottom: 24px; background: var(--bg-card);">
             <div class="bottom-nav" style="position: relative; box-shadow: none;">
               <div class="nav-item active"><i class="ph-fill ph-house nav-icon"></i> Browse</div>
               <div class="nav-item"><i class="ph ph-magnifying-glass nav-icon"></i> Search</div>
@@ -1502,7 +1570,7 @@
         </div>
         <div class="component-item">
           <div class="component-state-label">Seller Tab Bar</div>
-          <div class="component-wrapper" style="padding-bottom: 24px; background: #f8f8f8;">
+          <div class="component-wrapper" style="padding-bottom: 24px; background: var(--bg-card);">
             <div class="bottom-nav" style="position: relative; box-shadow: none;">
               <div class="nav-item active"><i class="ph-fill ph-chart-bar nav-icon"></i> Hub</div>
               <div class="nav-item"><i class="ph ph-package nav-icon"></i> Orders</div>
@@ -1565,10 +1633,7 @@
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i
                         class="ph-fill ph-shield-check"></i></span>
                   </div>
-                  <div
-                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
-                  </div>
+                  
                 </div>
                 <p class="product-title">Math Textbook</p>
                 <p class="product-price" style="margin-top: 4px;">₦4,000</p>
@@ -1591,10 +1656,7 @@
                       style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@john_d</span>
                     <span class="badge-unverified" style="font-size:8px; padding:2px 4px;">Unverified</span>
                   </div>
-                  <div
-                    style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 3.2
-                  </div>
+                  
                 </div>
                 <p class="product-title">Mini Fridge</p>
                 <p class="product-price" style="margin-top: 4px;">₦12,500</p>
@@ -1603,7 +1665,7 @@
 
             <div class="product-card" style="width: 160px; background:var(--bg-base); opacity:0.6;">
               <div class="product-img"
-                style="display:flex; align-items:center; justify-content:center; font-weight:bold; background:#d0d0d0; color: #555;">
+                style="display:flex; align-items:center; justify-content:center; font-weight:bold; background:var(--border-subtle-20); color: var(--primary-text);">
                 SOLD
                 <div class="img-overlay-header">
                   <div></div>
@@ -1631,7 +1693,7 @@
           <div class="component-state-label">Order/Transaction Card (Status States)</div>
           <div class="component-wrapper" style="display:flex; flex-direction:column; gap:16px;">
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1644,7 +1706,7 @@
               </div>
             </div>
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1655,7 +1717,7 @@
               </div>
             </div>
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1666,7 +1728,7 @@
               </div>
             </div>
             <div class="list-item"
-              style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3);">
+              style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3);">
               <div class="list-item-img"
                 style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
               <div class="list-item-content">
@@ -1774,6 +1836,20 @@
                 <span style="position: absolute; right: 16px; top: 12px;"><i class="ph ph-caret-down"></i></span>
               </div>
             </div>
+
+            <div style="position: relative;">
+              <label class="field-label">Select / Dropdown (Open)</label>
+              <div style="position: relative;">
+                <input type="text" class="input" value="University of Lagos" readonly style="margin:0; border-color: var(--accent);" />
+                <span style="position: absolute; right: 16px; top: 12px; color: var(--accent);"><i class="ph ph-caret-up"></i></span>
+              </div>
+              <div style="position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; overflow: hidden;">
+                <div style="padding: 12px 16px; font-size: 15px; cursor: pointer; color: var(--primary-text);">Ahmadu Bello University</div>
+                <div style="padding: 12px 16px; font-size: 15px; background: rgba(244,122,50,0.1); color: var(--accent); cursor: pointer; font-weight: 600;">University of Lagos</div>
+                <div style="padding: 12px 16px; font-size: 15px; cursor: pointer; color: var(--primary-text);">Obafemi Awolowo University</div>
+              </div>
+            </div>
+
             <div style="grid-column: 1 / -1;">
               <label class="field-label">Textarea</label>
               <textarea class="input" placeholder="Type long description here..."></textarea>
@@ -1794,16 +1870,16 @@
           <div class="component-wrapper">
             <div style="display: flex; gap: 12px;">
               <div
-                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
                 4</div>
               <div
-                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
                 8</div>
               <div
                 style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
               </div>
               <div
-                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
+                style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
               </div>
             </div>
           </div>
@@ -1843,9 +1919,24 @@
             </div>
           </div>
         </div>
+
+        <div class="component-item">
+          <div class="component-state-label">Avatar (Photo & Initials)</div>
+          <div class="component-wrapper" style="display:flex; gap:24px; align-items:center;">
+            <div style="text-align: center;">
+              <div style="width: 44px; height: 44px; background: url('https://placehold.co/88x88/E2E8E8/063f42?text=P') center/cover; border-radius: var(--radius-full); margin: 0 auto 8px;"></div>
+              <span style="font-size: 11px; color: var(--secondary-text);">Photo</span>
+            </div>
+            <div style="text-align: center;">
+              <div class="avatar-fallback" style="width: 44px; height: 44px; background: #ffd0a6; color: var(--accent); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; margin: 0 auto 8px;">CE</div>
+              <span style="font-size: 11px; color: var(--secondary-text);">Initials</span>
+            </div>
+          </div>
+        </div>
+
         <div class="component-item" style="flex: 1 1 100%;">
           <div class="component-state-label">Chat Message Bubbles (Sent/Received/Read-Receipt)</div>
-          <div class="component-wrapper" style="padding: 24px; background: #fafafa;">
+          <div class="component-wrapper" style="padding: 24px; background: var(--bg-card);">
             <div class="chat-bubble chat-received">
               Hey! Are you still available to meet at the Student Center?
             </div>
@@ -1926,15 +2017,55 @@
             </div>
           </div>
         </div>
-        <div class="component-item">
-          <div class="component-state-label">Upload Box</div>
-          <div class="component-wrapper">
-            <div class="upload-box">
-              <span class="upload-icon"><i class="ph ph-camera"></i></span>
-              <span class="upload-text">Tap to upload your Student ID</span>
+        
+        <div class="component-item" style="flex: 1 1 100%;">
+          <div class="component-state-label">Upload Box (ID Card & Portal)</div>
+          <div class="component-wrapper" style="display:flex; flex-direction:column; gap:24px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+              <div>
+                <h3 style="margin: 0 0 8px; font-size: 15px; color: var(--primary-text);">Student ID (Empty)</h3>
+                <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text);">
+                  <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
+                  <span style="font-size: 13px; font-weight: 600;">Tap to upload front</span>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Student ID (Filled)</h3>
+                  <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px; color: var(--primary-text);"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
+                </div>
+                <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); background: url('https://placehold.co/800x504/E2E8E8/063f42?text=ID+Front') center/cover;"></div>
+              </div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+              <div>
+                <h3 style="margin: 0 0 8px; font-size: 15px; color: var(--primary-text);">Portal (Empty)</h3>
+                <div style="min-height: 200px; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); padding: var(--sp-5);">
+                  <i class="ph ph-laptop" style="font-size: 32px; margin-bottom: 8px;"></i>
+                  <span style="font-size: 13px; font-weight: 600; text-align: center;">Tap to upload phone or laptop screenshot</span>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Portal (Filled - Adaptive Examples)</h3>
+                </div>
+                <div style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;">
+                  <div style="flex: 0 0 160px; height: 284px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); overflow: hidden;">
+                    <img src="https://placehold.co/1170x2532/E2E8E8/063f42?text=Phone" style="width: 100%; height: auto; display: block;" alt="Phone" />
+                  </div>
+                  <div style="flex: 0 0 300px; height: 187px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); overflow: hidden;">
+                    <img src="https://placehold.co/2560x1600/E2E8E8/063f42?text=Laptop" style="width: 100%; height: auto; display: block;" alt="Laptop" />
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
         </div>
+
         <div class="component-item">
           <div class="component-state-label">Countdown Timer</div>
           <div class="component-wrapper" style="text-align:center;">
@@ -1950,14 +2081,14 @@
               <h3 style="margin: 0 0 4px; font-size: 13px; color: var(--secondary-text);">Total Balance (Compact)</h3>
               <p style="font-size: 28px; font-weight: 700; margin: 0;">₦12,500.00</p>
               <div
-                style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(3,31,33,0.1); font-weight: 600; font-size: 13px; cursor: pointer;">
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle); font-weight: 600; font-size: 13px; cursor: pointer;">
                 <span>View Wallet</span>
                 <i class="ph ph-caret-right"></i>
               </div>
             </div>
             <div style="flex:1; background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4);">
               <div
-                style="text-align: center; border-bottom: 1px solid rgba(3,31,33,0.1); padding-bottom: 16px; margin-bottom: 16px;">
+                style="text-align: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 16px; margin-bottom: 16px;">
                 <h3 style="margin: 0 0 8px; font-size: 13px; color: var(--secondary-text);">Total Balance (Full)</h3>
                 <p style="font-size: 36px; font-weight: 700; margin: 0;">₦12,500.00</p>
               </div>
@@ -2013,7 +2144,7 @@
               <p class="caption">Interactive</p>
               <div style="display: flex; gap: 8px; font-size: 36px; color: var(--accent);">
                 <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                  class="ph-fill ph-star"></i><i class="ph ph-star" style="color: #e0e0e0;"></i>
+                  class="ph-fill ph-star"></i><i class="ph ph-star" style="color: var(--border-subtle-20);"></i>
               </div>
             </div>
             <div>
@@ -2035,9 +2166,9 @@
               <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
             </div>
             <div
-              style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+              style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
               <span style="font-weight: 600;">Flutterwave</span>
-              <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+              <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
             </div>
           </div>
         </div>
@@ -2049,19 +2180,19 @@
               <p class="caption">Buyer Entry Frame</p>
               <div style="display: flex; justify-content: center; gap: 12px; margin: 16px 0;">
                 <div
-                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
+                  style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">
                   4</div>
                 <div
                   style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;">
                 </div>
               </div>
             </div>
-            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed var(--border-subtle-20);">
               <p class="caption">Seller: Inactive / Locked</p>
               <button class="btn btn-secondary" style="opacity: 0.5; cursor: not-allowed; margin: 12px 0;"><i
                   class="ph-fill ph-lock-key"></i> Reveal PIN (Locked)</button>
             </div>
-            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed rgba(3,31,33,0.2);">
+            <div class="pin-box" style="background: transparent; padding: 24px; border: 1px dashed var(--border-subtle-20);">
               <p class="caption">Seller: Active</p>
               <button class="btn" style="margin: 12px 0;"><i class="ph-fill ph-lock-key-open"></i> Tap to Reveal
                 PIN</button>
@@ -2086,27 +2217,7 @@
           </div>
         </div>
 
-        <div class="component-item" style="flex: 1 1 100%;">
-          <div class="component-state-label">Upload Box (Filled States & Change Button)</div>
-          <div class="component-wrapper" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Front of Student ID</h3>
-                <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px; color: var(--primary-text);"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
-              </div>
-              <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); background: url('https://placehold.co/800x504/E2E8E8/063f42?text=ID+Front') center/cover; margin-bottom: var(--sp-5);"></div>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <h3 style="margin: 0; font-size: 15px; color: var(--primary-text);">Student Portal Screenshot</h3>
-                <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px; color: var(--primary-text);"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
-              </div>
-              <div style="width: 100%; border-radius: var(--radius-md); margin-bottom: var(--sp-5); border: 1px solid rgba(3,31,33,0.1);">
-                <img src="https://placehold.co/1170x2532/E2E8E8/063f42?text=Portal+Screenshot" style="width: 100%; height: auto; border-radius: var(--radius-md); display: block;" alt="Portal Screenshot" />
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
 
       </div>

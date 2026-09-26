@@ -10,7 +10,13 @@
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     /* CSS Variables */
+    
     :root {
+      --border-subtle: rgba(3, 31, 33, 0.1);
+      --border-subtle-15: rgba(3, 31, 33, 0.15);
+      --border-subtle-20: rgba(3, 31, 33, 0.2);
+      
+
       --primary-text: #031f21;
       --secondary-text: #063f42;
       --bg-card: #ffd0a6;
@@ -78,18 +84,18 @@
     
     /* Forms & Inputs */
     .field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: var(--sp-2); }
-    .input { width: 100%; padding: var(--sp-3); border: 1px solid rgba(3, 31, 33, 0.15); border-radius: var(--radius-sm); font-size: 15px; font-family: "Sora", sans-serif; margin-bottom: var(--sp-4); }
-    textarea.input { height: 100px; resize: none; }
+    .input { color: var(--primary-text); width: 100%; padding: var(--sp-3); border: 1px solid var(--border-subtle-15); border-radius: var(--radius-sm); font-size: 15px; font-family: "Sora", sans-serif; margin-bottom: var(--sp-4); } color: var(--primary-text);
+    textarea.input { color: var(--primary-text); height: 100px; resize: none; }
     
     /* Buttons */
     .btn { width: 100%; background: var(--accent); color: var(--primary-text); font-weight: 700; font-size: 15px; padding: 16px; border-radius: var(--radius-sm); border: none; font-family: "Sora", sans-serif; cursor: pointer; text-align: center; display:flex; align-items:center; justify-content:center; gap:8px;}
     .btn-secondary { background: rgba(3, 31, 33, 0.05); color: var(--primary-text); }
-    .action-bar { position: absolute; bottom: 80px; left: 0; right: 0; padding: var(--sp-3) var(--sp-4); background: var(--bg-base); border-top: 1px solid rgba(3,31,33,0.1); display: flex; gap: var(--sp-3); z-index: 5; }
+    .action-bar { position: absolute; bottom: 80px; left: 0; right: 0; padding: var(--sp-3) var(--sp-4); background: var(--bg-base); border-top: 1px solid var(--border-subtle); display: flex; gap: var(--sp-3); z-index: 5; }
     
     /* Chips */
     .chip-row { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-4); overflow-x: auto; padding-bottom: 4px; }
     .chip-row::-webkit-scrollbar { display: none; }
-    .chip { padding: 8px 16px; border-radius: var(--radius-full); border: 1px solid rgba(3,31,33,0.15); font-size: 13px; font-weight: 600; color: var(--secondary-text); cursor: pointer; white-space: nowrap; display:flex; align-items:center; gap: 4px;}
+    .chip { padding: 8px 16px; border-radius: var(--radius-full); border: 1px solid var(--border-subtle-15); font-size: 13px; font-weight: 600; color: var(--secondary-text); cursor: pointer; white-space: nowrap; display:flex; align-items:center; gap: 4px;}
     .chip.active { background: var(--bg-card); color: var(--primary-text); border-color: transparent; }
 
     
@@ -110,13 +116,13 @@
     .profile-avatar { width: 80px; height: 80px; background: var(--bg-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto var(--sp-3); }
     .profile-handle { margin: 0 0 var(--sp-1); font-size: 20px; }
     .badge-warning { background: rgba(107, 78, 0, 0.1); color: var(--warning); padding: 4px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; display: inline-block; }
-    .upload-box { border: 2px dashed rgba(3, 31, 33, 0.2); border-radius: var(--radius-md); padding: var(--sp-4); text-align: center; margin-bottom: var(--sp-4); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+    .upload-box { border: 2px dashed var(--border-subtle-20); border-radius: var(--radius-md); padding: var(--sp-4); text-align: center; margin-bottom: var(--sp-4); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
     .upload-icon { font-size: 24px; color: var(--secondary-text); }
     .upload-text { font-size: 13px; font-weight: 600; color: var(--secondary-text); }
 
     /* Product Grid */
     .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-bottom: var(--sp-5); }
-    .product-card { border-radius: var(--radius-md); overflow: hidden; border: 1px solid rgba(3,31,33,0.1); }
+    .product-card { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle); }
     .product-img { height: 140px; background: #e0e0e0; position: relative; }
     .img-overlay-header { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
     .wishlist-btn { background: rgba(255,255,255,0.9); border: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--primary-text); margin-left: auto; font-size: 16px;}
@@ -128,7 +134,7 @@
     /* Badges & Status */
     .badge-discount { background: var(--discount-fill); border: 1.5px solid var(--discount-stroke); font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: var(--radius-full); }
     .badge-verified { width: 16px; height: 16px; background: var(--primary-text); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; }
-    .badge-unverified { background: rgba(3,31,33,0.1); color: var(--secondary-text); padding: 2px 8px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
+    .badge-unverified { background: var(--border-subtle); color: var(--secondary-text); padding: 2px 8px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
     .status-pill { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); color: white; display: inline-block; }
     .status-warning { background: var(--warning); }
     .status-success { background: var(--success); }
@@ -142,7 +148,7 @@
     .list-item-right { text-align: right; }
 
     /* Seller Info Row */
-    .seller-row { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-3) 0; border-top: 1px solid rgba(3,31,33,0.1); border-bottom: 1px solid rgba(3,31,33,0.1); margin-bottom: var(--sp-4); }
+    .seller-row { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-3) 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); margin-bottom: var(--sp-4); }
     .seller-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary-text);}
     
     /* Chat Bubbles */
@@ -444,13 +450,13 @@
           </p>
           
           
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student ID</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student Portal</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
           
           
@@ -485,18 +491,18 @@
             <span style="font-weight: 600;">Student ID</span>
             <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
           </div>
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student Portal</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
           
           <h3 style="margin-top: 0">Front of Student ID</h3>
-          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5);">
+          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5);">
             <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
             <span style="font-size: 13px; font-weight: 600;">Tap to upload front</span>
           </div>
           <h3 style="margin-top: 0">Back of Student ID</h3>
-          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5);">
+          <div style="aspect-ratio: 1.586/1; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5);">
             <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
             <span style="font-size: 13px; font-weight: 600;">Tap to upload back</span>
           </div>
@@ -532,9 +538,9 @@
             <span style="font-weight: 600;">Student ID</span>
             <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
           </div>
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student Portal</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
           
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -576,9 +582,9 @@
           </p>
           
           
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student ID</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
           <div style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student Portal</span>
@@ -586,7 +592,7 @@
           </div>
           
           <h3 style="margin-top: 0">Student Portal Screenshot</h3>
-          <div style="min-height: 200px; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5); padding: var(--sp-5);">
+          <div style="min-height: 200px; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: var(--sp-5); padding: var(--sp-5);">
             <i class="ph ph-laptop" style="font-size: 32px; margin-bottom: 8px;"></i>
             <span style="font-size: 13px; font-weight: 600; text-align: center;">Tap to upload phone or laptop screenshot</span>
           </div>
@@ -618,9 +624,9 @@
           </p>
           
           
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student ID</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
           <div style="border: 2px solid var(--accent); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-5); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Student Portal</span>
@@ -631,7 +637,7 @@
             <h3 style="margin: 0">Student Portal Screenshot</h3>
             <button class="icon-btn" style="width: auto; height: auto; padding: 4px 8px; font-size: 13px; font-weight: 600; background: rgba(3,31,33,0.05); border-radius: 12px;"><i class="ph ph-arrows-clockwise" style="margin-right:4px;"></i>Change</button>
           </div>
-          <div style="width: 100%; border-radius: var(--radius-md); margin-bottom: var(--sp-5); border: 1px solid rgba(3,31,33,0.1);">
+          <div style="width: 100%; border-radius: var(--radius-md); margin-bottom: var(--sp-5); border: 1px solid var(--border-subtle);">
             <img src="https://placehold.co/1170x2532/E2E8E8/063f42?text=Portal+Screenshot" style="width: 100%; height: auto; border-radius: var(--radius-md); display: block;" alt="Portal Screenshot" />
           </div>
           
@@ -679,9 +685,6 @@
                     <span style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i class="ph-fill ph-shield-check"></i></span>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
-                  </div>
                 </div>
                 <p class="product-title">Calculus Textbook</p>
                 <p class="product-price" style="margin-top: 4px;">₦4,000</p>
@@ -699,9 +702,6 @@
                   <div style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
                     <span style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i class="ph-fill ph-shield-check"></i></span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
                   </div>
                 </div>
                 <p class="product-title">Mini Fridge</p>
@@ -722,9 +722,6 @@
                     <span style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i class="ph-fill ph-shield-check"></i></span>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
-                  </div>
                 </div>
                 <p class="product-title">Lab Coat</p>
                 <p class="product-price" style="margin-top: 4px;">₦2,000</p>
@@ -742,9 +739,6 @@
                   <div style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
                     <span style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i class="ph-fill ph-shield-check"></i></span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
                   </div>
                 </div>
                 <p class="product-title">Standing Fan</p>
@@ -801,9 +795,6 @@
                     <span style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i class="ph-fill ph-shield-check"></i></span>
                   </div>
-                  <div style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
-                  </div>
                 </div>
                 <p class="product-title">LED Desk Lamp</p>
                 <p class="product-price" style="margin-top: 4px;">₦3,500</p>
@@ -821,9 +812,6 @@
                   <div style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text);">
                     <span style="font-weight: 600; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@samuel_b</span>
                     <span class="badge-verified" style="width: 12px; height: 12px; font-size: 8px; flex-shrink: 0;"><i class="ph-fill ph-shield-check"></i></span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;">
-                    <i class="ph-fill ph-star"></i> 4.8
                   </div>
                 </div>
                 <p class="product-title">Study Lamp</p>
@@ -953,7 +941,7 @@
             </div>
           </div>
           
-          <div class="list-item" style="border: 1px solid rgba(3,31,33,0.1); border-radius: var(--radius-sm); padding: var(--sp-3); margin-bottom: var(--sp-5);">
+          <div class="list-item" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--sp-3); margin-bottom: var(--sp-5);">
             <div class="list-item-img" style="background: url('https://placehold.co/100x100/E2E8E8/063f42?text=Book') center/cover;"></div>
             <div class="list-item-content">
               <p class="list-item-title">Calculus Textbook</p>
@@ -969,7 +957,7 @@
             <div class="list-item-content"><p class="list-item-title" style="font-weight: 400;">Item Price</p></div>
             <div class="list-item-right"><p class="list-item-title">₦4,000</p></div>
           </div>
-          <div class="list-item" style="padding: 16px 0; border-bottom: none; border-top: 1px solid rgba(3,31,33,0.1);">
+          <div class="list-item" style="padding: 16px 0; border-bottom: none; border-top: 1px solid var(--border-subtle);">
             <div class="list-item-content"><p class="list-item-title" style="font-size: 17px;">Total</p></div>
             <div class="list-item-right"><p class="list-item-title" style="font-size: 17px;">₦4,000</p></div>
           </div>
@@ -983,9 +971,9 @@
             <span style="font-weight: 600;">Paystack</span>
             <i class="ph-fill ph-check-circle" style="color: var(--accent); font-size: 20px;"></i>
           </div>
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; align-items: center; justify-content: space-between;">
             <span style="font-weight: 600;">Flutterwave</span>
-            <i class="ph ph-circle" style="color: rgba(3,31,33,0.2); font-size: 20px;"></i>
+            <i class="ph ph-circle" style="color: var(--border-subtle-20); font-size: 20px;"></i>
           </div>
         </div>
         
@@ -1118,10 +1106,10 @@
           
           <div class="pin-box" style="background: transparent; padding: 0;">
             <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 16px;">
-              <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">4</div>
-              <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">8</div>
+              <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">4</div>
+              <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: rgba(3,31,33,0.02);">8</div>
               <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;"></div>
-              <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid rgba(3,31,33,0.1); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;"></div>
+              <div style="width: 48px; height: 56px; border-radius: var(--radius-sm); border: 2px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; background: white;"></div>
             </div>
             <p class="caption">Ask the seller for their 4-digit handoff PIN after physically inspecting your item at the pickup point.</p>
           </div>
@@ -1299,7 +1287,7 @@
     <div class="screen-wrapper">
       <div class="screen-label">23. Messaging</div>
       <div class="screen">
-        <div class="header" style="padding: var(--sp-4); border-bottom: 1px solid rgba(3,31,33,0.1); margin: 0; background: var(--bg-base); z-index: 2;">
+        <div class="header" style="padding: var(--sp-4); border-bottom: 1px solid var(--border-subtle); margin: 0; background: var(--bg-base); z-index: 2;">
           <button class="icon-btn" style="margin-right: var(--sp-3);"><i class="ph ph-arrow-left"></i></button>
           <div class="seller-avatar" style="width: 32px; height: 32px; font-size: 16px;"><i class="ph ph-user"></i></div>
           <div style="flex: 1; margin-left: 8px;">
@@ -1483,7 +1471,7 @@
             <div style="min-width: 100px; height: 100px; border-radius: var(--radius-md); background: url('https://placehold.co/200x200/E2E8E8/063f42?text=Img') center/cover; position: relative;">
                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); color: white; font-size: 11px; text-align: center; padding: 2px;">Cover</div>
             </div>
-            <div style="min-width: 100px; height: 100px; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--secondary-text);">
+            <div style="min-width: 100px; height: 100px; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--secondary-text);">
               <i class="ph ph-plus"></i>
             </div>
           </div>
@@ -1532,7 +1520,7 @@
           <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-5);">
             <h3 style="margin: 0 0 4px; font-size: 13px; color: var(--secondary-text);">Total Balance</h3>
             <p style="font-size: 28px; font-weight: 700; margin: 0;">₦12,500.00</p>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(3,31,33,0.1); font-weight: 600; font-size: 13px; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle); font-weight: 600; font-size: 13px; cursor: pointer;">
               <span>View Wallet</span>
               <i class="ph ph-caret-right"></i>
             </div>
@@ -1540,7 +1528,7 @@
           <div class="chip-row"><div class="chip active">Active</div><div class="chip">Sold</div><div class="chip">Unlisted</div></div>
           
           <h2 class="headline" style="margin-top: var(--sp-4);">Action Needed</h2>
-          <div style="border: 1px solid rgba(3,31,33,0.15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-4);">
+          <div style="border: 1px solid var(--border-subtle-15); border-radius: var(--radius-md); padding: var(--sp-3); margin-bottom: var(--sp-4);">
             <div style="display: flex; justify-content: space-between; margin-bottom: var(--sp-2);">
               <span class="status-pill status-warning">Awaiting Handoff</span><span class="caption">2h ago</span>
             </div>
@@ -1670,7 +1658,7 @@
         <div class="screen-content">
           <div class="header"><button class="icon-btn"><i class="ph ph-arrow-left"></i></button><h1 class="title-2">Wallet</h1></div>
           <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-4);">
-            <div style="text-align: center; border-bottom: 1px solid rgba(3,31,33,0.1); padding-bottom: var(--sp-4); margin-bottom: var(--sp-4);">
+            <div style="text-align: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--sp-4); margin-bottom: var(--sp-4);">
               <h3 style="margin: 0 0 8px; font-size: 13px; color: var(--secondary-text);">Total Balance</h3>
               <p style="font-size: 36px; font-weight: 700; margin: 0;">₦12,500.00</p>
             </div>
@@ -1729,12 +1717,12 @@
           <textarea class="input" placeholder="Explain what went wrong..."></textarea>
           
           <label class="field-label" style="margin-top: 16px;">Attach Evidence</label>
-          <div style="height: 100px; border-radius: var(--radius-md); border: 2px dashed rgba(3, 31, 33, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: 24px;">
+          <div style="height: 100px; border-radius: var(--radius-md); border: 2px dashed var(--border-subtle-20); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--secondary-text); margin-bottom: 24px;">
             <i class="ph ph-upload-simple" style="font-size: 24px; margin-bottom: 8px;"></i>
             <span style="font-size: 13px; font-weight: 600;">Tap to upload photos</span>
           </div>
           
-          <div style="margin-top: 32px; border-top: 1px solid rgba(3,31,33,0.1); padding-top: 24px;">
+          <div style="margin-top: 32px; border-top: 1px solid var(--border-subtle); padding-top: 24px;">
             <h2 class="headline">Dispute Status Demo</h2>
             <div style="padding-left: 20px; border-left: 2px solid var(--accent); position: relative;">
               <div style="position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);"></div>
