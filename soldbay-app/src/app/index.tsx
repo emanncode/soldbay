@@ -1,5 +1,9 @@
-import { Redirect } from "expo-router";
+import { View, Text } from "react-native";
 
 export default function IndexPage() {
-  return <Redirect href="/buyer/home" />;
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Soldbay Reset Completed</Text>
+    </View>
+  );
 }
