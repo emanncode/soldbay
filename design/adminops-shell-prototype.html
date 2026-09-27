@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin/Ops Shell Prototype</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+<script>
+ tailwind.config = {
+ darkMode: 'class',
+ theme: {
+ extend: {
+ fontFamily: {
+ sora: ['Sora', 'sans-serif'],
+ fraunces: ['Fraunces', 'serif'],
+ },
+ colors: {
+ primaryText: '#031F21',
+ secondaryText: '#063F42',
+ bgCard: '#FFD0A6',
+ bgBase: '#FFFFFF',
+ accent: '#F47A32',
+ borderLight: '#008080',
+ borderDark: '#67B8B3',
+ darkBg: '#031F21',
+ darkBgStep: '#063F42',
+ },
+ spacing: {
+ '1': '4px',
+ '2': '8px',
+ '3': '12px',
+ '4': '16px',
+ '5': '24px',
+ '6': '32px',
+ '7': '48px',
+ '8': '64px',
+ },
+ borderRadius: {
+ 'sm': '8px',
+ 'md': '12px',
+ 'lg': '16px',
+ 'full': '999px',
+ }
+ }
+ }
+ }
+</script>
+<style type="text/tailwindcss">
+ @layer utilities {
+ .text-shadow {
+ text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
+ }
+ }
+</style>
+</head>
+<body class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen antialiased flex flex-col md:flex-row w-full transition-colors duration-300">
+
+ <!-- ============================================== -->
+ <!-- DESKTOP ADMIN SHELL (Visible on md and up) -->
+ <!-- ============================================== -->
+ <div class="hidden md:flex w-full min-h-screen">
+ 
+ <!-- Sidebar -->
+ <aside class="w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex flex-col justify-between shrink-0 transition-all duration-300 relative group" id="desktop-sidebar">
+ <!-- Rail Trigger -->
+ <div class="absolute -right-[1px] top-0 bottom-0 w-1 hover:bg-borderLight/50 cursor-col-resize hidden group-hover:block transition-colors" onclick="toggleSidebar()"></div>
+ 
+ <div>
+ <!-- Header slot: Logo -->
+ <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
+ <div class="font-fraunces font-bold text-2xl tracking-tight text-primaryText dark:text-white flex items-center gap-2">
+ <span class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
+ <span class="logo-text">Soldbay</span>
+ </div>
+ </div>
+
+ <!-- Nav group -->
+ <nav class="p-3 flex flex-col gap-1 mt-4">
+ <!-- Active Item -->
+ <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold transition-colors nav-item">
+ <i class="ph-fill ph-identification-card text-[22px]"></i>
+ <span class="nav-label">Seller Verification</span>
+ </a>
+ <!-- Inactive Items -->
+ <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold transition-colors nav-item">
+ <i class="ph ph-shield-warning text-[22px]"></i>
+ <span class="nav-label">Moderation</span>
+ </a>
+ <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold transition-colors nav-item">
+ <i class="ph ph-scales text-[22px]"></i>
+ <span class="nav-label">Disputes</span>
+ </a>
+ <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold transition-colors nav-item">
+ <i class="ph ph-users text-[22px]"></i>
+ <span class="nav-label">Users</span>
+ </a>
+ <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold transition-colors nav-item">
+ <i class="ph ph-map-pin text-[22px]"></i>
+ <span class="nav-label">Campus Petitions</span>
+ </a>
+ </nav>
+ </div>
+
+ <!-- Footer slot: Admin Identity -->
+ <div class="p-4 border-t border-borderLight/10 dark:border-borderDark/10">
+ <button class="flex items-center gap-3 w-full hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-md transition-colors text-left">
+ <img src="https://i.pravatar.cc/150?u=admin" alt="Admin" class="w-11 h-11 rounded-full object-cover shrink-0 border border-borderLight/20">
+ <div class="flex-1 min-w-0 nav-label">
+ <p class="text-[15px] font-semibold text-primaryText dark:text-white truncate">Chidi E.</p>
+ <p class="text-[13px] text-secondaryText dark:text-borderDark truncate">Admin</p>
+ </div>
+ <i class="ph ph-caret-up text-secondaryText dark:text-borderDark nav-label"></i>
+ </button>
+ </div>
+ </aside>
+
+ <!-- Main Content Area -->
+ <main class="flex-1 flex flex-col bg-bgBase dark:bg-darkBg overflow-hidden">
+ <!-- Top bar -->
+ <header class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 shrink-0 justify-between">
+ <div class="flex items-center gap-3">
+ <button onclick="toggleSidebar()" class="p-2 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+ <i class="ph ph-list text-xl"></i>
+ </button>
+ <h1 class="font-fraunces font-bold text-[20px] text-primaryText dark:text-white mt-1">Seller Verification</h1>
+ </div>
+ <div class="flex items-center gap-3 shrink-0">
+ <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+ <i class="ph ph-moon text-xl"></i>
+ </button>
+ </div>
+ </header>
+
+ <div class="p-8 overflow-y-auto">
+ <p class="text-secondaryText dark:text-borderDark font-sora">Main content area placeholder for desktop...</p>
+ <button class="mt-4 px-5 py-3 bg-accent text-primaryText font-bold text-[15px] rounded-sm shadow-sm transition-opacity hover:opacity-90">Sample Button</button>
+ </div>
+ </main>
+ </div>
+
+ <!-- ============================================== -->
+ <!-- MOBILE FALLBACK SHELL (Visible below md) -->
+ <!-- ============================================== -->
+ <div class="md:hidden flex flex-col w-full min-h-screen bg-bgBase dark:bg-darkBg relative">
+ 
+ <!-- Top Bar -->
+ <header class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg sticky top-0 z-10">
+ <h1 class="font-fraunces font-bold text-[20px] text-primaryText dark:text-white">Seller Verification</h1>
+ <div class="flex items-center gap-3 shrink-0">
+ <button onclick="document.documentElement.classList.toggle('dark')" class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+ <i class="ph ph-moon text-[22px]"></i>
+ </button>
+ <button class="shrink-0" onclick="alert('Log out sheet would open here')">
+ <img src="https://i.pravatar.cc/150?u=admin" alt="Admin" class="w-9 h-9 rounded-full object-cover border border-borderLight/20">
+ </button>
+ </div>
+ </header>
+
+ <!-- Main Content -->
+ <main class="flex-1 p-4 pb-24 overflow-y-auto">
+ <p class="text-secondaryText dark:text-borderDark font-sora">Main content area placeholder for mobile...</p>
+ </main>
+
+ <!-- Bottom Tab Bar -->
+ <nav class="fixed bottom-0 left-0 right-0 border-t border-borderLight/20 dark:border-borderDark/20 bg-bgBase/95 dark:bg-darkBg/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] z-20 flex justify-between px-2 pt-2">
+ <!-- Active -->
+ <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-primaryText dark:text-bgCard">
+ <div class="w-16 h-[34px] shrink-0 rounded-full bg-bgCard flex items-center justify-center">
+ <i class="ph-fill ph-identification-card text-[28px] text-primaryText"></i>
+ </div>
+ <span class="text-[11px] font-semibold text-primaryText dark:text-white">Verify</span>
+ </a>
+ <!-- Inactive -->
+ <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+ <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+ <i class="ph ph-shield-warning text-[28px]"></i>
+ </div>
+ <span class="text-[11px] font-semibold">Moderate</span>
+ </a>
+ <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+ <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+ <i class="ph ph-scales text-[28px]"></i>
+ </div>
+ <span class="text-[11px] font-semibold">Disputes</span>
+ </a>
+ <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+ <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+ <i class="ph ph-users text-[28px]"></i>
+ </div>
+ <span class="text-[11px] font-semibold">Users</span>
+ </a>
+ <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+ <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+ <i class="ph ph-map-pin text-[28px]"></i>
+ </div>
+ <span class="text-[11px] font-semibold">Petitions</span>
+ </a>
+ </nav>
+ </div>
+
+ <script>
+ let isCollapsed = false;
+ function toggleSidebar() {
+ const sidebar = document.getElementById('desktop-sidebar');
+ const texts = document.querySelectorAll('.nav-label, .logo-text');
+ 
+ isCollapsed = !isCollapsed;
+ if (isCollapsed) {
+ sidebar.classList.remove('w-64');
+ sidebar.classList.add('w-[72px]');
+ texts.forEach(t => t.classList.add('hidden'));
+ } else {
+ sidebar.classList.add('w-64');
+ sidebar.classList.remove('w-[72px]');
+ setTimeout(() => texts.forEach(t => t.classList.remove('hidden')), 150);
+ }
+ }
+ </script>
+</body>
+</html>
