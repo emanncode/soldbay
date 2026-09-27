@@ -2,363 +2,365 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
- <title>Admin/Ops - Campus Petitions</title>
- <script src="https://cdn.tailwindcss.com"></script>
- <script src="https://unpkg.com/@phosphor-icons/web"></script>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link
- href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
- rel="stylesheet">
- <script>
- tailwind.config = {
- darkMode: 'class',
- theme: {
- extend: {
- fontFamily: {
- sora: ['Sora', 'sans-serif'],
- fraunces: ['Fraunces', 'serif'],
- },
- colors: {
- primaryText: '#031F21',
- secondaryText: '#063F42',
- bgCard: '#FFD0A6',
- bgBase: '#FFFFFF',
- accent: '#F47A32',
- borderLight: '#008080',
- borderDark: '#67B8B3',
- darkBg: '#031F21',
- darkBgStep: '#063F42',
- statusSuccess: '#14532D',
- statusSuccessBg: '#DCFCE7',
- statusError: '#8B1A10',
- statusErrorBg: '#FEE2E2',
- statusWarning: '#6B4E00',
- statusWarningBg: '#FEF3C7',
- statusSuccessDark: '#4ADE80',
- statusErrorDark: '#EF4444',
- statusWarningDark: '#FACC15',
- },
- spacing: {
- '1': '4px', '2': '8px', '3': '12px', '4': '16px',
- '5': '24px', '6': '32px', '7': '48px', '8': '64px',
- },
- borderRadius: {
- 'sm': '8px', 'md': '12px', 'lg': '16px', 'full': '999px',
- }
- }
- }
- }
- </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin/Ops - Campus Petitions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            fraunces: ['Fraunces', 'serif'],
+          },
+          colors: {
+            primaryText: '#031F21',
+            secondaryText: '#063F42',
+            bgCard: '#FFD0A6',
+            bgBase: '#FFFFFF',
+            accent: '#F47A32',
+            borderLight: '#008080',
+            borderDark: '#67B8B3',
+            darkBg: '#031F21',
+            darkBgStep: '#063F42',
+            statusSuccess: '#14532D',
+            statusSuccessBg: '#DCFCE7',
+            statusError: '#8B1A10',
+            statusErrorBg: '#FEE2E2',
+            statusWarning: '#6B4E00',
+            statusWarningBg: '#FEF3C7',
+            statusSuccessDark: '#4ADE80',
+            statusErrorDark: '#EF4444',
+            statusWarningDark: '#FACC15',
+          },
+          spacing: {
+            '1': '4px', '2': '8px', '3': '12px', '4': '16px',
+            '5': '24px', '6': '32px', '7': '48px', '8': '64px',
+          },
+          borderRadius: {
+            'sm': '8px', 'md': '12px', 'lg': '16px', 'full': '999px',
+          }
+        }
+      }
+    }
+  </script>
 </head>
 
 <body
- class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen flex flex-col md:flex-row w-full antialiased transition-colors duration-300">
+  class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen flex flex-col md:flex-row w-full antialiased transition-colors duration-300">
 
- <!-- ============================================== -->
- <!-- DESKTOP ADMIN SHELL -->
- <!-- ============================================== -->
- <aside
- class="hidden md:flex w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex-col justify-between shrink-0 relative group"
- transition-all duration-300 id="desktop-sidebar">
- <div>
- <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
- <div class="font-fraunces font-bold text-2xl tracking-tight flex items-center gap-2">
- <span
- class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
- <span class="logo-text">Soldbay</span>
- </div>
- </div>
- <nav class="p-3 flex flex-col gap-1 mt-4">
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-identification-card text-[22px]"></i>
- <span class="nav-label">Seller Verification</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-shield-warning text-[22px]"></i>
- <span class="nav-label">Moderation</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-scales text-[22px]"></i>
- <span class="nav-label">Disputes</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-users text-[22px]"></i>
- <span class="nav-label">Users</span>
- </a>
- <!-- Active -->
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold nav-item">
- <i class="ph-fill ph-map-pin text-[22px]"></i>
- <span class="nav-label">Campus Petitions</span>
- </a>
- </nav>
- </div>
- <div class="p-4 border-t border-borderLight/10 dark:border-borderDark/10">
- <button
- class="flex items-center gap-3 w-full hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-md transition-colors text-left">
- <img src="https://i.pravatar.cc/150?u=admin" alt="Admin"
- class="w-11 h-11 rounded-full object-cover shrink-0 border border-borderLight/20">
- <div class="flex-1 min-w-0 nav-label">
- <p class="text-[15px] font-semibold text-primaryText dark:text-white truncate">Chidi E.</p>
- <p class="text-[13px] text-secondaryText dark:text-borderDark truncate">Admin</p>
- </div>
- <i class="ph ph-caret-up text-secondaryText dark:text-borderDark nav-label"></i>
- </button>
- </div>
- </aside>
+  <!-- ============================================== -->
+  <!-- DESKTOP ADMIN SHELL -->
+  <!-- ============================================== -->
+  <aside
+    class="hidden md:flex w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex-col justify-between shrink-0 relative group"
+    transition-all duration-300 id="desktop-sidebar">
+    <div>
+      <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
+        <div class="font-fraunces font-bold text-2xl tracking-tight flex items-center gap-2">
+          <span
+            class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
+          <span class="logo-text">Soldbay</span>
+        </div>
+      </div>
+      <nav class="p-3 flex flex-col gap-1 mt-4">
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+          <i class="ph ph-identification-card text-[22px]"></i>
+          <span class="nav-label">Seller Verification</span>
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+          <i class="ph ph-shield-warning text-[22px]"></i>
+          <span class="nav-label">Moderation</span>
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+          <i class="ph ph-scales text-[22px]"></i>
+          <span class="nav-label">Disputes</span>
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+          <i class="ph ph-users text-[22px]"></i>
+          <span class="nav-label">Users</span>
+        </a>
+        <!-- Active -->
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold nav-item">
+          <i class="ph-fill ph-map-pin text-[22px]"></i>
+          <span class="nav-label">Campus Petitions</span>
+        </a>
+      </nav>
+    </div>
+    <div class="p-4 border-t border-borderLight/10 dark:border-borderDark/10">
+      <button
+        class="flex items-center gap-3 w-full hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-md transition-colors text-left">
+        <img src="https://i.pravatar.cc/150?u=admin" alt="Admin"
+          class="w-11 h-11 rounded-full object-cover shrink-0 border border-borderLight/20">
+        <div class="flex-1 min-w-0 nav-label">
+          <p class="text-[15px] font-semibold text-primaryText dark:text-white truncate">Chidi E.</p>
+          <p class="text-[13px] text-secondaryText dark:text-borderDark truncate">Admin</p>
+        </div>
+        <i class="ph ph-caret-up text-secondaryText dark:text-borderDark nav-label"></i>
+      </button>
+    </div>
+  </aside>
 
- <!-- ============================================== -->
- <!-- MAIN CONTENT AREA -->
- <!-- ============================================== -->
- <main class="flex-1 flex flex-col h-screen overflow-hidden">
+  <!-- ============================================== -->
+  <!-- MAIN CONTENT AREA -->
+  <!-- ============================================== -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden">
 
- <!-- Top Bar -->
- <header
- class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg">
- <div class="flex items-center gap-3">
- <button onclick="toggleSidebar()" class="hidden md:block p-2 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors shrink-0"><i class="ph ph-list text-[22px]"></i></button>
- <h1 class="font-fraunces font-bold text-[20px] mt-1">Campus Petitions</h1>
- </div>
- <div class="flex items-center gap-3 shrink-0">
- <button onclick="document.documentElement.classList.toggle('dark')"
- class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
- <i class="ph ph-moon text-[22px]"></i>
- </button>
- <button class="md:hidden shrink-0"><img src="https://i.pravatar.cc/150?u=admin"
- class="w-9 h-9 rounded-full border border-borderLight/20"></button>
- </div>
- </header>
+    <!-- Top Bar -->
+    <header
+      class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleSidebar()"
+          class="hidden md:block p-2 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors shrink-0"><i
+            class="ph ph-list text-[22px]"></i></button>
+        <h1 class="font-fraunces font-bold text-[20px] mt-1">Campus Petitions</h1>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <button onclick="document.documentElement.classList.toggle('dark')"
+          class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+          <i class="ph ph-moon text-[22px]"></i>
+        </button>
+        <button class="md:hidden shrink-0"><img src="https://i.pravatar.cc/150?u=admin"
+            class="w-9 h-9 rounded-full border border-borderLight/20"></button>
+      </div>
+    </header>
 
- <!-- Queue & Detail Split Pane -->
- <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+    <!-- Queue & Detail Split Pane -->
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
 
- <!-- List/Queue Pane -->
- <div
- class="w-full md:w-80 lg:w-96 border-r border-borderLight/20 dark:border-borderDark/20 flex flex-col h-full shrink-0">
+      <!-- List/Queue Pane -->
+      <div
+        class="w-full md:w-80 lg:w-96 border-r border-borderLight/20 dark:border-borderDark/20 flex flex-col h-full shrink-0">
 
- <!-- Filter Tabs -->
- <div class="p-4 border-b border-borderLight/10 dark:border-borderDark/10 shrink-0">
- <div class="flex bg-black/5 dark:bg-white/5 rounded-md p-1 gap-1">
- <button
- class="flex-1 py-1.5 px-2 rounded text-[13px] font-semibold bg-bgBase dark:bg-darkBg shadow-sm text-primaryText dark:text-white">Pending</button>
- <button
- class="flex-1 py-1.5 px-2 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Approved</button>
- <button
- class="flex-1 py-1.5 px-2 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Rejected</button>
- </div>
- </div>
+        <!-- Filter Tabs -->
+        <div class="p-4 border-b border-borderLight/10 dark:border-borderDark/10 shrink-0">
+          <div class="flex bg-black/5 dark:bg-white/5 rounded-md p-1 gap-1">
+            <button
+              class="flex-1 py-1.5 px-2 rounded text-[13px] font-semibold bg-bgBase dark:bg-darkBg shadow-sm text-primaryText dark:text-white">Pending</button>
+            <button
+              class="flex-1 py-1.5 px-2 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Approved</button>
+            <button
+              class="flex-1 py-1.5 px-2 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Rejected</button>
+          </div>
+        </div>
 
- <!-- Queue List -->
- <div class="flex-1 overflow-y-auto">
- <!-- Active Item -->
- <button
- class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors flex gap-3 items-center">
- <div class="flex-1 min-w-0">
- <div class="flex justify-between items-start mb-1">
- <span class="font-bold text-[15px] text-primaryText dark:text-white truncate">Ayomide B.</span>
- <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">2h
- ago</span>
- </div>
- <p class="text-[13px] font-semibold text-primaryText dark:text-white mb-1.5 flex items-center gap-1.5">
- UI <i class="ph-bold ph-arrow-right text-borderLight dark:text-borderDark"></i> UNILAG
- </p>
- <div
- class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
- Needs Review</div>
- </div>
- </button>
+        <!-- Queue List -->
+        <div class="flex-1 overflow-y-auto">
+          <!-- Active Item -->
+          <button
+            class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors flex gap-3 items-center">
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-start mb-1">
+                <span class="font-bold text-[15px] text-primaryText dark:text-white truncate">Ayomide B.</span>
+                <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">2h
+                  ago</span>
+              </div>
+              <p class="text-[13px] font-semibold text-primaryText dark:text-white mb-1.5 flex items-center gap-1.5">
+                UI <i class="ph-bold ph-arrow-right text-borderLight dark:text-borderDark"></i> UNILAG
+              </p>
+              <div class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
+                Needs Review</div>
+            </div>
+          </button>
 
- <!-- Inactive Item -->
- <button
- class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex gap-3 items-center">
- <div class="flex-1 min-w-0">
- <div class="flex justify-between items-start mb-1">
- <span class="font-bold text-[15px] text-primaryText dark:text-white truncate">Favour C.</span>
- <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">1d
- ago</span>
- </div>
- <p class="text-[13px] font-semibold text-primaryText dark:text-white mb-1.5 flex items-center gap-1.5">
- Babcock <i class="ph-bold ph-arrow-right text-borderLight dark:text-borderDark"></i> CU
- </p>
- <div
- class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
- Needs Review</div>
- </div>
- </button>
- </div>
- </div>
+          <!-- Inactive Item -->
+          <button
+            class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex gap-3 items-center">
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-start mb-1">
+                <span class="font-bold text-[15px] text-primaryText dark:text-white truncate">Favour C.</span>
+                <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">1d
+                  ago</span>
+              </div>
+              <p class="text-[13px] font-semibold text-primaryText dark:text-white mb-1.5 flex items-center gap-1.5">
+                Babcock <i class="ph-bold ph-arrow-right text-borderLight dark:text-borderDark"></i> CU
+              </p>
+              <div class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
+                Needs Review</div>
+            </div>
+          </button>
+        </div>
+      </div>
 
- <!-- Detail Pane (Visible on desktop, fluid 5% padding) -->
- <div class="hidden md:flex flex-1 flex-col h-full overflow-hidden bg-bgBase dark:bg-darkBg relative">
- <div class="flex-1 overflow-y-auto py-8">
+      <!-- Detail Pane (Visible on desktop, fluid 5% padding) -->
+      <div class="hidden md:flex flex-1 flex-col h-full overflow-hidden bg-bgBase dark:bg-darkBg relative">
+        <div class="flex-1 overflow-y-auto py-8">
 
- <div class="w-full px-[5%]">
+          <div class="w-full px-[5%]">
 
- <!-- Profile Header -->
- <div class="flex items-center gap-4 mb-8 pb-6 border-b border-borderLight/10 dark:border-borderDark/10">
- <img src="https://i.pravatar.cc/150?u=ayomide"
- class="w-16 h-16 rounded-full object-cover border border-borderLight/20 shrink-0">
- <div>
- <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Ayomide B.</h2>
- <p class="text-[15px] text-secondaryText dark:text-borderDark">ayo.b@student.ui.edu.ng</p>
- </div>
- </div>
+            <!-- Profile Header -->
+            <div class="flex items-center gap-4 mb-8 pb-6 border-b border-borderLight/10 dark:border-borderDark/10">
+              <img src="https://i.pravatar.cc/150?u=ayomide"
+                class="w-16 h-16 rounded-full object-cover border border-borderLight/20 shrink-0">
+              <div>
+                <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Ayomide B.</h2>
+                <p class="text-[15px] text-secondaryText dark:text-borderDark">ayo.b@student.ui.edu.ng</p>
+              </div>
+            </div>
 
- <!-- Request Visual (From -> To) -->
- <div class="mb-8">
- <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-4">Requested Change</h3>
- <div
- class="flex items-center justify-between sm:justify-start gap-4 sm:gap-8 bg-black/5 dark:bg-white/5 p-6 rounded-lg border border-borderLight/10 dark:border-borderDark/10">
+            <!-- Request Visual (From -> To) -->
+            <div class="mb-8">
+              <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-4">Requested Change</h3>
+              <div
+                class="flex items-center justify-between sm:justify-start gap-4 sm:gap-8 bg-black/5 dark:bg-white/5 p-6 rounded-lg border border-borderLight/10 dark:border-borderDark/10">
 
- <div class="flex flex-col items-center flex-1 sm:flex-none">
- <div
- class="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center mb-2">
- <i class="ph-fill ph-map-pin text-[22px] text-secondaryText dark:text-borderDark"></i>
- </div>
- <p class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide">
- Current</p>
- <p class="text-[15px] font-bold text-primaryText dark:text-white text-center">University of Ibadan
- (UI)</p>
- </div>
+                <div class="flex flex-col items-center flex-1 sm:flex-none">
+                  <div
+                    class="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center mb-2">
+                    <i class="ph-fill ph-map-pin text-[22px] text-secondaryText dark:text-borderDark"></i>
+                  </div>
+                  <p class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide">
+                    Current</p>
+                  <p class="text-[15px] font-bold text-primaryText dark:text-white text-center">University of Ibadan
+                    (UI)</p>
+                </div>
 
- <i class="ph-bold ph-arrow-right text-3xl text-borderLight dark:text-borderDark shrink-0"></i>
+                <i class="ph-bold ph-arrow-right text-3xl text-borderLight dark:text-borderDark shrink-0"></i>
 
- <div class="flex flex-col items-center flex-1 sm:flex-none">
- <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-2">
- <i class="ph-fill ph-map-pin text-[22px] text-accent"></i>
- </div>
- <p class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide">
- Requested</p>
- <p class="text-[15px] font-bold text-primaryText dark:text-white text-center">University of Lagos
- (UNILAG)</p>
- </div>
+                <div class="flex flex-col items-center flex-1 sm:flex-none">
+                  <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-2">
+                    <i class="ph-fill ph-map-pin text-[22px] text-accent"></i>
+                  </div>
+                  <p class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide">
+                    Requested</p>
+                  <p class="text-[15px] font-bold text-primaryText dark:text-white text-center">University of Lagos
+                    (UNILAG)</p>
+                </div>
 
- </div>
- </div>
+              </div>
+            </div>
 
- <!-- Context Block -->
- <div
- class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-borderLight/10 dark:border-borderDark/10 pb-8">
- <div>
- <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-3">Reason for Change</h3>
- <p
- class="text-[15px] text-primaryText dark:text-white leading-relaxed bg-black/5 dark:bg-white/5 p-4 rounded-md italic">"I have officially transferred from UI to UNILAG for my third year. I need my Soldbay account updated
- so I can view local listings on my new campus."
- </p>
- </div>
+            <!-- Context Block -->
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-borderLight/10 dark:border-borderDark/10 pb-8">
+              <div>
+                <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-3">Reason for Change</h3>
+                <p
+                  class="text-[15px] text-primaryText dark:text-white leading-relaxed bg-black/5 dark:bg-white/5 p-4 rounded-md italic">
+                  "I have officially transferred from UI to UNILAG for my third year. I need my Soldbay account updated
+                  so I can view local listings on my new campus."
+                </p>
+              </div>
 
- <div>
- <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-3">Change History</h3>
- <div class="flex flex-col gap-2">
- <div
- class="flex justify-between items-center p-3 rounded-md bg-statusWarning">
- <div>
- <p class="text-[13px] font-bold text-white mb-0.5">Changed
- recently</p>
- <p class="text-[12px] text-secondaryText dark:text-borderDark">User changed campus on Feb 10, 2026
- (7 months ago)</p>
- </div>
- <i class="ph-bold ph-warning text-2xl text-white"></i>
- </div>
- <p class="text-[11px] text-secondaryText dark:text-borderDark mt-1">Note: Policy permits one campus
- change per 12 months. Early changes require manual verification of transfer documents.</p>
- </div>
- </div>
- </div>
+              <div>
+                <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-3">Change History</h3>
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between items-center p-3 rounded-md bg-statusWarning">
+                    <div>
+                      <p class="text-[13px] font-bold text-white mb-0.5">Changed
+                        recently</p>
+                      <p class="text-[12px] text-secondaryText dark:text-borderDark">User changed campus on Feb 10, 2026
+                        (7 months ago)</p>
+                    </div>
+                    <i class="ph-bold ph-warning text-2xl text-white"></i>
+                  </div>
+                  <p class="text-[11px] text-secondaryText dark:text-borderDark mt-1">Note: Policy permits one campus
+                    change per 12 months. Early changes require manual verification of transfer documents.</p>
+                </div>
+              </div>
+            </div>
 
- <!-- Action Area -->
- <div
- class="bg-black/5 dark:bg-white/5 rounded-lg p-6 border border-borderLight/10 dark:border-borderDark/10 mb-8">
- <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-2">Resolution</h3>
- <p class="text-[13px] text-secondaryText dark:text-borderDark mb-5">Approve or reject this petition. The
- user will be notified of your decision immediately.</p>
+            <!-- Action Area -->
+            <div
+              class="bg-black/5 dark:bg-white/5 rounded-lg p-6 border border-borderLight/10 dark:border-borderDark/10 mb-8">
+              <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-2">Resolution</h3>
+              <p class="text-[13px] text-secondaryText dark:text-borderDark mb-5">Approve or reject this petition. The
+                user will be notified of your decision immediately.</p>
 
- <div class="flex flex-col sm:flex-row gap-4 mb-4">
-                <button class="flex-1 bg-accent hover:opacity-90 text-primaryText font-bold text-[15px] py-3 px-4 rounded-sm transition-opacity shadow-sm flex justify-center items-center gap-2">
+              <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                <button
+                  class="flex-1 bg-accent hover:opacity-90 text-primaryText font-bold text-[15px] py-3 px-4 rounded-sm transition-opacity shadow-sm flex justify-center items-center gap-2">
                   <i class="ph-bold ph-check"></i> Approve Change
                 </button>
-                <button class="flex-1 bg-transparent border-2 border-statusError text-statusError hover:bg-statusError/5 font-bold text-[15px] py-3 px-4 rounded-sm transition-colors flex justify-center items-center gap-2">
+                <button
+                  class="flex-1 bg-transparent border-2 border-statusError text-statusError hover:bg-statusError/5 font-bold text-[15px] py-3 px-4 rounded-sm transition-colors flex justify-center items-center gap-2">
                   <i class="ph-bold ph-x"></i> Reject Petition
                 </button>
               </div>
- <div class="text-center">
- <button
- class="text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:text-primaryText dark:hover:text-white transition-colors underline underline-offset-4">
- Request proof of transfer (Email)
- </button>
- </div>
- </div>
+              <div class="text-center">
+                <button
+                  class="text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:text-primaryText dark:hover:text-white transition-colors underline underline-offset-4">
+                  Request proof of transfer (Email)
+                </button>
+              </div>
+            </div>
 
- </div>
- </div>
- </div>
- </div>
- </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
- <!-- ============================================== -->
- <!-- MOBILE BOTTOM TAB BAR -->
- <!-- ============================================== -->
- <nav
- class="md:hidden fixed bottom-0 left-0 right-0 border-t border-borderLight/20 dark:border-borderDark/20 bg-bgBase/95 dark:bg-darkBg/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] z-20 flex justify-between px-2 pt-2">
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-identification-card text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Verify</span>
- </a>
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-shield-warning text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Moderate</span>
- </a>
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-scales text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Disputes</span>
- </a>
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-users text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Users</span>
- </a>
- <!-- Active -->
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-primaryText dark:text-bgCard">
- <div class="w-16 h-[34px] shrink-0 rounded-full bg-bgCard flex items-center justify-center">
- <i class="ph-fill ph-map-pin text-[28px] text-primaryText"></i>
- </div>
- <span class="text-[11px] font-semibold text-primaryText dark:text-white">Petitions</span>
- </a>
- </nav>
+  <!-- ============================================== -->
+  <!-- MOBILE BOTTOM TAB BAR -->
+  <!-- ============================================== -->
+  <nav
+    class="md:hidden fixed bottom-0 left-0 right-0 border-t border-borderLight/20 dark:border-borderDark/20 bg-bgBase/95 dark:bg-darkBg/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] z-20 flex justify-between px-2 pt-2">
+    <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+      <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+        <i class="ph ph-identification-card text-[28px]"></i>
+      </div>
+      <span class="text-[11px] font-semibold">Verify</span>
+    </a>
+    <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+      <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+        <i class="ph ph-shield-warning text-[28px]"></i>
+      </div>
+      <span class="text-[11px] font-semibold">Moderate</span>
+    </a>
+    <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+      <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+        <i class="ph ph-scales text-[28px]"></i>
+      </div>
+      <span class="text-[11px] font-semibold">Disputes</span>
+    </a>
+    <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+      <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+        <i class="ph ph-users text-[28px]"></i>
+      </div>
+      <span class="text-[11px] font-semibold">Users</span>
+    </a>
+    <!-- Active -->
+    <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-primaryText dark:text-bgCard">
+      <div class="w-16 h-[34px] shrink-0 rounded-full bg-bgCard flex items-center justify-center">
+        <i class="ph-fill ph-map-pin text-[28px] text-primaryText"></i>
+      </div>
+      <span class="text-[11px] font-semibold text-primaryText dark:text-white">Petitions</span>
+    </a>
+  </nav>
 
 
- <script>
- let isCollapsed = false;
- function toggleSidebar() {
- const sidebar = document.getElementById('desktop-sidebar');
- const labels = document.querySelectorAll('.nav-label, .logo-text');
- 
- isCollapsed = !isCollapsed;
- if (isCollapsed) {
- sidebar.classList.remove('w-64');
- sidebar.classList.add('w-[72px]');
- labels.forEach(l => l.classList.add('hidden'));
- } else {
- sidebar.classList.add('w-64');
- sidebar.classList.remove('w-[72px]');
- setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
- }
- }
- </script>
+  <script>
+    let isCollapsed = false;
+    function toggleSidebar() {
+      const sidebar = document.getElementById('desktop-sidebar');
+      const labels = document.querySelectorAll('.nav-label, .logo-text');
+
+      isCollapsed = !isCollapsed;
+      if (isCollapsed) {
+        sidebar.classList.remove('w-64');
+        sidebar.classList.add('w-[72px]');
+        labels.forEach(l => l.classList.add('hidden'));
+      } else {
+        sidebar.classList.add('w-64');
+        sidebar.classList.remove('w-[72px]');
+        setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
+      }
+    }
+  </script>
 </body>
 
 </html>

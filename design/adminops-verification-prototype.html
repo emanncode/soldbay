@@ -2,273 +2,284 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
- <title>Admin/Ops - Verification Queue</title>
- <script src="https://cdn.tailwindcss.com"></script>
- <script src="https://unpkg.com/@phosphor-icons/web"></script>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link
- href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
- rel="stylesheet">
- <script>
- tailwind.config = {
- darkMode: 'class',
- theme: {
- extend: {
- fontFamily: {
- sora: ['Sora', 'sans-serif'],
- fraunces: ['Fraunces', 'serif'],
- },
- colors: {
- primaryText: '#031F21',
- secondaryText: '#063F42',
- bgCard: '#FFD0A6',
- bgBase: '#FFFFFF',
- accent: '#F47A32',
- borderLight: '#008080',
- borderDark: '#67B8B3',
- darkBg: '#031F21',
- darkBgStep: '#063F42',
- statusSuccess: '#14532D',
- statusSuccessBg: '#DCFCE7',
- statusError: '#8B1A10',
- statusErrorBg: '#FEE2E2',
- statusWarning: '#6B4E00',
- statusWarningBg: '#FEF3C7',
- statusSuccessDark: '#4ADE80',
- statusErrorDark: '#EF4444',
- statusWarningDark: '#FACC15',
- },
- spacing: {
- '1': '4px', '2': '8px', '3': '12px', '4': '16px',
- '5': '24px', '6': '32px', '7': '48px', '8': '64px',
- },
- borderRadius: {
- 'sm': '8px', 'md': '12px', 'lg': '16px', 'full': '999px',
- }
- }
- }
- }
- </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin/Ops - Verification Queue</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            fraunces: ['Fraunces', 'serif'],
+          },
+          colors: {
+            primaryText: '#031F21',
+            secondaryText: '#063F42',
+            bgCard: '#FFD0A6',
+            bgBase: '#FFFFFF',
+            accent: '#F47A32',
+            borderLight: '#008080',
+            borderDark: '#67B8B3',
+            darkBg: '#031F21',
+            darkBgStep: '#063F42',
+            statusSuccess: '#14532D',
+            statusSuccessBg: '#DCFCE7',
+            statusError: '#8B1A10',
+            statusErrorBg: '#FEE2E2',
+            statusWarning: '#6B4E00',
+            statusWarningBg: '#FEF3C7',
+            statusSuccessDark: '#4ADE80',
+            statusErrorDark: '#EF4444',
+            statusWarningDark: '#FACC15',
+          },
+          spacing: {
+            '1': '4px', '2': '8px', '3': '12px', '4': '16px',
+            '5': '24px', '6': '32px', '7': '48px', '8': '64px',
+          },
+          borderRadius: {
+            'sm': '8px', 'md': '12px', 'lg': '16px', 'full': '999px',
+          }
+        }
+      }
+    }
+  </script>
 </head>
 
 <body
- class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen flex flex-col md:flex-row w-full antialiased transition-colors duration-300">
+  class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen flex flex-col md:flex-row w-full antialiased transition-colors duration-300">
 
- <!-- ============================================== -->
- <!-- DESKTOP ADMIN SHELL -->
- <!-- ============================================== -->
- <aside
- class="hidden md:flex w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex-col justify-between shrink-0 relative group"
- transition-all duration-300 id="desktop-sidebar">
- <div>
- <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
- <div class="font-fraunces font-bold text-2xl tracking-tight flex items-center gap-2">
- <span
- class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
- <span class="logo-text">Soldbay</span>
- </div>
- </div>
- <nav class="p-3 flex flex-col gap-1 mt-4">
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold nav-item">
- <i class="ph-fill ph-identification-card text-[22px]"></i>
- <span class="nav-label">Seller Verification</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-shield-warning text-[22px]"></i>
- <span class="nav-label">Moderation</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-scales text-[22px]"></i>
- <span class="nav-label">Disputes</span>
- </a>
- </nav>
- </div>
- </aside>
+  <!-- ============================================== -->
+  <!-- DESKTOP ADMIN SHELL -->
+  <!-- ============================================== -->
+  <aside
+    class="hidden md:flex w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex-col justify-between shrink-0 relative group"
+    transition-all duration-300 id="desktop-sidebar">
+    <div>
+      <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
+        <div class="font-fraunces font-bold text-2xl tracking-tight flex items-center gap-2">
+          <span
+            class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
+          <span class="logo-text">Soldbay</span>
+        </div>
+      </div>
+      <nav class="p-3 flex flex-col gap-1 mt-4">
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold nav-item">
+          <i class="ph-fill ph-identification-card text-[22px]"></i>
+          <span class="nav-label">Seller Verification</span>
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+          <i class="ph ph-shield-warning text-[22px]"></i>
+          <span class="nav-label">Moderation</span>
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+          <i class="ph ph-scales text-[22px]"></i>
+          <span class="nav-label">Disputes</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
- <!-- ============================================== -->
- <!-- MAIN CONTENT AREA -->
- <!-- ============================================== -->
- <main class="flex-1 flex flex-col h-screen overflow-hidden">
+  <!-- ============================================== -->
+  <!-- MAIN CONTENT AREA -->
+  <!-- ============================================== -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden">
 
- <!-- Top Bar -->
- <header
- class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg">
- <div class="flex items-center gap-3">
- <button class="md:hidden p-2"><i class="ph ph-list text-xl"></i></button>
- <h1 class="font-fraunces font-bold text-[20px] mt-1">Seller Verification</h1>
- </div>
+    <!-- Top Bar -->
+    <header
+      class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg">
+      <div class="flex items-center gap-3">
+        <button class="md:hidden p-2"><i class="ph ph-list text-xl"></i></button>
+        <h1 class="font-fraunces font-bold text-[20px] mt-1">Seller Verification</h1>
+      </div>
 
- <div class="flex items-center gap-3 shrink-0">
- <button onclick="document.documentElement.classList.toggle('dark')"
- class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
- <i class="ph ph-moon text-[22px]"></i>
- </button>
- <button class="md:hidden shrink-0"><img src="https://i.pravatar.cc/150?u=admin"
- class="w-9 h-9 rounded-full border border-borderLight/20"></button>
- </div>
- </header>
+      <div class="flex items-center gap-3 shrink-0">
+        <button onclick="document.documentElement.classList.toggle('dark')"
+          class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+          <i class="ph ph-moon text-[22px]"></i>
+        </button>
+        <button class="md:hidden shrink-0"><img src="https://i.pravatar.cc/150?u=admin"
+            class="w-9 h-9 rounded-full border border-borderLight/20"></button>
+      </div>
+    </header>
 
- <!-- Queue & Detail Split Pane -->
- <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+    <!-- Queue & Detail Split Pane -->
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
 
- <!-- List/Queue Pane -->
- <div
- class="w-full md:w-80 lg:w-96 border-r border-borderLight/20 dark:border-borderDark/20 flex flex-col h-full shrink-0">
- <!-- Filter Tabs -->
- <div class="p-4 border-b border-borderLight/10 dark:border-borderDark/10 shrink-0">
- <div class="flex bg-black/5 dark:bg-white/5 rounded-md p-1 gap-1">
- <button
- class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold bg-bgBase dark:bg-darkBg shadow-sm text-primaryText dark:text-white">Pending</button>
- <button
- class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Approved</button>
- <button
- class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Rejected</button>
- </div>
- </div>
+      <!-- List/Queue Pane -->
+      <div
+        class="w-full md:w-80 lg:w-96 border-r border-borderLight/20 dark:border-borderDark/20 flex flex-col h-full shrink-0">
+        <!-- Filter Tabs -->
+        <div class="p-4 border-b border-borderLight/10 dark:border-borderDark/10 shrink-0">
+          <div class="flex bg-black/5 dark:bg-white/5 rounded-md p-1 gap-1">
+            <button
+              class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold bg-bgBase dark:bg-darkBg shadow-sm text-primaryText dark:text-white">Pending</button>
+            <button
+              class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Approved</button>
+            <button
+              class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Rejected</button>
+          </div>
+        </div>
 
- <!-- Queue List -->
- <div class="flex-1 overflow-y-auto">
- <!-- Active Queue Item -->
- <button
- class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors">
- <div class="flex justify-between items-start mb-1">
- <span class="font-semibold text-[15px] text-primaryText dark:text-white">Emeka U.</span>
- <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium">10m ago</span>
- </div>
- <p class="text-[13px] text-secondaryText dark:text-borderDark mb-2 truncate">University of Lagos (UNILAG)
- </p>
- <div
- class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
- Pending Review</div>
- </button>
- <!-- Inactive Queue Item -->
- <button
- class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
- <div class="flex justify-between items-start mb-1">
- <span class="font-semibold text-[15px] text-primaryText dark:text-white">Fatima A.</span>
- <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium">2h ago</span>
- </div>
- <p class="text-[13px] text-secondaryText dark:text-borderDark mb-2 truncate">Covenant University</p>
- <div
- class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
- Pending Review</div>
- </button>
- </div>
- </div>
+        <!-- Queue List -->
+        <div class="flex-1 overflow-y-auto">
+          <!-- Active Queue Item -->
+          <button
+            class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors">
+            <div class="flex justify-between items-start mb-1">
+              <span class="font-semibold text-[15px] text-primaryText dark:text-white">Emeka U.</span>
+              <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium">10m ago</span>
+            </div>
+            <p class="text-[13px] text-secondaryText dark:text-borderDark mb-2 truncate">University of Lagos (UNILAG)
+            </p>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
+              Pending Review</div>
+          </button>
+          <!-- Inactive Queue Item -->
+          <button
+            class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+            <div class="flex justify-between items-start mb-1">
+              <span class="font-semibold text-[15px] text-primaryText dark:text-white">Fatima A.</span>
+              <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium">2h ago</span>
+            </div>
+            <p class="text-[13px] text-secondaryText dark:text-borderDark mb-2 truncate">Covenant University</p>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
+              Pending Review</div>
+          </button>
+        </div>
+      </div>
 
- <!-- Detail Pane (Visible on desktop, overlays/pushes on mobile) -->
- <div class="hidden md:flex flex-1 flex-col h-full overflow-hidden bg-bgBase dark:bg-darkBg relative">
- <div class="flex-1 overflow-y-auto py-8">
+      <!-- Detail Pane (Visible on desktop, overlays/pushes on mobile) -->
+      <div class="hidden md:flex flex-1 flex-col h-full overflow-hidden bg-bgBase dark:bg-darkBg relative">
+        <div class="flex-1 overflow-y-auto py-8">
 
- <div class="w-full px-[5%]">
- <!-- Header -->
- <div class="flex items-start justify-between mb-8">
- <div class="flex items-center gap-4">
- <div
- class="w-16 h-16 rounded-full bg-borderLight/10 flex items-center justify-center text-2xl font-bold text-secondaryText">
- EU</div>
- <div>
- <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Emeka U.</h2>
- <p class="text-[15px] text-secondaryText dark:text-borderDark flex items-center gap-1">
- <i class="ph-fill ph-map-pin"></i> University of Lagos (UNILAG)
- </p>
- </div>
- </div>
- <div class="text-right">
- <p class="text-[13px] text-secondaryText dark:text-borderDark mb-1">Submitted</p>
- <p class="text-[15px] font-semibold text-primaryText dark:text-white">Oct 12, 10:45 AM</p>
- </div>
- </div>
+          <div class="w-full px-[5%]">
+            <!-- Header -->
+            <div class="flex items-start justify-between mb-8">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-16 h-16 rounded-full bg-borderLight/10 flex items-center justify-center text-2xl font-bold text-secondaryText">
+                  EU</div>
+                <div>
+                  <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Emeka U.</h2>
+                  <p class="text-[15px] text-secondaryText dark:text-borderDark flex items-center gap-1">
+                    <i class="ph-fill ph-map-pin"></i> University of Lagos (UNILAG)
+                  </p>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="text-[13px] text-secondaryText dark:text-borderDark mb-1">Submitted</p>
+                <p class="text-[15px] font-semibold text-primaryText dark:text-white">Oct 12, 10:45 AM</p>
+              </div>
+            </div>
 
- <div class="h-[1px] w-full bg-borderLight/10 dark:bg-borderDark/10 mb-8"></div>
+            <div class="h-[1px] w-full bg-borderLight/10 dark:bg-borderDark/10 mb-8"></div>
 
- <!-- Evidence Documents -->
- <h3 class="text-[17px] font-bold text-primaryText dark:text-white mb-4">Verification Documents</h3>
-            
+            <!-- Evidence Documents -->
+            <h3 class="text-[17px] font-bold text-primaryText dark:text-white mb-4">Verification Documents</h3>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <!-- ID Card Front -->
               <div class="flex flex-col gap-2">
-                <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Student ID (Front)</span>
-                <div class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
-                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <i class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Student ID
+                  (Front)</span>
+                <div
+                  class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
+                  <div
+                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <i
+                      class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
                   </div>
-                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Front" class="w-full h-full object-cover">
+                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Front"
+                    class="w-full h-full object-cover">
                 </div>
               </div>
 
               <!-- ID Card Back -->
               <div class="flex flex-col gap-2">
                 <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Student ID (Back)</span>
-                <div class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
-                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <i class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                <div
+                  class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
+                  <div
+                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <i
+                      class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
                   </div>
-                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Back" class="w-full h-full object-cover">
+                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Back"
+                    class="w-full h-full object-cover">
                 </div>
               </div>
 
               <!-- Portal Screenshot -->
               <div class="flex flex-col gap-2">
                 <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Portal Screenshot</span>
-                <div class="rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative max-h-[400px] flex items-center justify-center">
-                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center z-10">
-                    <i class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                <div
+                  class="rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative max-h-[400px] flex items-center justify-center">
+                  <div
+                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center z-10">
+                    <i
+                      class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
                   </div>
-                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Portal+Dashboard" class="w-full h-full object-contain">
+                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Portal+Dashboard"
+                    class="w-full h-full object-contain">
                 </div>
               </div>
             </div>
 
- <!-- Action Area -->
- <div
- class="bg-black/5 dark:bg-white/5 rounded-lg p-5 border border-borderLight/10 dark:border-borderDark/10">
- <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-2">Review Decision</h3>
- <p class="text-[13px] text-secondaryText dark:text-borderDark mb-4">Ensure the ID matches the portal
- screenshot and the name matches the account profile.</p>
+            <!-- Action Area -->
+            <div
+              class="bg-black/5 dark:bg-white/5 rounded-lg p-5 border border-borderLight/10 dark:border-borderDark/10">
+              <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-2">Review Decision</h3>
+              <p class="text-[13px] text-secondaryText dark:text-borderDark mb-4">Ensure the ID matches the portal
+                screenshot and the name matches the account profile.</p>
 
- <div class="flex flex-col sm:flex-row gap-3">
- <button
- class="flex-1 bg-accent hover:opacity-90 text-primaryText font-bold text-[15px] py-3 px-4 rounded-sm transition-opacity flex justify-center items-center gap-2 shadow-sm">
- <i class="ph-bold ph-check"></i> Approve Seller
- </button>
- <button
- class="flex-1 bg-transparent border border-statusError text-statusError hover:bg-statusError font-bold text-[15px] py-3 px-4 rounded-sm transition-colors flex justify-center items-center gap-2">
- <i class="ph-bold ph-x"></i> Reject & Request Fix
- </button>
- </div>
- </div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <button
+                  class="flex-1 bg-accent hover:opacity-90 text-primaryText font-bold text-[15px] py-3 px-4 rounded-sm transition-opacity flex justify-center items-center gap-2 shadow-sm">
+                  <i class="ph-bold ph-check"></i> Approve Seller
+                </button>
+                <button
+                  class="flex-1 bg-transparent border border-statusError text-statusError hover:bg-statusError font-bold text-[15px] py-3 px-4 rounded-sm transition-colors flex justify-center items-center gap-2">
+                  <i class="ph-bold ph-x"></i> Reject & Request Fix
+                </button>
+              </div>
+            </div>
 
- </div>
- </div>
- </div>
- </div>
- </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
- <script>
- let isCollapsed = false;
- function toggleSidebar() {
- const sidebar = document.getElementById('desktop-sidebar');
- const labels = document.querySelectorAll('.nav-label, .logo-text');
- 
- isCollapsed = !isCollapsed;
- if (isCollapsed) {
- sidebar.classList.remove('w-64');
- sidebar.classList.add('w-[72px]');
- labels.forEach(l => l.classList.add('hidden'));
- } else {
- sidebar.classList.add('w-64');
- sidebar.classList.remove('w-[72px]');
- setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
- }
- }
- </script>
+  <script>
+    let isCollapsed = false;
+    function toggleSidebar() {
+      const sidebar = document.getElementById('desktop-sidebar');
+      const labels = document.querySelectorAll('.nav-label, .logo-text');
+
+      isCollapsed = !isCollapsed;
+      if (isCollapsed) {
+        sidebar.classList.remove('w-64');
+        sidebar.classList.add('w-[72px]');
+        labels.forEach(l => l.classList.add('hidden'));
+      } else {
+        sidebar.classList.add('w-64');
+        sidebar.classList.remove('w-[72px]');
+        setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
+      }
+    }
+  </script>
 </body>
 
 </html>

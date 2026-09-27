@@ -2,339 +2,355 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
- <title>Admin/Ops - Moderation</title>
- <script src="https://cdn.tailwindcss.com"></script>
- <script src="https://unpkg.com/@phosphor-icons/web"></script>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link
- href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
- rel="stylesheet">
- <script>
- tailwind.config = {
- darkMode: 'class',
- theme: {
- extend: {
- fontFamily: {
- sora: ['Sora', 'sans-serif'],
- fraunces: ['Fraunces', 'serif'],
- },
- colors: {
- primaryText: '#031F21',
- secondaryText: '#063F42',
- bgCard: '#FFD0A6',
- bgBase: '#FFFFFF',
- accent: '#F47A32',
- borderLight: '#008080',
- borderDark: '#67B8B3',
- darkBg: '#031F21',
- darkBgStep: '#063F42',
- statusSuccess: '#14532D',
- statusSuccessBg: '#DCFCE7',
- statusError: '#8B1A10',
- statusErrorBg: '#FEE2E2',
- statusWarning: '#6B4E00',
- statusWarningBg: '#FEF3C7',
- statusSuccessDark: '#4ADE80',
- statusErrorDark: '#EF4444',
- statusWarningDark: '#FACC15',
- },
- spacing: {
- '1': '4px', '2': '8px', '3': '12px', '4': '16px',
- '5': '24px', '6': '32px', '7': '48px', '8': '64px',
- },
- borderRadius: {
- 'sm': '8px', 'md': '12px', 'lg': '16px', 'full': '999px',
- }
- }
- }
- }
- </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin/Ops - Moderation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        fraunces: ['Fraunces', 'serif'],
+                    },
+                    colors: {
+                        primaryText: '#031F21',
+                        secondaryText: '#063F42',
+                        bgCard: '#FFD0A6',
+                        bgBase: '#FFFFFF',
+                        accent: '#F47A32',
+                        borderLight: '#008080',
+                        borderDark: '#67B8B3',
+                        darkBg: '#031F21',
+                        darkBgStep: '#063F42',
+                        statusSuccess: '#14532D',
+                        statusSuccessBg: '#DCFCE7',
+                        statusError: '#8B1A10',
+                        statusErrorBg: '#FEE2E2',
+                        statusWarning: '#6B4E00',
+                        statusWarningBg: '#FEF3C7',
+                        statusSuccessDark: '#4ADE80',
+                        statusErrorDark: '#EF4444',
+                        statusWarningDark: '#FACC15',
+                    },
+                    spacing: {
+                        '1': '4px', '2': '8px', '3': '12px', '4': '16px',
+                        '5': '24px', '6': '32px', '7': '48px', '8': '64px',
+                    },
+                    borderRadius: {
+                        'sm': '8px', 'md': '12px', 'lg': '16px', 'full': '999px',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
 <body
- class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen flex flex-col md:flex-row w-full antialiased transition-colors duration-300">
+    class="bg-bgBase dark:bg-darkBg text-primaryText dark:text-white font-sora min-h-screen flex flex-col md:flex-row w-full antialiased transition-colors duration-300">
 
- <!-- ============================================== -->
- <!-- DESKTOP ADMIN SHELL -->
- <!-- ============================================== -->
- <aside
- class="hidden md:flex w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex-col justify-between shrink-0 relative group"
- transition-all duration-300 id="desktop-sidebar">
- <div>
- <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
- <div class="font-fraunces font-bold text-2xl tracking-tight flex items-center gap-2">
- <span
- class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
- <span class="logo-text">Soldbay</span>
- </div>
- </div>
- <nav class="p-3 flex flex-col gap-1 mt-4">
- <!-- Inactive -->
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-identification-card text-[22px]"></i>
- <span class="nav-label">Seller Verification</span>
- </a>
- <!-- Active -->
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold nav-item">
- <i class="ph-fill ph-shield-warning text-[22px]"></i>
- <span class="nav-label">Moderation</span>
- </a>
- <!-- Inactive -->
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-scales text-[22px]"></i>
- <span class="nav-label">Disputes</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-users text-[22px]"></i>
- <span class="nav-label">Users</span>
- </a>
- <a href="#"
- class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
- <i class="ph ph-map-pin text-[22px]"></i>
- <span class="nav-label">Campus Petitions</span>
- </a>
- </nav>
- </div>
- <div class="p-4 border-t border-borderLight/10 dark:border-borderDark/10">
- <button
- class="flex items-center gap-3 w-full hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-md transition-colors text-left">
- <img src="https://i.pravatar.cc/150?u=admin" alt="Admin"
- class="w-11 h-11 rounded-full object-cover shrink-0 border border-borderLight/20">
- <div class="flex-1 min-w-0 nav-label">
- <p class="text-[15px] font-semibold text-primaryText dark:text-white truncate">Chidi E.</p>
- <p class="text-[13px] text-secondaryText dark:text-borderDark truncate">Admin</p>
- </div>
- <i class="ph ph-caret-up text-secondaryText dark:text-borderDark nav-label"></i>
- </button>
- </div>
- </aside>
+    <!-- ============================================== -->
+    <!-- DESKTOP ADMIN SHELL -->
+    <!-- ============================================== -->
+    <aside
+        class="hidden md:flex w-64 border-r border-borderLight/20 dark:border-borderDark/20 bg-bgBase dark:bg-darkBg flex-col justify-between shrink-0 relative group"
+        transition-all duration-300 id="desktop-sidebar">
+        <div>
+            <div class="p-4 flex items-center h-16 border-b border-borderLight/10 dark:border-borderDark/10">
+                <div class="font-fraunces font-bold text-2xl tracking-tight flex items-center gap-2">
+                    <span
+                        class="w-10 h-10 bg-primaryText dark:bg-white text-white dark:text-primaryText rounded-full flex items-center justify-center text-xl shrink-0">S</span>
+                    <span class="logo-text">Soldbay</span>
+                </div>
+            </div>
+            <nav class="p-3 flex flex-col gap-1 mt-4">
+                <!-- Inactive -->
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+                    <i class="ph ph-identification-card text-[22px]"></i>
+                    <span class="nav-label">Seller Verification</span>
+                </a>
+                <!-- Active -->
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-sm bg-bgCard text-primaryText font-semibold nav-item">
+                    <i class="ph-fill ph-shield-warning text-[22px]"></i>
+                    <span class="nav-label">Moderation</span>
+                </a>
+                <!-- Inactive -->
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+                    <i class="ph ph-scales text-[22px]"></i>
+                    <span class="nav-label">Disputes</span>
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+                    <i class="ph ph-users text-[22px]"></i>
+                    <span class="nav-label">Users</span>
+                </a>
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2 rounded-sm text-borderLight dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5 font-semibold nav-item">
+                    <i class="ph ph-map-pin text-[22px]"></i>
+                    <span class="nav-label">Campus Petitions</span>
+                </a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-borderLight/10 dark:border-borderDark/10">
+            <button
+                class="flex items-center gap-3 w-full hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-md transition-colors text-left">
+                <img src="https://i.pravatar.cc/150?u=admin" alt="Admin"
+                    class="w-11 h-11 rounded-full object-cover shrink-0 border border-borderLight/20">
+                <div class="flex-1 min-w-0 nav-label">
+                    <p class="text-[15px] font-semibold text-primaryText dark:text-white truncate">Chidi E.</p>
+                    <p class="text-[13px] text-secondaryText dark:text-borderDark truncate">Admin</p>
+                </div>
+                <i class="ph ph-caret-up text-secondaryText dark:text-borderDark nav-label"></i>
+            </button>
+        </div>
+    </aside>
 
- <!-- ============================================== -->
- <!-- MAIN CONTENT AREA -->
- <!-- ============================================== -->
- <main class="flex-1 flex flex-col h-screen overflow-hidden">
+    <!-- ============================================== -->
+    <!-- MAIN CONTENT AREA -->
+    <!-- ============================================== -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
 
- <!-- Top Bar -->
- <header
- class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg">
- <div class="flex items-center gap-3">
- <button onclick="toggleSidebar()" class="hidden md:block p-2 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors shrink-0"><i class="ph ph-list text-[22px]"></i></button>
- <h1 class="font-fraunces font-bold text-[20px] mt-1">Moderation</h1>
- </div>
- <div class="flex items-center gap-3 shrink-0">
- <button onclick="document.documentElement.classList.toggle('dark')"
- class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
- <i class="ph ph-moon text-[22px]"></i>
- </button>
- <button class="md:hidden shrink-0"><img src="https://i.pravatar.cc/150?u=admin"
- class="w-9 h-9 rounded-full border border-borderLight/20"></button>
- </div>
- </header>
+        <!-- Top Bar -->
+        <header
+            class="h-16 border-b border-borderLight/20 dark:border-borderDark/20 flex items-center px-4 justify-between shrink-0 bg-bgBase dark:bg-darkBg">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()"
+                    class="hidden md:block p-2 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors shrink-0"><i
+                        class="ph ph-list text-[22px]"></i></button>
+                <h1 class="font-fraunces font-bold text-[20px] mt-1">Moderation</h1>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+                <button onclick="document.documentElement.classList.toggle('dark')"
+                    class="p-1.5 text-primaryText dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors">
+                    <i class="ph ph-moon text-[22px]"></i>
+                </button>
+                <button class="md:hidden shrink-0"><img src="https://i.pravatar.cc/150?u=admin"
+                        class="w-9 h-9 rounded-full border border-borderLight/20"></button>
+            </div>
+        </header>
 
- <!-- Queue & Detail Split Pane -->
- <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <!-- Queue & Detail Split Pane -->
+        <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
 
- <!-- List/Queue Pane -->
- <div
- class="w-full md:w-80 lg:w-96 border-r border-borderLight/20 dark:border-borderDark/20 flex flex-col h-full shrink-0">
- <!-- Filter Tabs -->
- <div class="p-4 border-b border-borderLight/10 dark:border-borderDark/10 shrink-0">
- <div class="flex bg-black/5 dark:bg-white/5 rounded-md p-1 gap-1">
- <button
- class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold bg-bgBase dark:bg-darkBg shadow-sm text-primaryText dark:text-white">New
- Listings</button>
- <button
- class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Reported</button>
- </div>
- </div>
+            <!-- List/Queue Pane -->
+            <div
+                class="w-full md:w-80 lg:w-96 border-r border-borderLight/20 dark:border-borderDark/20 flex flex-col h-full shrink-0">
+                <!-- Filter Tabs -->
+                <div class="p-4 border-b border-borderLight/10 dark:border-borderDark/10 shrink-0">
+                    <div class="flex bg-black/5 dark:bg-white/5 rounded-md p-1 gap-1">
+                        <button
+                            class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold bg-bgBase dark:bg-darkBg shadow-sm text-primaryText dark:text-white">New
+                            Listings</button>
+                        <button
+                            class="flex-1 py-1.5 px-3 rounded text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:bg-black/5 dark:hover:bg-white/5">Reported</button>
+                    </div>
+                </div>
 
- <!-- Queue List (New Listings) -->
- <div class="flex-1 overflow-y-auto">
- <!-- Active Queue Item -->
- <button
- class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors flex gap-3 items-center">
- <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Macbook"
- class="w-14 h-14 rounded-md object-cover border border-borderLight/10">
- <div class="flex-1 min-w-0">
- <div class="flex justify-between items-start mb-0.5">
- <span class="font-semibold text-[15px] text-primaryText dark:text-white truncate">Macbook Pro M1
- 2020</span>
- <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">Just
- now</span>
- </div>
- <p class="text-[13px] font-bold text-accent mb-0.5">₦650,000</p>
- <p class="text-[12px] text-secondaryText dark:text-borderDark truncate">By John D. • Pending Review</p>
- </div>
- </button>
- <!-- Inactive Queue Item -->
- <button
- class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex gap-3 items-center">
- <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Fridge"
- class="w-14 h-14 rounded-md object-cover border border-borderLight/10">
- <div class="flex-1 min-w-0">
- <div class="flex justify-between items-start mb-0.5">
- <span class="font-semibold text-[15px] text-primaryText dark:text-white truncate">Hisense Mini
- Fridge</span>
- <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">5m
- ago</span>
- </div>
- <p class="text-[13px] font-bold text-accent mb-0.5">₦45,000</p>
- <p class="text-[12px] font-bold text-statusError truncate"><i class="ph-fill ph-flag mr-1"></i>Reported: Misleading photos • by 2 users</p>
- </div>
- </button>
- </div>
- </div>
+                <!-- Queue List (New Listings) -->
+                <div class="flex-1 overflow-y-auto">
+                    <!-- Active Queue Item -->
+                    <button
+                        class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors flex gap-3 items-center">
+                        <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Macbook"
+                            class="w-14 h-14 rounded-md object-cover border border-borderLight/10">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start mb-0.5">
+                                <span
+                                    class="font-semibold text-[15px] text-primaryText dark:text-white truncate">Macbook
+                                    Pro M1
+                                    2020</span>
+                                <span
+                                    class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">Just
+                                    now</span>
+                            </div>
+                            <p class="text-[13px] font-bold text-accent mb-0.5">₦650,000</p>
+                            <p class="text-[12px] text-secondaryText dark:text-borderDark truncate">By John D. • Pending
+                                Review</p>
+                        </div>
+                    </button>
+                    <!-- Inactive Queue Item -->
+                    <button
+                        class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex gap-3 items-center">
+                        <img src="https://placehold.co/150x150/e2e8f0/64748b?text=Fridge"
+                            class="w-14 h-14 rounded-md object-cover border border-borderLight/10">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start mb-0.5">
+                                <span
+                                    class="font-semibold text-[15px] text-primaryText dark:text-white truncate">Hisense
+                                    Mini
+                                    Fridge</span>
+                                <span
+                                    class="text-[12px] text-secondaryText dark:text-borderDark font-medium shrink-0 ml-2">5m
+                                    ago</span>
+                            </div>
+                            <p class="text-[13px] font-bold text-accent mb-0.5">₦45,000</p>
+                            <p class="text-[12px] font-bold text-statusError truncate"><i
+                                    class="ph-fill ph-flag mr-1"></i>Reported: Misleading photos • by 2 users</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
 
- <!-- Detail Pane (Visible on desktop) -->
- <div class="hidden md:flex flex-1 flex-col h-full overflow-hidden bg-bgBase dark:bg-darkBg relative">
- <div class="flex-1 overflow-y-auto py-8">
+            <!-- Detail Pane (Visible on desktop) -->
+            <div class="hidden md:flex flex-1 flex-col h-full overflow-hidden bg-bgBase dark:bg-darkBg relative">
+                <div class="flex-1 overflow-y-auto py-8">
 
- <div class="w-full px-[5%]">
+                    <div class="w-full px-[5%]">
 
- <!-- Listing Header & Action -->
- <div class="flex items-start justify-between mb-6">
- <div>
- <div
- class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold mb-2">
- Pending Policy Review</div>
- <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Macbook Pro M1 2020</h2>
- <p class="text-xl font-bold text-accent">₦650,000</p>
- </div>
- <div class="flex gap-2">
- <button
- class="bg-accent hover:opacity-90 text-primaryText font-bold text-[13px] py-2 px-4 rounded-sm transition-opacity shadow-sm">
- Approve Listing
- </button>
- <button
- class="bg-transparent border border-statusError text-statusError hover:bg-statusError font-bold text-[13px] py-2 px-4 rounded-sm transition-colors">
- Take Down
- </button>
- </div>
- </div>
+                        <!-- Listing Header & Action -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <div
+                                    class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold mb-2">
+                                    Pending Policy Review</div>
+                                <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Macbook Pro M1 2020
+                                </h2>
+                                <p class="text-xl font-bold text-accent">₦650,000</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button
+                                    class="bg-accent hover:opacity-90 text-primaryText font-bold text-[13px] py-2 px-4 rounded-sm transition-opacity shadow-sm">
+                                    Approve Listing
+                                </button>
+                                <button
+                                    class="bg-transparent border border-statusError text-statusError hover:bg-statusError font-bold text-[13px] py-2 px-4 rounded-sm transition-colors">
+                                    Take Down
+                                </button>
+                            </div>
+                        </div>
 
- <!-- Image Gallery Preview -->
- <div class="flex gap-2 overflow-x-auto pb-4 mb-4">
- <img src="https://placehold.co/800x600/e2e8f0/64748b?text=Macbook+Front"
- class="w-64 h-48 object-cover rounded-md border border-borderLight/20">
- <img src="https://placehold.co/800x600/e2e8f0/64748b?text=Macbook+Keyboard"
- class="w-64 h-48 object-cover rounded-md border border-borderLight/20">
- </div>
+                        <!-- Image Gallery Preview -->
+                        <div class="flex gap-2 overflow-x-auto pb-4 mb-4">
+                            <img src="https://placehold.co/800x600/e2e8f0/64748b?text=Macbook+Front"
+                                class="w-64 h-48 object-cover rounded-md border border-borderLight/20">
+                            <img src="https://placehold.co/800x600/e2e8f0/64748b?text=Macbook+Keyboard"
+                                class="w-64 h-48 object-cover rounded-md border border-borderLight/20">
+                        </div>
 
- <!-- Listing Details -->
- <div
- class="grid grid-cols-2 gap-6 mb-8 border-t border-b border-borderLight/10 dark:border-borderDark/10 py-6">
- <div>
- <span
- class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide block mb-1">Condition</span>
- <span class="text-[15px] font-semibold text-primaryText dark:text-white">Used - Excellent</span>
- </div>
- <div>
- <span
- class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide block mb-1">Category</span>
- <span class="text-[15px] font-semibold text-primaryText dark:text-white">Electronics & Gadgets</span>
- </div>
- <div class="col-span-2">
- <span
- class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide block mb-1">Description</span>
- <p class="text-[15px] text-primaryText dark:text-white leading-relaxed">
- Selling my Macbook Pro M1. 8GB RAM, 256GB SSD. Battery health is at 92%. Comes with original charger
- and box. No scratches on screen. Meet up at UNILAG library or Senate building.
- </p>
- </div>
- </div>
+                        <!-- Listing Details -->
+                        <div
+                            class="grid grid-cols-2 gap-6 mb-8 border-t border-b border-borderLight/10 dark:border-borderDark/10 py-6">
+                            <div>
+                                <span
+                                    class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide block mb-1">Condition</span>
+                                <span class="text-[15px] font-semibold text-primaryText dark:text-white">Used -
+                                    Excellent</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide block mb-1">Category</span>
+                                <span class="text-[15px] font-semibold text-primaryText dark:text-white">Electronics &
+                                    Gadgets</span>
+                            </div>
+                            <div class="col-span-2">
+                                <span
+                                    class="text-[12px] font-semibold text-secondaryText dark:text-borderDark uppercase tracking-wide block mb-1">Description</span>
+                                <p class="text-[15px] text-primaryText dark:text-white leading-relaxed">
+                                    Selling my Macbook Pro M1. 8GB RAM, 256GB SSD. Battery health is at 92%. Comes with
+                                    original charger
+                                    and box. No scratches on screen. Meet up at UNILAG library or Senate building.
+                                </p>
+                            </div>
+                        </div>
 
- <!-- Seller Info -->
- <h3 class="text-[17px] font-bold text-primaryText dark:text-white mb-4">Seller Information</h3>
- <div
- class="bg-black/5 dark:bg-white/5 rounded-lg p-4 flex items-center justify-between border border-borderLight/10 dark:border-borderDark/10">
- <div class="flex items-center gap-3">
- <img src="https://i.pravatar.cc/150?u=seller1"
- class="w-12 h-12 rounded-full border border-borderLight/20">
- <div>
- <p class="font-bold text-primaryText dark:text-white flex items-center gap-1">
- John D. <i class="ph-fill ph-check-circle text-accent" title="Verified Seller"></i>
- </p>
- <p class="text-[13px] text-secondaryText dark:text-borderDark">Joined Aug 2026 • 5 Active Listings</p>
- </div>
- </div>
- <button
- class="text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:text-primaryText dark:hover:text-white transition-colors">
- View Profile &rarr;
- </button>
- </div>
+                        <!-- Seller Info -->
+                        <h3 class="text-[17px] font-bold text-primaryText dark:text-white mb-4">Seller Information</h3>
+                        <div
+                            class="bg-black/5 dark:bg-white/5 rounded-lg p-4 flex items-center justify-between border border-borderLight/10 dark:border-borderDark/10">
+                            <div class="flex items-center gap-3">
+                                <img src="https://i.pravatar.cc/150?u=seller1"
+                                    class="w-12 h-12 rounded-full border border-borderLight/20">
+                                <div>
+                                    <p class="font-bold text-primaryText dark:text-white flex items-center gap-1">
+                                        John D. <i class="ph-fill ph-check-circle text-accent"
+                                            title="Verified Seller"></i>
+                                    </p>
+                                    <p class="text-[13px] text-secondaryText dark:text-borderDark">Joined Aug 2026 • 5
+                                        Active Listings</p>
+                                </div>
+                            </div>
+                            <button
+                                class="text-[13px] font-semibold text-secondaryText dark:text-borderDark hover:text-primaryText dark:hover:text-white transition-colors">
+                                View Profile &rarr;
+                            </button>
+                        </div>
 
- </div>
- </div>
- </div>
- </div>
- </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
- <!-- ============================================== -->
- <!-- MOBILE BOTTOM TAB BAR -->
- <!-- ============================================== -->
- <nav
- class="md:hidden fixed bottom-0 left-0 right-0 border-t border-borderLight/20 dark:border-borderDark/20 bg-bgBase/95 dark:bg-darkBg/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] z-20 flex justify-between px-2 pt-2">
- <!-- Inactive -->
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-identification-card text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Verify</span>
- </a>
- <!-- Active -->
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-primaryText dark:text-bgCard">
- <div class="w-16 h-[34px] shrink-0 rounded-full bg-bgCard flex items-center justify-center">
- <i class="ph-fill ph-shield-warning text-[28px] text-primaryText"></i>
- </div>
- <span class="text-[11px] font-semibold text-primaryText dark:text-white">Moderate</span>
- </a>
- <!-- Inactive -->
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-scales text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Disputes</span>
- </a>
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-users text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Users</span>
- </a>
- <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
- <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
- <i class="ph ph-map-pin text-[28px]"></i>
- </div>
- <span class="text-[11px] font-semibold">Petitions</span>
- </a>
- </nav>
+    <!-- ============================================== -->
+    <!-- MOBILE BOTTOM TAB BAR -->
+    <!-- ============================================== -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 border-t border-borderLight/20 dark:border-borderDark/20 bg-bgBase/95 dark:bg-darkBg/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] z-20 flex justify-between px-2 pt-2">
+        <!-- Inactive -->
+        <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+            <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+                <i class="ph ph-identification-card text-[28px]"></i>
+            </div>
+            <span class="text-[11px] font-semibold">Verify</span>
+        </a>
+        <!-- Active -->
+        <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-primaryText dark:text-bgCard">
+            <div class="w-16 h-[34px] shrink-0 rounded-full bg-bgCard flex items-center justify-center">
+                <i class="ph-fill ph-shield-warning text-[28px] text-primaryText"></i>
+            </div>
+            <span class="text-[11px] font-semibold text-primaryText dark:text-white">Moderate</span>
+        </a>
+        <!-- Inactive -->
+        <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+            <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+                <i class="ph ph-scales text-[28px]"></i>
+            </div>
+            <span class="text-[11px] font-semibold">Disputes</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+            <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+                <i class="ph ph-users text-[28px]"></i>
+            </div>
+            <span class="text-[11px] font-semibold">Users</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-1 w-full py-2 text-borderLight dark:text-borderDark">
+            <div class="w-16 h-[34px] shrink-0 rounded-full flex items-center justify-center">
+                <i class="ph ph-map-pin text-[28px]"></i>
+            </div>
+            <span class="text-[11px] font-semibold">Petitions</span>
+        </a>
+    </nav>
 
 
- <script>
- let isCollapsed = false;
- function toggleSidebar() {
- const sidebar = document.getElementById('desktop-sidebar');
- const labels = document.querySelectorAll('.nav-label, .logo-text');
- 
- isCollapsed = !isCollapsed;
- if (isCollapsed) {
- sidebar.classList.remove('w-64');
- sidebar.classList.add('w-[72px]');
- labels.forEach(l => l.classList.add('hidden'));
- } else {
- sidebar.classList.add('w-64');
- sidebar.classList.remove('w-[72px]');
- setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
- }
- }
- </script>
+    <script>
+        let isCollapsed = false;
+        function toggleSidebar() {
+            const sidebar = document.getElementById('desktop-sidebar');
+            const labels = document.querySelectorAll('.nav-label, .logo-text');
+
+            isCollapsed = !isCollapsed;
+            if (isCollapsed) {
+                sidebar.classList.remove('w-64');
+                sidebar.classList.add('w-[72px]');
+                labels.forEach(l => l.classList.add('hidden'));
+            } else {
+                sidebar.classList.add('w-64');
+                sidebar.classList.remove('w-[72px]');
+                setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
+            }
+        }
+    </script>
 </body>
 
 </html>
