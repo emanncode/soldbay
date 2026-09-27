@@ -1,6 +1,6 @@
 # Soldbay Admin/Ops Module - Engineering Handoff Manifest
 
-**Revision status:** v4 — All corrections from earlier rounds (Verification portal ratio/ID back, Moderation reported tab, Disputes evidence ratio, and all token/button fixes) have been implemented and locked.
+**Revision status:** v5 — All corrections from earlier rounds (Verification portal ratio/ID back, Moderation reported tab, Disputes evidence ratio, and all token/button fixes) have been implemented and locked.
 
 ## Overview
 This document serves as the official handoff manifest for the Soldbay Admin/Ops module. All screens have been prototyped in static HTML/Tailwind and locked for React Native/Expo (soldbay-app) + Next.js (soldbay-web) implementation. 
