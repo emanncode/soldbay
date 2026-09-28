@@ -1,11 +1,13 @@
 ---
 name: soldbay-feature-inventory
-description: Linear Document - Feature/Workflow Inventory
+description: Information about Feature/Workflow Inventory for Soldbay
 ---
 
 # Feature/Workflow Inventory
 
-Raw, exhaustive inventory of every feature/workflow across the whole product — buyer + seller, all product areas. This is the step that should have happened before any screen design started (per the Ace design-principles doc). Triage complete — see below. Locked product decisions already reflected: no cart (single-item buy-now only), no separate favorites/save (merged into wishlist), campus is fixed at signup and only changeable via email petition to Soldbay support.
+**Status: FINAL — scope source of truth.** The MVP / Later / Cut triage below is complete and settled; scope is not re-litigated elsewhere. Where a later, more specific doc refines an item, it is annotated inline with a pointer. All MVP screens are designed and locked (see Screen Build Order and Admin/Ops Screen Flow (IA)); the project is now in real-code integration (see Workflow & Continuation Guide).
+
+Raw, exhaustive inventory of every feature/workflow across the whole product — buyer + seller, all product areas. This is the step that should have happened before any screen design started (per the Ace design-principles doc). Locked product decisions reflected: no cart (single-item buy-now only), no separate favorites/save (merged into wishlist), campus is fixed at signup and only changeable via email petition to Soldbay support.
 
 Cross-referenced against Jiji, Jumia, and why campus vendors default to WhatsApp (validated by a direct competitor, Unigram, positioning itself against exactly that). Conclusion: most of what those platforms offer (job listings, pay-on-delivery, multi-vendor logistics penalties, broadcast marketing tools) would be overreach for a single-campus, single-unit, student-to-student app. The one item validated as a real gap rather than a nice-to-have: rating & review system (both Jiji and Jumia treat this as load-bearing for trust).
 
@@ -15,10 +17,10 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 
 ### 1. Onboarding & Auth
 
-* Signup (email/phone, campus selection) — MVP
+* Signup — MVP. Refined: First Name/Surname, Matric Number (collected, not verified), Email, optional Phone, Campus via full-screen picker, T&Cs. Every signup is a buyer account (see "Signup/Auth Rework — Buyer-First Model + Campus Picker")
 * Login / session mgmt / password reset — MVP
 * Switch buyer/seller mode — MVP
-* Seller verification submission — MVP
+* Seller verification submission — MVP. Refined: initiated from Profile → Switch to Seller; the user chooses EITHER Student ID (front + back) OR a Student Portal screenshot — one path, not both (see Signup/Auth Rework)
 * Campus selection (locked at signup) — MVP
 * Account deletion — MVP
 * Re-signup after deletion — MVP
@@ -36,13 +38,13 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Pull-to-refresh — MVP
 * Infinite scroll / pagination — MVP
 * Personalized recommendations — Cut (no data at fresh-campus launch to make this meaningful)
-* Screen identity/wayfinding — open decision, not a build item (Ace-doc header tension, still unresolved)
-* Note: anything above tagged "already built" in [EC-28](https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home) is a candidate for revisiting during this triage, not automatically settled just because code/design exists.
+* Screen identity/wayfinding — RESOLVED: a lightweight screen-title on every main tab, with the bell on the right (see Design System Reference)
+* Note: anything above tagged "already built" in [EC-28](https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home) ([https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home](<https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home>)) was revisited during this triage, not automatically settled just because code/design existed.
 
 ### 3. Search & Filters
 
 * Search bar / keyword search — MVP
-* Filters (category, price, verified-only, condition, availability) — MVP
+* Filters (category, price, verified-only, condition, availability) — MVP. Verified Only is chip-only, globally — no separate toggle anywhere.
 * Sort (price, recency, popularity) — MVP
 * Search history / recent searches — Later
 * Search suggestions / autocomplete — Later (sparse catalog at launch makes this low-value)
@@ -55,7 +57,7 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Edit listing — MVP
 * Delete / unlist / relist — MVP
 * Draft listings — Later
-* Discount/sale pricing — MVP (visual spec already locked)
+* Discount/sale pricing — MVP (visual spec locked)
 * Quantity/stock per listing — Cut, locked (single-unit model, not a timing deferral)
 * Listing expiry / auto-relist / bump — Later
 * Boost/promote a listing — Later (monetization feature)
@@ -89,7 +91,7 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Seller sets pickup windows — MVP
 * Buyer selects pickup window — MVP
 * Reschedule/change window — MVP (real gap — pickup timing is too central to leave to chat alone)
-* Pickup location/map display — MVP (fixed pickup point is locked as a concept but has no UI yet)
+* Pickup location/map display — MVP (fixed pickup point is locked as a concept)
 * Pickup point management (fixed vs. multiple) — Later (start with one fixed point per campus)
 * Late/no-show handling — MVP
 * Pickup reminders/notifications — MVP
@@ -99,7 +101,7 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Order status tracking — MVP
 * PIN generation/reveal/entry/confirmation — MVP. Refined workflow: the seller's PIN-reveal control is not always-visible — it only appears/activates after the buyer taps a "ready for pickup / I'm here" action on their end. State flow: idle → buyer signals ready → seller's PIN reveal becomes available → PIN entered/confirmed.
 * Handoff confirmation flow — MVP
-* Auto-release timer/countdown display — MVP (48hr logic already locked; UI for it was missing, needs to exist)
+* Auto-release timer/countdown display — MVP (48hr logic locked)
 * Handoff failure handling (no-show, PIN mismatch, dispute) — MVP (real gap — the core differentiator needs a documented failure path)
 * Order history — MVP
 * Order cancellation (pre-handoff) — MVP
@@ -108,12 +110,12 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 ### 9. Messaging / Chat
 
 * Per-order chat thread — MVP
-* Message thread list/inbox — Cut, locked (no global inbox — scoped per-order only, already locked in [EC-28](https://linear.app/emanncode/issue/EC-28/tier-1-17-feed-browse-home))
+* Message thread list/inbox — Cut, locked (no global inbox — scoped per-order only)
 * Push notifications for new messages — MVP
 * Read receipts — MVP, via long-press → info (not persistent checkmarks)
 * Typing indicators — Cut for MVP
 * Contact-info/off-app-payment flagging — MVP
-* Chat archiving / read-only history — MVP (closes 24hrs post-handoff, already locked)
+* Chat archiving / read-only history — MVP (closes 24hrs post-handoff, locked)
 * Pre-purchase inquiry chat — Cut, locked (conflicts with verified-sellers-only, opens-at-purchase gating)
 * Block/report a user from chat — MVP
 * Media sharing in chat (photos) — Later
@@ -121,9 +123,9 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 ### 10. Trust & Verification
 
 * Seller verification badge display — MVP
-* Seller verification submission & review — MVP
+* Seller verification submission & review — MVP (submission per the refined model in section 1; review = Admin/Ops queue)
 * Buyer trust signals (account age, order history) — Later
-* Rating & review system — MVP (upgraded from Undecided — validated as load-bearing by competitor research: Jiji, Jumia both treat this as central to trust)
+* Rating & review system — MVP (validated as load-bearing by competitor research)
 * Dispute history visibility — Later (depends on Disputes flow existing first)
 * Fraud/scam reporting — MVP
 * Blocklist / banned users — MVP
@@ -135,7 +137,7 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Earnings summary — MVP
 * Analytics (views, conversion, top listings) — Later
 * Bulk actions on listings — Cut
-* Customer messages overview — Cut, locked (no inbox means no overview surface — follows from the per-order-only messaging decision)
+* Customer messages overview — Cut, locked (no inbox means no overview surface)
 
 ### 12. Wallet / Payments (Seller)
 
@@ -152,7 +154,7 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Seller profile (business name, verification, ratings) — MVP
 * Notification preferences — Later
 * Privacy settings — Later
-* Dark/light mode — MVP, both modes (system-default, no manual toggle — locked). Design System Reference should be extended using the color/font references in the Ace doc's linked images, in addition to (not replacing) the existing design system rules.
+* Dark/light mode — MVP, both modes (system-default, no manual toggle — locked). Design System Reference extended and locked.
 * Language preference — Cut, locked (English-only v1, toggle meaningless until Pidgin ships)
 * Account security (password change, 2FA) — MVP
 * Help/support/FAQ (+ campus-change petition entry point) — MVP
@@ -176,26 +178,26 @@ Every item is tagged **MVP** / **Later** / **Cut**. "Cut" means *out of v1 scope
 * Email notifications — Later
 * In-app banner/toast notifications — MVP
 
-### 16. Admin / Ops
+### 16. Admin / Ops (designed and locked — see Admin/Ops Screen Flow (IA))
 
 * Seller verification review queue — MVP
 * Listings moderation — MVP
 * Dispute mediation panel — MVP
 * User management (ban, suspend, reinstate) — MVP
 * Platform analytics/reporting — Later
-* Content moderation (flagged listings/messages) — MVP
+* Content moderation (flagged listings/messages) — MVP (merged with listings moderation into one Moderation screen with two tabs)
 * Campus-change petition review — MVP
 
 ### 17. Cross-Cutting / Platform-Wide
 
 * Onboarding tooltips/empty-state guidance — Cut
 * Accessibility (screen reader, contrast, text scaling) — MVP (baseline responsibility, cheap to bake in now vs. retrofit)
-* Offline/connectivity loss states — MVP, but not a standalone feature/screen: handled as ongoing backend/integration practice built alongside each feature that needs it, not scheduled as its own deliverable
+* Offline/connectivity loss states — MVP, but not a standalone feature/screen: handled as ongoing backend/integration practice built alongside each feature that needs it
 * App-wide search (help articles) — Cut (FAQ covers this at launch scale)
 * Referral/invite-a-friend — Later
 * Multi-campus expansion support — Later. Shape (for when this is picked up): admin needs a schools registry (all registered schools), and every buyer/seller account is scoped/registered under one school — more detail to be defined when this is actually prioritized.
 * Localization (Pidgin, other languages) — Later (already locked as v2+)
 
-## Next step
+## Where this leads
 
-Re-sequence the Screen & Component Priority (Tiers 1-3) doc against this finalized triage — tiers will need reordering to reflect what's now confirmed MVP (e.g. rating & review, PIN/handoff failure states, wallet withdrawal, reschedule pickup window) versus what was originally sequenced before this inventory existed.
+Triage was re-sequenced into the screen order in "Screen Build Order (Re-Sequenced)" (done — the old "Screen & Component Priority (Tiers 1-3)" doc is superseded). Design phase is complete for mobile and Admin/Ops; current work is real-code integration — see "Workflow & Continuation Guide" and the code-status section of "Component Inventory & Build Order".

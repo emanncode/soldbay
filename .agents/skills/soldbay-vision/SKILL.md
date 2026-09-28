@@ -1,53 +1,59 @@
 ---
 name: soldbay-vision
-description: Linear Document - Vision
+description: Information about MVP Scope & Decisions for Soldbay
 ---
 
-# Vision
+# MVP Scope & Decisions
 
-# 01. Vision & Strategy
+**Status: early scoping record (12-09-26), still valid unless noted.** The Feature/Workflow Inventory is the final triage and wins on any conflict. This doc is kept because it holds decision rationale that isn't restated elsewhere (layout sharing, re-signup retention, messaging scope). Items resolved since it was written are marked RESOLVED below.
 
-## Why This Product Exists
+This is the actual MVP definition — not the earlier prototype build, but what was deliberately decided to build.
 
-Traditional online marketplace platforms in developing markets (like Nigeria) are plagued by high friction, safety risks, and scams. For college students, buying and selling textbook materials, hostels' second-hand items, food, or personal services typically involves navigating chaotic, unverified groups or meeting strangers off-campus.
+## Cart
 
-**Soldbay** reimagines campus commerce by building a hyper-local, trusted marketplace network centered entirely around university campuses. By enforcing student verification and integrating a secure escrow system, Soldbay guarantees a safe, reliable environment for buying and selling within the student community.
+**Cut.** No add-to-cart for v1 — buy-now only. A marketplace with instant escrow checkout doesn't need a cart; it was only scaffolded routes with no real functionality behind it.
 
----
+## Pickup Coordination
 
-## Target Users
+**App shows a suggested/scheduled pickup window.** Messaging (see below) extends through pickup, but the window still sets the initial default expectation before chat handles live adjustments. RESOLVED in the Feature/Workflow Inventory: the seller sets pickup windows and the buyer selects one; reschedule/change is MVP.
 
-1. **Student Buyers**:
-   * College students seeking budget-friendly textbooks, tech gadgets, hostel equipment, clothing, food, and student-run services.
-   * Users who prioritize transaction safety, convenient on-campus pickup, and protection against payment scams.
-2. **Student Sellers**:
-   * College students looking to sell used school materials, declutter hostel rooms, monetize cooking skills (food delivery), or offer freelance services (tutoring, styling, design) to peers.
-   * Mini-merchants seeking a structured dashboard to manage listings, track earnings, and easily withdraw money.
-3. **Campus Administrators & Hub Agents**:
-   * Trusted student agents who manage physical campus hubs and facilitate secure, verified handovers.
+## Self-Purchase
 
----
+**Blocked.** A seller cannot buy their own live listing while browsing in buyer mode. The Buy Now action is replaced by a disabled "This is your listing" state on their own listings.
 
-## Problems Being Solved
+## Seller Verification Gating
 
-* **Transaction Scams & Fraud**: Buyers often pay for goods that never arrive, or sellers receive fake bank alerts. Soldbay solves this with **in-app payments held in escrow** and released only upon delivery verification.
-* **Safety Concerns**: Arranging physical meetups with strangers off-campus presents major safety risks. Soldbay resolves this by routing handovers through **on-campus designated pickup hubs** or verified in-person meetups on school grounds.
-* **Lack of Trust**: Unverified merchants hide behind anonymous accounts. Soldbay restricts selling to users verified by **matriculation number and a student portal screenshot** (name + matric number + faculty visible).
-* **Logistical Disorganization**: Student marketplaces on Telegram/WhatsApp are cluttered and difficult to search. Soldbay provides a **structured catalog** categorized by textbooks, food, gadgets, and services, searchable by keyword and university.
+**Immediate access, marked "unverified."** New sellers can list right away rather than waiting for admin approval — they're just visually marked as unverified until approved. This means:
 
----
+* The product card has a distinct "unverified" treatment (separate from the "Sold" state, must not visually compete with it) — built and locked
+* Feed/search make unverified listings distinguishable
 
-## Goals
+Verification itself is a choose-one submission (Student ID front + back, OR Student Portal screenshot) started from Profile → Switch to Seller — see "Signup/Auth Rework".
 
-* **100% Student-Verified Sellers**: Authenticate every seller profile using university matriculation records and a verified student portal screenshot.
-* **Zero-Trust Escrow Payments**: Lock transaction payments in an escrow account powered by Paystack, holding funds until the buyer confirms the item is in good condition.
-* **Hyper-local On-campus Logistics**: Deploy safe exchange locations (pickup points) across campuses to eliminate high-risk off-campus travel.
-* **Seller Micro-economy Support**: Enable students to launch micro-businesses on campus with dedicated wallet systems, sales statistics, and bank withdrawals.
+## Layout Sharing
 
----
+**Buyer-mode and seller-mode keep distinct layouts.** Not shared, even where workflows are similar (e.g. profile, settings). More design work, but avoids awkward compromises between two different user contexts.
 
-## Non-goals
+## Re-signup After Deletion
 
-* **National/International Logistics**: Soldbay does not handle long-distance shipping or cross-state logistics. Transactions are bound to specific university zones.
-* **General Public Access**: Soldbay does not allow non-students to register or sell. The marketplace remains a closed network for university students and staff.
-* **Instant Seller Payouts**: Instant withdrawals upon purchase are not supported. Payouts must always clear the escrow verification period to protect buyers from fraud.
+**Allowed.** Someone can re-signup with the same email after account deletion. Per the existing 5yr retention model, the old data tied to that email is kept in the DB — re-signup isn't a clean slate, it's reconnecting to retained history.
+
+## Messaging
+
+**Reversed — now in scope.** Competitor research showed most rival campus marketplace apps already offer in-app chat as a standard feature; excluding it made Soldbay the outlier, not the differentiator. See Project Overview for full reasoning.
+
+Scope, locked:
+
+* Chat opens at purchase (not just pre-purchase) — the original bypass risk is gone once escrow payment has already happened
+* Stays open through pickup, and for 24hrs after PIN-confirmed handoff, then closes/archives (bounded to the transaction lifecycle, separate from the 48hr auto-release/dispute window)
+* Handles live logistics (running late, changed meeting spot) that a static pickup-window can't — the window sets the default, chat handles adjustments on top
+* Verified sellers only (unverified sellers don't get messaging)
+* Chats are monitored
+* Sharing contact info or off-app payment talk is flagged/limited, and this is stated explicitly in seller sign-up terms & privacy policy
+
+Note: a more complete fix for pickup logistics is planned for the real launch build later — this is the interim v1 shape. RESOLVED: the messaging screen was added and is built and locked (Screen Build Order, Tier 1).
+
+## Open Product Questions
+
+* RESOLVED — "Switch to campus seller wrongly re-routes through full signup": superseded by the buyer-first model (every signup is a buyer account; Switch to Seller lives in Profile).
+* STILL OPEN — exact stamp copy/icon for the Sold state (structure is decided, exact copy isn't).

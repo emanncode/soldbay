@@ -1,74 +1,55 @@
 ---
 name: soldbay-screen-prompts
-description: Contains the explicit, ready-to-run design prompts for the next 10 screens in the Soldbay Screen Build Order. Use this to generate UI screens.
+description: Information about Admin/Ops — Screen Design Prompts for Soldbay
 ---
 
-# Soldbay Screen Design Specs (Next 10)
+# Admin/Ops — Screen Design Prompts
 
-This skill provides the ready-to-use design specs for the next 10 screens in the Soldbay Screen Build Order (Re-Sequenced). DO NOT generate image visuals.
+Design prompts and status for the Admin/Ops screens (Agy renders static HTML/Tailwind prototypes; these are design artifacts, not production code). IA and scope: "Admin/Ops Screen Flow (IA)". Engineering handoff: `handoff_manifest.md` (currently v6).
 
-## Standing Rule for All Screens
+**Status: 5 of 6 LOCKED. Seller Verification is REOPENED — one correction prompt below.** The round-by-round correction history for the other screens (status-pill tokens, action order, evidence-photo ratio, Reported-tab block placement, manifest stack line) is fully resolved and has been removed from this doc to keep it current.
 
-- Search real references first (Depop, Vinted, Jiji, Jumia) before starting the design. Pick 1-2, adapt.
-- Build the design directly in the opened `design.pen` file. Show both light and dark mode unless noted.
-- Use `soldbay-design-system.html` for every token — never invent new values.
-- Self-check against the **"Validate"** list under each prompt before finalizing.
+**Standing rules for every Admin/Ops screen:**
 
----
+* Stack target: React Native/Expo (`soldbay-app`) + Next.js (`soldbay-web`) — never Flutter.
+* Status colors: only the four flat semantic tokens (`#14532D` / `#6B4E00` / `#8B1A10` / `#0D3B7A`), solid fill + white text. No `Bg`/`Dark` variant tokens.
+* Action buttons: positive/primary first (left), destructive second (right).
+* Shared pattern: queue list → detail pane → actions. Desktop = split pane; mobile = list that pushes to a full-screen detail.
 
-## ~~1. Feed/Browse~~ (Done)
+## 1. Admin Shell — LOCKED
 
-**Prompt:** Design the Feed/Browse home screen. Structure top to bottom: Screen header ("Browse" title top-left, Title 3/20px/Semibold, bell icon right, no wordmark/campus name), Search bar (locked component, `radius-sm`), Category/filter chip row (horizontal scroll, locked Filter Chip, unselected/selected), Product Card grid (2-column, mix in Sold and no-photo states), Tab bar (Browse tab active). Show: populated feed, empty state ("No listings yet" + Clear Filters), loading skeleton state.
-**Validate:** No wordmark/campus name in header. No cart tab, no "+" post action, no Wallet tab, no message icon in header. Category chips visible but no card-based category browsing.
+Desktop: shadcn/ui-style collapsible sidebar (5 nav items, active = peach `#FFD0A6` tint + Phosphor Fill, inactive = `#008080`/`#67B8B3`), Fraunces page title, admin identity footer. Mobile fallback: bottom tab bar reusing the Buyer/Seller Tab Bar's fluid-pill active state, Fraunces title + avatar. Dark mode: hairline borders, no shadows.
 
-## ~~2. Search & Filters~~ (Done)
+## 2. Seller Verification Review Queue — REOPENED (correction prompt)
 
-**Prompt:** Design the Search & Filters screen. Header: Search bar (active/focused state, `radius-sm`) with back navigation. Below: Filter Chip row (category, price range, verified-only toggle using locked Toggle component, condition, availability). Sort control as a dropdown. Results: same Product Card grid as Feed. No-results state: "No results for '[query]'" + Clear Filters action.
-**Validate:** Verified-only filter uses locked Toggle component (not a chip). No search history/autocomplete UI.
+**Why:** the built screen shows Student ID (Front), Student ID (Back) and Portal Screenshot together, and its helper copy says "Ensure the ID matches the portal screenshot." That contradicts the locked mobile model (see "Signup/Auth Rework"): a seller chooses EITHER Student ID (front + back) OR a Student Portal screenshot — never both. An earlier version of the Admin IA wrongly said "ID + Portal uploads", which is where this came from.
 
-## ~~3. Product Detail~~ (Done)
+**Correction prompt for Agy — Seller Verification, change these things only:**
 
-**Prompt:** Design the Product Detail screen. Top: Photo gallery (swipeable). Below: Product title (Title 2/22px/Semibold), price (strikethrough original + discount badge if applicable), Seller Info Row (avatar + name + verification badge). Description body text. Bottom: Action Bar composite (bookmark/wishlist + "Message the seller" secondary + "Buy Now" primary). Include Report a Listing entry point. Self-purchase blocking: show state where current user IS the seller (disabled Buy Now or "This is your listing" note).
-**Validate:** Verified badge is icon-only; unverified is icon+text pill. No "Ask a question before buying" entry point. No similar/related listings section.
+1. **Queue items:** add a small path label under the campus line — `Student ID` on one item, `Student Portal` on another — so both paths appear in the queue (Emeka U. = Student ID, Fatima A. = Student Portal).
+2. **Detail pane, verification documents section — show the submitted path only:**
+   * *Student ID path:* two cards side by side (Front, Back), both `aspect-[1.58/1]`, same lightbox-on-tap treatment as today.
+   * *Student Portal path:* one card, no forced ratio — the existing adaptive treatment (`max-h-[400px]`, `object-contain`) so a phone (portrait) or laptop (landscape) screenshot both fit uncropped.
+   * Add a small "Verification path" line in the section heading area stating which was submitted (e.g. "Submitted via Student ID").
+3. **Demonstrate both states:** clicking the Emeka item shows the Student ID detail; clicking Fatima shows the Student Portal detail (a small JS toggle between two detail templates is enough — static prototype).
+4. **Helper copy:** replace "Ensure the ID matches the portal screenshot and the name matches the account profile." with "Confirm the document is current (current academic level/session) and the name matches the account profile."
 
-## ~~4. Checkout~~ (Done)
+Everything else stays exactly as built: filter tabs, status pills, header, Approve (accent) / Reject & Request Fix (destructive outline) actions, Fraunces page title, dark mode.
 
-**Prompt:** Design Checkout screen. Order summary card. Payment method selection: Paystack and Flutterwave as selectable cards. Public-facing copy must say "held" not "escrow". Primary button "Pay [amount]". Show: default state, payment failure/retry state (Error semantic color + Toast banner), and Order Confirmation screen (checkmark/success, order details, "View Order Status").
-**Validate:** No coupon/promo code field. "held," never "escrow," anywhere user-facing.
+**Validate before returning:** ID path shows exactly two cards and no portal card; Portal path shows exactly one adaptive card and no ID cards; no `#F47A32` outside the Approve button; no new color tokens. After it lands, `handoff_manifest.md` section 2 must be updated to describe the either/or model (currently says ID Front+Back and Portal are all shown), and this section goes back to LOCKED.
 
-## ~~5. Pickup-Window Selection~~ (Done)
+## 3. Moderation — LOCKED
 
-**Prompt:** Design Pickup-Window Selection screen. Seller-side: time-window picker. Buyer-side: same picker reading availability. Static map/location display for campus pickup point. "Reschedule" entry point. Late/no-show state: inline warning (Warning semantic color + inline-context-box treatment: 12% tint + colored text).
-**Validate:** Newest screen; flag any pattern choice explicitly in notes rather than silently deciding.
+Two-tab queue (New Listings / Reported). Reported items show a flag + reason line in the queue and a standalone full-width Report Context block (solid `#6B4E00`, white text: who reported and why) between the listing header and the image gallery. Actions: Approve Listing (accent) / Take Down (destructive outline).
 
-## 6. Order Status + Handoff
-## ~~6. Order Status + Handoff~~ (Done)
+## 4. Dispute Mediation Panel — LOCKED
 
-**Prompt:** Design Order Status screen. Top: Countdown/Timer display (Title 2, "Auto-releases in Xh"). Status Pill (Pending pickup / Awaiting handoff / Completed / Disputed). Middle: PIN entry/reveal component (buyer sees entry state, seller sees reveal-button gated on buyer's "I'm here" signal). Bottom: handoff failure handling (no-show/PIN mismatch) leading toward Dispute flow. Order history entry, cancellation entry, re-attempt handoff.
-**Validate:** PIN reveal button must show all 3 states correctly gated (inactive-waiting → active-tappable only after buyer signals ready → revealed).
+Read-only vertical dispute timeline (locked mobile stepper), chat log with alternating peach/light bubbles, square evidence photo grid (`aspect-square`), resolution actions: Release funds (success outline) / Refund (destructive outline).
 
-## 7. Messaging/Chat
-## ~~7. Messaging/Chat~~ (Done)
+## 5. User Management — LOCKED
 
-**Prompt:** Design Messaging/Chat screen (per-order thread). Header: chat-header pattern (Seller Info Row). Body: Chat Message Bubble (sent/received, alternating). Read receipt: show long-press → info interaction tooltip. Block/report-user entry point. Footer: message input + send button.
-**Validate:** No typing indicator. No media/photo-sharing UI. Scoped to one order only (no global inbox).
+Persistent search bar (no filter tabs), profile header with status badge, metrics (active listings, sales, reports), moderation history list, actions: Issue Warning / Lift Suspension.
 
-## 8. Rate & Review
-## ~~8. Rate & Review~~ (Done)
+## 6. Campus-Change Petition Review — LOCKED
 
-**Prompt:** Design Rate & Review screen. Star rating input (5-star tap, accent color `#F47A32` for filled stars). Optional written review (Textarea). Submit button. Secondary state: how a submitted rating displays on a Seller Profile (aggregate score + review count, Headline/Subheadline scale).
-**Validate:** Must be skippable (confirm "Skip" or dismissal path exists).
-
-## 9. Notifications
-## ~~9. Notifications~~ (Done)
-
-**Prompt:** Design Notification Center screen (accessed via header bell). List of notifications using Generic List Item (icon + label + timestamp + divider). Cover all MVP types (message, order update, pickup reminder, PIN reveal, listing sold, dispute update, verification status change). Unread state: `#FFB980` dot.
-**Validate:** No push notification settings or email notification toggles on this screen.
-
-## 10. Signup/Auth
-## ~~10. Signup/Auth~~ (Done)
-
-**Prompt:** Design Signup/Auth flow. Signup: email/phone input, campus selection (Select/dropdown - copy must clarify permanence: "Choose carefully — this can only be changed via support request"), T&Cs acceptance. Login: email/phone + password inputs, "forgot password". Buyer/seller mode switch (settings-level toggle pattern). Seller verification submission: form + Unverified badge shown immediately.
-**Validate:** Campus selection permanence is clear. No social/SSO login buttons. No onboarding walkthrough/tutorial screens.
-
-_(Reference Linear Documents: `bd758cd51524`, `6dd4a0b360e7`, `e9d3cf4b4e09`)_
+Current → Requested campus block, reason, solid-fill 12-month policy warning block, actions: Approve Change (accent, first) / Reject Petition (destructive outline).
