@@ -14,7 +14,7 @@ export function SearchBar({ value, onChangeText, onClear, placeholder = 'Search.
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const iconColor = isDark ? colors.borderDark : colors.borderLight;
+  const iconColor = isDark ? colors.borderDark : colors.secondaryText;
   const textColor = isDark ? colors.darkText : colors.primaryText;
   
   return (

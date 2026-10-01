@@ -37,7 +37,7 @@ export function TabBar({ activeTab, onTabPress, variant = 'buyer', hasUnreadOrde
         
         const iconColor = isFocused 
           ? colors.accent
-          : (isDark ? colors.borderDark : colors.borderLight);
+          : (isDark ? colors.borderDark : colors.secondaryText);
 
         return (
           <TouchableOpacity
@@ -57,7 +57,7 @@ export function TabBar({ activeTab, onTabPress, variant = 'buyer', hasUnreadOrde
                 />
               )}
             </View>
-            <Text className={`text-caption-1 ${isFocused ? 'text-accent' : 'text-borderLight dark:text-borderDark'}`}>
+            <Text className={`text-caption-1 ${isFocused ? 'text-accent' : 'text-secondaryText dark:text-borderDark'}`}>
               {tab.name}
             </Text>
           </TouchableOpacity>
