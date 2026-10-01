@@ -24,7 +24,7 @@ The design relies heavily on a responsive **Master-Detail split pane** pattern. 
 
 ### Engineering Notes:
 - **Layout:** Master-Detail. Detail pane uses `w-full px-[5%]` for fluid stretching on large monitors.
-- **Images:** Student ID (Front + Back) must maintain a `1.58:1` aspect ratio (standard ID card format) — both sides required, not just Front. Student Portal Screenshot uses adaptive portrait/landscape sizing instead — a phone screenshot and a laptop screenshot are genuinely different shapes, so it should not be forced into the `1.58:1` card ratio. Implement an image viewer/lightbox on tap for all three.
+- **Images:** Verification uses an either/or model. A user submits EITHER Student ID (Front + Back) OR a Student Portal Screenshot. The detail pane only shows the submitted path. When Student ID is submitted, the Front and Back images must maintain a `1.58:1` aspect ratio (standard ID card format). When Student Portal is submitted, the screenshot uses adaptive portrait/landscape sizing instead — a phone screenshot and a laptop screenshot are genuinely different shapes, so it should not be forced into a specific ratio. Implement an image viewer/lightbox on tap for all images.
 - **Actions:** 
   - Approve: Solid Accent Button (`#F47A32`).
   - Reject: Destructive Outline Button (flat `statusError` color, same in light and dark mode — no separate dark-mode variant).

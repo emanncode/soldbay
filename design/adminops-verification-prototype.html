@@ -136,24 +136,25 @@
         <div class="flex-1 overflow-y-auto">
           <!-- Active Queue Item -->
           <button
-            class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors">
+            id="queue-item-id" onclick="showDetail('id')" class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors queue-item">
             <div class="flex justify-between items-start mb-1">
               <span class="font-semibold text-[15px] text-primaryText dark:text-white">Emeka U.</span>
               <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium">10m ago</span>
             </div>
-            <p class="text-[13px] text-secondaryText dark:text-borderDark mb-2 truncate">University of Lagos (UNILAG)
-            </p>
+            <p class="text-[13px] text-secondaryText dark:text-borderDark mb-0 truncate">University of Lagos (UNILAG)</p>
+            <p class="text-[11px] font-medium text-secondaryText/70 dark:text-borderDark/70 mb-2">Student ID</p>
             <div class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
               Pending Review</div>
           </button>
           <!-- Inactive Queue Item -->
           <button
-            class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+            id="queue-item-portal" onclick="showDetail('portal')" class="w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors queue-item">
             <div class="flex justify-between items-start mb-1">
               <span class="font-semibold text-[15px] text-primaryText dark:text-white">Fatima A.</span>
               <span class="text-[12px] text-secondaryText dark:text-borderDark font-medium">2h ago</span>
             </div>
-            <p class="text-[13px] text-secondaryText dark:text-borderDark mb-2 truncate">Covenant University</p>
+            <p class="text-[13px] text-secondaryText dark:text-borderDark mb-0 truncate">Covenant University</p>
+            <p class="text-[11px] font-medium text-secondaryText/70 dark:text-borderDark/70 mb-2">Student Portal</p>
             <div class="inline-block px-2.5 py-0.5 rounded-full bg-statusWarning text-white text-[11px] font-bold">
               Pending Review</div>
           </button>
@@ -167,17 +168,17 @@
           <div class="w-full px-[5%]">
             <!-- Header -->
             <div class="flex items-start justify-between mb-8">
+              
               <div class="flex items-center gap-4">
-                <div
-                  class="w-16 h-16 rounded-full bg-borderLight/10 flex items-center justify-center text-2xl font-bold text-secondaryText">
-                  EU</div>
+                <div id="detail-avatar" class="w-16 h-16 rounded-full bg-borderLight/10 flex items-center justify-center text-2xl font-bold text-secondaryText">EU</div>
                 <div>
-                  <h2 class="text-2xl font-bold text-primaryText dark:text-white mb-1">Emeka U.</h2>
-                  <p class="text-[15px] text-secondaryText dark:text-borderDark flex items-center gap-1">
+                  <h2 id="detail-name" class="text-2xl font-bold text-primaryText dark:text-white mb-1">Emeka U.</h2>
+                  <p id="detail-campus" class="text-[15px] text-secondaryText dark:text-borderDark flex items-center gap-1">
                     <i class="ph-fill ph-map-pin"></i> University of Lagos (UNILAG)
                   </p>
                 </div>
               </div>
+
               <div class="text-right">
                 <p class="text-[13px] text-secondaryText dark:text-borderDark mb-1">Submitted</p>
                 <p class="text-[15px] font-semibold text-primaryText dark:text-white">Oct 12, 10:45 AM</p>
@@ -187,62 +188,57 @@
             <div class="h-[1px] w-full bg-borderLight/10 dark:bg-borderDark/10 mb-8"></div>
 
             <!-- Evidence Documents -->
-            <h3 class="text-[17px] font-bold text-primaryText dark:text-white mb-4">Verification Documents</h3>
+            
+            <!-- Verification Documents Section Header -->
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-[17px] font-bold text-primaryText dark:text-white">Verification Documents</h3>
+              <span id="detail-path-label" class="text-[12px] font-semibold text-secondaryText dark:text-borderDark bg-black/5 dark:bg-white/5 px-2 py-1 rounded">Submitted via Student ID</span>
+            </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Documents Container -->
+            <div id="detail-docs-id" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
               <!-- ID Card Front -->
               <div class="flex flex-col gap-2">
-                <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Student ID
-                  (Front)</span>
-                <div
-                  class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
-                  <div
-                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <i
-                      class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Student ID (Front)</span>
+                <div class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <i class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
                   </div>
-                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Front"
-                    class="w-full h-full object-cover">
+                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Front" class="w-full h-full object-cover">
                 </div>
               </div>
 
               <!-- ID Card Back -->
               <div class="flex flex-col gap-2">
                 <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Student ID (Back)</span>
-                <div
-                  class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
-                  <div
-                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <i
-                      class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                <div class="aspect-[1.58/1] rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative">
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <i class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
                   </div>
-                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Back"
-                    class="w-full h-full object-cover">
-                </div>
-              </div>
-
-              <!-- Portal Screenshot -->
-              <div class="flex flex-col gap-2">
-                <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Portal Screenshot</span>
-                <div
-                  class="rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative max-h-[400px] flex items-center justify-center">
-                  <div
-                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center z-10">
-                    <i
-                      class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
-                  </div>
-                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Portal+Dashboard"
-                    class="w-full h-full object-contain">
+                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Student+ID+Back" class="w-full h-full object-cover">
                 </div>
               </div>
             </div>
+
+            <div id="detail-docs-portal" class="hidden mb-8">
+              <!-- Portal Screenshot -->
+              <div class="flex flex-col gap-2 max-w-2xl">
+                <span class="text-[13px] font-semibold text-secondaryText dark:text-borderDark">Portal Screenshot</span>
+                <div class="rounded-md border border-borderLight/20 dark:border-borderDark/20 bg-black/5 overflow-hidden group cursor-pointer relative max-h-[400px] flex items-center justify-center">
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center z-10">
+                    <i class="ph-fill ph-magnifying-glass-plus text-3xl text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                  </div>
+                  <img src="https://placehold.co/600x380/e2e8f0/64748b?text=Portal+Dashboard" class="w-full h-full object-contain">
+                </div>
+              </div>
+            </div>
+
 
             <!-- Action Area -->
             <div
               class="bg-black/5 dark:bg-white/5 rounded-lg p-5 border border-borderLight/10 dark:border-borderDark/10">
               <h3 class="text-[15px] font-bold text-primaryText dark:text-white mb-2">Review Decision</h3>
-              <p class="text-[13px] text-secondaryText dark:text-borderDark mb-4">Ensure the ID matches the portal
-                screenshot and the name matches the account profile.</p>
+              <p class="text-[13px] text-secondaryText dark:text-borderDark mb-4">Confirm the document is current (current academic level/session) and the name matches the account profile.</p>
 
               <div class="flex flex-col sm:flex-row gap-3">
                 <button
@@ -277,6 +273,47 @@
         sidebar.classList.add('w-64');
         sidebar.classList.remove('w-[72px]');
         setTimeout(() => labels.forEach(l => l.classList.remove('hidden')), 150);
+      }
+    }
+  
+    function showDetail(type) {
+      const docsId = document.getElementById('detail-docs-id');
+      const docsPortal = document.getElementById('detail-docs-portal');
+      const pathLabel = document.getElementById('detail-path-label');
+      
+      const qId = document.getElementById('queue-item-id');
+      const qPortal = document.getElementById('queue-item-portal');
+      
+      const avatar = document.getElementById('detail-avatar');
+      const name = document.getElementById('detail-name');
+      const campus = document.getElementById('detail-campus');
+      
+      // Reset active states
+      qId.className = "w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors queue-item";
+      qPortal.className = "w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors queue-item";
+      
+      const activeClass = "w-full text-left p-4 border-b border-borderLight/10 dark:border-borderDark/10 bg-bgCard/30 dark:bg-bgCard/10 transition-colors queue-item";
+      
+      if (type === 'id') {
+        docsId.classList.remove('hidden');
+        docsId.classList.add('grid');
+        docsPortal.classList.add('hidden');
+        pathLabel.textContent = "Submitted via Student ID";
+        qId.className = activeClass;
+        
+        avatar.textContent = "EU";
+        name.textContent = "Emeka U.";
+        campus.innerHTML = '<i class="ph-fill ph-map-pin"></i> University of Lagos (UNILAG)';
+      } else {
+        docsId.classList.add('hidden');
+        docsId.classList.remove('grid');
+        docsPortal.classList.remove('hidden');
+        pathLabel.textContent = "Submitted via Student Portal";
+        qPortal.className = activeClass;
+        
+        avatar.textContent = "FA";
+        name.textContent = "Fatima A.";
+        campus.innerHTML = '<i class="ph-fill ph-map-pin"></i> Covenant University';
       }
     }
   </script>
