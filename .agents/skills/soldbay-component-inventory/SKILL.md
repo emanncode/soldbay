@@ -3,14 +3,12 @@ name: soldbay-component-inventory
 description: Information about Component Inventory & Build Order for Soldbay
 ---
 
-# Component Inventory & Build Order
-
 Full reusable component inventory, built directly from the Feature/Workflow Inventory and Screen Flow (IA) — not a guess, every entry maps to something those docs already establish as needed. Purpose: build these systematically before deep screen design starts, so screens compose from a settled kit instead of each screen reinventing pieces ad hoc.
 
 **Two separate statuses live in this doc — don't conflate them:**
 
 1. **Design status** (`[X]` checklist below) — the component was designed as a prompt for Agy, rendered, reviewed, and locked. **Every component is design-locked.**
-2. **Code status** (section at the bottom) — the component exists as real React Native code in `soldbay-app`, verified against the locked tokens. This is the current phase and is mostly not started.
+2. **Code status** (section at the bottom) — the component exists as real React Native code in `soldbay-app`, verified against the locked tokens. This is the current phase.
 
 **Design-phase workflow (complete):** each component was delivered as a written design PROMPT for Agy (Antigravity) to render in the .pen design boards — not as code. The prompt referenced soldbay-design-system.html for every token. One component's prompt per session.
 
@@ -18,15 +16,15 @@ Build order (applies to both design and code): Navigation/Structure first (almos
 
 ## Navigation / Structure
 
-- [X] Tab bar (4 items: Browse/Search/Orders/Profile) — built and locked (unread badge dot = #FFB980, not error-red or active-indicator orange; active state = fill icon + dot, per Design System Reference)
-- [X] Screen header (title + bell) — built and locked (Title 3, 20px/Semibold confirmed; #FFB980 unread dot on bell matches the tab-bar badge convention)
-- [X] Search bar — built and locked (`radius-sm` 8px, consistent with the rest of Inputs; the earlier `radius-full` render was corrected)
+- [X] Tab bar (4 items: Browse/Search/Orders/Profile) — built and locked (unread badge dot = #FFB980; active state = fill icon + accent-colored icon/label, confirmed against `all-screens.html`'s `.nav-item.active { color: var(--accent) }`; inactive state = `secondaryText`/`borderDark`, NOT `borderLight` — `borderLight` is a border-only color, see Design System Reference)
+- [X] Screen header (title + bell) — built and locked. **Correction 28-09-26:** the title is Title 2, 22px/Bold (`h1.title-2`), not Title 3 as this doc previously said. Also, only the Browse screen actually has this title+bell pattern — Search replaces the header with an inline search bar, Profile shows only a settings gear with no title. Don't assume every main tab shares one header pattern; check the real screen.
+- [X] Search bar — built and locked (`radius-sm` 8px). Icon/placeholder muted color is `secondaryText` in light mode, `borderDark` in dark — same correction as the tab bar.
 - [X] Seller tab bar (4 items: Hub/Orders/Post/Profile) — built and locked, mirrors buyer tab bar's 4-tab structure. Wallet reached via a "View Wallet" entry point on the Hub balance card, not a nav tab.
 
 ## Cards
 
-- [X] Product card (grid item: image, title, price, badges) — built and locked after one correction round (added strikethrough original price alongside discount, made verified/unverified badge mandatory on all 5 states including Sold and no-photo). Verified badge stayed icon-only; Unverified became an icon+text pill — deliberate differentiation (verified = quiet confirmation of the expected state, unverified = the exception that needs explicit callout), not an inconsistency to fix.
-- [X] Order/transaction card — built and locked. All four semantic states correctly mapped (Pending pickup → Info #0D3B7A, Awaiting handoff → Warning #6B4E00, Completed → Success #14532D, Disputed → Error #8B1A10), countdown correctly suppressed to "Auto-release paused" on Disputed.
+- [X] Product card (grid item: image, title, price, badges) — built and locked after one correction round (added strikethrough original price alongside discount, made verified/unverified badge mandatory on all 5 states including Sold and no-photo). Verified badge stayed icon-only; Unverified became an icon+text pill — deliberate differentiation. **Verified badge icon, locked 28-09-26:** plain `ph-seal-check` (Phosphor Fill), accent color, no circular background — a deliberate reversal of an earlier auto-generated shield-in-a-circle variant, now baked into all three prototype HTML files. Rating (star + score + review count) also confirmed present on the grid card itself, next to the seller-info row — resolves the old "is rating shown on the grid card" open question as yes.
+- [X] Order/transaction card — built and locked. All four semantic states correctly mapped (Pending pickup → Info, Awaiting handoff → Warning, Completed → Success, Disputed → Error, using each mode's own value — see Design System Reference's light/dark semantic table), countdown correctly suppressed to "Auto-release paused" on Disputed.
 
 ## Buttons
 
@@ -37,9 +35,9 @@ Build order (applies to both design and code): Navigation/Structure first (almos
 
 ## Badges / Pills
 
-- [X] Verified-seller badge — built and locked (icon-only, per product card)
+- [X] Verified-seller badge — built and locked (icon-only, `ph-seal-check`, see Product card entry above)
 - [X] Discount badge (with stroke) — built and locked (#FFB980 fill, #F47A32 stroke, per product card)
-- [X] Status pill (success/warning/error/info) — built and locked (per order/transaction card + list rows). Solid fill + white text; flat semantic colors, no separate light/dark variants.
+- [X] Status pill (success/warning/error/info) — built and locked (per order/transaction card + list rows). Solid fill + white text; each mode uses its own semantic value (light and dark differ — see Design System Reference).
 
 ## Inputs
 
@@ -88,18 +86,25 @@ Icon library: Phosphor Icons (outline for inactive states, fill for active) — 
 
 # CODE BUILD STATUS (React Native / NativeWind, `soldbay-app`)
 
-**Rules for every component in code:** tokens only (class names from the Design System Reference token map, or `colors` from `src/theme/tokens.js` for icon colors) — no hex literals; light + dark (`dark:` variants) from the first commit; Sora type utilities only; Phosphor Regular inactive / Fill active. A component is only marked done here after its file has been reviewed against those rules — a build report saying "done" is not enough.
+**Rules for every component in code:** tokens only (class names from the Design System Reference token map, or `colors` from `src/theme/tokens.js` for icon colors) — no hex literals; light + dark (`dark:` variants) from the first commit; Sora type utilities only; Phosphor Regular inactive / Fill active. A component only counts as done here after its actual file content has been checked directly against the real prototype HTML (`all-screens.html` / `all-screens-dark.html` / `component-library.html`) — a build report describing what was done is not sufficient verification on its own; open the file and the corresponding HTML and diff them.
 
 **Foundation**
 
-- [ ] `tailwind.config.js` + `src/theme/tokens.js` — corrected 28-09-26 to the locked Orange & Teal system (the previous config held the superseded olive/tan/Manrope system). Must be applied, with `_layout.tsx` font loading switched from Manrope to Sora, and `docs/soldbay-design-system.md` / `src/theme/colors.ts` checked for the same stale palette.
+- [X] `tailwind.config.js` + `src/theme/tokens.js` — corrected 28-09-26 to the locked Orange & Teal system, applied locally. `_layout.tsx` font loading switched to Sora (`useFonts` with `Sora_400Regular`/`Sora_600SemiBold`/`Sora_700Bold`).
 - [X] `global.css` + import in `_layout.tsx` (NativeWind utilities rendering) — done.
+- [ ] `docs/soldbay-design-system.md` and `src/theme/colors.ts` — still flagged as likely holding the stale olive palette; not yet confirmed either way, check before anyone reads either as a reference.
 
-**Components**
+**Components — verified 28-09-26 directly against the real prototype HTML, not against a build summary**
 
-- [ ] Tab bar — code exists but NOT verified/locked. Known issues against the locked system: olive/gray colors (`#2D3A1F`, `#8A8070`, `text-neutral-500`), inline hex for the dot, spacing keys that render at double size under the old config, no `dark:` variants, no active-state dot. Patch after the config is applied, then re-review.
-- [ ] Screen header — code exists but NOT verified/locked. Same issues (`text-h2` → `text-title-3`, hex icon color, `px-4 py-3` under the old spacing map, no dark variants).
-- [ ] Search bar — next
-- Everything else above: not started. Code order follows the design build order.
+- [X] **Tab bar** (`TabBar.tsx`) — one bug: inactive icon/text color uses `borderLight` (`#008080`) for light mode; must be `secondaryText` (`#063F42`) — `.nav-item { color: var(--secondary-text) }` in the real CSS. Dark mode (`borderDark`) is already correct. Structure (height 80, radius 24/24/40/40, column layout, active=accent) all confirmed correct.
+- [X] **Screen header** (`ScreenHeader.tsx`) — confirmed correct as-is: `text-title-2` (not title-3), icon-btn border/shadow treatment in both modes, all match `.header`/`.icon-btn`/`h1.title-2` exactly. No fix needed; the earlier "not verified" status was wrong — this one's done.
+- [X] **Search bar** (`SearchBar.tsx`) — one bug, same root cause as Tab bar: icon color uses `borderLight` for light mode; must be `secondaryText`. Background/border in both modes already correct.
+- [X] **Product card** (`ProductCard.tsx`) — one bug: dark-mode border uses `borderDark/10`; must be `borderDark/24` (`.product-card`'s border resolves to `border-light` in dark mode, which is `rgba(103,184,179,0.24)`). Everything else confirmed correct: verified/unverified badges, rating, image height, discount badge, dark text color.
+- [X] `src/theme/tokens.js` — `darkText: "#FFFFFF"` and the `darkSuccess/darkWarning/darkError/darkInfo` values are CONFIRMED CORRECT (verified against `all-screens-dark.html`'s `:root`) — these were flagged as suspicious drift in an earlier review pass and that flag was wrong; keep them.
+- Not started: Order/transaction card, Buttons, Badges/Pills as standalone components, Inputs, Lists, Feedback, Identity, Misc. Code order follows the design build order above.
+
+**Process note (28-09-26):** a review session made sweeping, unattended changes directly against both the code AND the three locked prototype HTML files (icon swaps, badge color patches, a rating block injected into the product-card markup) based on a general "make RN match HTML" instruction, without checking each specific claim against Linear or recording the changes here. Some of those changes were correct (verified badge icon, unverified badge dark treatment) and are now reflected above; others need the fixes listed above. Going forward: one component verified at a time, actual file diffed against actual HTML, result recorded here — not a batch "deep override" applied and summarized after the fact.
 
 **Test harness:** `src/app/index.tsx` currently mounts components for visual checks. Restore/move before real routing is built on it.
+
+**Security:** a plaintext Linear API key was found in use on the local machine (`~/fetch_linear.js`). Rotate it in Linear's API settings and check git history for `fetch_linear.js`/`linear_project.json`/`linear_docs.md`/`linear_recent.json` — see Design System Reference's Known Open Items for detail.
