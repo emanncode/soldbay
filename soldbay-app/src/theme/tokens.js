@@ -37,16 +37,21 @@ const colors = {
   darkText: "#FFFFFF",
 
   // Semantic: light
-  success: "#14532D",
-  warning: "#6B4E00",
+  success: "#1A6B3A",
+  warning: "#976F00",
   error: "#8B1A10",
-  info: "#0D3B7A",
+  info: "#092853",
   
   // Semantic: dark
-  darkSuccess: "#4ADE80",
-  darkWarning: "#FACC15",
-  darkError: "#F87171",
-  darkInfo: "#60A5FA",
+  darkSuccess: "#A9EFC2",
+  darkWarning: "#E6B905",
+  darkError: "#F53D3D",
+  darkInfo: "#57A0FA",
+
+  // New Tokens
+  accentIcon: "#BE5F27",
+  borderLightSolid: "#008080",
+  borderDarkSolid: "#5C8A8A",
 };
 
 module.exports = { colors };
