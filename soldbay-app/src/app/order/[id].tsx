@@ -163,7 +163,7 @@ export default function OrderStatusScreen() {
                   label="Confirm Handoff" 
                   variant="primary" 
                   disabled={enteredPin.length !== 4}
-                  onPress={() => alert('Handoff Confirmed! Funds released.')}
+                  onPress={() => router.push(`/review/${order.id}`)}
                 />
               </View>
             ) : (
