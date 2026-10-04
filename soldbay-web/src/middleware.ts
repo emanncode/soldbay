@@ -43,6 +43,48 @@ function isApiRoute(pathname: string): boolean {
 export default auth(async (req) => {
   const { pathname } = req.nextUrl
   const method = req.method
+  const host = req.headers.get("host") || ""
+
+  const isAdminSubdomain = host.startsWith("admin.")
+
+  console.log(`[Middleware] ${method} ${pathname} | host: ${host} | isAdmin: ${isAdminSubdomain}`)
+
+  // 1. SECURITY BLOCK: Prevent direct access to /admin paths on the main domain
+  if (!isAdminSubdomain && pathname.startsWith("/admin")) {
+    console.log(`[Middleware] Blocking direct access to /admin. Returning 404.`)
+    return new NextResponse("Not Found", { status: 404 })
+  }
+
+  // 2. SUBDOMAIN REWRITE: Map admin.soldbay.shop/foo -> /admin/foo
+  if (isAdminSubdomain) {
+    // Smart redirect for the root subdomain path
+    if (pathname === "/") {
+      const redirectUrl = req.nextUrl.clone()
+      redirectUrl.host = host // preserve the user's requested host (e.g. admin.localhost:3000) instead of internal IPs
+      if (req.auth?.user) {
+        redirectUrl.pathname = "/waitlist"
+      } else {
+        redirectUrl.pathname = "/login"
+      }
+      console.log(`[Middleware] Redirecting root to ${redirectUrl.toString()}`)
+      return NextResponse.redirect(redirectUrl)
+    }
+
+    // Prevent infinite rewrite loop if already prefixed
+    if (pathname.startsWith("/admin")) {
+      console.log(`[Middleware] Already rewritten to ${pathname}, continuing.`)
+      // Allow it to proceed
+    } else if (!pathname.startsWith("/api/auth")) {
+      const rewriteUrl = req.nextUrl.clone()
+      // Fix for Turbopack proxying local network IPs: force hostname to localhost in dev
+      if (process.env.NODE_ENV === "development" && rewriteUrl.hostname.startsWith("192.168.")) {
+        rewriteUrl.hostname = "localhost"
+      }
+      rewriteUrl.pathname = `/admin${pathname === "/" ? "" : pathname}`
+      console.log(`[Middleware] Rewriting to ${rewriteUrl.toString()}`)
+      return NextResponse.rewrite(rewriteUrl)
+    }
+  }
 
   // Handle CORS preflight for all API routes
   if (isApiRoute(pathname)) {
@@ -90,5 +132,5 @@ export default auth(async (req) => {
 })
 
 export const config = {
-  matcher: ["/api/:path*", "/seller/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|apple-icon.png|icon.png).*)"],
 }
