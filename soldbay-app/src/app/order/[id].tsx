@@ -230,7 +230,11 @@ export default function OrderStatusScreen() {
 
           {/* Bottom Actions */}
           <View className="gap-3">
-            <Button label="Message Seller" variant="outline" />
+            <Button 
+              label={`Message ${isSellerView ? 'Buyer' : 'Seller'}`} 
+              variant="outline" 
+              onPress={() => router.push(`/chat/${order.id}`)}
+            />
             <TouchableOpacity className="flex-row items-center justify-center gap-2 py-3 mt-4">
               <WarningCircle size={16} color={colors.error} weight="bold" />
               <Text className="text-[13px] font-sora-bold text-error">
