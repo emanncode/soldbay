@@ -30,7 +30,7 @@ export function TabBar({ activeTab, onTabPress, variant = 'buyer', hasUnreadOrde
       ];
 
   return (
-    <View className="flex-row bg-bgBase dark:bg-darkBg border-t border-borderLight dark:border-borderDark/24 pt-2 pb-6 px-4 rounded-t-[24px] rounded-b-[40px] h-[80px]">
+    <View className="flex-row">
       {tabs.map((tab) => {
         const isFocused = activeTab === tab.name;
         const Icon = tab.icon;
