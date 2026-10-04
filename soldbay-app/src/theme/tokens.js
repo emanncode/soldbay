@@ -54,4 +54,5 @@ const colors = {
   borderDarkSolid: "#5C8A8A",
 };
 
-export default { colors };
+// Named export for ES modules
+export { colors };

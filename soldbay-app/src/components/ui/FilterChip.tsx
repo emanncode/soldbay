@@ -19,7 +19,7 @@ export function FilterChip({ label, selected = false, onPress, style }: FilterCh
 
   const textStyle = selected
     ? 'text-primaryText font-sora-bold' // #031F21 in both modes when selected
-    : 'text-primaryText dark:text-darkText font-sora-semibold';
+    : 'text-secondaryText dark:text-darkText font-sora-semibold';
 
   return (
     <TouchableOpacity

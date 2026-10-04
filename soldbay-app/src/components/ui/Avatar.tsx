@@ -23,7 +23,7 @@ export function Avatar({
         source={{ uri: imageUrl }}
         style={[
           { width: size, height: size, borderRadius: size / 2 },
-          style
+          style as any
         ]}
       />
     );
