@@ -32,7 +32,7 @@ export function ScreenHeader({
           weight="regular"
         />
         {hasUnreadNotifications && (
-          <View className="absolute top-1 right-1 w-2 h-2 rounded-full border border-bgBase dark:border-darkBg bg-discountFill" />
+          <View className="absolute top-1.5 right-2.5 w-2 h-2 rounded-full border border-bgBase dark:border-darkBg bg-discountFill" />
         )}
       </TouchableOpacity>
     </View>
