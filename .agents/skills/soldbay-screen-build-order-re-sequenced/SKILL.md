@@ -5,7 +5,7 @@ description: Information about Screen Build Order (Re-Sequenced) for Soldbay
 
 # Screen Build Order (Re-Sequenced)
 
-**Status: every mobile MVP screen is designed and locked (all** `[X]`**).** This doc is now the reference order for the real-code screen build (app components first, then these screens in this order — see Workflow & Continuation Guide). Code status per screen: not started.
+**Status: every mobile MVP screen is designed and locked (all** `[X]`**).** This doc is now the reference order for the real-code screen build (app components first, then these screens in this order — see Workflow & Continuation Guide). Code status per screen: Feed/Browse, Search/Filters & Product Detail built.
 
 Replaces the superseded "Screen & Component Priority (Tiers 1-3)" doc. Every screen below is derived from two already-locked sources — not a fresh guess: **which** items belong on it comes from the MVP-tagged entries in Feature/Workflow Inventory, **when** it comes in sequence comes from Screen Flow (IA)'s own buyer/seller/shared ordering. Later/Cut items are deliberately left off each screen's scope — if it's not MVP-tagged, it's not part of this build.
 
