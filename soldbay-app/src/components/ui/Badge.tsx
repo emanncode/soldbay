@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, useColorScheme, StyleProp, ViewStyle } from 'react-native';
-import { SealCheck, ShieldWarning } from 'phosphor-react-native';
+import { SealCheck, ShieldWarning, Clock, CheckCircle, WarningCircle, Info } from 'phosphor-react-native';
 import { colors } from '../../theme/tokens';
 
 export function DiscountBadge({ discountPercent, style }: { discountPercent: number, style?: StyleProp<ViewStyle> }) {
@@ -46,19 +46,21 @@ export function StatusPill({ status, label, style }: { status: StatusType, label
   const isDark = colorScheme === 'dark';
 
   const statusConfig = {
-    info: { color: isDark ? colors.darkInfo : colors.info },
-    warning: { color: isDark ? colors.darkWarning : colors.warning },
-    success: { color: isDark ? colors.darkSuccess : colors.success },
-    error: { color: isDark ? colors.darkError : colors.error },
+    info: { color: isDark ? colors.darkInfo : colors.info, Icon: Info },
+    warning: { color: isDark ? colors.darkWarning : colors.warning, Icon: Clock },
+    success: { color: isDark ? colors.darkSuccess : colors.success, Icon: CheckCircle },
+    error: { color: isDark ? colors.darkError : colors.error, Icon: WarningCircle },
   };
 
   const currentStatus = statusConfig[status];
+  const StatusIcon = currentStatus.Icon;
 
   return (
     <View 
-      className="px-2 py-1 rounded-full self-start"
+      className="px-2 py-1 rounded-full self-start flex-row items-center gap-1"
       style={[{ backgroundColor: currentStatus.color }, style]}
     >
+      <StatusIcon size={12} color={isDark ? colors.darkBg : colors.bgBase} weight="fill" />
       <Text className="text-white dark:text-darkBg font-sora-semibold text-[11px]">
         {label}
       </Text>
