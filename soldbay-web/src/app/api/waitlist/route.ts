@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { Role, SellFrequency } from "@/generated/prisma/enums"
+import { Resend } from "resend"
+import { generateWaitlistEmailHtml } from "@/emails/WaitlistWelcomeEmail"
 
+const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy")
 function toRole(value: string): Role | null {
   if (value === "buyer") return Role.BUYER
   if (value === "seller") return Role.SELLER
@@ -15,6 +18,26 @@ function toSellFrequency(value: string): SellFrequency | null {
     occasionally: SellFrequency.OCCASIONALLY,
   }
   return map[value.toLowerCase()] ?? null
+}
+
+const WAITLIST_INBOX = process.env.WAITLIST_INBOX?.trim() || process.env.QUESTIONS_INBOX?.trim() || "olajubajeifeoluwa93@gmail.com"
+
+async function forwardWaitlistEmail(data: Record<string, unknown>) {
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(WAITLIST_INBOX)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _subject: `New Soldbay Waitlist: ${data.role} - ${data.name}`,
+        ...data,
+        _template: "table"
+      }),
+    })
+    return res.ok
+  } catch (error) {
+    console.error("Waitlist email error:", error)
+    return false
+  }
 }
 
 /** Public waitlist size for social-proof UI (no PII). */
@@ -81,6 +104,26 @@ export async function POST(request: Request) {
     }
 
     const created = await prisma.waitlistSignup.create({ data: data as never })
+
+    const emailSent = await forwardWaitlistEmail(data)
+
+    if (!emailSent) {
+      console.error("Waitlist saved but email forward failed for:", data.email)
+    }
+
+    // Send Auto-Responder to User
+    if (process.env.RESEND_API_KEY) {
+      try {
+        await resend.emails.send({
+          from: "Soldbay <hello@soldbay.shop>",
+          to: data.email as string,
+          subject: "You're on the Soldbay waitlist! 🎉",
+          html: generateWaitlistEmailHtml(data as any),
+        })
+      } catch (error) {
+        console.error("Failed to send welcome email to user:", error)
+      }
+    }
 
     return NextResponse.json({ id: created.id }, { status: 201 })
   } catch (error: unknown) {
