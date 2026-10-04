@@ -121,7 +121,7 @@ export default function FeedScreen() {
 
   return (
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
-      <View className="px-4 pt-16 mb-6">
+      <View className="px-4 pt-16 mb-3">
         <ScreenHeader
           title="Browse"
           hasUnreadNotifications={true}

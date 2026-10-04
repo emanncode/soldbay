@@ -17,7 +17,7 @@ export function ScreenHeader({
   const isDark = colorScheme === "dark";
 
   return (
-    <View className="flex-row items-center justify-between mb-6">
+    <View className="flex-row items-center justify-between mb-3">
       <Text className="text-title-2 text-primaryText dark:text-darkText">
         {title}
       </Text>
