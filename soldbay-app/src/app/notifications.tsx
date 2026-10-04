@@ -77,9 +77,9 @@ export default function NotificationsScreen() {
       >
         <TouchableOpacity
           onPress={() => router.back()}
-          className="mr-3 p-1 -ml-1"
+          className="mr-3 p-1 -ml-1  text-primaryText dark:text-darkText"
         >
-          <CaretLeft size={24} color={colors.primaryText} weight="bold" />
+          <CaretLeft size={24} color={colors.secondaryText} weight="bold" />
         </TouchableOpacity>
         <Text className="text-title-2 text-primaryText dark:text-darkText">
           Notifications
