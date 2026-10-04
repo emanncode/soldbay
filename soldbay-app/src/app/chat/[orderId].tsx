@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert, Keyboard } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { CaretLeft, PaperPlaneRight, ShieldWarning, DotsThreeVertical, Info } from 'phosphor-react-native';
 import { Avatar } from '../../components/ui/Avatar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../theme/tokens';
+import { helpfulDialog, actionSheetDialog } from '../../lib/dialogs';
 
 interface Message {
   id: string;
@@ -63,16 +64,15 @@ export default function ChatScreen() {
 
   const handleLongPressMessage = (msg: Message) => {
     if (msg.isMine) {
-      Alert.alert(
+      helpfulDialog(
         'Message Details',
-        `Sent: ${msg.timestamp}\nStatus: ${msg.isRead ? 'Read by seller' : 'Delivered'}`,
-        [{ text: 'Close', style: 'cancel' }]
+        `Sent: ${msg.timestamp}\nStatus: ${msg.isRead ? 'Read by seller' : 'Delivered'}`
       );
     }
   };
 
   const handleHeaderMenu = () => {
-    Alert.alert(
+    actionSheetDialog(
       'Chat Options',
       'Choose an action:',
       [
