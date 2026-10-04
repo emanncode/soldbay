@@ -20,6 +20,7 @@ import {
 import { Button } from "../../components/ui/Button";
 import { Avatar } from "../../components/ui/Avatar";
 import { WishlistButton } from "../../components/ui/WishlistButton";
+import { IconButton } from "../../components/ui/IconButton";
 import { colors } from "../../theme/tokens";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -103,17 +104,10 @@ export default function ProductDetailScreen() {
             className="absolute top-0 left-0 right-0 flex-row justify-between items-center px-4"
             style={{ paddingTop: Math.max(insets.top, 16) }}
           >
-            <TouchableOpacity
-              onPress={() => router.back()}
-              className="w-10 h-10 rounded-full bg-black/40 justify-center items-center backdrop-blur-md"
-            >
-              <CaretLeft size={24} color="#FFF" weight="bold" />
-            </TouchableOpacity>
+            <IconButton icon={CaretLeft} onPress={() => router.back()} />
 
             <View className="flex-row gap-3">
-              <TouchableOpacity className="w-10 h-10 rounded-full bg-black/40 justify-center items-center backdrop-blur-md">
-                <ShareNetwork size={20} color="#FFF" weight="fill" />
-              </TouchableOpacity>
+              <IconButton icon={ShareNetwork} onPress={() => {}} />
               <WishlistButton variant="glass" initialIsWishlisted={false} />
             </View>
           </View>

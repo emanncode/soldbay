@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from "react-native";
 import { useRouter } from "expo-router";
 import {
   CaretLeft,
@@ -9,6 +9,7 @@ import {
 } from "phosphor-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../theme/tokens";
+import { IconButton } from "../components/ui/IconButton";
 
 type NotificationType = "chat" | "order" | "system";
 
@@ -56,15 +57,17 @@ const MOCK_NOTIFICATIONS: AppNotification[] = [
 export default function NotificationsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
 
   const getIconForType = (type: NotificationType) => {
     switch (type) {
       case "chat":
-        return <ChatCircle size={24} color={colors.accent} weight="fill" />;
+        return <ChatCircle size={24} color={isDark ? colors.accent : colors.accentIcon} weight="fill" />;
       case "order":
-        return <Package size={24} color={colors.info} weight="fill" />;
+        return <Package size={24} color={isDark ? colors.darkInfo : colors.info} weight="fill" />;
       case "system":
-        return <WarningCircle size={24} color={colors.warning} weight="fill" />;
+        return <WarningCircle size={24} color={isDark ? colors.darkWarning : colors.warning} weight="fill" />;
     }
   };
 
@@ -75,12 +78,7 @@ export default function NotificationsScreen() {
         className="flex-row items-center px-4 pb-4 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="mr-3 p-1 -ml-1  text-primaryText dark:text-darkText"
-        >
-          <CaretLeft size={24} color={colors.secondaryText} weight="bold" />
-        </TouchableOpacity>
+        <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
         <Text className="text-title-2 text-primaryText dark:text-darkText">
           Notifications
         </Text>

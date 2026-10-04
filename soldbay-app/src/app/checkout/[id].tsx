@@ -10,6 +10,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { CaretLeft, MapPin, Clock, CreditCard } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
 import { FilterChip } from "../../components/ui/FilterChip";
+import { IconButton } from "../../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/tokens";
 import { helpfulDialog } from "../../lib/dialogs";
@@ -76,12 +77,7 @@ export default function CheckoutScreen() {
         className="flex-row items-center px-4 pb-4 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="mr-3 p-1 -ml-1"
-        >
-          <CaretLeft size={24} color={colors.primaryText} weight="bold" />
-        </TouchableOpacity>
+        <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
         <Text className="text-title-2 text-primaryText dark:text-darkText">
           Checkout
         </Text>

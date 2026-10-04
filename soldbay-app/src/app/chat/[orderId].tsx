@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingVi
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { CaretLeft, PaperPlaneRight, ShieldWarning, DotsThreeVertical, Info } from 'phosphor-react-native';
 import { Avatar } from '../../components/ui/Avatar';
+import { IconButton } from '../../components/ui/IconButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../theme/tokens';
 import { helpfulDialog, actionSheetDialog } from '../../lib/dialogs';
@@ -95,9 +96,7 @@ export default function ChatScreen() {
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center gap-3">
-          <TouchableOpacity onPress={() => router.back()} className="p-1 -ml-1">
-            <CaretLeft size={24} color={colors.primaryText} weight="bold" />
-          </TouchableOpacity>
+          <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginLeft: -4 }} />
           <Avatar imageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200" initials="A" size={40} />
           <View>
             <Text className="text-[16px] font-sora-semibold text-primaryText dark:text-darkText">Amina Y.</Text>

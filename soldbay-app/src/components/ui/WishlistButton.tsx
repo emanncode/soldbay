@@ -28,9 +28,9 @@ export function WishlistButton({
   const getVariantStyles = () => {
     if (variant === 'glass') {
       return {
-        containerClass: 'w-10 h-10 rounded-full bg-black/40 justify-center items-center backdrop-blur-md',
-        iconSize: 20,
-        unfilledColor: '#FFF',
+        containerClass: 'w-10 h-10 rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none dark:border dark:border-borderDark/24',
+        iconSize: 24,
+        unfilledColor: isDark ? colors.darkText : colors.primaryText,
         unfilledWeight: 'bold' as const,
       };
     }

@@ -18,6 +18,7 @@ import {
   EyeClosed,
 } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
+import { IconButton } from "../../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/tokens";
 import { OrderCard, OrderStatus } from "../../components/ui/OrderCard";
@@ -90,12 +91,7 @@ export default function OrderStatusScreen() {
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="mr-3 p-1 -ml-1"
-          >
-            <CaretLeft size={24} color={colors.primaryText} weight="bold" />
-          </TouchableOpacity>
+          <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
           <Text className="text-title-2 text-primaryText dark:text-darkText">
             Order Details
           </Text>
