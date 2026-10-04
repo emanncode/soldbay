@@ -235,7 +235,7 @@ export default function ProductDetailScreen() {
               <Button 
                 label="Buy Now" 
                 variant="primary"
-                onPress={() => console.log('Buy Now tapped')} 
+                onPress={() => router.push(`/checkout/${product.id}`)} 
               />
             </View>
           </View>
