@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import { NextResponse } from "next/server"
 import { authConfig } from "@/auth.config"
 import { extractBearerToken, verifyMobileToken } from "@/lib/mobile-auth"
+import { getSubdomain } from "@/lib/subdomain"
 
 const { auth } = NextAuth(authConfig)
 
@@ -40,39 +41,45 @@ function isApiRoute(pathname: string): boolean {
  *
  * 401 if unauthenticated / invalid token, 403 if authenticated but not SELLER.
  */
-export default auth(async (req) => {
+export const proxy = auth(async (req) => {
   const { pathname } = req.nextUrl
   const method = req.method
   const host = req.headers.get("host") || ""
 
-  const isAdminSubdomain = host.startsWith("admin.")
+  const subdomain = getSubdomain(host)
+  const isAdminSubdomain = subdomain === "admin"
 
-  console.log(`[Middleware] ${method} ${pathname} | host: ${host} | isAdmin: ${isAdminSubdomain}`)
+  console.log(`[Proxy] ${method} ${pathname} | host: ${host} | subdomain: ${subdomain || 'root'}`)
 
-  // 1. SECURITY BLOCK: Prevent direct access to /admin paths on the main domain
-  if (!isAdminSubdomain && pathname.startsWith("/admin")) {
-    console.log(`[Middleware] Blocking direct access to /admin. Returning 404.`)
-    return new NextResponse("Not Found", { status: 404 })
+  // 1. Root Domain Logic
+  if (!isAdminSubdomain) {
+    // SECURITY BLOCK: Prevent direct access to /admin paths on the main domain
+    if (pathname.startsWith("/admin")) {
+      console.log(`[Proxy] Blocking direct access to /admin on root domain. Returning dedicated 404.`)
+      const url = req.nextUrl.clone()
+      url.pathname = "/not-found-page"
+      return NextResponse.rewrite(url)
+    }
   }
 
-  // 2. SUBDOMAIN REWRITE: Map admin.soldbay.shop/foo -> /admin/foo
+  // 2. Admin Subdomain Logic: Map admin.soldbay.shop/foo -> /admin/foo
   if (isAdminSubdomain) {
     // Smart redirect for the root subdomain path
     if (pathname === "/") {
       const redirectUrl = req.nextUrl.clone()
-      redirectUrl.host = host // preserve the user's requested host (e.g. admin.localhost:3000) instead of internal IPs
+      redirectUrl.host = host // preserve the user's requested host (e.g. admin.localhost:3000)
       if (req.auth?.user) {
         redirectUrl.pathname = "/waitlist"
       } else {
         redirectUrl.pathname = "/login"
       }
-      console.log(`[Middleware] Redirecting root to ${redirectUrl.toString()}`)
+      console.log(`[Proxy] Redirecting admin root to ${redirectUrl.toString()}`)
       return NextResponse.redirect(redirectUrl)
     }
 
     // Prevent infinite rewrite loop if already prefixed
     if (pathname.startsWith("/admin")) {
-      console.log(`[Middleware] Already rewritten to ${pathname}, continuing.`)
+      console.log(`[Proxy] Already rewritten to ${pathname}, continuing.`)
       // Allow it to proceed
     } else if (!pathname.startsWith("/api/auth")) {
       const rewriteUrl = req.nextUrl.clone()
@@ -81,7 +88,7 @@ export default auth(async (req) => {
         rewriteUrl.hostname = "localhost"
       }
       rewriteUrl.pathname = `/admin${pathname === "/" ? "" : pathname}`
-      console.log(`[Middleware] Rewriting to ${rewriteUrl.toString()}`)
+      console.log(`[Proxy] Rewriting admin subdomain to ${rewriteUrl.toString()}`)
       return NextResponse.rewrite(rewriteUrl)
     }
   }
