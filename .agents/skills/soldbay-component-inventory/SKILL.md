@@ -100,8 +100,14 @@ Icon library: Phosphor Icons (outline for inactive states, fill for active) — 
 - [X] **Screen header** (`ScreenHeader.tsx`) — confirmed correct as-is: `text-title-2` (not title-3), icon-btn border/shadow treatment in both modes, all match `.header`/`.icon-btn`/`h1.title-2` exactly. No fix needed; the earlier "not verified" status was wrong — this one's done.
 - [X] **Search bar** (`SearchBar.tsx`) — one bug, same root cause as Tab bar: icon color uses `borderLight` for light mode; must be `secondaryText`. Background/border in both modes already correct.
 - [X] **Product card** (`ProductCard.tsx`) — one bug: dark-mode border uses `borderDark/10`; must be `borderDark/24` (`.product-card`'s border resolves to `border-light` in dark mode, which is `rgba(103,184,179,0.24)`). Everything else confirmed correct: verified/unverified badges, rating, image height, discount badge, dark text color.
+- [X] **Order/transaction card** (`OrderCard.tsx`) — fully compliant, including icon+label status pills.
+- [X] **Buttons** (`Button.tsx`) — confirmed icon-btn size (`44px`), radii, padding, and dark/light color treatments.
+- [X] **Badges/Pills** (`Badge.tsx`) — `StatusPill` updated to enforce the `icon + label` rule (Phosphor icons added).
+- [X] **Inputs & Lists** (`Input.tsx`, `ListItem.tsx`) — confirmed styling against `.input` and `.list-item`.
+- [X] **Feedback & Identity** (`Modal.tsx`, `EmptyState.tsx`, `Skeleton.tsx`, `Feedback.tsx`, `Avatar.tsx`) — `InlineContext` updated to use `primaryText/10` instead of accent; `Skeleton` uses desaturated teal tint (`rgba(3, 31, 33, 0.05)`) instead of generic gray; `Avatar` fallback text updated.
+- [X] **Misc** (`FilterChip.tsx`) — unselected state text mapped to `secondaryText` to match `.chip`.
 - [X] `src/theme/tokens.js` — `darkText: "#FFFFFF"` and the `darkSuccess/darkWarning/darkError/darkInfo` values are CONFIRMED CORRECT (verified against `all-screens-dark.html`'s `:root`) — these were flagged as suspicious drift in an earlier review pass and that flag was wrong; keep them.
-- Not started: Order/transaction card, Buttons, Badges/Pills as standalone components, Inputs, Lists, Feedback, Identity, Misc. Code order follows the design build order above.
+- Not started: n/a. Base component scaffolding complete and verified.
 
 **Process note (28-09-26):** a review session made sweeping, unattended changes directly against both the code AND the three locked prototype HTML files (icon swaps, badge color patches, a rating block injected into the product-card markup) based on a general "make RN match HTML" instruction, without checking each specific claim against Linear or recording the changes here. Some of those changes were correct (verified badge icon, unverified badge dark treatment) and are now reflected above; others need the fixes listed above. Going forward: one component verified at a time, actual file diffed against actual HTML, result recorded here — not a batch "deep override" applied and summarized after the fact.
 
