@@ -45,10 +45,12 @@ export function InlineContext({ message, icon, style }: InlineContextProps) {
   
   return (
     <View 
-      className="flex-row items-center gap-2 bg-accent/10 p-3 rounded-md"
+      className="flex-row items-center gap-2 bg-primaryText/10 dark:bg-borderDark/24 p-3 rounded-md"
       style={style}
     >
-      {icon || <LockKey size={16} color={colors.accent} weight="fill" />}
+      <View className="opacity-80">
+        {icon || <LockKey size={16} color={colors.accent} weight="fill" />}
+      </View>
       <Text className="text-[13px] font-sora text-primaryText dark:text-darkText flex-1">
         {message}
       </Text>
