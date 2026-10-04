@@ -36,8 +36,8 @@ export function Skeleton({
     return () => animation.stop();
   }, [fadeAnim]);
 
-  // #e0e0e0 in light mode, #063f42 in dark mode
-  const backgroundColor = isDark ? '#063f42' : '#e0e0e0';
+  // rgba(3, 31, 33, 0.05) in light mode, rgba(103, 184, 179, 0.1) in dark mode
+  const backgroundColor = isDark ? 'rgba(103, 184, 179, 0.1)' : 'rgba(3, 31, 33, 0.05)';
 
   return (
     <Animated.View
