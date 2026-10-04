@@ -199,7 +199,7 @@ export default function CheckoutScreen() {
 
           <Text className="text-[12px] font-sora text-secondaryText dark:text-borderDark mt-4 text-center">
             Your money is held securely in escrow. The seller only gets paid
-            after you confirm you've received the item.
+            after you confirm you&apos;ve received the item.
           </Text>
         </View>
       </ScrollView>

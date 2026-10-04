@@ -1,7 +1,13 @@
-import React from 'react';
-import { View, TextInput, TouchableOpacity, useColorScheme, TextInputProps } from 'react-native';
-import { MagnifyingGlass, XCircle } from 'phosphor-react-native';
-import { colors } from '../../theme/tokens';
+import React from "react";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  useColorScheme,
+  TextInputProps,
+} from "react-native";
+import { MagnifyingGlass, XCircle } from "phosphor-react-native";
+import { colors } from "../../theme/tokens";
 
 interface SearchBarProps extends TextInputProps {
   value: string;
@@ -10,16 +16,22 @@ interface SearchBarProps extends TextInputProps {
   placeholder?: string;
 }
 
-export function SearchBar({ value, onChangeText, onClear, placeholder = 'Search...', ...props }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChangeText,
+  onClear,
+  placeholder = "Search...",
+  ...props
+}: SearchBarProps) {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = colorScheme === "dark";
 
   const iconColor = isDark ? colors.borderDark : colors.secondaryText;
   const textColor = isDark ? colors.darkText : colors.primaryText;
-  
+
   return (
-    <View className="flex-row items-center bg-primaryText/5 dark:bg-darkBgStep dark:border dark:border-borderDark/24 rounded-sm px-3 py-3">
-      <MagnifyingGlass size={20} color={iconColor} weight="regular" />
+    <View className="flex-row items-center bg-primaryText/5 dark:bg-darkBgStep dark:border dark:border-borderDark/24 rounded-full px-6 py-0.5">
+      <MagnifyingGlass size={20} color={iconColor} weight="bold" />
       <TextInput
         value={value}
         onChangeText={onChangeText}
