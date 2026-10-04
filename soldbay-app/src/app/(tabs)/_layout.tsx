@@ -27,7 +27,7 @@ export default function TabsLayout() {
         };
 
         return (
-          <View className="bg-bgBase dark:bg-darkBg pt-6 pb-5 ">
+          <View className="bg-bgBase dark:bg-darkBg py-3.5 ">
             <TabBar
               activeTab={activeTab}
               onTabPress={onTabPress}
