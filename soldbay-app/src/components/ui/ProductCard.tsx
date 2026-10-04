@@ -1,7 +1,16 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, useColorScheme, StyleProp, ViewStyle } from 'react-native';
-import { SealCheck, Heart, Star, ShieldWarning } from 'phosphor-react-native';
-import { colors } from '../../theme/tokens';
+import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  useColorScheme,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { SealCheck, Star, ShieldWarning } from "phosphor-react-native";
+import { colors } from "../../theme/tokens";
+import { WishlistButton } from "./WishlistButton";
 
 export interface ProductCardProps {
   title: string;
@@ -21,7 +30,7 @@ export interface ProductCardProps {
 export function ProductCard({
   title,
   price,
-  sellerName = '@seller',
+  sellerName = "@seller",
   originalPrice,
   imageUrl,
   isSold = false,
@@ -33,16 +42,17 @@ export function ProductCard({
   style,
 }: ProductCardProps) {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = colorScheme === "dark";
 
   // In HTML: product-card has no specific background, inherits from screen. We'll use transparent so it matches.
-  const cardBg = 'bg-transparent';
+  const cardBg = "bg-transparent";
   // HTML dark mode border is rgba(103, 184, 179, 0.1) -> borderDark/10
-  const borderClass = 'border border-primaryText/10 dark:border-borderDark/24'; 
-  
-  const textPrimary = isDark ? 'text-darkText' : 'text-primaryText';
-  const textSecondary = isDark ? 'text-borderDark' : 'text-secondaryText';
-  
+  const borderClass = "border border-primaryText/10 dark:border-borderDark/24";
+
+  const textPrimary = isDark ? "text-darkText" : "text-primaryText";
+  const textSecondary = isDark ? "text-borderDark" : "text-secondaryText";
+  const accentIconColor = isDark ? colors.accent : colors.accentIcon;
+
   const formattedPrice = `₦${price.toLocaleString()}`;
 
   return (
@@ -50,11 +60,14 @@ export function ProductCard({
       onPress={onPress}
       disabled={isSold || !onPress}
       activeOpacity={0.8}
-      className={`rounded-lg overflow-hidden ${cardBg} ${borderClass} ${isSold ? 'opacity-60' : ''}`}
-      style={[{ width: '100%' }, style]}
+      className={`rounded-lg overflow-hidden ${cardBg} ${borderClass} ${isSold ? "opacity-60" : ""}`}
+      style={[{ width: "100%" }, style]}
     >
       {/* Image Container */}
-      <View className="w-full bg-[#e0e0e0] dark:bg-borderDark relative justify-center items-center" style={{ height: 140 }}>
+      <View
+        className="w-full bg-[#e0e0e0] dark:bg-borderDark relative justify-center items-center"
+        style={{ height: 140 }}
+      >
         {imageUrl ? (
           <>
             <Image
@@ -71,13 +84,17 @@ export function ProductCard({
           </>
         ) : (
           <View className="w-full h-full justify-center items-center">
-             {isSold ? (
-               <Text className={`font-sora-bold text-[18px] text-primaryText/50 dark:text-darkText/50 tracking-widest`}>
-                 SOLD
-               </Text>
-             ) : (
-               <Text className="text-secondaryText/40 dark:text-bgBase font-sora-semibold">No Photo</Text>
-             )}
+            {isSold ? (
+              <Text
+                className={`font-sora-bold text-[18px] text-primaryText/50 dark:text-darkText/50 tracking-widest`}
+              >
+                SOLD
+              </Text>
+            ) : (
+              <Text className="text-secondaryText/40 dark:text-bgBase font-sora-semibold">
+                No Photo
+              </Text>
+            )}
           </View>
         )}
 
@@ -89,14 +106,10 @@ export function ProductCard({
                 -{Math.round(((originalPrice - price) / originalPrice) * 100)}%
               </Text>
             </View>
-          ) : <View />}
-          <TouchableOpacity className="bg-bgBase/90 dark:bg-bgCard/20 rounded-full p-1.5">
-            <Heart 
-              size={16} 
-              color={isWishlisted ? colors.accent : (isDark ? colors.darkText : colors.primaryText)} 
-              weight={isWishlisted ? "fill" : "regular"} 
-            />
-          </TouchableOpacity>
+          ) : (
+            <View />
+          )}
+          <WishlistButton variant="card" initialIsWishlisted={isWishlisted} />
         </View>
       </View>
 
@@ -105,30 +118,39 @@ export function ProductCard({
         {/* Seller Info Row */}
         <View className="flex-row items-center justify-between mb-[6px]">
           <View className="flex-row items-center gap-1 flex-1">
-            <Text className={`font-sora-semibold text-[11px] ${textSecondary}`} numberOfLines={1} style={{ flexShrink: 1 }}>
+            <Text
+              className={`font-sora-semibold text-[11px] ${textSecondary}`}
+              numberOfLines={1}
+              style={{ flexShrink: 1 }}
+            >
               {sellerName}
             </Text>
             {isVerifiedSeller ? (
-              <SealCheck size={12} color={colors.accent} weight="fill" />
+              <SealCheck size={12} color={accentIconColor} weight="fill" />
             ) : (
-              <View className="flex-row items-center gap-1 bg-primaryText/10 dark:bg-darkText/15 px-2 py-0.5 rounded-full">
-                <ShieldWarning size={10} color={isDark ? colors.darkText : colors.secondaryText} weight="fill" />
-                <Text className="text-[10px] font-sora-semibold text-secondaryText dark:text-darkText">Unverified</Text>
-              </View>
+              <ShieldWarning
+                size={12}
+                color={isDark ? colors.darkText : colors.secondaryText}
+                weight="fill"
+              />
             )}
           </View>
           {rating !== undefined && (
             <View className="flex-row items-center gap-[2px]">
-              <Star size={10} color={colors.accent} weight="fill" />
+              <Star size={10} color={accentIconColor} weight="fill" />
               <Text className="font-sora-bold text-[10px] text-accent">
-                {rating}{reviewCount !== undefined ? ` (${reviewCount})` : ''}
+                {rating}
+                {reviewCount !== undefined ? ` (${reviewCount})` : ""}
               </Text>
             </View>
           )}
         </View>
 
         {/* Title */}
-        <Text className={`text-[13px] font-sora-semibold ${textSecondary}`} numberOfLines={1}>
+        <Text
+          className={`text-[13px] font-sora-semibold ${textSecondary}`}
+          numberOfLines={1}
+        >
           {title}
         </Text>
 
@@ -138,7 +160,9 @@ export function ProductCard({
             {formattedPrice}
           </Text>
           {originalPrice && (
-            <Text className={`text-[12px] font-sora line-through ${textSecondary}`}>
+            <Text
+              className={`text-[12px] font-sora line-through ${textSecondary}`}
+            >
               ₦{originalPrice.toLocaleString()}
             </Text>
           )}
