@@ -30,7 +30,7 @@ export function Button({
     if (variant !== 'icon') {
       base += 'w-full py-4 px-4 ';
     } else {
-      base += 'w-12 h-12 rounded-full border border-primaryText/10 dark:border-borderDark/24 bg-bgBase dark:bg-darkBg ';
+      base += 'w-[44px] h-[44px] rounded-full border border-primaryText/10 dark:border-borderDark/24 bg-bgBase dark:bg-darkBg ';
     }
 
     switch (variant) {
