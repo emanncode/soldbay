@@ -41,7 +41,11 @@ export default function OrdersTab() {
   return (
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       <View className="px-4 pb-2" style={{ paddingTop: Math.max(insets.top, 16) }}>
-        <ScreenHeader title="Orders" />
+        <ScreenHeader 
+          title="Orders" 
+          hasUnreadNotifications={true}
+          onNotificationPress={() => router.push('/notifications')}
+        />
       </View>
 
       <ScrollView 

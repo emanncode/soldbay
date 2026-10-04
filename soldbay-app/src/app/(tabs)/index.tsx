@@ -74,7 +74,7 @@ export default function FeedScreen() {
         <ScreenHeader 
           title="Browse" 
           hasUnreadNotifications={true} 
-          onNotificationPress={() => console.log('Notifications pressed')}
+          onNotificationPress={() => router.push('/notifications')}
         />
         
         <SearchBar 
