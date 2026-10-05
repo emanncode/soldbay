@@ -217,8 +217,8 @@ export default function ProductDetailScreen() {
 
           {/* Report Listing */}
           <TouchableOpacity className="flex-row items-center gap-2 mt-8 py-3">
-            <Flag size={16} color={colors.error} weight="bold" />
-            <Text className="text-[13px] font-sora-bold text-error">
+            <Flag size={16} color={isDark ? colors.darkError : colors.error} weight="bold" />
+            <Text className="text-[13px] font-sora-bold text-error  dark:text-darkError">
               Report this listing
             </Text>
           </TouchableOpacity>
