@@ -74,7 +74,7 @@ export default function CheckoutScreen() {
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       {/* Header */}
       <View
-        className="flex-row items-center px-4 pb-4 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
+        className="flex-row items-center px-4 pb-4 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
@@ -85,7 +85,7 @@ export default function CheckoutScreen() {
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Order Summary */}
-        <View className="p-4 border-b border-borderLight dark:border-borderDark/24">
+        <View className="p-4">
           <Text className="text-[15px] font-sora-bold text-primaryText dark:text-darkText mb-4">
             Order Summary
           </Text>
@@ -112,7 +112,7 @@ export default function CheckoutScreen() {
         </View>
 
         {/* Pickup Details */}
-        <View className="p-4 border-b border-borderLight dark:border-borderDark/24">
+        <View className="p-4">
           <View className="flex-row items-center gap-2 mb-4">
             <MapPin size={20} color={colors.accent} weight="fill" />
             <Text className="text-[15px] font-sora-bold text-primaryText dark:text-darkText">
@@ -174,7 +174,7 @@ export default function CheckoutScreen() {
                 ₦{platformFee.toLocaleString()}
               </Text>
             </View>
-            <View className="flex-row justify-between pb-3 border-b border-borderLight dark:border-borderDark/24">
+            <View className="flex-row justify-between pb-3">
               <Text className="text-[14px] font-sora text-secondaryText dark:text-darkText">
                 Delivery
               </Text>
@@ -202,7 +202,7 @@ export default function CheckoutScreen() {
 
       {/* Sticky Bottom Action Bar */}
       <View
-        className="px-4 pt-4 bg-bgBase dark:bg-darkBg border-t border-borderLight dark:border-borderDark/24 shadow-elevation-2 dark:shadow-none"
+        className="px-4 pt-4 bg-bgBase dark:bg-darkBg shadow-elevation-2 dark:shadow-none"
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
       >
         <Button

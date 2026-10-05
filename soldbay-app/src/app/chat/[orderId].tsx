@@ -92,7 +92,7 @@ export default function ChatScreen() {
     >
       {/* Header */}
       <View 
-        className="flex-row items-center justify-between px-4 pb-3 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
+        className="flex-row items-center justify-between px-4 pb-3 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center gap-3">
@@ -135,20 +135,12 @@ export default function ChatScreen() {
               key={msg.id}
               activeOpacity={0.9}
               onLongPress={() => handleLongPressMessage(msg)}
-              className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                isMine 
-                  ? 'self-end bg-accent rounded-tr-sm' 
-                  : 'self-start bg-primaryText/5 dark:bg-darkBgStep rounded-tl-sm'
-              }`}
+              className={`max-w-[80%] rounded-2xl px-4 py-3 ${ isMine ? 'self-end bg-accent rounded-tr-sm' : 'self-start bg-primaryText/5 dark:bg-darkBgStep rounded-tl-sm' }`}
             >
-              <Text className={`text-[15px] font-sora leading-relaxed ${
-                isMine ? 'text-white' : 'text-primaryText dark:text-darkText'
-              }`}>
+              <Text className={`text-[15px] font-sora leading-relaxed ${ isMine ? 'text-white' : 'text-primaryText dark:text-darkText' }`}>
                 {msg.text}
               </Text>
-              <Text className={`text-[10px] font-sora-semibold mt-1 self-end ${
-                isMine ? 'text-white/70' : 'text-secondaryText/60 dark:text-borderDark/60'
-              }`}>
+              <Text className={`text-[10px] font-sora-semibold mt-1 self-end ${ isMine ? 'text-white/70' : 'text-secondaryText/60 dark:text-borderDark/60' }`}>
                 {msg.timestamp}
               </Text>
             </TouchableOpacity>
@@ -158,7 +150,7 @@ export default function ChatScreen() {
 
       {/* Input Area */}
       <View 
-        className="px-4 py-3 bg-bgBase dark:bg-darkBg border-t border-borderLight dark:border-borderDark/24 flex-row items-end gap-3"
+        className="px-4 py-3 bg-bgBase dark:bg-darkBg flex-row items-end gap-3"
         style={{ paddingBottom: Math.max(insets.bottom, 12) }}
       >
         <TextInput
@@ -172,9 +164,7 @@ export default function ChatScreen() {
         <TouchableOpacity 
           onPress={handleSend}
           disabled={!inputText.trim()}
-          className={`w-11 h-11 rounded-full items-center justify-center shrink-0 ${
-            inputText.trim() ? 'bg-accent' : 'bg-borderLight dark:bg-darkBgStep'
-          }`}
+          className={`w-11 h-11 rounded-full items-center justify-center shrink-0 ${ inputText.trim() ? 'bg-accent' : 'bg-borderLight dark:bg-darkBgStep' }`}
         >
           <PaperPlaneRight 
             size={20} 

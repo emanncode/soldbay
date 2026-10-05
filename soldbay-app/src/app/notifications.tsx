@@ -99,7 +99,7 @@ export default function NotificationsScreen() {
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       {/* Header */}
       <View
-        className="flex-row items-center px-4 mt-3 pb-3 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
+        className="flex-row items-center px-4 mt-3 pb-3 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <IconButton
@@ -118,9 +118,7 @@ export default function NotificationsScreen() {
             key={notif.id}
             activeOpacity={0.7}
             onPress={() => router.push(notif.targetRoute as any)}
-            className={`flex-row p-4 border-b border-borderLight dark:border-borderDark/24 ${
-              !notif.isRead ? "bg-accent/5 dark:bg-accent/10" : "bg-transparent"
-            }`}
+            className={`flex-row p-4 ${ !notif.isRead ? "bg-accent/5 dark:bg-accent/10" : "bg-transparent" }`}
           >
             <View className="w-12 h-12 rounded-full bg-primaryText/5 dark:bg-darkBgStep items-center justify-center mr-3 shrink-0">
               {getIconForType(notif.type)}

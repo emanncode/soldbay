@@ -96,7 +96,7 @@ export default function SearchTab() {
         />
       </View>
 
-      <View className="mb-2 border-b border-borderLight dark:border-borderDark/24 pb-3">
+      <View className="mb-2 pb-3">
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

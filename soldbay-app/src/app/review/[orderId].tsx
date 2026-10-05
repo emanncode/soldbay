@@ -109,7 +109,7 @@ export default function RateReviewScreen() {
               Leave a comment (Optional)
             </Text>
             <TextInput
-              className="bg-primaryText/5 dark:bg-darkBgStep border border-borderLight dark:border-borderDark/24 rounded-lg px-4 pt-4 pb-4 min-h-[120px] text-[15px] font-sora text-primaryText dark:text-darkText text-left"
+              className="bg-primaryText/5 dark:bg-darkBgStep rounded-lg px-4 pt-4 pb-4 min-h-[120px] text-[15px] font-sora text-primaryText dark:text-darkText text-left"
               style={{ textAlignVertical: "top" }}
               placeholder="What went well? What could be better?"
               placeholderTextColor={colors.secondaryText}
@@ -123,7 +123,7 @@ export default function RateReviewScreen() {
 
       {/* Bottom Actions */}
       <View
-        className="px-4 pt-4 bg-bgBase dark:bg-darkBg border-t border-borderLight dark:border-borderDark/24 gap-3"
+        className="px-4 pt-4 bg-bgBase dark:bg-darkBg gap-3"
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
       >
         <Button

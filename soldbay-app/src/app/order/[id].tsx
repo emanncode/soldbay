@@ -54,7 +54,7 @@ export default function OrderStatusScreen() {
     switch (order.status) {
       case "awaiting_handoff":
         return (
-          <View className="bg-warning/10 dark:bg-darkWarning/20 p-4 border-b border-warning/20">
+          <View className="bg-warning/10 dark:bg-darkWarning/20 p-4">
             <View className="flex-row items-center gap-2 mb-1">
               <Clock size={20} color={colors.warning} weight="fill" />
               <Text className="text-[16px] font-sora-bold text-warning dark:text-darkWarning">
@@ -69,7 +69,7 @@ export default function OrderStatusScreen() {
         );
       case "completed":
         return (
-          <View className="bg-success/10 dark:bg-darkSuccess/20 p-4 border-b border-success/20">
+          <View className="bg-success/10 dark:bg-darkSuccess/20 p-4">
             <View className="flex-row items-center gap-2 mb-1">
               <CheckCircle size={20} color={colors.success} weight="fill" />
               <Text className="text-[16px] font-sora-bold text-success dark:text-darkSuccess">
@@ -87,7 +87,7 @@ export default function OrderStatusScreen() {
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       {/* Header */}
       <View
-        className="flex-row items-center justify-between px-4 pb-4 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
+        className="flex-row items-center justify-between px-4 pb-4 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center">
@@ -118,7 +118,7 @@ export default function OrderStatusScreen() {
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {renderStatusBanner()}
 
-        <View className="p-4 border-b border-borderLight dark:border-borderDark/24">
+        <View className="p-4">
           <OrderCard
             title={order.title}
             price={order.price}
@@ -132,7 +132,7 @@ export default function OrderStatusScreen() {
 
         {/* Auto-Release / Escrow Card */}
         {order.status === "awaiting_handoff" && (
-          <View className="p-4 border-b border-borderLight dark:border-borderDark/24">
+          <View className="p-4">
             <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg">
               <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2">
                 Funds Held Securely
@@ -159,7 +159,7 @@ export default function OrderStatusScreen() {
 
         {/* Handoff Zone (PIN UI) */}
         {order.status === "awaiting_handoff" && (
-          <View className="p-4 border-b border-borderLight dark:border-borderDark/24">
+          <View className="p-4">
             <Text className="text-[16px] font-sora-bold text-primaryText dark:text-darkText mb-4">
               {isSellerView ? "Confirm Handoff" : "Your Handoff PIN"}
             </Text>
@@ -171,7 +171,7 @@ export default function OrderStatusScreen() {
                   your funds.
                 </Text>
                 <TextInput
-                  className="bg-bgBase dark:bg-darkBg border border-borderLight dark:border-borderDark/24 rounded-lg p-4 text-[24px] font-sora-bold text-center tracking-[10px] text-primaryText dark:text-darkText mb-4"
+                  className="bg-bgBase dark:bg-darkBg rounded-lg p-4 text-[24px] font-sora-bold text-center tracking-[10px] text-primaryText dark:text-darkText mb-4"
                   keyboardType="number-pad"
                   maxLength={4}
                   placeholder="----"
@@ -194,7 +194,7 @@ export default function OrderStatusScreen() {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => setPinRevealed(!pinRevealed)}
-                  className="bg-primaryText/5 dark:bg-darkBgStep rounded-lg p-6 items-center justify-center border border-borderLight dark:border-borderDark/24 mb-4"
+                  className="bg-primaryText/5 dark:bg-darkBgStep rounded-lg p-6 items-center justify-center mb-4"
                 >
                   {pinRevealed ? (
                     <View className="items-center">
