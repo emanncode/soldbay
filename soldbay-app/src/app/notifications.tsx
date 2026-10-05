@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, useColorScheme } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  useColorScheme,
+} from "react-native";
 import { useRouter } from "expo-router";
 import {
   CaretLeft,
@@ -63,11 +69,29 @@ export default function NotificationsScreen() {
   const getIconForType = (type: NotificationType) => {
     switch (type) {
       case "chat":
-        return <ChatCircle size={24} color={isDark ? colors.accent : colors.accentIcon} weight="fill" />;
+        return (
+          <ChatCircle
+            size={24}
+            color={isDark ? colors.accent : colors.accentIcon}
+            weight="fill"
+          />
+        );
       case "order":
-        return <Package size={24} color={isDark ? colors.darkInfo : colors.info} weight="fill" />;
+        return (
+          <Package
+            size={24}
+            color={isDark ? colors.darkInfo : colors.info}
+            weight="fill"
+          />
+        );
       case "system":
-        return <WarningCircle size={24} color={isDark ? colors.darkWarning : colors.warning} weight="fill" />;
+        return (
+          <WarningCircle
+            size={24}
+            color={isDark ? colors.darkWarning : colors.warning}
+            weight="fill"
+          />
+        );
     }
   };
 
@@ -75,10 +99,14 @@ export default function NotificationsScreen() {
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       {/* Header */}
       <View
-        className="flex-row items-center px-4 pb-4 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
+        className="flex-row items-center px-4 mt-3 pb-3 border-b border-borderLight dark:border-borderDark/24 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
-        <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
+        <IconButton
+          icon={CaretLeft}
+          onPress={() => router.back()}
+          style={{ marginRight: 12, marginLeft: -4 }}
+        />
         <Text className="text-title-2 text-primaryText dark:text-darkText">
           Notifications
         </Text>

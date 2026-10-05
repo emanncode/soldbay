@@ -160,7 +160,7 @@ export default function FeedScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View className="flex-row flex-wrap justify-between pb-24">
+        <View className="flex-row flex-wrap justify-between pb-4">
           {MOCK_PRODUCTS.map((product) => (
             <ProductCard
               key={product.id}

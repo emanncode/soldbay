@@ -1,8 +1,10 @@
 import { Tabs } from "expo-router";
 import { TabBar, TabItem } from "../../components/ui/TabBar";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{ headerShown: false }}
@@ -27,7 +29,10 @@ export default function TabsLayout() {
         };
 
         return (
-          <View className="bg-bgBase dark:bg-darkBg py-3.5 ">
+          <View 
+            className="bg-bgBase dark:bg-darkBg pt-3.5"
+            style={{ paddingBottom: Math.max(insets.bottom, 14) }}
+          >
             <TabBar
               activeTab={activeTab}
               onTabPress={onTabPress}
