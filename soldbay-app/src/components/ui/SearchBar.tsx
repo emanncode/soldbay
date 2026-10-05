@@ -30,7 +30,7 @@ export function SearchBar({
   const textColor = isDark ? colors.darkText : colors.primaryText;
 
   return (
-    <View className="flex-row items-center bg-primaryText/5 dark:bg-darkBgStep dark:border dark:border-borderDark/24 rounded-full px-6 py-0.5">
+    <View className="flex-row items-center h-[49px] bg-primaryText/5 dark:bg-darkBgStep rounded-full px-4">
       <MagnifyingGlass size={20} color={iconColor} weight="bold" />
       <TextInput
         value={value}
@@ -38,7 +38,7 @@ export function SearchBar({
         placeholder={placeholder}
         placeholderTextColor={iconColor}
         className="flex-1 ml-2 text-[15px] font-sora text-primaryText dark:text-darkText"
-        style={{ color: textColor }}
+        style={{ color: textColor, paddingVertical: 0 }}
         {...props}
       />
       {value.length > 0 && onClear && (

@@ -13,6 +13,7 @@ import { FilterChip } from "../../components/ui/FilterChip";
 import { ProductCard } from "../../components/ui/ProductCard";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { colors } from "../../theme/tokens";
+import { ScreenHeader } from "@/components/ui/ScreenHeader";
 
 const MOCK_PRODUCTS = [
   {
@@ -80,13 +81,18 @@ export default function SearchTab() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       className="flex-1 bg-bgBase dark:bg-darkBg"
     >
-      <View className="px-4 pt-12 pb-2">
+      <View className="px-4 pt-16 mb-3">
+        <ScreenHeader
+          title="Search"
+          hasUnreadNotifications={true}
+          onNotificationPress={() => router.push("/notifications")}
+        />
         <SearchBar
           value={searchQuery}
           onChangeText={setSearchQuery}
           onClear={() => setSearchQuery("")}
           placeholder="Search products, brands, etc..."
-          autoFocus={true}
+          autoFocus={false}
         />
       </View>
 
