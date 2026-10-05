@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, Text, Image, useColorScheme, StyleProp, ViewStyle } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleProp, ViewStyle } from 'react-native';
+import { Image } from 'expo-image';
 
 export interface AvatarProps {
   imageUrl?: string;
@@ -14,10 +15,9 @@ export function Avatar({
   size = 44,
   style,
 }: AvatarProps) {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const [imageFailed, setImageFailed] = useState(false);
 
-  if (imageUrl) {
+  if (imageUrl && !imageFailed) {
     return (
       <Image
         source={{ uri: imageUrl }}
@@ -25,6 +25,9 @@ export function Avatar({
           { width: size, height: size, borderRadius: size / 2 },
           style as any
         ]}
+        contentFit="cover"
+        transition={200}
+        onError={() => setImageFailed(true)}
       />
     );
   }
@@ -34,13 +37,13 @@ export function Avatar({
     <View
       className="items-center justify-center bg-bgCard dark:bg-borderDark"
       style={[
-        { width: size, height: size, borderRadius: size / 2 },
+        { width: size, height: size, borderRadius: size / 2, overflow: 'hidden' },
         style
       ]}
     >
       <Text 
-        className="text-accent dark:text-darkBg font-fraunces-semibold"
-        style={{ fontSize: Math.round(size * 0.38) }}
+        className="text-accent dark:text-darkBg font-sora-bold"
+        style={{ fontSize: Math.round(size * 0.4) }}
       >
         {initials?.slice(0, 2).toUpperCase() || '?'}
       </Text>
