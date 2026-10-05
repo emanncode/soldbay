@@ -99,6 +99,9 @@ export default function ProductDetailScreen() {
             ))}
           </ScrollView>
 
+          {/* Subtle dark overlay for icon contrast */}
+          <View className="absolute inset-0 bg-black/15" pointerEvents="none" />
+
           {/* Absolute Header (Over image) */}
           <View
             className="absolute top-0 left-0 right-0 flex-row justify-between items-center px-4"
@@ -108,7 +111,7 @@ export default function ProductDetailScreen() {
 
             <View className="flex-row gap-3">
               <IconButton icon={ShareNetwork} onPress={() => {}} />
-              <WishlistButton variant="glass" initialIsWishlisted={false} />
+              <WishlistButton variant="glass" initialIsWishlisted={false} isSold={product.isSold} />
             </View>
           </View>
 
@@ -126,7 +129,7 @@ export default function ProductDetailScreen() {
         </View>
 
         {/* Product Info */}
-        <View className="px-4 pt-5 pb-6 border-b border-borderLight dark:border-borderDark/24">
+        <View className="px-4 pt-5 pb-6">
           <View className="flex-row justify-between items-start mb-2">
             <View className="flex-1 pr-4">
               <Text className="text-title-2 text-primaryText dark:text-darkText leading-snug">
@@ -159,7 +162,7 @@ export default function ProductDetailScreen() {
         </View>
 
         {/* Seller Info */}
-        <View className="px-4 py-5 border-b border-borderLight dark:border-borderDark/24">
+        <View className="px-4 py-5">
           <Text className="text-[15px] font-sora-bold text-primaryText dark:text-darkText mb-4">
             About the Seller
           </Text>
@@ -218,7 +221,7 @@ export default function ProductDetailScreen() {
           {/* Report Listing */}
           <TouchableOpacity className="flex-row items-center gap-2 mt-8 py-3">
             <Flag size={16} color={isDark ? colors.darkError : colors.error} weight="bold" />
-            <Text className="text-[13px] font-sora-bold text-error  dark:text-darkError">
+            <Text className="text-[13px] font-sora-bold text-error dark:text-darkError">
               Report this listing
             </Text>
           </TouchableOpacity>
@@ -227,7 +230,7 @@ export default function ProductDetailScreen() {
 
       {/* Sticky Bottom Action Bar */}
       <View
-        className="px-4 pt-4 bg-bgBase dark:bg-darkBg border-t border-borderLight dark:border-borderDark/24 shadow-elevation-2 dark:shadow-none"
+        className="px-4 pt-4 bg-bgBase dark:bg-darkBg shadow-elevation-2 dark:shadow-none"
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
       >
         {isSelfPurchase ? (
