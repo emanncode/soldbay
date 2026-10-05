@@ -10,7 +10,7 @@ Campus marketplaces currently run entirely on trust and hope — no way to verif
 
 ## The Model
 
-Verified seller lists an item → buyer pays via escrowed payment (Paystack or Flutterwave) → fixed campus pickup point → PIN-handoff confirms the exchange → 48hr window → auto-release or dispute.
+Verified seller lists an item → buyer pays via escrowed payment → fixed campus pickup point → PIN-handoff confirms the exchange → 48hr window → auto-release or dispute.
 
 Money only moves once the item actually changes hands — that's the core trust mechanism the whole product is built around. Every account starts as a buyer account; selling is an upgrade a user opts into and verifies for (Profile → Switch to Seller).
 
@@ -24,9 +24,9 @@ Pickup-window scheduling (an app-shown suggested/scheduled window) still exists 
 
 ## Surfaces & stack
 
-* **Mobile app** (`soldbay-app`): React Native / Expo, NativeWind styling — buyer and seller modes.
-* **Web** (`soldbay-web`): Next.js — public landing page + the Admin/Ops panel (shadcn/ui).
-* **Backend**: Prisma + Postgres.
+- **Mobile app** (`soldbay-app`): React Native / Expo, NativeWind styling — buyer and seller modes.
+- **Web** (`soldbay-web`): Next.js — public landing page + the Admin/Ops panel (shadcn/ui).
+- **Backend**: Prisma + Postgres.
 
 ## Who's Building This
 
