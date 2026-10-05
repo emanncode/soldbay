@@ -19,8 +19,8 @@ export function FilterChip({
   // Selected: fill (#FFD0A6 bgCard) + text (#031F21 primaryText) + checkmark
 
   const containerStyle = selected
-    ? "bg-[#FFD0A6] border-[#FFD0A6]" // #ffd0a6 light, accent dark (wait, does dark mode use accent or something else? Let's assume bgCard/accent logic)
-    : "bg-transparent border-primaryText/15 dark:border-borderDark/24";
+    ? "bg-[#FFD0A6]"
+    : "bg-transparent border border-primaryText/15 dark:border-borderDark/24";
 
   const textStyle = selected
     ? "text-primaryText font-sora-bold" // #031F21 in both modes when selected
@@ -30,7 +30,7 @@ export function FilterChip({
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
-      className={`flex-row items-center justify-center px-4 py-2 border rounded-full ${containerStyle}`}
+      className={`flex-row items-center justify-center px-4 py-2 rounded-full ${containerStyle}`}
       style={style}
     >
       {selected && (

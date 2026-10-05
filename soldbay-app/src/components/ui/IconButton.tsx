@@ -17,7 +17,7 @@ export function IconButton({ icon: Icon, onPress, style, iconColor }: IconButton
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.7}
-      className="w-10 h-10 rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none dark:border dark:border-borderDark/24"
+      className="w-10 h-10 rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none"
       style={style}
     >
       <Icon size={24} color={iconColor || defaultIconColor} weight="bold" />

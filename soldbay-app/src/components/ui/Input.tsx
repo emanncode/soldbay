@@ -19,23 +19,15 @@ export function Input({
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const baseContainerStyle = 'w-full flex-row items-center border rounded-sm ';
+  const baseContainerStyle = 'w-full flex-row items-center rounded-sm ';
   
-  // Border color
-  let borderColor = 'border-primaryText/15 dark:border-borderDark/24';
+  // Background color (fill) instead of border
+  let bgColor = 'bg-primaryText/5 dark:bg-darkBgStep';
   if (error) {
-    borderColor = 'border-error dark:border-darkError';
+    bgColor = 'bg-error/10 dark:bg-darkError/10';
   }
 
-  // Background color
-  let bgColor = 'bg-transparent';
-  if (error) {
-    bgColor = 'bg-error/5 dark:bg-darkError/5';
-  } else if (isDark && multiline) {
-    bgColor = 'bg-borderDark/24'; // textareas get a filled background in dark mode
-  }
-
-  const containerClass = `${baseContainerStyle} ${borderColor} ${bgColor}`;
+  const containerClass = `${baseContainerStyle} ${bgColor}`;
 
   return (
     <View className="w-full">

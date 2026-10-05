@@ -6,7 +6,7 @@ import { colors } from '../../theme/tokens';
 export function DiscountBadge({ discountPercent, style }: { discountPercent: number, style?: StyleProp<ViewStyle> }) {
   return (
     <View 
-      className="bg-discountFill border-[1.5px] border-discountStroke rounded-full px-1.5 py-0.5 self-start" 
+      className="bg-discountFill ] rounded-full px-1.5 py-0.5 self-start" 
       style={style}
     >
       <Text className="text-[11px] font-sora-bold text-primaryText">

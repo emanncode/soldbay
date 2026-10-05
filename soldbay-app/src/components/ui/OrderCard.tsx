@@ -31,7 +31,7 @@ export function OrderCard({
 
   const textPrimary = isDark ? 'text-darkText' : 'text-primaryText';
   const textSecondary = isDark ? 'text-borderDark' : 'text-secondaryText';
-  const borderClass = 'border border-primaryText/10 dark:border-borderDark/24';
+  const borderClass = '';
 
   const formattedPrice = `₦${price.toLocaleString()}`;
 
@@ -67,7 +67,7 @@ export function OrderCard({
       onPress={onPress}
       disabled={!onPress}
       activeOpacity={0.8}
-      className={`flex-row p-3 rounded-sm ${borderClass} bg-transparent items-center gap-3`}
+      className={`flex-row p-3 rounded-sm ${borderClass} bg-bgBase dark:bg-darkBgStep shadow-elevation-2 dark:shadow-none items-center gap-3`}
       style={style}
     >
       <View className="w-[60px] h-[60px] bg-[#e0e0e0] dark:bg-borderDark rounded overflow-hidden justify-center items-center shrink-0">

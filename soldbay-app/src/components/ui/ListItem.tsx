@@ -25,7 +25,7 @@ export function ListItem({
   return (
     <Container
       activeOpacity={0.7}
-      className={`flex-row items-center py-3 gap-3 ${!hideBorder ? 'border-b border-primaryText/10 dark:border-borderDark/24' : ''}`}
+      className={`flex-row items-center py-3 gap-3 ${!hideBorder ? ' ' : ''}`}
       style={style}
       onPress={onPress}
     >
