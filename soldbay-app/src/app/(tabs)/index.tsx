@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, ScrollView, RefreshControl, Dimensions, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  ScrollView,
+  RefreshControl,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { ScreenHeader } from "../../components/ui/ScreenHeader";
 import { SearchBar } from "../../components/ui/SearchBar";
@@ -7,12 +14,7 @@ import { ProductCard } from "../../components/ui/ProductCard";
 import { CaretRight } from "phosphor-react-native";
 import { colors } from "../../theme/tokens";
 
-const CATEGORIES = [
-  "Textbooks",
-  "Electronics",
-  "Dorm Essentials",
-  "Clothing",
-];
+const CATEGORIES = ["Textbooks", "Electronics", "Dorm Essentials", "Clothing"];
 
 const MOCK_PRODUCTS = [
   {
@@ -129,7 +131,7 @@ export default function FeedScreen() {
   return (
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       {/* Sticky Header */}
-      <View className="px-4 pt-16 pb-2 bg-bgBase dark:bg-darkBg z-10">
+      <View className="px-4 pt-16 bg-bgBase dark:bg-darkBg z-10">
         <ScreenHeader
           title="Browse"
           hasUnreadNotifications={true}
@@ -178,14 +180,15 @@ export default function FeedScreen() {
                 <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{ paddingHorizontal: 16, gap: gap }}
+                  contentContainerStyle={{ gap: gap }}
+                  className="px-4"
                 >
                   {/* Using the same MOCK_PRODUCTS for every section for now */}
                   {MOCK_PRODUCTS.slice(0, 4).map((product, index) => (
                     <ProductCard
                       key={`${category}-${product.id}-${index}`}
                       {...product}
-                      style={{ width: 160 }}
+                      style={{ width: 170 }}
                       onPress={() => router.push(`/product/${product.id}`)}
                     />
                   ))}
