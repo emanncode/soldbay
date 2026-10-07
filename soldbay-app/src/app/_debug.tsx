@@ -231,11 +231,10 @@ export default function Index() {
                 label="Secondary"
                 style={{ flex: 1 }}
               />
-              <Button variant="outline" label="Outline" style={{ flex: 1 }} />
+              <Button variant="secondary" label="Outline" style={{ flex: 1 }} />
             </View>
             <View className="flex-row gap-4 items-center">
               <Button
-                variant="icon"
                 icon={<Bell size={24} color="#031F21" />}
               />
               <Button
@@ -282,7 +281,7 @@ export default function Index() {
                 onPress={() => {}}
               />
               <Button
-                variant="outline"
+                variant="secondary"
                 label="Outline"
                 style={{ flex: 1 }}
                 onPress={() => {}}
@@ -290,7 +289,6 @@ export default function Index() {
             </View>
             <View className="flex-row gap-4 items-center">
               <Button
-                variant="icon"
                 icon={<Bell size={24} color="#031F21" />}
                 onPress={() => {}}
               />

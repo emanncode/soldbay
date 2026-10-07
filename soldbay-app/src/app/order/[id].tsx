@@ -91,7 +91,7 @@ export default function OrderStatusScreen() {
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center">
-          <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
+          <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" style={{ marginRight: 12, marginLeft: -4 }} />
           <Text className="text-title-2 text-primaryText dark:text-darkText">
             Order Details
           </Text>
@@ -267,7 +267,7 @@ export default function OrderStatusScreen() {
           <View className="gap-3">
             <Button
               label={`Message ${isSellerView ? "Buyer" : "Seller"}`}
-              variant="outline"
+              variant="secondary"
               onPress={() => router.push(`/chat/${order.id}`)}
             />
             <TouchableOpacity className="flex-row items-center justify-center gap-2 py-3 mt-4">

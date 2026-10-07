@@ -132,7 +132,7 @@ export default function RateReviewScreen() {
           disabled={rating === 0}
           onPress={handleFinish}
         />
-        <Button label="Skip for now" variant="outline" onPress={handleFinish} />
+        <Button label="Skip for now" variant="secondary" onPress={handleFinish} />
       </View>
     </KeyboardAvoidingView>
   );

@@ -19,7 +19,8 @@ import { helpfulDialog } from "../../lib/dialogs";
 const getProductById = (id: string) => {
   return {
     id,
-    title: "MacBook Pro M1 2020 - Excellent Condition",
+    title: "MacBook Pro M1 2020",
+    condition: "Used - Excellent",
     price: 450000,
     imageUrl:
       "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800",
@@ -77,7 +78,7 @@ export default function CheckoutScreen() {
         className="flex-row items-center px-4 pb-4 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
-        <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginRight: 12, marginLeft: -4 }} />
+        <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" style={{ marginRight: 12, marginLeft: -4 }} />
         <Text className="text-title-2 text-primaryText dark:text-darkText">
           Checkout
         </Text>

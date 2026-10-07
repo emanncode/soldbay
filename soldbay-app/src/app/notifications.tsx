@@ -105,6 +105,7 @@ export default function NotificationsScreen() {
         <IconButton
           icon={CaretLeft}
           onPress={() => router.back()}
+          accessibilityLabel="Go back"
           style={{ marginRight: 12, marginLeft: -4 }}
         />
         <Text className="text-title-2 text-primaryText dark:text-darkText">

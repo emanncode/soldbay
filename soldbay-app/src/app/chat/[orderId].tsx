@@ -96,7 +96,7 @@ export default function ChatScreen() {
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center gap-3">
-          <IconButton icon={CaretLeft} onPress={() => router.back()} style={{ marginLeft: -4 }} />
+          <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" style={{ marginLeft: -4 }} />
           <Avatar imageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200" initials="A" size={40} />
           <View>
             <Text className="text-[16px] font-sora-semibold text-primaryText dark:text-darkText">Amina Y.</Text>
