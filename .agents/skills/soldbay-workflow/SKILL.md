@@ -2,7 +2,6 @@
 name: soldbay-workflow
 description: Information about Workflow & Continuation Guide for Soldbay
 ---
-
 Durable process doc — read this first, before anything else on Soldbay. It is a map to the other docs plus the rules that have already cost time when missed. Everything referenced lives in this Linear project (AllOnSoldBay, team EmannCode).
 
 ## What Soldbay is (one line)
@@ -49,6 +48,10 @@ A single-campus, single-unit, student-to-student marketplace app for Nigerian un
    b. Send the Admin/Ops Seller Verification correction prompt to Agy (already written, in "Admin/Ops — Screen Design Prompts") — this is the one remaining open design item. Note it will also need the new semantic colors if/when it's touched again.
    c. Decide the web landing + logo palette question (re-theme to Orange & Teal, or keep olive/cream as a deliberate separate marketing look) — a decision only Emann can make, not something to default on.
 
+## UPDATE (reported, not yet verified)
+
+Emann reports further local work has happened on the component-build phase since the 30-09-26 status above — exact scope unconfirmed from this session (no files were shared here). **Do not mark anything in NEXT STEPS or the Component Inventory's CODE BUILD STATUS as done based on this note alone.** Next session with access to the actual files (`soldbay-app` source and/or the three prototype HTML files) should open them directly, diff against this doc's NEXT STEPS list, and update statuses from that — per Rule 4 below.
+
 ## Which doc answers what (read in this order)
 
  1. **Project Overview** — what/why, surfaces, stack.
@@ -90,3 +93,23 @@ A single-campus, single-unit, student-to-student marketplace app for Nigerian un
 3. Emann runs the prompt through Agy.
 4. Claude reviews the returned files against the prompt, the locked tokens, and accessibility rules — by opening the actual returned file, not by reading a summary of it; corrections go back as targeted follow-ups with exact before/after code.
 5. Once correct it is marked locked in the relevant doc.
+
+## VERIFIED 03-10-26 — actual files reviewed, not a summary
+
+Emann shared the real files (`tokens.js`, `ProductCard.tsx`, `SearchBar.tsx`, `TabBar.tsx`, `OrderCard.tsx`, plus current `all-screens.html`/`all-screens-dark.html`/`component-library.html`). Diffed line-by-line per Rule 4.
+
+**Confirmed correct — mark these done:**
+
+* `tokens.js` — exact match to the locked 30-09-26 table, both new tokens correct.
+* `TabBar.tsx` and `SearchBar.tsx` — both fixes verified correct against the real `.nav-item`/`.search-bar i` CSS rules.
+* `ProductCard.tsx` — code itself is correct (`/24` dark border).
+* `OrderCard.tsx` (new component, step 5) — built correctly. Dark-mode status-pill text color (`darkBg` not white) is actually *required*, not a stylistic choice — computed contrast of white-on-`darkSuccess` is \~1.3:1, a severe fail; the Design System doc's claim that all four dark semantic colors "pass 4.5:1 with white" is wrong and needs correcting there. OrderCard.tsx's semantic color mapping (pending_pickup→info, awaiting_handoff→warning, completed→success, disputed→error) is correct and matches the original locked spec.
+
+**New issues found (not previously known, found by diffing — none of these are Emann's or the code's fault, they're drift in the reference HTML files):**
+
+1. `all-screens-dark.html`'s `.product-card` border is still hardcoded `rgba(103,184,179,0.1)` at the CSS source — should be `/0.24` to match both the Design System doc and the now-correct `ProductCard.tsx`. The code is right; the "source of truth" HTML is stale.
+2. 7 leftover hardcoded `rgba()` inline tints across all three HTML files still use pre-30-09-26 semantic hex values even though the `:root` vars were correctly updated: `all-screens.html` lines 380 (`rgba(107,78,0,...)`, old warning) and 2442 (`rgba(20,83,45,...)`, old success); `all-screens-dark.html` lines 1649 (`rgba(248,113,113,...)`, old darkError) and 2483 (`rgba(74,222,128,...)`, old darkSuccess); `component-library.html` lines 392 (old warning), 1384 and 2133 (old darkError, twice). Each needs updating to the new corresponding hex (see Design System Reference token table).
+3. `component-library.html`'s own "Order/Transaction Card" reference (around line 1086-1131, and its dark-mode duplicate) has two bugs: "Pending pickup" uses class `status-warning` instead of `status-info` (a working `.status-info` class exists, unused), and "Awaiting handoff" uses a hardcoded off-palette `background:#d97706` instead of any token at all. **Fix the HTML to match the code, not the other way around** — `OrderCard.tsx` already has the correct mapping.
+4. Minor hygiene, not a bug: `all-screens-dark.html`'s `.status-pill` rule has a redundant dead `color: white` line after a `color: #031f21 !important` — the `!important` wins so it renders correctly, but the dead line should be deleted for clarity.
+
+**NEXT STEPS update:** steps 2a and 3(a-c) from the 30-09-26 list above are DONE (verified, not just reported). Still open: step 2b (apply semantic colors to the HTML files) is partially done — `:root` vars are correct but see issue #2 above for the leftover stale inline values. Order/transaction card (step 5) is built and correct in code; its HTML reference needs the fix in issue #3 first so the two stay in sync.
