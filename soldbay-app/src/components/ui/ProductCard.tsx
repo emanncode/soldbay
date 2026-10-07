@@ -45,7 +45,8 @@ export function ProductCard({
   const isDark = colorScheme === "dark";
 
   // In HTML: product-card has no specific background, inherits from screen. We'll use transparent so it matches.
-  const cardBg = "bg-bgBase dark:bg-darkBgStep shadow-elevation-2 dark:shadow-none";
+  const cardBg =
+    "bg-bgBase dark:bg-darkBgStep shadow-elevation-2 dark:shadow-none";
   const borderClass = "";
 
   const textPrimary = isDark ? "text-darkText" : "text-primaryText";
@@ -74,7 +75,10 @@ export function ProductCard({
               className="w-full h-full object-cover"
             />
             {/* Subtle dark overlay for icon contrast */}
-            <View className="absolute inset-0 bg-black/15" pointerEvents="none" />
+            <View
+              className="absolute inset-0 bg-black/15"
+              pointerEvents="none"
+            />
             {isSold && (
               <View className="absolute inset-0 bg-primaryText/20 dark:bg-darkBg/40 justify-center items-center">
                 <Text className="font-sora-bold text-[18px] text-white tracking-widest drop-shadow-md">
@@ -110,7 +114,11 @@ export function ProductCard({
           ) : (
             <View />
           )}
-          <WishlistButton variant="card" initialIsWishlisted={isWishlisted} isSold={isSold} />
+          <WishlistButton
+            variant="card"
+            initialIsWishlisted={isWishlisted}
+            isSold={isSold}
+          />
         </View>
       </View>
 

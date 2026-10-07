@@ -28,12 +28,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 const getProductById = (id: string) => {
   return {
     id,
-    title: "MacBook Pro M1 2020 - Excellent Condition",
+    title: "MacBook Pro M1 2020",
     price: 450000,
     originalPrice: 500000,
     description:
       "Selling my MacBook Pro M1 2020. Barely used, battery cycle is under 50. Comes with the original charger and box. Perfect for computer science students! Price is slightly negotiable.",
-    condition: "Used",
+    condition: "Used - Excellent",
     images: [
       "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1531297172867-628c68412035?auto=format&fit=crop&q=80&w=800",
@@ -107,11 +107,14 @@ export default function ProductDetailScreen() {
             className="absolute top-0 left-0 right-0 flex-row justify-between items-center px-4"
             style={{ paddingTop: Math.max(insets.top, 16) }}
           >
-            <IconButton icon={CaretLeft} onPress={() => router.back()} />
-
+            <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" />
             <View className="flex-row gap-3">
-              <IconButton icon={ShareNetwork} onPress={() => {}} />
-              <WishlistButton variant="glass" initialIsWishlisted={false} isSold={product.isSold} />
+              <IconButton icon={ShareNetwork} onPress={() => {}} accessibilityLabel="Share" />
+              <WishlistButton
+                variant="glass"
+                initialIsWishlisted={false}
+                isSold={product.isSold}
+              />
             </View>
           </View>
 
@@ -135,31 +138,31 @@ export default function ProductDetailScreen() {
               <Text className="text-title-2 text-primaryText dark:text-darkText leading-snug">
                 {product.title}
               </Text>
+
+              {product.condition && (
+                <View className="self-start px-2 py-0.5 mt-2 rounded-full bg-borderLight dark:bg-darkBgStep border border-borderDark/10 dark:border-borderLight/10">
+                  <Text className="text-[12px] font-sora-semibold text-secondaryText dark:text-darkText">
+                    {product.condition}
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
 
-          <View className="flex-row items-center gap-3 mb-4">
+          <View className="flex-row items-center gap-3">
             <Text className="text-[24px] font-sora-bold text-primaryText dark:text-darkText">
               ₦{product.price.toLocaleString()}
             </Text>
             {product.originalPrice && (
-              <Text className="text-[14px] font-sora line-through text-secondaryText dark:text-borderDark">
+              <Text className="text-[14px] font-sora line-through text-secondaryText dark:text-darkText">
                 ₦{product.originalPrice.toLocaleString()}
               </Text>
             )}
           </View>
-
-          <View className="flex-row items-center">
-            <View className="bg-primaryText/5 dark:bg-darkBgStep px-3 py-1.5 rounded-sm">
-              <Text className="text-[13px] font-sora-semibold text-secondaryText dark:text-darkText">
-                Condition:{" "}
-                <Text className="text-primaryText dark:text-white">
-                  {product.condition}
-                </Text>
-              </Text>
-            </View>
-          </View>
         </View>
+
+        {/* Thick Separator 1 */}
+        <View className="w-full h-2 bg-primaryText/5 dark:bg-darkBgStep" />
 
         {/* Seller Info */}
         <View className="px-4 py-5">
@@ -189,7 +192,7 @@ export default function ProductDetailScreen() {
                     />
                   )}
                 </View>
-                <Text className="text-[12px] font-sora text-secondaryText dark:text-borderDark mt-0.5">
+                <Text className="text-[12px] font-sora text-secondaryText dark:text-darkText mt-0.5">
                   {product.seller.joinDate}
                 </Text>
               </View>
@@ -202,12 +205,15 @@ export default function ProductDetailScreen() {
                   {product.seller.rating}
                 </Text>
               </View>
-              <Text className="text-[11px] font-sora text-secondaryText dark:text-borderDark">
+              <Text className="text-[11px] font-sora text-secondaryText dark:text-darkText">
                 {product.seller.reviewCount} reviews
               </Text>
             </View>
           </View>
         </View>
+
+        {/* Thick Separator 2 */}
+        <View className="w-full h-2 bg-primaryText/5 dark:bg-darkBgStep" />
 
         {/* Description */}
         <View className="px-4 py-5 pb-8">
@@ -220,7 +226,11 @@ export default function ProductDetailScreen() {
 
           {/* Report Listing */}
           <TouchableOpacity className="flex-row items-center gap-2 mt-8 py-3">
-            <Flag size={16} color={isDark ? colors.darkError : colors.error} weight="bold" />
+            <Flag
+              size={16}
+              color={isDark ? colors.darkError : colors.error}
+              weight="bold"
+            />
             <Text className="text-[13px] font-sora-bold text-error dark:text-darkError">
               Report this listing
             </Text>
@@ -234,7 +244,7 @@ export default function ProductDetailScreen() {
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
       >
         {isSelfPurchase ? (
-          <Button label="This is your listing" variant="outline" disabled />
+          <Button label="This is your listing" variant="secondary" disabled />
         ) : (
           <View className="flex-row items-center justify-between">
             <View className="flex-1 mr-4">
