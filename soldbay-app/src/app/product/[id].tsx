@@ -140,7 +140,7 @@ export default function ProductDetailScreen() {
               </Text>
 
               {product.condition && (
-                <View className="self-start px-2 py-0.5 mt-2 rounded-full bg-borderLight dark:bg-darkBgStep border border-borderDark/10 dark:border-borderLight/10">
+                <View className="self-start px-2 py-0.5 mt-2 rounded-full bg-primaryText/5 dark:bg-darkBgStep">
                   <Text className="text-[12px] font-sora-semibold text-secondaryText dark:text-darkText">
                     {product.condition}
                   </Text>
@@ -162,7 +162,7 @@ export default function ProductDetailScreen() {
         </View>
 
         {/* Thick Separator 1 */}
-        <View className="w-full h-2 bg-primaryText/5 dark:bg-darkBgStep" />
+        <View className="w-full h-2 bg-primaryText/5 dark:bg-black/20" />
 
         {/* Seller Info */}
         <View className="px-4 py-5">
@@ -213,7 +213,7 @@ export default function ProductDetailScreen() {
         </View>
 
         {/* Thick Separator 2 */}
-        <View className="w-full h-2 bg-primaryText/5 dark:bg-darkBgStep" />
+        <View className="w-full h-2 bg-primaryText/5 dark:bg-black/20" />
 
         {/* Description */}
         <View className="px-4 py-5 pb-8">
