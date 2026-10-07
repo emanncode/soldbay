@@ -14,7 +14,14 @@ import { ProductCard } from "../../components/ui/ProductCard";
 import { CaretRight } from "phosphor-react-native";
 import { colors } from "../../theme/tokens";
 
-const CATEGORIES = ["Textbooks", "Electronics", "Dorm Essentials", "Clothing"];
+const CATEGORIES = [
+  "Cheapest Items",
+  "Textbooks",
+  "Most Searched",
+  "Electronics",
+  "Dorm Essentials",
+  "Clothing"
+];
 
 const MOCK_PRODUCTS = [
   {
