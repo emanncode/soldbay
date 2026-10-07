@@ -11,6 +11,7 @@ import { useRouter } from "expo-router";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { FilterChip } from "../../components/ui/FilterChip";
 import { ProductCard } from "../../components/ui/ProductCard";
+import { VerifiedBadge } from "../../components/ui/Badge";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { colors } from "../../theme/tokens";
 import { ScreenHeader } from "@/components/ui/ScreenHeader";
@@ -106,6 +107,7 @@ export default function SearchTab() {
             label="Verified Only"
             selected={verifiedOnly}
             onPress={() => setVerifiedOnly(!verifiedOnly)}
+            icon={<VerifiedBadge />}
           />
           {CONDITIONS.map((condition) => (
             <FilterChip

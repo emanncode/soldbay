@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, Text, ViewStyle, StyleProp } from "react-native";
+import { TouchableOpacity, Text, ViewStyle, StyleProp, View } from "react-native";
 import { Check } from "phosphor-react-native";
 
 export interface FilterChipProps {
@@ -7,6 +7,7 @@ export interface FilterChipProps {
   selected?: boolean;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
+  icon?: React.ReactNode;
 }
 
 export function FilterChip({
@@ -14,6 +15,7 @@ export function FilterChip({
   selected = false,
   onPress,
   style,
+  icon,
 }: FilterChipProps) {
   // Unselected: outline (border-subtle) + text (primaryText)
   // Selected: fill (#FFD0A6 bgCard) + text (#031F21 primaryText) + checkmark
@@ -33,6 +35,7 @@ export function FilterChip({
       className={`flex-row items-center justify-center px-4 py-2 rounded-full ${containerStyle}`}
       style={style}
     >
+      {icon && !selected && <View className="mr-1.5">{icon}</View>}
       {selected && (
         <Check size={14} color="#031F21" weight="bold" className="mr-1.5" />
       )}
