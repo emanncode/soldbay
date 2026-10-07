@@ -4,6 +4,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  useColorScheme,
   Switch,
   TextInput,
 } from "react-native";
@@ -44,6 +45,8 @@ export default function OrderStatusScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const order = getOrderById(id as string);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
 
   // Mocking roles for testing
   const [isSellerView, setIsSellerView] = useState(false);
@@ -91,7 +94,12 @@ export default function OrderStatusScreen() {
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
         <View className="flex-row items-center">
-          <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" style={{ marginRight: 12, marginLeft: -4 }} />
+          <IconButton
+            icon={CaretLeft}
+            onPress={() => router.back()}
+            accessibilityLabel="Go back"
+            style={{ marginRight: 12, marginLeft: -4 }}
+          />
           <Text className="text-title-2 text-primaryText dark:text-darkText">
             Order Details
           </Text>
@@ -271,8 +279,12 @@ export default function OrderStatusScreen() {
               onPress={() => router.push(`/chat/${order.id}`)}
             />
             <TouchableOpacity className="flex-row items-center justify-center gap-2 py-3 mt-4">
-              <WarningCircle size={16} color={colors.error} weight="bold" />
-              <Text className="text-[13px] font-sora-bold text-error">
+              <WarningCircle
+                size={16}
+                color={isDark ? colors.darkError : colors.error}
+                weight="bold"
+              />
+              <Text className="text-[13px] font-sora-bold text-error dark:text-darkError">
                 Report Issue / Dispute
               </Text>
             </TouchableOpacity>

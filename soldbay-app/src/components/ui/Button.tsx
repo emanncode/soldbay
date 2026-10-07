@@ -19,7 +19,7 @@ export interface ButtonProps {
   fullWidth?: boolean; // .btn is width:100% by default; false = width:auto
   label?: string;
   icon?: React.ReactNode; // caller sets icon color (tokens only)
-  onPress: () => void;
+  onPress?: () => void;
   disabled?: boolean;
   accessibilityLabel?: string; // required in practice for icon-only buttons
   style?: StyleProp<ViewStyle>;
