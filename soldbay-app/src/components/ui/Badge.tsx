@@ -6,7 +6,7 @@ import { colors } from '../../theme/tokens';
 export function DiscountBadge({ discountPercent, style }: { discountPercent: number, style?: StyleProp<ViewStyle> }) {
   return (
     <View 
-      className="bg-discountFill ] rounded-full px-1.5 py-0.5 self-start" 
+      className="bg-discountFill rounded-full px-1.5 py-0.5 self-start" 
       style={style}
     >
       <Text className="text-[11px] font-sora-bold text-primaryText">
@@ -29,12 +29,8 @@ export function UnverifiedBadge({ style }: { style?: StyleProp<ViewStyle> }) {
   const isDark = colorScheme === 'dark';
 
   return (
-    <View 
-      className="flex-row items-center gap-1 bg-primaryText/10 dark:bg-darkText/15 px-2 py-0.5 rounded-full self-start"
-      style={style}
-    >
-      <ShieldWarning size={10} color={isDark ? colors.darkText : colors.secondaryText} weight="fill" />
-      <Text className="text-[10px] font-sora-semibold text-secondaryText dark:text-darkText">Unverified</Text>
+    <View style={style} className="self-start">
+      <ShieldWarning size={12} color={isDark ? colors.darkText : colors.secondaryText} weight="fill" />
     </View>
   );
 }
