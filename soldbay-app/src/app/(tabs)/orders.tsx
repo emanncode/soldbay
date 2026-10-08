@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
-import { useRouter } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { ScreenHeader } from "../../components/ui/ScreenHeader";
 import { OrderCard, OrderStatus } from "../../components/ui/OrderCard";
 

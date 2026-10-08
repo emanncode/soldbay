@@ -8,7 +8,8 @@ import {
   useColorScheme,
   Dimensions,
 } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import {
   CaretLeft,
   ShareNetwork,

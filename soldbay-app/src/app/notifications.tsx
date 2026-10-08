@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import {
   CaretLeft,
   ChatCircle,

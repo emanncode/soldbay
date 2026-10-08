@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { CaretLeft, MapPin, Clock, CreditCard } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
 import { FilterChip } from "../../components/ui/FilterChip";

@@ -7,7 +7,7 @@ import {
   Platform,
 } from "react-native";
 import { MagnifyingGlass } from "phosphor-react-native";
-import { useRouter } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { FilterChip } from "../../components/ui/FilterChip";
 import { ProductCard } from "../../components/ui/ProductCard";

@@ -10,7 +10,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { CheckCircle, Star } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
 import { Avatar } from "../../components/ui/Avatar";

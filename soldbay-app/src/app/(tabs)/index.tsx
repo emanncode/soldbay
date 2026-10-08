@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { ScreenHeader } from "../../components/ui/ScreenHeader";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { ProductCard } from "../../components/ui/ProductCard";
