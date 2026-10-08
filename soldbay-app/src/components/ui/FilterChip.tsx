@@ -1,6 +1,7 @@
 import React from "react";
-import { TouchableOpacity, Text, ViewStyle, StyleProp, View } from "react-native";
+import { TouchableOpacity, Text, ViewStyle, StyleProp, View, useColorScheme } from "react-native";
 import { Check } from "phosphor-react-native";
+import { colors } from "../../theme/tokens";
 
 export interface FilterChipProps {
   label: string;
@@ -17,15 +18,17 @@ export function FilterChip({
   style,
   icon,
 }: FilterChipProps) {
+  const isDark = useColorScheme() === 'dark';
+
   // Unselected: outline (border-subtle) + text (primaryText)
   // Selected: fill (#FFD0A6 bgCard) + text (#031F21 primaryText) + checkmark
 
   const containerStyle = selected
-    ? "bg-[#FFD0A6]"
+    ? "bg-bgCard dark:bg-darkBgStep border-transparent"
     : "bg-transparent border border-primaryText/15 dark:border-borderDark/24";
 
   const textStyle = selected
-    ? "text-primaryText font-sora-bold" // #031F21 in both modes when selected
+    ? "text-primaryText dark:text-darkText font-sora-bold"
     : "text-secondaryText dark:text-darkText font-sora-semibold";
 
   return (
@@ -37,7 +40,7 @@ export function FilterChip({
     >
       {icon && !selected && <View className="mr-1.5">{icon}</View>}
       {selected && (
-        <Check size={14} color="#031F21" weight="bold" className="mr-1.5" />
+        <Check size={14} color={isDark ? colors.darkText : colors.primaryText} weight="bold" className="mr-1.5" />
       )}
       <Text className={`text-[13px] ${textStyle}`}>{label}</Text>
     </TouchableOpacity>
