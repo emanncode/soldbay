@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleProp, ViewStyle, useColorScheme } from 'react-native';
+import { View, Animated, StyleProp, ViewStyle } from 'react-native';
 
 export interface SkeletonProps {
   width?: number | string;
@@ -15,7 +15,6 @@ export function Skeleton({
   style,
 }: SkeletonProps) {
   const fadeAnim = useRef(new Animated.Value(0.3)).current;
-  const isDark = useColorScheme() === 'dark';
 
   useEffect(() => {
     const animation = Animated.loop(
@@ -36,17 +35,14 @@ export function Skeleton({
     return () => animation.stop();
   }, [fadeAnim]);
 
-  // rgba(3, 31, 33, 0.05) in light mode, rgba(103, 184, 179, 0.1) in dark mode
-  const backgroundColor = isDark ? 'rgba(103, 184, 179, 0.1)' : 'rgba(3, 31, 33, 0.05)';
-
   return (
     <Animated.View
+      className="bg-primaryText/5 dark:bg-borderDark/10"
       style={[
         {
           width: width as any,
           height: height as any,
           borderRadius,
-          backgroundColor,
           opacity: fadeAnim,
         },
         style,
