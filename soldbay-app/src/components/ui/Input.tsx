@@ -40,7 +40,7 @@ export function Input({
       <View className={containerClass} style={multiline ? { alignItems: 'flex-start' } : undefined}>
         <TextInput
           className={`flex-1 text-[15px] font-sora text-primaryText dark:text-darkText px-3 py-3 ${multiline ? 'h-[100px]' : ''}`}
-          placeholderTextColor={isDark ? colors.borderDark : 'rgba(3, 31, 33, 0.4)'}
+          placeholderTextColor={isDark ? colors.borderDark : colors.secondaryText}
           multiline={multiline}
           textAlignVertical={multiline ? 'top' : 'center'}
           style={style}
