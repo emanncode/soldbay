@@ -24,6 +24,8 @@ import { IconButton } from "../../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/tokens";
 import { OrderCard, OrderStatus } from "../../components/ui/OrderCard";
+import { PinEntry, PinReveal } from "../../components/ui/PinEntry";
+import { CountdownTimer } from "../../components/ui/CountdownTimer";
 
 // Dummy fetch
 const getOrderById = (id: string) => {
@@ -158,9 +160,7 @@ export default function OrderStatusScreen() {
                     Auto-Release Window
                   </Text>
                 </View>
-                <Text className="text-[13px] font-sora-bold text-accent">
-                  47h 12m
-                </Text>
+                <CountdownTimer targetDate={new Date(Date.now() + 47 * 3600000)} variant="compact" />
               </View>
             </View>
           </View>
@@ -179,14 +179,10 @@ export default function OrderStatusScreen() {
                   Ask the buyer for their 4-digit PIN and enter it here to claim
                   your funds.
                 </Text>
-                <TextInput
-                  className="bg-bgBase dark:bg-darkBg rounded-lg p-4 text-[24px] font-sora-bold text-center tracking-[10px] text-primaryText dark:text-darkText mb-4"
-                  keyboardType="number-pad"
-                  maxLength={4}
-                  placeholder="----"
-                  placeholderTextColor={colors.borderLight}
+                <PinEntry
                   value={enteredPin}
-                  onChangeText={setEnteredPin}
+                  onChange={setEnteredPin}
+                  style={{ marginBottom: 16 }}
                 />
                 <Button
                   label="Confirm Handoff"
@@ -200,37 +196,12 @@ export default function OrderStatusScreen() {
                 <Text className="text-[13px] font-sora text-secondaryText dark:text-borderDark mb-3">
                   Show this PIN to the seller when you receive the item.
                 </Text>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => setPinRevealed(!pinRevealed)}
-                  className="bg-primaryText/5 dark:bg-darkBgStep rounded-lg p-6 items-center justify-center mb-4"
-                >
-                  {pinRevealed ? (
-                    <View className="items-center">
-                      <Text className="text-[32px] font-sora-bold tracking-[8px] text-primaryText dark:text-darkText mb-2">
-                        {order.pin}
-                      </Text>
-                      <View className="flex-row items-center gap-1">
-                        <EyeClosed size={16} color={colors.secondaryText} />
-                        <Text className="text-[12px] font-sora text-secondaryText dark:text-borderDark">
-                          Tap to hide
-                        </Text>
-                      </View>
-                    </View>
-                  ) : (
-                    <View className="items-center">
-                      <Text className="text-[32px] font-sora-bold tracking-[8px] text-secondaryText/30 dark:text-borderDark/30 mb-2">
-                        ••••
-                      </Text>
-                      <View className="flex-row items-center gap-1">
-                        <Eye size={16} color={colors.secondaryText} />
-                        <Text className="text-[12px] font-sora-semibold text-accent">
-                          Tap to reveal PIN
-                        </Text>
-                      </View>
-                    </View>
-                  )}
-                </TouchableOpacity>
+                <PinReveal 
+                  state={pinRevealed ? 'revealed' : 'active'} 
+                  pin={order.pin} 
+                  onReveal={() => setPinRevealed(true)} 
+                  style={{ marginBottom: 16 }}
+                />
               </View>
             )}
           </View>

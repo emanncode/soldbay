@@ -14,6 +14,8 @@ import { useLocalSearchParams } from "expo-router";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { CheckCircle, Star } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
+import { StarRating } from "../../components/ui/StarRating";
+import { Textarea } from "../../components/ui/Textarea";
 import { Avatar } from "../../components/ui/Avatar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/tokens";
@@ -87,21 +89,13 @@ export default function RateReviewScreen() {
           </View>
 
           {/* Interactive Stars */}
-          <View className="flex-row justify-center gap-4 mb-8">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <TouchableOpacity
-                key={star}
-                onPress={() => setRating(star)}
-                activeOpacity={0.7}
-                className="p-2 -m-2"
-              >
-                <Star
-                  size={40}
-                  color={rating >= star ? colors.accent : colors.borderLight}
-                  weight={rating >= star ? "fill" : "bold"}
-                />
-              </TouchableOpacity>
-            ))}
+          <View className="items-center mb-8">
+            <StarRating 
+              rating={rating} 
+              onRatingChange={setRating} 
+              readOnly={false} 
+              size={40} 
+            />
           </View>
 
           {/* Written Review Input */}
@@ -109,12 +103,8 @@ export default function RateReviewScreen() {
             <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2">
               Leave a comment (Optional)
             </Text>
-            <TextInput
-              className="bg-primaryText/5 dark:bg-darkBgStep rounded-lg px-4 pt-4 pb-4 min-h-[120px] text-[15px] font-sora text-primaryText dark:text-darkText text-left"
-              style={{ textAlignVertical: "top" }}
+            <Textarea
               placeholder="What went well? What could be better?"
-              placeholderTextColor={colors.secondaryText}
-              multiline
               value={reviewText}
               onChangeText={setReviewText}
             />

@@ -3,7 +3,8 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingVi
 import { useLocalSearchParams } from 'expo-router';
 import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
 import { CaretLeft, PaperPlaneRight, ShieldWarning, DotsThreeVertical, Info } from 'phosphor-react-native';
-import { Avatar } from '../../components/ui/Avatar';
+import { SellerInfoRow } from '../../components/ui/SellerInfoRow';
+import { ChatMessage } from '../../components/ui/ChatMessage';
 import { IconButton } from '../../components/ui/IconButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../theme/tokens';
@@ -96,13 +97,14 @@ export default function ChatScreen() {
         className="flex-row items-center justify-between px-4 pb-3 bg-bgBase dark:bg-darkBg z-10"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
-        <View className="flex-row items-center gap-3">
+        <View className="flex-row items-center gap-1">
           <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" style={{ marginLeft: -4 }} />
-          <Avatar imageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200" initials="A" size={40} />
-          <View>
-            <Text className="text-[16px] font-sora-semibold text-primaryText dark:text-darkText">Amina Y.</Text>
-            <Text className="text-[12px] font-sora text-secondaryText dark:text-borderDark">Order: MacBook Pro M1</Text>
-          </View>
+          <SellerInfoRow 
+            name="Amina Y." 
+            imageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200"
+            isVerified={true}
+            subtitle="Order: MacBook Pro M1"
+          />
         </View>
         <TouchableOpacity onPress={handleHeaderMenu} className="p-2 -mr-2">
           <DotsThreeVertical size={24} color={colors.primaryText} weight="bold" />
@@ -129,24 +131,16 @@ export default function ChatScreen() {
           TODAY
         </Text>
 
-        {messages.map((msg) => {
-          const isMine = msg.isMine;
-          return (
-            <TouchableOpacity 
-              key={msg.id}
-              activeOpacity={0.9}
-              onLongPress={() => handleLongPressMessage(msg)}
-              className={`max-w-[80%] rounded-2xl px-4 py-3 ${ isMine ? 'self-end bg-accent rounded-tr-sm' : 'self-start bg-primaryText/5 dark:bg-darkBgStep rounded-tl-sm' }`}
-            >
-              <Text className={`text-[15px] font-sora leading-relaxed ${ isMine ? 'text-white' : 'text-primaryText dark:text-darkText' }`}>
-                {msg.text}
-              </Text>
-              <Text className={`text-[10px] font-sora-semibold mt-1 self-end ${ isMine ? 'text-white/70' : 'text-secondaryText/60 dark:text-borderDark/60' }`}>
-                {msg.timestamp}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+        {messages.map((msg) => (
+          <ChatMessage
+            key={msg.id}
+            text={msg.text}
+            isMine={msg.isMine}
+            timestamp={msg.timestamp}
+            isRead={msg.isRead}
+            onLongPress={() => handleLongPressMessage(msg)}
+          />
+        ))}
       </ScrollView>
 
       {/* Input Area */}

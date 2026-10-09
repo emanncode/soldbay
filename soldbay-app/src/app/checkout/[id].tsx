@@ -11,6 +11,7 @@ import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { CaretLeft, MapPin, Clock, CreditCard } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
 import { FilterChip } from "../../components/ui/FilterChip";
+import { PaymentMethodSelector } from "../../components/ui/PaymentMethodSelector";
 import { IconButton } from "../../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/tokens";
@@ -45,6 +46,7 @@ export default function CheckoutScreen() {
   const product = getProductById(id as string);
 
   const [selectedWindow, setSelectedWindow] = useState<string | null>(null);
+  const [selectedPaymentId, setSelectedPaymentId] = useState<string>("paystack");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const platformFee = 500; // Fixed dummy platform fee
@@ -148,6 +150,24 @@ export default function CheckoutScreen() {
               />
             ))}
           </View>
+        </View>
+
+                {/* Payment Method */}
+        <View className="p-4">
+          <View className="flex-row items-center gap-2 mb-4">
+            <CreditCard size={20} color={colors.accent} weight="fill" />
+            <Text className="text-[15px] font-sora-bold text-primaryText dark:text-darkText">
+              Payment Method
+            </Text>
+          </View>
+          <PaymentMethodSelector
+            options={[
+              { id: 'paystack', title: 'Paystack', subtitle: 'Pay with Card, Bank Transfer, or USSD' },
+              { id: 'flutterwave', title: 'Flutterwave', subtitle: 'Alternative payment gateway' }
+            ]}
+            selectedId={selectedPaymentId}
+            onSelect={setSelectedPaymentId}
+          />
         </View>
 
         {/* Payment & Cost Breakdown */}
