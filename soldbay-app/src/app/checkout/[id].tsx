@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   Image,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";

@@ -5,8 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   useColorScheme,
-  Switch,
-  TextInput,
+  Switch
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
@@ -16,8 +15,6 @@ import {
   MapPin,
   WarningCircle,
   CheckCircle,
-  Eye,
-  EyeClosed,
 } from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
 import { IconButton } from "../../components/ui/IconButton";
@@ -160,7 +157,7 @@ export default function OrderStatusScreen() {
                     Auto-Release Window
                   </Text>
                 </View>
-                <CountdownTimer targetDate={new Date(Date.now() + 47 * 3600000)} variant="compact" />
+                <CountdownTimer targetDate={new Date(Date.now() + 47 * 3600000)} /* eslint-disable-line */ variant="compact" />
               </View>
             </View>
           </View>

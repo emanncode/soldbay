@@ -45,7 +45,7 @@ export default function Index() {
             Screen Header
           </Text>
           <View className="px-4 py-4">
-            <ScreenHeader title="Home" hasUnreadNotifications={true} />
+            <ScreenHeader title="Home" hasUnreadNotifications={true} userName="Debug User" />
           </View>
         </View>
 

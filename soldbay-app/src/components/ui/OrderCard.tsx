@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, useColorScheme, StyleProp, ViewStyle } from 'react-native';
-import { Clock, CheckCircle, WarningCircle, Info } from 'phosphor-react-native';
+import { Clock, CheckCircle, WarningCircle} from 'phosphor-react-native';
 import { colors } from '../../theme/tokens';
 
 export type OrderStatus = 'pending_pickup' | 'awaiting_handoff' | 'completed' | 'disputed';
@@ -38,7 +38,7 @@ export function OrderCard({
   const statusConfig = {
     pending_pickup: {
       label: 'Pending pickup',
-      color: isDark ? colors.darkInfo : colors.info,
+      color: isDark ? colors.dark: colors.info,
       Icon: Clock,
     },
     awaiting_handoff: {

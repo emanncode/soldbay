@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, Modal as RNModal, TouchableOpacity } from 'react-native';
+import { View, FlatList, Modal as RNModal} from 'react-native';
 import { SearchBar } from './SearchBar';
 import { ListItem } from './ListItem';
 import { EmptyState } from './EmptyState';

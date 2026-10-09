@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-direct-alert/ban-alert-import
 import { Alert, AlertButton } from 'react-native';
 
 /**

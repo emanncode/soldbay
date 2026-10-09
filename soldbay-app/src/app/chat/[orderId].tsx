@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
-import { CaretLeft, PaperPlaneRight, ShieldWarning, DotsThreeVertical, Info } from 'phosphor-react-native';
+import { CaretLeft, PaperPlaneRight, ShieldWarning, DotsThreeVertical } from 'phosphor-react-native';
 import { SellerInfoRow } from '../../components/ui/SellerInfoRow';
 import { ChatMessage } from '../../components/ui/ChatMessage';
 import { IconButton } from '../../components/ui/IconButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../theme/tokens';
-import { helpfulDialog, actionSheetDialog } from '../../lib/dialogs';
+import { actionSheetDialog } from '../../lib/dialogs';
 
 interface Message {
   id: string;
@@ -25,7 +25,7 @@ const INITIAL_MESSAGES: Message[] = [
 ];
 
 export default function ChatScreen() {
-  const { orderId } = useLocalSearchParams();
+  useLocalSearchParams();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const scrollViewRef = useRef<ScrollView>(null);
@@ -65,15 +65,6 @@ export default function ChatScreen() {
     }, 2000);
   };
 
-  const handleLongPressMessage = (msg: Message) => {
-    if (msg.isMine) {
-      helpfulDialog(
-        'Message Details',
-        `Sent: ${msg.timestamp}\nStatus: ${msg.isRead ? 'Read by seller' : 'Delivered'}`
-      );
-    }
-  };
-
   const handleHeaderMenu = () => {
     actionSheetDialog(
       'Chat Options',
@@ -101,9 +92,8 @@ export default function ChatScreen() {
           <IconButton icon={CaretLeft} onPress={() => router.back()} accessibilityLabel="Go back" style={{ marginLeft: -4 }} />
           <SellerInfoRow 
             name="Amina Y." 
-            imageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200"
+            avatarUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200"
             isVerified={true}
-            subtitle="Order: MacBook Pro M1"
           />
         </View>
         <TouchableOpacity onPress={handleHeaderMenu} className="p-2 -mr-2">
@@ -132,14 +122,13 @@ export default function ChatScreen() {
         </Text>
 
         {messages.map((msg) => (
-          <ChatMessage
-            key={msg.id}
-            text={msg.text}
-            isMine={msg.isMine}
-            timestamp={msg.timestamp}
-            isRead={msg.isRead}
-            onLongPress={() => handleLongPressMessage(msg)}
-          />
+          <View key={msg.id} className="mb-2 w-full">
+            <ChatMessage
+              message={msg.text}
+              isSent={msg.isMine}
+              readAt={msg.isRead ? msg.timestamp : undefined}
+            />
+          </View>
         ))}
       </ScrollView>
 

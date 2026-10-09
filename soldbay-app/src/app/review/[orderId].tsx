@@ -3,8 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
@@ -12,7 +10,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
-import { CheckCircle, Star } from "phosphor-react-native";
+import { CheckCircle} from "phosphor-react-native";
 import { Button } from "../../components/ui/Button";
 import { StarRating } from "../../components/ui/StarRating";
 import { Textarea } from "../../components/ui/Textarea";
@@ -88,7 +86,7 @@ export default function RateReviewScreen() {
             </Text>
           </View>
 
-          {/* Interactive Stars */}
+          {/* Interactives */}
           <View className="items-center mb-8">
             <StarRating 
               rating={rating} 
