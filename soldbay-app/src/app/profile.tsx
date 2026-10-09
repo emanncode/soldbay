@@ -6,6 +6,8 @@ import { ListItem } from '../components/ui/ListItem';
 import { Toggle } from '../components/ui/Toggle';
 import { WalletBalance } from '../components/ui/WalletBalance';
 import { StarRating } from '../components/ui/StarRating';
+import { IconButton } from '../components/ui/IconButton';
+import { CaretLeft } from 'phosphor-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../theme/tokens';
 import { useColorScheme } from 'nativewind';
@@ -28,7 +30,15 @@ export default function ProfileScreen() {
         className="flex-row items-center justify-between px-4 pb-4 border-b border-primaryText/10 dark:border-borderDark/24"
         style={{ paddingTop: Math.max(insets.top, 16) }}
       >
-        <Text className="text-title-2 text-primaryText dark:text-darkText">Profile</Text>
+        <View className="flex-row items-center">
+          <IconButton
+            icon={CaretLeft}
+            onPress={() => router.back()}
+            accessibilityLabel="Go back"
+            style={{ marginRight: 12, marginLeft: -4 }}
+          />
+          <Text className="text-title-2 text-primaryText dark:text-darkText">Profile</Text>
+        </View>
         <View className="flex-row items-center gap-2 bg-primaryText/5 dark:bg-darkBgStep px-2 py-1 rounded-full">
           <Text className="text-[10px] font-sora-semibold text-secondaryText dark:text-borderDark">BUYER</Text>
           <Switch
@@ -62,10 +72,13 @@ export default function ProfileScreen() {
           </View>
         )}
 
+        {/* Thick Separator */}
+        <View className="w-full h-2 bg-primaryText/5 dark:bg-black/20" />
+
         {/* Settings List */}
-        <View className="px-4 pb-8">
-          <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2 mt-4 ml-1">Account</Text>
-          <View className="bg-primaryText/5 dark:bg-darkBgStep rounded-xl overflow-hidden">
+        <View className="pb-8">
+          <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2 mt-4 mx-4">Account</Text>
+          <View className="px-4">
             {!isSellerView && (
               <ListItem title="Order History" onPress={() => router.push('/(tabs)/orders')} />
             )}
@@ -86,28 +99,33 @@ export default function ProfileScreen() {
             />
           </View>
 
-          <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2 mt-6 ml-1">Support & More</Text>
-          <View className="bg-primaryText/5 dark:bg-darkBgStep rounded-xl overflow-hidden mb-6">
+          {/* Thick Separator */}
+          <View className="w-full h-2 bg-primaryText/5 dark:bg-black/20 mt-4" />
+
+          <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2 mt-4 mx-4">Support & More</Text>
+          <View className="px-4 mb-6">
             <ListItem title="Help & FAQ" onPress={() => {}} />
             <ListItem title="Campus Change Petition" onPress={() => {}} />
             <ListItem title="About Soldbay" onPress={() => {}} />
           </View>
 
-          {!isSellerView && (
-            <Button 
-              label="Switch to Seller" 
-              variant="secondary" 
-              onPress={() => router.push('/seller/verify')} 
-              style={{ marginBottom: 16 }}
-            />
-          )}
+          <View className="px-4">
+            {!isSellerView && (
+              <Button 
+                label="Switch to Seller" 
+                variant="secondary" 
+                onPress={() => router.push('/seller/verify')} 
+                style={{ marginBottom: 16 }}
+              />
+            )}
 
-          <Button 
-            label="Log Out" 
-            variant="primary" 
-            onPress={() => router.replace('/(auth)')} 
-            style={{ backgroundColor: isDark ? colors.darkError : colors.error }}
-          />
+            <Button 
+              label="Log Out" 
+              variant="primary" 
+              onPress={() => router.replace('/(auth)')} 
+              style={{ backgroundColor: isDark ? colors.darkError : colors.error }}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>
