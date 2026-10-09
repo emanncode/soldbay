@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, Switch } from 'react-native';
-import { Avatar } from '../../components/ui/Avatar';
-import { Button } from '../../components/ui/Button';
-import { ListItem } from '../../components/ui/ListItem';
-import { Toggle } from '../../components/ui/Toggle';
-import { WalletBalance } from '../../components/ui/WalletBalance';
-import { StarRating } from '../../components/ui/StarRating';
+import { Avatar } from '../components/ui/Avatar';
+import { Button } from '../components/ui/Button';
+import { ListItem } from '../components/ui/ListItem';
+import { Toggle } from '../components/ui/Toggle';
+import { WalletBalance } from '../components/ui/WalletBalance';
+import { StarRating } from '../components/ui/StarRating';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '../../theme/tokens';
+import { colors } from '../theme/tokens';
 import { useColorScheme } from 'nativewind';
 import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
 

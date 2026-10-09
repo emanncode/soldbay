@@ -143,6 +143,8 @@ export default function FeedScreen() {
           title="Browse"
           hasUnreadNotifications={true}
           onNotificationPress={() => router.push("/notifications")}
+          userName="John Doe"
+          onProfilePress={() => router.push("/profile")}
         />
       </View>
 

@@ -1,13 +1,13 @@
 import { View, Text, TouchableOpacity, useColorScheme } from 'react-native';
-import { House, MagnifyingGlass, Package, User, Storefront, PlusCircle } from 'phosphor-react-native';
+import { House, MagnifyingGlass, Package, Storefront, PlusCircle } from 'phosphor-react-native';
 import { colors } from '../../theme/tokens';
 
-export type TabItem = 'Browse' | 'Search' | 'Orders' | 'Profile' | 'Hub' | 'Post';
+export type TabItem = 'Browse' | 'Search' | 'Orders' | 'Hub' | 'Post';
 
 interface TabBarProps {
   activeTab: TabItem;
   onTabPress: (tab: TabItem) => void;
-  variant?: 'buyer' | 'seller'; // buyer: Browse/Search/Orders/Profile, seller: Hub/Orders/Post/Profile
+  variant?: 'buyer' | 'seller'; // buyer: Browse/Search/Orders, seller: Hub/Orders/Post
   hasUnreadOrders?: boolean;
 }
 
@@ -20,13 +20,11 @@ export function TabBar({ activeTab, onTabPress, variant = 'buyer', hasUnreadOrde
         { name: 'Browse', icon: House },
         { name: 'Search', icon: MagnifyingGlass },
         { name: 'Orders', icon: Package, hasBadge: hasUnreadOrders },
-        { name: 'Profile', icon: User }
       ]
     : [
         { name: 'Hub', icon: Storefront },
         { name: 'Orders', icon: Package, hasBadge: hasUnreadOrders },
         { name: 'Post', icon: PlusCircle },
-        { name: 'Profile', icon: User }
       ];
 
   return (

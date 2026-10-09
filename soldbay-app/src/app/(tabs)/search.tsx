@@ -87,6 +87,8 @@ export default function SearchTab() {
           title="Search"
           hasUnreadNotifications={true}
           onNotificationPress={() => router.push("/notifications")}
+          userName="John Doe"
+          onProfilePress={() => router.push("/profile")}
         />
         <SearchBar
           value={searchQuery}

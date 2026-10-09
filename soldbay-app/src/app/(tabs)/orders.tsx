@@ -46,6 +46,8 @@ export default function OrdersTab() {
           title="Orders"
           hasUnreadNotifications={true}
           onNotificationPress={() => router.push("/notifications")}
+          userName="John Doe"
+          onProfilePress={() => router.push("/profile")}
         />
       </View>
 

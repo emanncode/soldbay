@@ -14,13 +14,11 @@ export default function TabsLayout() {
         let activeTab: TabItem = "Browse";
         if (activeRouteName === "search") activeTab = "Search";
         if (activeRouteName === "orders") activeTab = "Orders";
-        if (activeRouteName === "profile") activeTab = "Profile";
 
         const onTabPress = (tab: TabItem) => {
           let route = "/(tabs)";
           if (tab === "Search") route = "/(tabs)/search";
           if (tab === "Orders") route = "/(tabs)/orders";
-          if (tab === "Profile") route = "/(tabs)/profile";
 
           navigation.navigate(
             route.replace("/(tabs)/", "").replace("/(tabs)", "index") ||
@@ -46,7 +44,6 @@ export default function TabsLayout() {
       <Tabs.Screen name="index" />
       <Tabs.Screen name="search" />
       <Tabs.Screen name="orders" />
-      <Tabs.Screen name="profile" />
     </Tabs>
   );
 }
