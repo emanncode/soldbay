@@ -4,10 +4,16 @@ import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { EnvelopeSimple, Lock } from 'phosphor-react-native';
+import { useColorScheme } from 'nativewind';
+import { colors } from '../../theme/tokens';
 
 export default function LoginScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const iconColor = isDark ? colors.borderDark : colors.secondaryText;
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1 bg-bgBase dark:bg-darkBg">
@@ -19,8 +25,19 @@ export default function LoginScreen() {
           </View>
 
           <View className="gap-4 mb-8">
-            <Input label="Email Address" placeholder="Enter your email" keyboardType="email-address" autoCapitalize="none" />
-            <Input label="Password" placeholder="Enter your password" secureTextEntry />
+            <Input 
+              label="Email Address" 
+              placeholder="Enter your email" 
+              keyboardType="email-address" 
+              autoCapitalize="none" 
+              leftIcon={<EnvelopeSimple size={20} color={iconColor} />}
+            />
+            <Input 
+              label="Password" 
+              placeholder="Enter your password" 
+              isPassword 
+              leftIcon={<Lock size={20} color={iconColor} />}
+            />
           </View>
 
           <View className="gap-4">

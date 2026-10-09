@@ -5,7 +5,7 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { CampusPicker } from '../../components/ui/CampusPicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { CaretLeft, CaretDown } from 'phosphor-react-native';
+import { CaretLeft, CaretDown, User, IdentificationCard, EnvelopeSimple, Phone, Lock } from 'phosphor-react-native';
 import { IconButton } from '../../components/ui/IconButton';
 import { colors } from '../../theme/tokens';
 import { useColorScheme } from 'nativewind';
@@ -23,6 +23,7 @@ export default function SignupScreen() {
   const insets = useSafeAreaInsets();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const iconColor = isDark ? colors.borderDark : colors.secondaryText;
 
   const [campusPickerVisible, setCampusPickerVisible] = useState(false);
   const [selectedCampus, setSelectedCampus] = useState<string>('');
@@ -43,31 +44,31 @@ export default function SignupScreen() {
           <View className="gap-4 mb-6">
             <View className="flex-row gap-4">
               <View className="flex-1">
-                <Input label="First Name" placeholder="e.g. John" />
+                <Input label="First Name" placeholder="e.g. John" leftIcon={<User size={20} color={iconColor} />} />
               </View>
               <View className="flex-1">
-                <Input label="Surname" placeholder="e.g. Doe" />
+                <Input label="Surname" placeholder="e.g. Doe" leftIcon={<User size={20} color={iconColor} />} />
               </View>
             </View>
-            <Input label="Matric Number" placeholder="Enter your matric number" />
-            <Input label="Email" placeholder="Enter your email" keyboardType="email-address" autoCapitalize="none" />
-            <Input label="Phone (Optional)" placeholder="e.g. 08012345678" keyboardType="phone-pad" />
+            <Input label="Matric Number" placeholder="Enter your matric number" leftIcon={<IdentificationCard size={20} color={iconColor} />} />
+            <Input label="Email" placeholder="Enter your email" keyboardType="email-address" autoCapitalize="none" leftIcon={<EnvelopeSimple size={20} color={iconColor} />} />
+            <Input label="Phone (Optional)" placeholder="e.g. 08012345678" keyboardType="phone-pad" leftIcon={<Phone size={20} color={iconColor} />} />
             
             <View>
               <Text className="text-[13px] font-sora-bold text-primaryText dark:text-darkText mb-2">Campus</Text>
               <TouchableOpacity 
                 activeOpacity={0.7} 
                 onPress={() => setCampusPickerVisible(true)}
-                className="min-h-[50px] bg-primaryText/5 dark:bg-darkBgStep rounded-lg px-4 flex-row items-center justify-between"
+                className="min-h-[50px] bg-primaryText/5 dark:bg-darkBgStep rounded-full px-4 flex-row items-center justify-between"
               >
-                <Text className={`text-[15px] font-sora ${selectedCampus ? 'text-primaryText dark:text-darkText' : 'text-secondaryText'}`}>
+                <Text className={`flex-1 text-[15px] font-sora ${selectedCampus ? 'text-primaryText dark:text-darkText' : 'text-secondaryText'}`}>
                   {selectedCampus || 'Select your campus...'}
                 </Text>
-                <CaretDown size={20} color={isDark ? colors.borderDark : colors.secondaryText} />
+                <CaretDown size={20} color={iconColor} />
               </TouchableOpacity>
             </View>
 
-            <Input label="Password" placeholder="Create a strong password" secureTextEntry />
+            <Input label="Password" placeholder="Create a strong password" isPassword leftIcon={<Lock size={20} color={iconColor} />} />
           </View>
 
           <Button label="Create Account" onPress={() => router.replace('/(tabs)')} />
