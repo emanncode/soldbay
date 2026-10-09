@@ -30,7 +30,9 @@ export function CampusPicker({ visible, onClose, onSelect, campuses }: CampusPic
               onChangeText={setSearchQuery}
             />
           </View>
-          <Button variant="secondary" size="sm" label="Close" onPress={onClose} fullWidth={false} />
+          <View className="justify-center">
+            <Button variant="secondary" size="sm" label="Close" onPress={onClose} fullWidth={false} />
+          </View>
         </View>
 
         {filteredCampuses.length === 0 ? (
