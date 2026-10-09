@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity, useColorScheme } from 'react-native';
+import { TouchableOpacity, useColorScheme } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -21,7 +21,7 @@ export function Toggle({ value, onValueChange }: ToggleProps) {
 
   useEffect(() => {
     progress.value = withTiming(value ? 1 : 0, { duration: 250 });
-  }, [value]);
+  }, [value, progress]);
 
   const thumbAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -54,12 +54,10 @@ export function Toggle({ value, onValueChange }: ToggleProps) {
       accessibilityRole="switch"
       accessibilityState={{ checked: value }}
     >
-      <Animated.View
-        className="w-[44px] h-[24px] rounded-full justify-center px-[2px]"
+      <Animated.View className="w-[44px] h-[24px] rounded-full justify-center px-[2px]"
         style={[trackAnimatedStyle]}
       >
-        <Animated.View
-          className="w-[20px] h-[20px] rounded-full bg-white shadow-sm"
+        <Animated.View className="w-[20px] h-[20px] rounded-full bg-white shadow-sm"
           style={[thumbAnimatedStyle]}
         />
       </Animated.View>
