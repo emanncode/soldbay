@@ -37,7 +37,7 @@ export function Select({
     bgColor = 'bg-error/10 dark:bg-darkError/10';
   }
 
-  const containerClass = `w-full flex-row items-center justify-between rounded-sm px-3 py-3 ${bgColor}`;
+  const containerClass = `w-full flex-row items-center justify-between rounded-full px-4 py-3 ${bgColor}`;
 
   return (
     <View className="w-full">

@@ -19,7 +19,7 @@ export function Input({
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const baseContainerStyle = 'w-full flex-row items-center rounded-sm ';
+  const baseContainerStyle = `w-full flex-row items-center ${multiline ? 'rounded-2xl' : 'rounded-full'} `;
   
   // Background color (fill) instead of border
   let bgColor = 'bg-primaryText/5 dark:bg-darkBgStep';
@@ -39,7 +39,7 @@ export function Input({
       
       <View className={containerClass} style={multiline ? { alignItems: 'flex-start' } : undefined}>
         <TextInput
-          className={`flex-1 text-[15px] font-sora text-primaryText dark:text-darkText px-3 py-3 ${multiline ? 'h-[100px]' : ''}`}
+          className={`flex-1 text-[15px] font-sora text-primaryText dark:text-darkText px-4 py-3 ${multiline ? 'h-[100px]' : ''}`}
           placeholderTextColor={isDark ? colors.borderDark : colors.secondaryText}
           multiline={multiline}
           textAlignVertical={multiline ? 'top' : 'center'}

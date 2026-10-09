@@ -138,7 +138,7 @@ export default function ChatScreen() {
         style={{ paddingBottom: Math.max(insets.bottom, 12) }}
       >
         <TextInput
-          className="flex-1 min-h-[44px] max-h-[120px] bg-primaryText/5 dark:bg-darkBgStep rounded-2xl px-4 pt-3 pb-3 text-[15px] font-sora text-primaryText dark:text-darkText"
+          className="flex-1 min-h-[44px] max-h-[120px] bg-primaryText/5 dark:bg-darkBgStep rounded-full px-4 pt-3 pb-3 text-[15px] font-sora text-primaryText dark:text-darkText"
           placeholder="Type a message..."
           placeholderTextColor={colors.secondaryText}
           multiline
