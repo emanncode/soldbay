@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { CheckCircle, Circle } from "phosphor-react-native";
+import { CheckCircleIcon, CircleIcon } from "phosphor-react-native";
 import { colors } from "../../theme/tokens";
 import { useColorScheme } from "nativewind";
 
@@ -65,13 +65,13 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
             </View>
             <View className="ml-4">
               {isSelected ? (
-                <CheckCircle
+                <CheckCircleIcon
                   size={24}
                   color={colors.accent}
                   weight="fill"
                 />
               ) : (
-                <Circle
+                <CircleIcon
                   size={24}
                   color={isDark ? colors.borderDark : colors.borderLight}
                   weight="regular"
