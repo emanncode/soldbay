@@ -48,6 +48,34 @@ const INITIAL_MESSAGES: Message[] = [
     timestamp: "10:35 AM",
     isRead: true,
   },
+  {
+    id: "3",
+    text: "Hi, I just placed an order for the MacBook Pro!",
+    isMine: true,
+    timestamp: "10:30 AM",
+    isRead: true,
+  },
+  {
+    id: "4",
+    text: "Great! I will be at the UNILAG main gate around 2 PM.",
+    isMine: false,
+    timestamp: "10:35 AM",
+    isRead: true,
+  },
+  {
+    id: "5",
+    text: "Hi, I just placed an order for the MacBook Pro!",
+    isMine: true,
+    timestamp: "10:30 AM",
+    isRead: true,
+  },
+  {
+    id: "6",
+    text: "Great! I will be at the UNILAG main gate around 2 PM.",
+    isMine: false,
+    timestamp: "10:35 AM",
+    isRead: true,
+  },
 ];
 
 export default function ChatScreen() {
