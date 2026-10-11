@@ -5,10 +5,14 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
   Platform,
   Keyboard,
+  useColorScheme,
 } from "react-native";
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 import { useLocalSearchParams } from "expo-router";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import {
@@ -82,11 +86,19 @@ export default function ChatScreen() {
   useLocalSearchParams();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const keyboard = useAnimatedKeyboard({
+    isStatusBarTranslucentAndroid: true,
+    isNavigationBarTranslucentAndroid: true,
+  });
 
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputText, setInputText] = useState("");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [fallbackKeyboardHeight, setFallbackKeyboardHeight] = useState(0);
   const [webKeyboardOffset, setWebKeyboardOffset] = useState(0);
 
   // Auto-scroll helper to keep latest messages in view
@@ -96,6 +108,19 @@ export default function ChatScreen() {
     }, 50);
   }, []);
 
+  const animatedContainerStyle = useAnimatedStyle(() => {
+    if (Platform.OS === "web") {
+      return { paddingBottom: webKeyboardOffset };
+    }
+    const activeHeight =
+      keyboard.height.value > 0
+        ? keyboard.height.value
+        : fallbackKeyboardHeight;
+    return {
+      paddingBottom: activeHeight,
+    };
+  });
+
   // Keyboard show/hide listeners for auto-scroll and dynamic bottom padding
   useEffect(() => {
     const showEvent =
@@ -103,13 +128,17 @@ export default function ChatScreen() {
     const hideEvent =
       Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
 
-    const showSub = Keyboard.addListener(showEvent, () => {
+    const showSub = Keyboard.addListener(showEvent, (e) => {
       setIsKeyboardVisible(true);
+      if (e?.endCoordinates?.height) {
+        setFallbackKeyboardHeight(e.endCoordinates.height);
+      }
       scrollToBottom();
     });
 
     const hideSub = Keyboard.addListener(hideEvent, () => {
       setIsKeyboardVisible(false);
+      setFallbackKeyboardHeight(0);
     });
 
     // Web visualViewport support for mobile browsers
@@ -213,10 +242,9 @@ export default function ChatScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-      className="flex-1 bg-bgBase dark:bg-darkBg"
+    <Animated.View
+      style={[{ flex: 1 }, animatedContainerStyle]}
+      className="bg-bgBase dark:bg-darkBg"
     >
       {/* Header */}
       <View
@@ -228,7 +256,7 @@ export default function ChatScreen() {
             icon={CaretLeft}
             onPress={() => router.back()}
             accessibilityLabel="Go back"
-            style={{ marginLeft: -4 }}
+            style={{ marginRight: 12, marginLeft: -4 }}
           />
           <SellerInfoRow
             name="Amina Y."
@@ -292,7 +320,6 @@ export default function ChatScreen() {
               ? 8
               : 10
             : Math.max(insets.bottom, 12),
-          marginBottom: webKeyboardOffset > 0 ? webKeyboardOffset : 0,
         }}
       >
         <TextInput
@@ -307,15 +334,25 @@ export default function ChatScreen() {
         <TouchableOpacity
           onPress={handleSend}
           disabled={!inputText.trim()}
-          className={`w-11 h-11 rounded-full items-center justify-center shrink-0 ${inputText.trim() ? "bg-accent" : "bg-borderLight dark:bg-darkBgStep"}`}
+          accessibilityRole="button"
+          accessibilityLabel="Send message"
+          className={`w-11 h-11 rounded-full items-center justify-center shrink-0 ${
+            inputText.trim() ? "bg-accent" : "bg-primaryText/5 dark:bg-white/10"
+          }`}
         >
           <PaperPlaneRight
             size={20}
-            color={inputText.trim() ? "#FFF" : colors.secondaryText}
+            color={
+              inputText.trim()
+                ? "#FFF"
+                : isDark
+                  ? colors.borderDark
+                  : colors.secondaryText
+            }
             weight={inputText.trim() ? "fill" : "regular"}
           />
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </Animated.View>
   );
 }
