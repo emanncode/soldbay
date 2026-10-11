@@ -61,6 +61,7 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? customDarkTheme : customLightTheme}>
     <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: colorScheme === 'dark' ? colors.darkBg : colors.bgBase } }}>
       <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="listing/create" options={{ animation: 'slide_from_bottom' }} />
     </Stack>
     </ThemeProvider>
   );
