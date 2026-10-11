@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
+import { useRole } from '../../context/RoleContext';
 import { Button } from '../../components/ui/Button';
 import { UploadBox } from '../../components/ui/UploadBox';
 import { FilterChip } from '../../components/ui/FilterChip';
@@ -11,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function VerifySellerScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { switchToSeller } = useRole();
   
   const [verificationType, setVerificationType] = useState<'id' | 'portal'>('id');
   
@@ -24,7 +26,7 @@ export default function VerifySellerScreen() {
 
   const handleSubmit = () => {
     // In a real app, upload the files
-    router.back(); // Or navigate to a success confirmation
+    switchToSeller();
   };
 
   const mockPickImage = (setter: React.Dispatch<React.SetStateAction<{ uri: string } | null>>) => {

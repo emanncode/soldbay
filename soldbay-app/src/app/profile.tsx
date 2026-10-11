@@ -12,14 +12,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../theme/tokens';
 import { useColorScheme } from 'nativewind';
 import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
+import { useRole } from '../context/RoleContext';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
   const router = useRouter();
+  const { isSeller, setRole, switchToBuyer } = useRole();
 
-  const [isSellerView, setIsSellerView] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
 
@@ -42,8 +43,8 @@ export default function ProfileScreen() {
         <View className="flex-row items-center gap-2 bg-primaryText/5 dark:bg-darkBgStep px-2 py-1 rounded-full">
           <Text className="text-[10px] font-sora-semibold text-secondaryText dark:text-borderDark">BUYER</Text>
           <Switch
-            value={isSellerView}
-            onValueChange={setIsSellerView}
+            value={isSeller}
+            onValueChange={(val) => setRole(val ? 'seller' : 'buyer')}
             trackColor={{ false: colors.borderLight, true: colors.accent }}
             thumbColor="#FFF"
             style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
@@ -57,16 +58,16 @@ export default function ProfileScreen() {
         <View className="p-4 items-center">
           <Avatar imageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200" initials="A" size={80} />
           <Text className="text-[20px] font-sora-bold text-primaryText dark:text-darkText mt-4 mb-1">
-            {isSellerView ? "Amina's Thrift Store" : "Amina Y."}
+            {isSeller ? "Amina's Thrift Store" : "Amina Y."}
           </Text>
-          {isSellerView ? (
+          {isSeller ? (
             <StarRating rating={4.8} readOnly showAggregate reviewCount={42} size={16} />
           ) : (
             <Text className="text-[14px] font-sora text-secondaryText dark:text-borderDark">Buyer Account</Text>
           )}
         </View>
 
-        {isSellerView && (
+        {isSeller && (
           <View className="px-4 mb-6">
             <WalletBalance variant="full" totalBalance="₦125,000" withdrawable="₦100,000" held="₦25,000" />
           </View>
@@ -79,13 +80,16 @@ export default function ProfileScreen() {
         <View className="pb-8">
           <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2 mt-4 mx-4">Account</Text>
           <View className="px-4">
-            {isSellerView && (
+            {isSeller && (
               <ListItem title="Create New Listing" onPress={() => router.push('/listing/create')} />
             )}
-            {!isSellerView && (
+            {isSeller && (
+              <ListItem title="Switch to Buyer Mode" onPress={switchToBuyer} />
+            )}
+            {!isSeller && (
               <ListItem title="Order History" onPress={() => router.push('/(tabs)/orders')} />
             )}
-            {!isSellerView && (
+            {!isSeller && (
               <ListItem title="Wishlist" onPress={() => {}} />
             )}
             <ListItem 
@@ -113,7 +117,7 @@ export default function ProfileScreen() {
           </View>
 
           <View className="px-4">
-            {!isSellerView && (
+            {!isSeller && (
               <Button 
                 label="Switch to Seller" 
                 variant="secondary" 
