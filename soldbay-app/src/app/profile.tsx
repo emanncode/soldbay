@@ -79,6 +79,9 @@ export default function ProfileScreen() {
         <View className="pb-8">
           <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2 mt-4 mx-4">Account</Text>
           <View className="px-4">
+            {isSellerView && (
+              <ListItem title="Create New Listing" onPress={() => router.push('/listing/create')} />
+            )}
             {!isSellerView && (
               <ListItem title="Order History" onPress={() => router.push('/(tabs)/orders')} />
             )}
