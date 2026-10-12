@@ -31,7 +31,7 @@ export function OrderCard({
 
   const textPrimary = isDark ? 'text-darkText' : 'text-primaryText';
   const textSecondary = isDark ? 'text-borderDark' : 'text-secondaryText';
-  const borderClass = '';
+  const borderClass = 'border border-primaryText/10 dark:border-borderDark/24';
 
   const formattedPrice = `₦${price.toLocaleString()}`;
 

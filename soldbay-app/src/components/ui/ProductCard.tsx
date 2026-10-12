@@ -44,10 +44,9 @@ export function ProductCard({
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
 
-  // In HTML: product-card has no specific background, inherits from screen. We'll use transparent so it matches.
   const cardBg =
     "bg-bgBase dark:bg-darkBgStep shadow-elevation-2 dark:shadow-none";
-  const borderClass = "";
+  const borderClass = "border border-primaryText/10 dark:border-borderDark/24";
 
   const textPrimary = isDark ? "text-darkText" : "text-primaryText";
   const textSecondary = isDark ? "text-borderDark" : "text-secondaryText";
