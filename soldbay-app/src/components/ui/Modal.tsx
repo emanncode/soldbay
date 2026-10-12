@@ -28,7 +28,7 @@ export function Modal({
       <TouchableWithoutFeedback onPress={onClose}>
         <View className="flex-1 bg-primaryText/40 dark:bg-darkBg/80 justify-center items-center px-4">
           <TouchableWithoutFeedback>
-            <View className="w-full max-w-[320px] bg-bgBase dark:bg-darkBgStep rounded-[16px] overflow-hidden">
+            <View className="w-full max-w-[320px] bg-bgBase dark:bg-darkBgStep rounded-[16px] overflow-hidden border border-primaryText/15 dark:border-borderDark/24">
               <View className="p-6">
                 <Text className="text-[17px] font-sora-bold text-primaryText dark:text-darkText text-center mb-2">
                   {title}

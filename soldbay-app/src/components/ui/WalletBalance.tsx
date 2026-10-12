@@ -27,7 +27,7 @@ export function WalletBalance({
 
   if (variant === 'compact') {
     return (
-      <View className="bg-bgCard dark:bg-darkBgStep rounded-lg p-4" style={style}>
+      <View className="bg-bgCard dark:bg-darkBgStep rounded-lg p-4 border border-primaryText/15 dark:border-borderDark/24" style={style}>
         <Text className="font-sora text-[13px] text-secondaryText dark:text-borderDark mb-1">
           Total Balance (Compact)
         </Text>
@@ -50,7 +50,7 @@ export function WalletBalance({
 
   // Full variant
   return (
-    <View className="bg-bgCard dark:bg-darkBgStep rounded-lg p-4" style={style}>
+    <View className="bg-bgCard dark:bg-darkBgStep rounded-lg p-4 border border-primaryText/15 dark:border-borderDark/24" style={style}>
       <View className="items-center border-b border-primaryText/15 dark:border-borderDark/24 pb-4 mb-4">
         <Text className="font-sora text-[13px] text-secondaryText dark:text-borderDark mb-2">
           Total Balance (Full)

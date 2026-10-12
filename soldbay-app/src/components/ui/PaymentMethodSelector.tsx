@@ -36,7 +36,7 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
             className={`flex-row items-center justify-between p-4 rounded-lg bg-bgBase dark:bg-darkBgStep ${
               isSelected
                 ? "border-2 border-accent"
-                : "border-2 border-transparent"
+                : "border-2 border-primaryText/10 dark:border-borderDark/24"
             }`}
             style={
               !isDark
