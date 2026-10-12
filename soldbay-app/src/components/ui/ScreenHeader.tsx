@@ -37,7 +37,7 @@ export function ScreenHeader({
       <View className="flex-row items-center gap-3">
         <TouchableOpacity
           onPress={onNotificationPress}
-          className="relative items-center justify-center w-9 h-9 rounded-full bg-bgBase dark:bg-darkBg shadow-elevation-1 dark:shadow-none"
+          className="relative items-center justify-center w-9 h-9 rounded-full bg-bgBase dark:bg-darkBg shadow-elevation-1 dark:shadow-none border border-primaryText/10 dark:border-borderDark/24"
         >
           <Bell
             size={22}

@@ -33,7 +33,7 @@ export function IconButton({
       activeOpacity={0.7}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      className="w-11 h-11 rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none"
+      className="w-11 h-11 rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none border border-primaryText/10 dark:border-borderDark/24"
       style={style}
     >
       <Icon size={24} color={iconColor || defaultIconColor} weight="regular" />
