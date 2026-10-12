@@ -141,7 +141,7 @@ export default function OrderStatusScreen() {
         {/* Auto-Release / Escrow Card */}
         {order.status === "awaiting_handoff" && (
           <View className="p-4">
-            <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg">
+            <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg border border-primaryText/10 dark:border-borderDark/24">
               <Text className="text-[14px] font-sora-bold text-primaryText dark:text-darkText mb-2">
                 Funds Held Securely
               </Text>
@@ -150,7 +150,7 @@ export default function OrderStatusScreen() {
                   ? "The buyer's funds are held by Soldbay. Do not hand over the item until you have entered their 4-digit PIN below."
                   : "Your funds are held securely. Do not give the seller your PIN until you have inspected and received the item."}
               </Text>
-              <View className="bg-bgBase dark:bg-darkBg p-3 rounded-md flex-row items-center justify-between">
+              <View className="bg-bgBase dark:bg-darkBg p-3 rounded-md flex-row items-center justify-between border border-primaryText/10 dark:border-borderDark/20">
                 <View className="flex-row items-center gap-2">
                   <Clock size={16} color={colors.accent} />
                   <Text className="text-[13px] font-sora-semibold text-primaryText dark:text-darkText">

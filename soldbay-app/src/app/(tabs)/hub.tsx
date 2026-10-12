@@ -82,7 +82,7 @@ export default function SellerHubScreen() {
         }}
       >
         {/* Balance Card (Screen 27 prototype) */}
-        <View className="bg-bgCard dark:bg-darkBgStep rounded-lg p-4 mb-6">
+        <View className="bg-bgCard dark:bg-darkBgStep rounded-lg p-4 border border-primaryText/15 dark:border-borderDark/24 mb-6">
           <Text className="text-[13px] font-sora-semibold text-secondaryText dark:text-borderDark mb-1">
             Total Balance
           </Text>

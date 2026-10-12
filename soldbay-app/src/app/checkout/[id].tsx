@@ -122,7 +122,7 @@ export default function CheckoutScreen() {
               Pickup Location
             </Text>
           </View>
-          <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg mb-6">
+          <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg mb-6 border border-primaryText/10 dark:border-borderDark/24">
             <Text className="text-[14px] font-sora-semibold text-primaryText dark:text-darkText mb-1">
               {product.seller.campus}
             </Text>
@@ -178,7 +178,7 @@ export default function CheckoutScreen() {
             </Text>
           </View>
 
-          <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg">
+          <View className="bg-primaryText/5 dark:bg-darkBgStep p-4 rounded-lg border border-primaryText/10 dark:border-borderDark/24">
             <View className="flex-row justify-between mb-3">
               <Text className="text-[14px] font-sora text-secondaryText dark:text-darkText">
                 Subtotal
@@ -223,7 +223,7 @@ export default function CheckoutScreen() {
 
       {/* Sticky Bottom Action Bar */}
       <View
-        className="px-4 pt-4 bg-bgBase dark:bg-darkBg shadow-elevation-2 dark:shadow-none"
+        className="px-4 pt-4 bg-bgBase dark:bg-darkBg shadow-elevation-2 dark:shadow-none border-t border-primaryText/10 dark:border-borderDark/24"
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
       >
         <Button

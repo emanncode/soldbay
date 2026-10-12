@@ -241,7 +241,7 @@ export default function ProductDetailScreen() {
 
       {/* Sticky Bottom Action Bar */}
       <View
-        className="px-4 pt-4 bg-bgBase dark:bg-darkBg shadow-elevation-2 dark:shadow-none"
+        className="px-4 pt-4 bg-bgBase dark:bg-darkBg shadow-elevation-2 dark:shadow-none border-t border-primaryText/10 dark:border-borderDark/24"
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}
       >
         {isSelfPurchase ? (
