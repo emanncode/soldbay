@@ -322,26 +322,35 @@ export default function ChatScreen() {
             : Math.max(insets.bottom, 12),
         }}
       >
-        <TextInput
-          className="flex-1 min-h-[44px] max-h-[120px] bg-primaryText/5 dark:bg-darkBgStep rounded-full px-4 pt-3 pb-3 text-[15px] font-sora text-primaryText dark:text-darkText"
-          placeholder="Type a message..."
-          placeholderTextColor={colors.secondaryText}
-          multiline
-          value={inputText}
-          onChangeText={setInputText}
-          onFocus={() => scrollToBottom()}
-        />
+        {/* Input Capsule (matches 48px button height in single-line mode) */}
+        <View className="flex-1 min-h-[48px] max-h-[120px] bg-primaryText/5 dark:bg-darkBgStep rounded-[24px] px-4 justify-center">
+          <TextInput
+            className="text-[15px] font-sora text-primaryText dark:text-darkText"
+            placeholder="Type a message..."
+            placeholderTextColor={isDark ? colors.borderDark : colors.secondaryText}
+            multiline
+            value={inputText}
+            onChangeText={setInputText}
+            onFocus={() => scrollToBottom()}
+            style={{
+              paddingTop: Platform.OS === "ios" ? 12 : 8,
+              paddingBottom: Platform.OS === "ios" ? 12 : 8,
+              textAlignVertical: "center",
+            }}
+          />
+        </View>
+        {/* Send Button (48x48 circle matching the 48px input capsule) */}
         <TouchableOpacity
           onPress={handleSend}
           disabled={!inputText.trim()}
           accessibilityRole="button"
           accessibilityLabel="Send message"
-          className={`w-11 h-11 rounded-full items-center justify-center shrink-0 ${
+          className={`w-12 h-12 rounded-full items-center justify-center shrink-0 ${
             inputText.trim() ? "bg-accent" : "bg-primaryText/5 dark:bg-white/10"
           }`}
         >
           <PaperPlaneRight
-            size={20}
+            size={22}
             color={
               inputText.trim()
                 ? "#FFF"
