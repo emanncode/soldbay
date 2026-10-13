@@ -36,7 +36,7 @@ export function WishlistButton({
     if (variant === "glass") {
       return {
         containerClass:
-          "w-[44px] h-[44px] rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none border border-primaryText/10 dark:border-borderDark/24",
+          "w-[44px] h-[44px] rounded-full items-center justify-center bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none",
         iconSize: 24,
         unfilledColor: isDark ? colors.darkText : colors.primaryText,
         unfilledWeight: "bold" as const,

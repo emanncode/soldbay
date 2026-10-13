@@ -37,7 +37,7 @@ export function ScreenHeader({
       <View className="flex-row items-center gap-3">
         <TouchableOpacity
           onPress={onNotificationPress}
-          className="relative items-center justify-center w-9 h-9 rounded-full bg-bgBase dark:bg-darkBg shadow-elevation-1 dark:shadow-none border border-primaryText/10 dark:border-borderDark/24"
+          className="relative items-center justify-center w-9 h-9 rounded-full bg-bgBase dark:bg-darkBgStep shadow-elevation-1 dark:shadow-none"
         >
           <Bell
             size={22}
@@ -45,7 +45,7 @@ export function ScreenHeader({
             weight="regular"
           />
           {hasUnreadNotifications && (
-            <View className="absolute top-1.5 right-2.5 w-2 h-2 rounded-full border border-bgBase dark:border-darkBg bg-discountFill" />
+            <View className="absolute top-1.5 right-2.5 w-2 h-2 rounded-full border border-bgBase dark:border-darkBgStep bg-discountFill" />
           )}
         </TouchableOpacity>
 
