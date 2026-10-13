@@ -63,21 +63,25 @@ export default function SellerHubScreen() {
 
   return (
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
-      {/* Global Screen Header */}
-      <ScreenHeader
-        title="Seller Hub"
-        hasUnreadNotifications={true}
-        onNotificationPress={() => router.push('/notifications')}
-        onProfilePress={() => router.push('/profile')}
-        userImageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200"
-        userName="Amina Y."
-      />
+      {/* Sticky Header with Safe Area Handling */}
+      <View
+        className="px-4 bg-bgBase dark:bg-darkBg z-10"
+        style={{ paddingTop: Math.max(insets.top, 16) + 8 }}
+      >
+        <ScreenHeader
+          title="Seller Hub"
+          hasUnreadNotifications={true}
+          onNotificationPress={() => router.push('/notifications')}
+          onProfilePress={() => router.push('/profile')}
+          userImageUrl="https://images.unsplash.com/photo-1531123897727-8f129e1b4dce?auto=format&fit=crop&q=80&w=200"
+          userName="Amina Y."
+        />
+      </View>
 
       <ScrollView
         className="flex-1 px-4"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingTop: 16,
           paddingBottom: Math.max(insets.bottom, 24) + 40,
         }}
       >

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
 import { ScreenHeader } from "../../components/ui/ScreenHeader";
 import { OrderCard, OrderStatus } from "../../components/ui/OrderCard";
@@ -38,10 +39,14 @@ const MOCK_ORDERS = [
 
 export default function OrdersTab() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
-      <View className="px-4 pt-16 mb-3">
+      <View
+        className="px-4 mb-3"
+        style={{ paddingTop: Math.max(insets.top, 16) + 8 }}
+      >
         <ScreenHeader
           title="Orders"
           hasUnreadNotifications={true}

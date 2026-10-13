@@ -7,7 +7,10 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import { Redirect } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
+import { useRole } from "../../context/RoleContext";
 import { ScreenHeader } from "../../components/ui/ScreenHeader";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { ProductCard } from "../../components/ui/ProductCard";
@@ -118,6 +121,8 @@ const MOCK_PRODUCTS = [
 
 export default function FeedScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { role } = useRole();
   const [searchQuery, setSearchQuery] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -135,10 +140,17 @@ export default function FeedScreen() {
     }, 1500);
   }, []);
 
+  if (role === 'seller') {
+    return <Redirect href="/(tabs)/hub" />;
+  }
+
   return (
     <View className="flex-1 bg-bgBase dark:bg-darkBg">
       {/* Sticky Header */}
-      <View className="px-4 pt-16 bg-bgBase dark:bg-darkBg z-10">
+      <View
+        className="px-4 bg-bgBase dark:bg-darkBg z-10"
+        style={{ paddingTop: Math.max(insets.top, 16) + 8 }}
+      >
         <ScreenHeader
           title="Browse"
           hasUnreadNotifications={true}
