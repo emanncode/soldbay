@@ -21,6 +21,7 @@ import { FilterChip } from '../../components/ui/FilterChip';
 import { Button } from '../../components/ui/Button';
 import { IconButton } from '../../components/ui/IconButton';
 import { colors } from '../../theme/tokens';
+import { formatPriceInput, parseRawPrice } from '../../lib/formatters';
 
 const CATEGORY_OPTIONS = [
   { label: 'Textbooks', value: 'Textbooks' },
@@ -82,9 +83,21 @@ export default function CreateListingScreen() {
       helpfulDialog('Category Required', 'Please select a category.');
       return;
     }
-    if (!price.trim()) {
-      helpfulDialog('Price Required', 'Please specify a selling price.');
+    const rawPrice = parseRawPrice(price);
+    if (!rawPrice || Number(rawPrice) <= 0) {
+      helpfulDialog('Price Required', 'Please enter a valid selling price greater than ₦0.');
       return;
+    }
+
+    if (discountPrice.trim()) {
+      const rawDiscount = parseRawPrice(discountPrice);
+      if (Number(rawDiscount) >= Number(rawPrice)) {
+        helpfulDialog(
+          'Invalid Discount',
+          'Discount price must be less than the regular price.'
+        );
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -95,7 +108,7 @@ export default function CreateListingScreen() {
       helpfulDialog(
         'Listing Posted!',
         'Your item is now live and visible to buyers on your campus.',
-        () => router.replace('/(tabs)')
+        () => router.replace('/(tabs)/hub')
       );
     }, 600);
   };
@@ -239,18 +252,18 @@ export default function CreateListingScreen() {
             <Input
               label="Price (₦)"
               placeholder="0"
-              keyboardType="numeric"
+              keyboardType="number-pad"
               value={price}
-              onChangeText={setPrice}
+              onChangeText={(val) => setPrice(formatPriceInput(val))}
             />
           </View>
           <View className="flex-1">
             <Input
               label="Discount Price (opt)"
               placeholder="0"
-              keyboardType="numeric"
+              keyboardType="number-pad"
               value={discountPrice}
-              onChangeText={setDiscountPrice}
+              onChangeText={(val) => setDiscountPrice(formatPriceInput(val))}
             />
           </View>
         </View>
