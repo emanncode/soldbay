@@ -42,7 +42,15 @@ export function Footer() {
               <ArrowUpRight className="size-3.5" aria-hidden />
             </a>
             <p className="text-caption text-foreground/50">
-              &copy; {new Date().getFullYear()} Soldbay. All rights reserved.
+              &copy; {new Date().getFullYear()} Soldbay. All rights reserved. &bull; Engineered by{" "}
+              <a
+                href="https://emanncode.work"
+                target="_blank"
+                rel="noopener"
+                className="text-foreground/75 underline transition-colors hover:text-accent"
+              >
+                EmannCode
+              </a>
             </p>
           </div>
 
