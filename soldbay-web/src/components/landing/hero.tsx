@@ -1,12 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { SmoothLink } from "@/components/smooth-link";
+import { SlidingPillCta } from "@/components/ui/sliding-pill-cta";
 import {
   Package,
   Lock,
@@ -46,14 +42,6 @@ const trustItems = [
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
-  const [active, setActive] = useState<"join" | "how">("join");
-  const [pressed, setPressed] = useState<"join" | "how" | null>(null);
-
-  const handlePress = (which: "join" | "how") => {
-    setActive(which);
-    setPressed(which);
-    window.setTimeout(() => setPressed(null), 300);
-  };
 
   return (
     <section className="relative overflow-hidden">
@@ -96,93 +84,25 @@ export function Hero() {
               best.
             </motion.p>
 
-            <motion.div
-              variants={scaleInVariants}
-              className="mt-10 inline-flex items-center rounded-full border border-border bg-background p-1.5 shadow-elevation-3"
-            >
-              <SmoothLink
-                href="/#join"
-                onMouseEnter={() => setActive("join")}
-                onFocus={() => setActive("join")}
-                onClick={() => handlePress("join")}
-                className="relative flex h-11 items-center overflow-hidden rounded-full px-6 font-semibold"
-              >
-                {active === "join" && (
-                  <motion.span
-                    layoutId="hero-cta-pill"
-                    className="absolute inset-0 rounded-full bg-primary"
-                    transition={
-                      reduceMotion
-                        ? { duration: 0 }
-                        : { type: "spring", stiffness: 400, damping: 34 }
-                    }
-                  />
-                )}
-                <AnimatePresence>
-                  {pressed === "join" && (
-                    <motion.span
-                      key="join-press"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className="pointer-events-none absolute inset-0 z-10 rounded-full bg-white/25"
-                    />
-                  )}
-                </AnimatePresence>
-                <span
-                  className={cn(
-                    "relative z-20 flex items-center gap-2 transition-colors",
-                    active === "join"
-                      ? "text-primary-foreground"
-                      : "text-foreground",
-                  )}
-                >
-                  Join the waitlist
-                  <ArrowRight className="size-4" aria-hidden />
-                </span>
-              </SmoothLink>
-              <SmoothLink
-                href="/#how"
-                onMouseEnter={() => setActive("how")}
-                onFocus={() => setActive("how")}
-                onClick={() => handlePress("how")}
-                className="relative flex h-11 items-center overflow-hidden rounded-full px-6 font-semibold"
-              >
-                {active === "how" && (
-                  <motion.span
-                    layoutId="hero-cta-pill"
-                    className="absolute inset-0 rounded-full bg-primary"
-                    transition={
-                      reduceMotion
-                        ? { duration: 0 }
-                        : { type: "spring", stiffness: 400, damping: 34 }
-                    }
-                  />
-                )}
-                <AnimatePresence>
-                  {pressed === "how" && (
-                    <motion.span
-                      key="how-press"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className="pointer-events-none absolute inset-0 z-10 rounded-full bg-white/25"
-                    />
-                  )}
-                </AnimatePresence>
-                <span
-                  className={cn(
-                    "relative z-20 transition-colors",
-                    active === "how"
-                      ? "text-primary-foreground"
-                      : "text-foreground",
-                  )}
-                >
-                  See how it works
-                </span>
-              </SmoothLink>
+            <motion.div variants={scaleInVariants} className="mt-10">
+              <SlidingPillCta
+                LinkComponent={SmoothLink}
+                layoutId="hero-cta-pill"
+                defaultActiveId="join"
+                options={[
+                  {
+                    id: "join",
+                    label: "Join the waitlist",
+                    href: "/#join",
+                    icon: ArrowRight,
+                  },
+                  {
+                    id: "how",
+                    label: "See how it works",
+                    href: "/#how",
+                  },
+                ]}
+              />
             </motion.div>
 
             <motion.ul
