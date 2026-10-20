@@ -1,4 +1,13 @@
-export function generateWaitlistEmailHtml(data: { name: string; role: string; email: string; university: string; [key: string]: any }) {
+type WaitlistEmailData = {
+  name: string
+  role: string
+  email: string
+  university: string
+  level?: string | null
+  sellsWhat?: string | null
+}
+
+export function generateWaitlistEmailHtml(data: WaitlistEmailData) {
   // A clean, modern HTML design matching the Soldbay Landing Page aesthetic
   const isBuyer = data.role.toUpperCase() === 'BUYER';
   

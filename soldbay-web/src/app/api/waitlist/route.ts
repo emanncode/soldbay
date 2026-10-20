@@ -118,7 +118,14 @@ export async function POST(request: Request) {
           from: "Soldbay <hello@soldbay.shop>",
           to: data.email as string,
           subject: "You're on the Soldbay waitlist! 🎉",
-          html: generateWaitlistEmailHtml(data as any),
+          html: generateWaitlistEmailHtml({
+            name: data.name as string,
+            role: role,
+            email: data.email as string,
+            university: data.university as string,
+            level: data.level as string | null | undefined,
+            sellsWhat: data.sellsWhat as string | null | undefined,
+          }),
         })
       } catch (error) {
         console.error("Failed to send welcome email to user:", error)
