@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Soldbay Web and Backend
 
-## Getting Started
+This Next.js application provides the public waitlist site, shared API for the
+mobile client, and the currently implemented admin waitlist page. It uses
+Next.js 16, React 19, TypeScript, Prisma, and PostgreSQL. See
+[`SETUP.md`](SETUP.md) for local setup and [../docs/architecture.md](../docs/architecture.md)
+for the code-checked API and data model.
 
-First, run the development server:
+## Run locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Brand-theme status:** the current web styles still use the superseded olive
+palette. The Linear orange/teal design decision has not yet been applied to the
+web landing/admin surface.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install dependencies with `npm install`.
+2. Configure the environment described in `SETUP.md`.
+3. Apply the existing migrations with `npx prisma migrate deploy` and seed if
+   needed with `npm run seed`.
+4. Start the app with `npm run dev`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The public landing page is at `/`. Admin currently exposes login and the
+waitlist page. The admin API includes seller-verification and dispute endpoints;
+those APIs do not imply that all designed Admin/Ops screens exist yet.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Checks
 
-## Learn More
+- `npm run lint`
+- `npx tsc --noEmit`
+- `npm run build` (requires a usable Prisma configuration and database access
+  for build-time data reads)
 
-To learn more about Next.js, take a look at the following resources:
+The endpoint script `test_all_endpoints.ts` writes test records to the configured
+database and uploads a verification image. Run it only with explicitly
+disposable database and blob-storage credentials. It is an integration script,
+not an isolated unit-test suite.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Product decisions and UI design rules live in the AllOnSoldBay Linear project.
+The repository code documents implementation state; update this README and the
+architecture doc when that state changes.

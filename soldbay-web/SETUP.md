@@ -1,14 +1,19 @@
 # Soldbay Backend Setup
 
+> **Status:** Setup commands below are operational notes, not product/design
+> decisions. Check commands against the installed Prisma version before running
+> schema-changing operations. Never run database-mutating setup against a
+> production or non-disposable database without an explicit backup and plan.
+
 ## 1. Get a Postgres connection string
 
-The backend uses **Prisma Postgres** (hosted at `db.prisma.io`) as its single
-database — there is no separate Neon project. Grab the connection string from
-your Prisma Console / Postgres dashboard and copy it into `.env`.
+The backend uses PostgreSQL through Prisma. Configure the development
+connection string for the provider actually in use and place it in the local
+`.env` file.
 
 ## 2. Set env vars
 
-Open `.env` and set the database URL:
+Open `.env` and set the database URL (use a development database for local work):
 
 ```
 DATABASE_URL="postgres://..."
@@ -18,6 +23,10 @@ Also set `AUTH_SECRET` and `AUTH_URL`. `AUTH_URL` must point at the backend
 origin (for example `http://localhost:3000` in local dev).
 
 ## 3. Apply migrations
+
+`migrate deploy` changes the target database. Confirm the URL points to the
+intended development database before running it; never copy production values
+into local test workflows.
 
 ```sh
 npx prisma migrate deploy
