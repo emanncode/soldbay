@@ -4,7 +4,7 @@ import { MoveLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[100dvh] p-4 text-center">
+    <div className="flex flex-col items-center justify-center min-h-dvh p-4 text-center">
       <h1 className="text-[120px] font-bold leading-none tracking-tighter text-neutral-800">
         404
       </h1>
