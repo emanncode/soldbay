@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { useAppRouter as useRouter } from '@/hooks/useAppRouter';
 import { useRole } from '../../context/RoleContext';
 import { Button } from '../../components/ui/Button';
@@ -8,6 +9,7 @@ import { FilterChip } from '../../components/ui/FilterChip';
 import { IconButton } from '../../components/ui/IconButton';
 import { CaretLeft } from 'phosphor-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { helpfulDialog } from '../../lib/dialogs';
 
 export default function VerifySellerScreen() {
   const router = useRouter();
@@ -16,22 +18,32 @@ export default function VerifySellerScreen() {
   
   const [verificationType, setVerificationType] = useState<'id' | 'portal'>('id');
   
-  const [idFront, setIdFront] = useState<{ uri: string } | null>(null);
-  const [idBack, setIdBack] = useState<{ uri: string } | null>(null);
+  const [studentIdImage, setStudentIdImage] = useState<{ uri: string } | null>(null);
   const [portalScreenshot, setPortalScreenshot] = useState<{ uri: string } | null>(null);
 
-  const isFormValid = verificationType === 'id' 
-    ? (idFront !== null && idBack !== null) 
-    : (portalScreenshot !== null);
+  const selectedEvidence = verificationType === 'id' ? studentIdImage : portalScreenshot;
 
   const handleSubmit = () => {
-    // In a real app, upload the files
-    switchToSeller();
+    helpfulDialog(
+      'Verification is not connected yet',
+      'Your image is selected on this device, but this app build cannot submit it for review yet.'
+    );
   };
 
-  const mockPickImage = (setter: React.Dispatch<React.SetStateAction<{ uri: string } | null>>) => {
-    // Mock image selection
-    setter({ uri: 'https://images.unsplash.com/photo-1588508065123-287b28e015d8?auto=format&fit=crop&q=80&w=400' });
+  const pickImage = async (setter: React.Dispatch<React.SetStateAction<{ uri: string } | null>>) => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        quality: 0.9,
+      });
+
+      if (!result.canceled && result.assets[0]) {
+        setter({ uri: result.assets[0].uri });
+      }
+    } catch {
+      helpfulDialog('Could not open photos', 'Please try selecting your image again.');
+    }
   };
 
   return (
@@ -47,7 +59,7 @@ export default function VerifySellerScreen() {
 
       <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 40) }}>
         <Text className="text-[15px] font-sora text-secondaryText dark:text-borderDark mt-6 mb-6 leading-relaxed">
-          To build trust on Soldbay, all sellers must verify their student status. Choose one method below.
+          Verify to earn a student badge. You can also continue as an unverified seller and verify later.
         </Text>
 
         {/* Method Toggle */}
@@ -66,20 +78,13 @@ export default function VerifySellerScreen() {
 
         {/* Upload Areas */}
         {verificationType === 'id' ? (
-          <View className="gap-6 mb-8">
+          <View className="mb-8">
             <UploadBox
               type="id"
-              state={idFront ? "filled" : "empty"}
-              imageUrl={idFront?.uri}
-              label="Front of Student ID"
-              onPress={() => mockPickImage(setIdFront)}
-            />
-            <UploadBox
-              type="id"
-              state={idBack ? "filled" : "empty"}
-              imageUrl={idBack?.uri}
-              label="Back of Student ID"
-              onPress={() => mockPickImage(setIdBack)}
+              state={studentIdImage ? "filled" : "empty"}
+              imageUrl={studentIdImage?.uri}
+              label="Student ID (one clear side)"
+              onPress={() => pickImage(setStudentIdImage)}
             />
           </View>
         ) : (
@@ -89,7 +94,7 @@ export default function VerifySellerScreen() {
               state={portalScreenshot ? "filled" : "empty"}
               imageUrl={portalScreenshot?.uri}
               label="Student Portal Screenshot"
-              onPress={() => mockPickImage(setPortalScreenshot)}
+              onPress={() => pickImage(setPortalScreenshot)}
             />
             <Text className="text-[12px] font-sora text-secondaryText dark:text-borderDark mt-2 text-center px-4">
               Must clearly show your name, matriculation number, and current session.
@@ -100,8 +105,14 @@ export default function VerifySellerScreen() {
         <Button 
           label="Submit Verification" 
           variant="primary" 
-          disabled={!isFormValid} 
+          disabled={!selectedEvidence}
           onPress={handleSubmit} 
+        />
+        <Button
+          label="Continue without verification"
+          variant="secondary"
+          onPress={switchToSeller}
+          style={{ marginTop: 12 }}
         />
       </ScrollView>
     </View>

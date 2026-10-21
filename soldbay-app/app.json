@@ -43,7 +43,14 @@
       ],
       "expo-web-browser",
       "expo-secure-store",
-      "expo-image"
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Soldbay uses your photos so you can select student verification evidence.",
+          "microphonePermission": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

@@ -66,7 +66,7 @@ export function UploadBox({ type, state, imageUrl, label, onPress, style }: Uplo
           <Laptop size={32} color={colors.secondaryText} weight="regular" />
         )}
         <Text className="font-sora-semibold text-[13px] text-secondaryText dark:text-borderDark mt-2 text-center">
-          Tap to upload {isId ? 'front' : 'phone or laptop screenshot'}
+          Tap to upload {isId ? 'a clear side of your student ID' : 'phone or laptop screenshot'}
         </Text>
       </TouchableOpacity>
     </View>
