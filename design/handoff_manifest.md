@@ -8,6 +8,13 @@
 > semantic colors; Linear's 03-10-26 correction requires `darkBg` text on dark
 > semantic fills. Seller Verification remains reopened in Linear.
 
+> **Cross-reference conflict:** the September 28 Admin/Ops Screen Design Prompts
+> still says semantic fills use white text in both themes. The October 7 global
+> Design System Reference is newer and governs token pairings; treat the prompt
+> wording as stale until that Linear document is reconciled. The linked
+> Soldbay-Designs Figma pages are imported HTML snapshots dated September 25–26,
+> so confirm them against later Linear decisions before implementation.
+
 **Revision status:** v6 historical snapshot — Linear currently reopens Seller Verification for correction, and later accessibility/token decisions supersede portions of this handoff.
 
 ## Overview

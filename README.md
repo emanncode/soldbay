@@ -6,6 +6,14 @@
 > are explicitly marked below where superseded. If product decisions and code
 > differ, record the gap instead of implying implementation is complete.
 
+## Product and design references
+
+- **Product scope and workflow:** AllOnSoldBay Linear project. The Feature/Workflow Inventory is the scope reference; the more specific signup/auth and screen-flow documents define their respective workflows. The October 13 Market Validation Plan is the current market-evidence reference. Older overview copy that states the trust problem as established is a hypothesis, not validated evidence.
+- **Design tokens:** Linear's Design System Reference (updated October 7, 2026) is the global token reference. Some Admin/Ops documents updated September 28 still specify white text for semantic fills in both modes; follow the later global token guidance and update those prompts when they are next revised.
+- **Visual snapshot:** [Soldbay-Designs in Figma](https://www.figma.com/design/sgQa1LT80qwtk317aSbXHS/Soldbay-Designs) contains imported HTML-to-Design snapshots: light screens (`0:1`), dark screens (`5:2488`), and components (`7:4846`), dated September 25–26, 2026. Treat these as visual references, not proof of current implementation or later design decisions. Linear's October updates are newer; where a snapshot conflicts with a later Linear decision, record the discrepancy and use the later decision.
+
+Linear is not fully internally synchronized: its global Design System Reference is newer than the Admin/Ops prompt's semantic-text rule, and its October market-validation draft qualifies older overview claims. Keep these differences visible until the affected Linear documents and Figma snapshots are refreshed.
+
 ## What Soldbay Is
 
 Soldbay is a marketplace app built specifically for university students in Nigeria to buy and sell with each other on campus. Single campus per account, single-unit listings, buy-now only (no cart).
