@@ -1,5 +1,12 @@
 # Real-Code Integration Progress Report
 
+> **HISTORICAL KICKOFF REPORT — not current implementation status.** This
+> report records an early integration snapshot. Its olive-token validation,
+> two-component completion count, lint status, and test-harness descriptions
+> have not been reverified as current. For current product/design decisions,
+> see the AllOnSoldBay Linear project; for implementation, inspect the current
+> code and component inventory. Do not use this report as an active build plan.
+
 This document serves as a detailed retrospective of the real-code integration kickoff for the Soldbay mobile app (`soldbay-app`). It covers the foundational setup fixes, the first set of components built, and the architectural decisions made based on the Linear documentation.
 
 ## 1. Kickoff & Linear Integration
@@ -38,9 +45,9 @@ This document serves as a detailed retrospective of the real-code integration ki
   - Built support for the unread notification badge, ensuring perfect placement over the bell icon using the same `#FFB980` token.
 - **Visual Test Harness Update**: Updated `src/app/index.tsx` to stack the new `ScreenHeader` directly above the Tab Bars for holistic visual review.
 
-## Current State
+## State at time of report (historical)
 
-- The foundational CSS structure is rock solid.
-- Two core Navigation/Structure components are completed and visually verifiable via the entry point harness.
-- Static analysis (`npm run lint`) is passing cleanly across all new components.
-- The project is perfectly positioned to continue down the Component Inventory list (next up: Search bar).
+- At that time, the report described two Navigation/Structure components and
+  recommended Search bar next. This is not the current component build status
+  or next step; consult the Linear Component Inventory and inspect the current
+  checkout.

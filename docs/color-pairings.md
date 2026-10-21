@@ -1,5 +1,12 @@
 # Soldbay Color System & Pairings
 
+> **SUPERSEDED — historical only.** This table predates the 30-09-26
+> accessibility update. Its semantic colors, contrast claims, and pairings are
+> not current. Use the AllOnSoldBay Linear Design System Reference and its
+> current semantic token table; verify actual prototype markup as directed by
+> the Workflow & Continuation Guide. The tokens below are retained only as a
+> dated record and must not be copied into new code or design.
+
 This document defines the complete Orange & Teal color palette used across the Soldbay project (app and web surfaces), along with their exact RGB/RGBA translations and the strict pairing rules to maintain accessible contrast in both Light and Dark modes.
 
 ## Color Reference Table

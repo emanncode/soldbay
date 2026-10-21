@@ -1,14 +1,24 @@
 # Soldbay Backend Architecture
 
+> **Status (2026-10-21): partially stale implementation reference.** Current
+> product and design intent is defined by the AllOnSoldBay Linear project;
+> source code is evidence of implementation. Known product/implementation gap:
+> Linear specifies buyer-first signup and allows unverified sellers to list,
+> while current signup and listing gates retain the older seller-approval model.
+> Seller verification currently accepts a single image rather than the chosen
+> Student ID front/back pair; no payment webhook or scheduled 48-hour release
+> is present. Flow notes below describe current code or intended policy as
+> explicitly labeled; they are not all shipped behavior.
+
 > Comprehensive technical documentation of the backend system, APIs, infrastructure, and design decisions.
 
 ---
 
 ## 1. High-Level Overview
 
-**Stack:** Next.js 16 (App Router) + TypeScript + Prisma ORM + PostgreSQL (Prisma Postgres / db.prisma.io) + NextAuth.js v5 (beta) + Vercel Blob Storage
+**Stack:** Next.js 16 (App Router) + TypeScript + Prisma ORM + PostgreSQL + NextAuth.js v5 (beta) + Vercel Blob integration. Deployment provider details must be checked in the active environment.
 
-**Deployment Target:** Vercel (serverless functions + Edge middleware + Cron jobs)
+**Deployment target in project configuration/notes:** Vercel serverless functions, Edge middleware, and cron jobs. Verify the active production deployment settings separately.
 
 **Primary Consumers:**
 
@@ -20,32 +30,31 @@
 
 ## 2. Infrastructure & Hosting
 
-| Component           | Provider                       | Plan / Tier   | Purpose                                                                   |
-| ------------------- | ------------------------------ | ------------- | ------------------------------------------------------------------------- |
-| **Compute**         | Vercel                         | Free / Hobby  | Next.js serverless functions (API routes), Edge middleware, static assets |
-| **Database**        | Prisma Postgres (db.prisma.io) | **Free tier** | Managed PostgreSQL with connection pooling, serverless-optimized          |
-| **Blob Storage**    | Vercel Blob                    | Free tier     | Listing images, seller verification screenshots (private)                 |
-| **Auth Secrets**    | Vercel Environment Variables   | —             | `AUTH_SECRET`, `DATABASE_URL`, `BLOB_READ_WRITE_TOKEN`, `CRON_SECRET`     |
-| **Email (planned)** | Resend / SendGrid              | —             | OTP delivery, verification notifications (not yet integrated)             |
-| **Payments**        | Paystack                       | Live / Test   | Card/bank transfer checkout; webhook updates order status                 |
+| Component        | Provider                      | Plan / Tier                    | Purpose                                                                                                                                    |
+| ---------------- | ----------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Compute**      | Vercel                        | Plan unverified                 | Next.js serverless functions (API routes), Edge middleware, static assets                                                                  |
+| **Database**     | PostgreSQL via Prisma adapter | Environment-configured         | Connection pool is configured in `src/lib/prisma.ts`; provider/tier/region are deployment configuration, not guaranteed by this repository |
+| **Blob Storage** | Vercel Blob                   | Plan unverified                 | Listing images, seller verification screenshots (private)                                                                                  |
+| **Auth Secrets** | Vercel Environment Variables  | —                              | `AUTH_SECRET`, `DATABASE_URL`, `BLOB_READ_WRITE_TOKEN`, `CRON_SECRET`                                                                      |
+| **Email**        | Resend / FormSubmit           | Environment-configured         | Waitlist/question forwarding exists; password-reset OTP delivery needs a production-path check                                             |
+| **Payments**     | Paystack                      | Checkout initialization exists | The payment webhook that advances paid orders is not implemented in this repo                                                              |
 
-### 2.1 Database: Prisma Postgres (Free Tier)
+### 2.1 Database connection configuration
 
-**Connection string format (from `.env`):**
+> Provider and plan are not verifiable from this repository. Avoid treating
+> the historical provider-specific figures below as live deployment facts.
 
-```
-postgres://<user>:<password>@db.prisma.io:5432/postgres?sslmode=verify-full
-```
+**Provider characteristics:** check the active PostgreSQL provider's dashboard and
+deployment configuration. Do not infer a free tier, storage limit, region, or
+PITR availability from this repository.
 
-**Free-tier characteristics & implications:**
-| Characteristic                  | Impact                                                                       |
+**Code-level connection settings:**
+| Characteristic | Impact |
 | ------------------------------- | ---------------------------------------------------------------------------- |
-| **Auto-sleep after inactivity** | Compute sleeps ~15–25 s cold start on first request after idle               |
-| **Connection limit**            | 10 concurrent (configured in `prisma.ts`)                                    |
-| **No persistent connections**   | Each serverless invocation gets a fresh connection via pooler                |
-| **Storage limit**               | ~500 MB (sufficient for MVP)                                                 |
-| **No read replicas / PITR**     | Single primary; backups manual via `pg_dump` if needed                       |
-| **Region**                      | Fixed (usually `us-east-1` or `eu-west-1`); latency from Nigeria ~180–250 ms |
+| **Auto-sleep after inactivity** | Provider/plan-specific; verify in deployment |
+| **Connection limit** | Pool max is configured as 10 in `src/lib/prisma.ts`; database limits vary by provider/plan |
+| **Connection reuse** | Pool reuse behavior depends on runtime and hosting provider |
+| **Storage, replicas, recovery, region** | Provider-specific; verify against deployment settings |
 
 **Mitigations in code (`src/lib/prisma.ts`):**
 
@@ -64,11 +73,15 @@ keepAlive: true, keepAliveInitialDelayMillis: 30_000,
 - Retries **once** after 800 ms delay
 - Used on auth-critical queries (login, signup, token verification)
 
-> **Downside of free tier:** Unpredictable 15–25 s latency on first request after idle. Users on slow networks may perceive "app is broken". Production should migrate to a provisioned Postgres (Neon, Supabase, Railway, or Prisma Paid) with `minConnections > 0`.
+> **Deployment note:** cold-start latency and connection limits depend on the actual database provider and plan. Do not rely on the estimates here without checking the active deployment configuration and provider metrics.
 
 ---
 
 ## 3. Database Schema (Prisma)
+
+> Schema summary is an implementation snapshot. Use `prisma/schema.prisma` as
+> the source for fields and relations; the product decisions in this section
+> must be checked against the current Linear docs.
 
 ### 3.1 Core Models
 
@@ -108,18 +121,18 @@ University (Nigerian campuses)
   └─ code (e.g., "OAU", "UNILAG") + name
 ```
 
-### 3.2 Key Design Decisions
+### 3.2 Schema behavior notes
 
-| Decision                                                        | Rationale                                                                    |
-| --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| **Soft-delete + 5-year retention** (`deletedAt`, `retainUntil`) | Legal/compliance; allows email reuse immediately; purge cron runs daily      |
-| **`previousEmail` column**                                      | Preserves original email on soft-delete so purge can fully anonymize         |
-| **SellerProfile separate from User**                            | Buyer→Seller transition is a _petition_ (admin approval), not a role flip    |
-| **Commission on Category**                                      | Flexible per-category rates (Textbooks 5%, Fashion 15%, etc.)                |
-| **Listing `draftStep` + drafts API**                            | Multi-step create flow; only `requireApprovedSeller` at publish              |
-| **Order `confirmationPin`**                                     | 4-digit code shown to seller; buyer enters at campus handoff to prove pickup |
-| **WalletTransaction sign implied by `type`**                    | `amount` always positive; `PAYOUT` increments seller balance                 |
-| **No `OrderItem` — 1:1 Order:Listing**                          | Simpler; campus marketplace = single-item meetups                            |
+| Decision                                                        | Rationale                                                                                                                                                       |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Soft-delete + 5-year retention** (`deletedAt`, `retainUntil`) | Provisional code policy; verify the period against an approved privacy/legal policy before treating it as a compliance requirement |
+| **`previousEmail` column**                                      | Preserves original email on soft-delete so purge can fully anonymize                                                                                            |
+| **SellerProfile separate from User**                            | Keeps seller identity separate; current role and verification gates are legacy behavior that conflicts with Linear's latest buyer-first, unverified-listing MVP |
+| **Commission on Category**                                      | Flexible per-category rates (Textbooks 5%, Fashion 15%, etc.)                                                                                                   |
+| **Listing `draftStep` + drafts API**                            | Multi-step create flow; current publish route requires approval, which is a known gap against Linear                                                            |
+| **Order `confirmationPin`**                                     | 4-digit code shown to seller; buyer enters at campus handoff to prove pickup                                                                                    |
+| **WalletTransaction sign implied by `type`**                    | `amount` always positive; `PAYOUT` increments seller balance                                                                                                    |
+| **No `OrderItem` — 1:1 Order:Listing**                          | Simpler; campus marketplace = single-item meetups                                                                                                               |
 
 ---
 
@@ -146,23 +159,21 @@ University (Nigerian campuses)
 
 ### 4.3 Role Gates
 
-| Role     | Capabilities                                                                            |
-| -------- | --------------------------------------------------------------------------------------- |
-| `BUYER`  | Browse, checkout, disputes, wallet (read-only escrow ledger)                            |
-| `SELLER` | Draft listings, publish (if `APPROVED`), manage orders, wallet (real balance + payouts) |
-| `ADMIN`  | Verification queue, approve/reject sellers, resolve disputes                            |
+| Role     | Capabilities                                                                                                                 |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `BUYER`  | Current role: browse, checkout, disputes, wallet (read-only escrow ledger)                                                   |
+| `SELLER` | Current code: draft listings; publish requires `APPROVED`. This gate conflicts with Linear's current unverified-listing MVP. |
+| `ADMIN`  | Current APIs manage seller verification and disputes. Designed Admin/Ops screens are not implemented in this checkout.       |
 
-**Seller approval flow (critical):**
-
-1. Buyer petitions via `POST /api/sellers/petition` → creates `SellerProfile` with `verificationStatus: "PENDING"`, **role stays BUYER**
-2. Seller uploads student portal screenshot + matric via `POST /api/sellers/verify`
-3. Admin reviews in `/api/admin/verifications` → `POST /api/admin/verifications/[id]/decision`
-4. **Only on APPROVE:** transaction flips `User.role = "SELLER"` + `verificationStatus = "APPROVED"`
-5. Rejection keeps role BUYER; seller can re-petition (max 3 attempts before support escalation)
+**Current implementation (legacy relative to Linear):** signup accepts either
+BUYER or SELLER; seller verification and admin decision routes exist; create
+and publish listing endpoints call `requireApprovedSeller`. Linear specifies
+buyer-first signup, a Profile-initiated seller upgrade, and immediate listing
+with an unverified badge. The repository has not implemented that rule yet.
 
 ---
 
-## 5. API Surface (All Routes)
+## 5. API Surface (selected routes)
 
 > Base URL: `https://<vercel-deployment>.vercel.app/api/...` or `http://localhost:3000/api/...` in dev.
 
@@ -176,7 +187,7 @@ University (Nigerian campuses)
 | `GET`  | `/api/listings/[id]`        | Public listing detail                                                           |
 | `POST` | `/api/auth/signup`          | Register (BUYER or SELLER)                                                      |
 | `POST` | `/api/auth/mobile-login`    | Email/password → JWT (mobile)                                                   |
-| `POST` | `/api/auth/forgot-password` | Initiate OTP reset (dev returns OTP in response)                                |
+| `POST` | `/api/auth/forgot-password` | Initiate OTP reset (development response may expose OTP; verify production behavior) |
 | `POST` | `/api/auth/verify-otp`      | Verify 6-digit OTP                                                              |
 | `POST` | `/api/auth/reset-password`  | Set new password with valid OTP                                                 |
 | `POST` | `/api/questions`            | Public "Ask a question" → stored + emailed                                      |
@@ -193,24 +204,30 @@ University (Nigerian campuses)
 | `POST` | `/api/orders/[id]/dispute`         | Cookie / Bearer | Buyer raises dispute                            |
 | `GET`  | `/api/wallet`                      | Cookie / Bearer | Ledger + balance (seller: real; buyer: derived) |
 
-### 5.3 Seller-Only (Requires `SELLER` role + `APPROVED` for publishing)
+### 5.3 Seller-Only (Current code requires `APPROVED` status for listing writes)
 
-| Method   | Endpoint                            | Gate                            | Description                                      |
-| -------- | ----------------------------------- | ------------------------------- | ------------------------------------------------ |
-| `GET`    | `/api/sellers/me`                   | `requireSeller`                 | Dashboard: drafts + live listings                |
-| `POST`   | `/api/sellers/verify`               | `requireSeller`                 | Upload student portal screenshot + matric        |
-| `GET`    | `/api/sellers/me/id-image`          | `requireSeller`                 | Serves private verification image (signed URL)   |
-| `POST`   | `/api/sellers/petition`             | `requireSeller` (BUYER allowed) | BUYER → petition to become seller                |
-| `GET`    | `/api/sellers/petition`             | `requireSeller`                 | Check petition status                            |
-| `POST`   | `/api/listings`                     | `requireApprovedSeller`         | Create live listing directly                     |
-| `POST`   | `/api/listings/drafts`              | `requireSeller`                 | Start draft (step 1)                             |
-| `PATCH`  | `/api/listings/drafts/[id]`         | `requireSeller`                 | Auto-save draft steps 1–3                        |
-| `GET`    | `/api/listings/drafts/[id]`         | `requireSeller`                 | Resume draft                                     |
-| `POST`   | `/api/listings/drafts/[id]/publish` | `requireApprovedSeller`         | Publish draft → ACTIVE listing                   |
-| `DELETE` | `/api/listings/[id]`                | `requireApprovedSeller`         | Delist own listing                               |
-| `POST`   | `/api/upload/listing-image`         | `requireSeller`                 | Upload to Vercel Blob (5 MB, JPEG/PNG/WebP/HEIC) |
+> **Known gap:** current Linear MVP allows unverified sellers to list. This
+> section describes current code only, not the intended product rule.
 
-### 5.4 Admin-Only
+| Method   | Endpoint                            | Gate                            | Description                                                                  |
+| -------- | ----------------------------------- | ------------------------------- | ---------------------------------------------------------------------------- |
+| `GET`    | `/api/sellers/me`                   | `requireSeller`                 | Dashboard: drafts + live listings                                            |
+| `POST`   | `/api/sellers/verify`               | `requireSeller`                 | Upload student portal screenshot + matric                                    |
+| `GET`    | `/api/sellers/me/id-image`          | `requireSeller`                 | Serves private verification image (signed URL)                               |
+| `POST`   | `/api/sellers/petition`             | `requireSeller` (BUYER allowed) | BUYER → petition to become seller                                            |
+| `GET`    | `/api/sellers/petition`             | `requireSeller`                 | Check petition status                                                        |
+| `POST`   | `/api/listings`                     | `requireApprovedSeller`         | Create live listing directly (current approval gate conflicts with Linear)   |
+| `POST`   | `/api/listings/drafts`              | `requireSeller`                 | Start draft (step 1)                                                         |
+| `PATCH`  | `/api/listings/drafts/[id]`         | `requireSeller`                 | Auto-save draft steps 1–3                                                    |
+| `GET`    | `/api/listings/drafts/[id]`         | `requireSeller`                 | Resume draft                                                                 |
+| `POST`   | `/api/listings/drafts/[id]/publish` | `requireApprovedSeller`         | Publish draft → ACTIVE listing (current approval gate conflicts with Linear) |
+| `DELETE` | `/api/listings/[id]`                | `requireApprovedSeller`         | Delist own listing                                                           |
+| `POST`   | `/api/upload/listing-image`         | `requireSeller`                 | Upload to Vercel Blob (5 MB, JPEG/PNG/WebP/HEIC)                             |
+
+### 5.4 Admin APIs (UI status differs)
+
+> Admin UI pages in this checkout are login and waitlist only; these endpoints
+> do not mean the designed Admin/Ops screens are implemented.
 
 | Method | Endpoint                                  | Description                     |
 | ------ | ----------------------------------------- | ------------------------------- | ---------------------------- |
@@ -231,15 +248,23 @@ University (Nigerian campuses)
 
 ## 6. Key Business Flows
 
-### 6.1 Checkout & Escrow (Campus Meetup Model)
+### 6.1 Checkout and campus handoff (implementation gaps)
+
+The flow below describes current checkout behavior and the intended campus
+handoff. Test mode creates a secured order without processing payment. Live mode
+initializes Paystack checkout, but no webhook in this repository advances an
+order after provider payment. Buyer receipt confirmation triggers payout; the
+intended 48-hour auto-release has no scheduled implementation here. Confirm the
+actual funds-holding and settlement arrangement with the payment provider
+before describing the flow as operational escrow.
 
 ```
 Buyer clicks "Buy" → POST /api/orders/checkout
   ├─ Idempotency: reuse existing order within 30 min window
   ├─ Stock reservation: atomic `listing.stock--` (conditional UPDATE stock > 0)
-  ├─ TEST_MODE=true → order = PAYMENT_SECURED (skip Paystack)
+  ├─ TEST_MODE=true → order = PAYMENT_SECURED (no payment processed)
   ├─ LIVE: Paystack initialize → authorization_url returned
-  └─ Paystack webhook (not in repo yet) → PAYMENT_SECURED
+  └─ Paystack webhook (not implemented in this repo) → PAYMENT_SECURED
        │
        ▼
 Seller arranges pickup → PICKUP_ARRANGED
@@ -268,13 +293,18 @@ Buyer confirms "Everything's good" → POST /api/orders/[id]/confirm-receipt
 
 ```
 Buyer: POST /api/orders/[id]/dispute { reason } → Order = DISPUTED
-Admin: GET /api/admin/disputes/[id] (not implemented, but data exists)
+Admin: GET /api/admin/disputes/[id] (implemented; returns dispute, order, listing, buyer, and seller details)
 Admin: POST /api/admin/disputes/[id]/resolve { action, resolutionNotes }
   ├─ REFUND_BUYER → Order = REFUNDED, WalletTransaction REFUND (buyer ledger)
   └─ RELEASE_TO_SELLER → Order = COMPLETED, payout + PAYOUT wallet tx
 ```
 
-### 6.3 Seller Verification (Student Identity)
+### 6.3 Seller Verification (current implementation differs from Linear)
+
+The current API accepts one `image` plus an optional matric number. Linear's
+current verification design allows either two Student ID images (front/back)
+or one student portal screenshot. The current API does not yet represent that
+choose-one submission model.
 
 ```
 BUYER: POST /api/sellers/petition → SellerProfile (PENDING, username generated)
@@ -316,7 +346,7 @@ type AppError = {
 
 ### 7.2 Cold-Start UX
 
-- First request after idle → 15–25 s delay
+- First request after idle may be delayed by provider cold starts; actual timings require deployment measurement.
 - `retryOnColdStart` retries once transparently
 - Client `api-error.ts` treats 5xx as `retryable: true` with message: _"This can happen when the database is waking up — please wait a moment and try again."_
 
@@ -337,17 +367,12 @@ type AppError = {
 
 ## 9. Testing
 
-**Integration test suite:** `test_all_endpoints.ts` (24 scenarios, run with `npx tsx test_all_endpoints.ts`)
+**Database-backed integration script:** `test_all_endpoints.ts` (24 numbered request steps; only run with disposable database and blob-storage credentials)
 
-Covers:
-
-- Auth (signup, login, password reset)
-- Seller petition → verification → approval
-- Draft → publish flow
-- Browse + search listings
-- Checkout → PIN verify → confirm receipt
-- Dispute raise + admin resolve
-- Wallet ledger (seller + buyer)
+The script exercises signup/login/reset, seller petition and verification,
+draft publishing, browse, checkout, PIN confirmation, and dispute resolution.
+It creates an admin and test users, mutates data, and should not be treated as
+isolated or exhaustive coverage.
 
 **Run locally:**
 
@@ -356,54 +381,61 @@ cd soldbay-web
 npx tsx test_all_endpoints.ts
 ```
 
-Requires `TEST_MODE=true` and valid `DATABASE_URL`, `AUTH_SECRET`, `BLOB_READ_WRITE_TOKEN`.
+The script creates users, listings, and orders, changes a test user's password,
+and uploads a verification image using the configured blob store. It writes to
+`DATABASE_URL`; use only explicitly disposable database and blob credentials.
+It requires `TEST_MODE=true`, `DATABASE_URL`, `AUTH_SECRET`, and
+`BLOB_READ_WRITE_TOKEN`. It is an integration script, not an isolated unit test
+suite, and its numbered flows should not be treated as exhaustive coverage.
 
 ---
 
 ## 10. Environment Variables (Required)
 
-| Variable                | Source                    | Required    | Notes                                                                  |
-| ----------------------- | ------------------------- | ----------- | ---------------------------------------------------------------------- |
-| `DATABASE_URL`          | Prisma Postgres dashboard | ✅           | `postgres://...@db.prisma.io:5432/...`                                 |
-| `AUTH_SECRET`           | `openssl rand -base64 32` | ✅           | HS256 secret for NextAuth + mobile JWT                                 |
-| `AUTH_URL`              | Vercel deployment URL     | ✅           | `https://soldbay.shop` (prod) or `http://192.168.x.x:3000` (local LAN) |
-| `BLOB_STORE_ID`         | Vercel Blob dashboard     | ✅           | `store_...`                                                            |
-| `BLOB_READ_WRITE_TOKEN` | Vercel Blob dashboard     | ✅           | `vercel_blob_rw_...`                                                   |
-| `CRON_SECRET`           | Generate random string    | ✅           | Protects cron endpoints                                                |
-| `PAYSTACK_SECRET_KEY`   | Paystack dashboard        | 🔴 Prod only | `sk_test_...` or `sk_live_...`                                         |
-| `NEXTAUTH_URL`          | Same as `AUTH_URL`        | ✅           | NextAuth canonical URL                                                 |
-| `TEST_MODE`             | `"true"` / `"false"`      | Dev only    | Bypasses Paystack; **never true in prod**                              |
+| Variable                | Source                         | Required     | Notes                                                                  |
+| ----------------------- | ------------------------------ | ------------ | ---------------------------------------------------------------------- |
+| `DATABASE_URL`          | Configured PostgreSQL provider | ✅           | Use the intended development or deployment database URL                |
+| `AUTH_SECRET`           | `openssl rand -base64 32`      | ✅           | HS256 secret for NextAuth + mobile JWT                                 |
+| `AUTH_URL`              | Vercel deployment URL          | ✅           | `https://soldbay.shop` (prod) or `http://192.168.x.x:3000` (local LAN) |
+| `BLOB_STORE_ID`         | Vercel Blob dashboard          | ✅           | `store_...`                                                            |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob dashboard          | ✅           | `vercel_blob_rw_...`                                                   |
+| `CRON_SECRET`           | Generate random string         | ✅           | Protects cron endpoints                                                |
+| `PAYSTACK_SECRET_KEY`   | Paystack dashboard             | Required for live checkout; use test credentials in development | `sk_test_...` or `sk_live_...` |
+| `NEXTAUTH_URL`          | Same as `AUTH_URL`             | ✅           | NextAuth canonical URL                                                 |
+| `TEST_MODE`             | `"true"` / `"false"`           | Dev only     | Bypasses Paystack; **never true in prod**                              |
 
 ---
 
 ## 11. Known Limitations & Technical Debt
 
-| Area                            | Issue                                                       | Severity | Mitigation / Plan                                                              |
-| ------------------------------- | ----------------------------------------------------------- | -------- | ------------------------------------------------------------------------------ |
-| **Database cold starts**        | 15–25 s on first request after idle (free tier)             | High     | Migrate to provisioned Postgres (Neon/Supabase) with min connections           |
-| **No Paystack webhook handler** | Orders stuck in `PENDING_PAYMENT` in live mode              | Critical | Implement `/api/webhooks/paystack` + verify signature                          |
-| **No email service**            | OTP/password reset only works in dev (OTP returned in JSON) | High     | Integrate Resend/SendGrid; store OTP hash in DB with expiry                    |
-| **No push notifications**       | Mobile app can't get real-time order updates                | Medium   | Expo push + Supabase Realtime or Pusher                                        |
-| **Admin UI incomplete**         | Verification queue exists; dispute queue missing            | Medium   | Build `/admin/disputes` page                                                   |
-| **No rate limiting**            | Auth endpoints vulnerable to brute force                    | Medium   | Vercel Edge Config + `@vercel/edge-ratelimit` or Upstash Redis                 |
-| **No logging/observability**    | `console.error` only                                        | Low      | Add Sentry / Logtail / Axiom                                                   |
-| **Single-region DB**            | ~200 ms latency from Nigeria                                | Medium   | Provision DB in closer region (e.g., `eu-west-1` or `af-south-1` if available) |
-| **No automated backups**        | Free tier has no PITR                                       | Low      | Schedule `pg_dump` to object storage weekly                                    |
+| Area                            | Issue                                                                                                                                            | Severity             | Mitigation / Plan                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- | --------------------------------------------------------------------- |
+| **Database cold starts**        | Latency depends on configured provider/plan; current checkout configures a 45 s connection timeout and retry for some auth queries               | Verify in deployment | Measure actual deployed cold-start behavior before changing providers |
+| **Payment lifecycle gaps**      | No webhook advances live orders and no scheduled 48-hour release is implemented                                                                  | Critical             | Implement and verify payment callback and release handling            |
+| **Email delivery**              | Waitlist and question forwarding exist; verify/reset flows and delivery configuration must be audited before launch                              | High                 | Verify provider integration and OTP handling                          |
+| **No push notifications**       | Mobile app cannot receive real-time order updates from a push service                                                                            | Medium               | Add and verify a push delivery path                                   |
+| **Admin UI incomplete**         | In this checkout, admin pages are login and waitlist; verification and dispute APIs exist, but the designed Admin/Ops pages are not implemented. | Medium               | Build screens from the current Linear Admin/Ops IA and prompts        |
+| **Rate limiting**               | No rate-limiting middleware is visible in the reviewed API routes                                                                                | Medium               | Add an appropriate rate limit and verify coverage                     |
+| **Logging/observability**       | Reviewed routes use `console.error`; no observability SDK is configured in this package                                                          | Low                  | Add service-level monitoring if required for launch                   |
+| **Database region/backups**     | Provider, region, backup and PITR configuration are not established by this repository                                                           | Verify in deployment | Confirm provider settings, retention, and recovery process            |
 
 ---
 
 ## 12. Local Development Setup
+
+> The commands below include database writes and a blob upload. Use disposable
+> development services. The integration script is not safe for shared or
+> production credentials.
 
 ```bash
 # 1. Clone & install
 cd soldbay-web
 npm install
 
-# 2. Environment (copy .env.example → .env and fill)
-cp .env.example .env   # (create if missing)
+# 2. Configure required environment values in a local .env file
 
-# 3. Database push (dev)
-npx prisma db push
+# 3. Apply checked-in migrations to the intended development database
+npx prisma migrate deploy
 
 # 4. Seed categories + universities
 npm run seed
@@ -412,21 +444,22 @@ npm run seed
 npm run dev
 # → http://localhost:3000
 
-# 6. Run API tests
+# 6. Run the database/blob-mutating integration script only with disposable services
 npx tsx test_all_endpoints.ts
 ```
 
-**Mobile app** (`soldbay-app`) points to `AUTH_URL` (LAN IP for physical device testing).
+**Mobile app** (`soldbay-app`) needs an API base URL reachable from the selected
+device; a physical device generally cannot reach the host via `localhost`.
 
 ---
 
 ## 13. Deployment Checklist (Production)
 
 - [ ] `TEST_MODE=false`
-- [ ] Real `PAYSTACK_SECRET_KEY` + webhook URL configured in Paystack dashboard
+- [ ] Implement and verify the payment webhook before configuring it in Paystack
 - [ ] `CRON_SECRET` set in Vercel Environment Variables
 - [ ] Email provider (Resend) connected + `FORGOT_PASSWORD_EMAIL_TEMPLATE`
-- [ ] Provisioned Postgres (Neon/Supabase) + update `DATABASE_URL`
+- [ ] Confirm production PostgreSQL provider, region, backup policy, and recovery procedure
 - [ ] `AUTH_URL` = production domain (`https://soldbay.shop`)
 - [ ] Custom domain + SSL on Vercel
 - [ ] Sentry DSN for error tracking
@@ -479,16 +512,16 @@ soldbay-web/
 
 ## 15. Glossary
 
-| Term                   | Meaning                                                               |
-| ---------------------- | --------------------------------------------------------------------- |
-| **Escrow**             | Money held by platform (via Paystack) until buyer confirms receipt    |
-| **Payout**             | Seller wallet increment after order `COMPLETED` (amount − commission) |
-| **Petition**           | Buyer requests seller role; creates `SellerProfile` in `PENDING`      |
-| **Verification**       | Seller uploads student portal screenshot + matric for admin review    |
-| **Draft**              | Multi-step listing creation (steps 1–3 saved, step 4 = publish)       |
-| **Idempotency window** | 30 min — retry checkout returns same order                            |
-| **Stale order**        | `PENDING_PAYMENT` > 24 h → auto-cancel + stock release                |
-| **Cold start**         | Prisma Postgres compute wake from sleep (15–25 s)                     |
+| Term                   | Meaning                                                                     |
+| ---------------------- | --------------------------------------------------------------------------- |
+| **Intended escrow flow** | Payment is intended to remain held until buyer confirms receipt; verify actual settlement and release behavior against the implemented payment lifecycle |
+| **Payout**             | Seller wallet increment after order `COMPLETED` (amount − commission)       |
+| **Petition**           | Buyer requests seller role; creates `SellerProfile` in `PENDING`            |
+| **Verification**       | Seller uploads student portal screenshot + matric for admin review          |
+| **Draft**              | Multi-step listing creation (steps 1–3 saved, step 4 = publish)             |
+| **Idempotency window** | 30 min — retry checkout returns same order                                  |
+| **Stale order**        | `PENDING_PAYMENT` > 24 h → auto-cancel + stock release                      |
+| **Cold start**         | Delay when a configured service resumes after inactivity; provider-specific |
 
 ---
 

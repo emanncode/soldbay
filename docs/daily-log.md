@@ -1,5 +1,12 @@
 # Soldbay — Daily Log
 
+> **Historical record only.** Entries below preserve what was reported at the
+> time and are not current implementation or test status. Older entries include
+> design decisions later superseded by the AllOnSoldBay Linear project. For
+> current product/design intent use Linear; verify implementation claims against
+> the current checkout. The 2026-09-16 claim that both apps passed checks with no
+> warnings is historical and is not a current verification result.
+
 ## 2026-09-16 — Mobile: Buyer Feed Screen Implementation (`soldbay-app`)
 - **Quality Assurance**: 
 - **UI Polish**: Updated the active state of icons in `BuyerBottomNav` to use the Phosphor `fill` weight instead of `bold` for better visual indication.
