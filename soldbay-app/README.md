@@ -1,56 +1,31 @@
-# Welcome to your Expo app 👋
+# Soldbay Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Soldbay's student marketplace client is built with Expo SDK 57, React Native,
+Expo Router, NativeWind, and TypeScript. It contains buyer and seller flows;
+backend/API behavior is provided by [`../soldbay-web`](../soldbay-web/README.md).
 
-## Get started
+**Integration status:** Browse and Search use mock product arrays; chat is
+in-memory sample state; order views use placeholder data; seller verification
+uses mock image selection and a local role switch. Do not treat those screens as
+connected end-to-end flows yet.
 
-1. Install dependencies
+## Run locally
 
-   ```bash
-   npm install
-   ```
+1. Install dependencies with `npm install`.
+2. Configure the API base URL and any other required Expo environment values.
+3. Start the Expo development server with `npm start`; use `npm run android`,
+   `npm run ios`, or `npm run web` for a target platform.
 
-2. Start the app
+Do not run `reset-project` against this app: it replaces the current routes with
+starter scaffolding.
 
-   ```bash
-   npx expo start
-   ```
+## Checks
 
-In the output, you'll find options to open the app in a
+- `npx tsc --noEmit`
+- `npm run lint`
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The AllOnSoldBay Linear project contains the current product scope, screen
+flows, component build status, and locked design tokens. Follow
+[`AGENTS.md`](AGENTS.md) for Expo SDK-specific contributor guidance. Treat
+historical local logs and superseded design references as history, not active
+specifications.

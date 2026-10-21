@@ -1,18 +1,24 @@
 # Soldbay
 
+> **Documentation hierarchy:** Current product scope and design decisions live
+> in the AllOnSoldBay Linear project. The repository code is the evidence for
+> implementation status. `docs/daily-log.md` is historical; older design docs
+> are explicitly marked below where superseded. If product decisions and code
+> differ, record the gap instead of implying implementation is complete.
+
 ## What Soldbay Is
 
 Soldbay is a marketplace app built specifically for university students in Nigeria to buy and sell with each other on campus. Single campus per account, single-unit listings, buy-now only (no cart).
 
 ## The Problem
 
-Campus marketplaces currently run entirely on trust and hope — no way to verify who you're actually dealing with, and no protection if a deal goes wrong.
+Soldbay's initial product hypothesis is that campus transactions need better identity and handoff safeguards. The market-validation plan in Linear treats the strength of that problem as unvalidated and calls for student interviews before making a larger market bet.
 
 ## The Model
 
-Verified seller lists an item → buyer pays via escrowed payment → fixed campus pickup point → PIN-handoff confirms the exchange → 48hr window → auto-release or dispute.
+Seller lists an item (verification status is shown) → buyer pays → campus pickup → PIN-confirmed handoff → 48-hour confirmation/dispute window. This is the intended product flow; live payment settlement and automatic release are not yet evidenced as complete in the repository.
 
-Money only moves once the item actually changes hands — that's the core trust mechanism the whole product is built around. Every account starts as a buyer account; selling is an upgrade a user opts into and verifies for (Profile → Switch to Seller).
+The intended trust mechanism is to release funds only after the item changes hands. Every account starts as a buyer account; selling is an upgrade a user opts into from Profile. Linear's current MVP allows sellers to list while unverified, with a visible unverified badge. The existing server still gates listing writes on approval; see the implementation gap below.
 
 ## Messaging — Revisited
 
@@ -25,9 +31,20 @@ Pickup-window scheduling (an app-shown suggested/scheduled window) still exists 
 ## Surfaces & stack
 
 - **Mobile app** (`soldbay-app`): React Native / Expo, NativeWind styling — buyer and seller modes.
-- **Web** (`soldbay-web`): Next.js — public landing page + the Admin/Ops panel (shadcn/ui).
+- **Web** (`soldbay-web`): Next.js — public landing page, shared APIs, and a currently limited admin area (login and waitlist page; designed Admin/Ops screens remain to be built).
 - **Backend**: Prisma + Postgres.
+
+The current web CSS theme also still uses the historical olive palette. The
+Linear orange/teal design system is authoritative, but its web implementation
+remains to be synchronized.
+
+Current implementation caveat: browse/search, chat, orders, and verification
+screens in the mobile client still use mock or placeholder data/actions. The
+server-side seller role/publish gate also does not yet match Linear's latest
+unverified-seller listing decision. See [docs/architecture.md](docs/architecture.md)
+for the verified gaps and [soldbay-app/README.md](soldbay-app/README.md) and
+[soldbay-web/README.md](soldbay-web/README.md) for local development.
 
 ## Who's Building This
 
-Solo build. Design and product decisions are documented in this project before implementation. Start with the "Workflow & Continuation Guide" — it maps every other doc and states the current phase.
+Solo build. For current product scope and design decisions, start with the Linear "Workflow & Continuation Guide" and related project docs. Its dated implementation status may be stale; verify implementation against this repository.
