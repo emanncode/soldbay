@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, useColorScheme, StyleProp, ViewStyle } from 'react-native';
+import { View, Text, TouchableOpacity, useColorScheme, StyleProp, ViewStyle } from 'react-native';
 import { ClockIcon, CheckCircleIcon, WarningCircleIcon } from 'phosphor-react-native';
 import { colors } from '../../theme/tokens';
+import { AppImage } from './AppImage';
 
 export type OrderStatus = 'pending_pickup' | 'awaiting_handoff' | 'completed' | 'disputed';
 
@@ -72,7 +73,7 @@ export function OrderCard({
     >
       <View className="w-[60px] h-[60px] bg-[#e0e0e0] dark:bg-borderDark rounded overflow-hidden justify-center items-center shrink-0">
         {imageUrl ? (
-          <Image source={{ uri: imageUrl }} className="w-full h-full object-cover" />
+          <AppImage uri={imageUrl} className="w-full h-full" contentFit="cover" />
         ) : (
           <Text className="text-secondaryText/40 dark:text-bgBase text-[10px]">No Photo</Text>
         )}

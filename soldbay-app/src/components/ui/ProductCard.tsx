@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   useColorScheme,
   StyleProp,
@@ -11,6 +10,7 @@ import {
 import { SealCheck, Star, ShieldWarning } from "phosphor-react-native";
 import { colors } from "../../theme/tokens";
 import { WishlistButton } from "./WishlistButton";
+import { AppImage } from "./AppImage";
 
 export interface ProductCardProps {
   title: string;
@@ -69,9 +69,10 @@ export function ProductCard({
       >
         {imageUrl ? (
           <>
-            <Image
-              source={{ uri: imageUrl }}
-              className="w-full h-full object-cover"
+            <AppImage
+              uri={imageUrl}
+              className="w-full h-full"
+              contentFit="cover"
             />
             {/* Subtle dark overlay for icon contrast */}
             <View
