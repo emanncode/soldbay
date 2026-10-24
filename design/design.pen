@@ -1,5 +1,5 @@
 {
-  "version": "2.17",
+  "version": "2.21",
   "children": [
     {
       "type": "frame",
@@ -4316,8 +4316,8 @@
     {
       "type": "frame",
       "id": "QJOIC4",
-      "x": 11280,
-      "y": 0,
+      "x": 6000,
+      "y": 2221,
       "name": "Soldbay Avatar (Remediated)",
       "width": 1240,
       "fill": "#F8F9FAFF",
@@ -4438,7 +4438,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 999,
                       "stroke": "#00808026",
@@ -4654,7 +4654,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 999,
                       "stroke": "#67B8B333",
@@ -5986,7 +5986,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -6146,7 +6146,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -6306,7 +6306,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -6437,7 +6437,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -6605,7 +6605,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -6757,7 +6757,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -6909,7 +6909,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -7032,7 +7032,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "cornerRadius": 12
                     },
@@ -7272,7 +7272,7 @@
                             "type": "image",
                             "enabled": true,
                             "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-                            "mode": "fill"
+                            "mode": "cover"
                           },
                           "cornerRadius": 999,
                           "stroke": "#00808026",
@@ -8033,7 +8033,7 @@
                             "type": "image",
                             "enabled": true,
                             "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-                            "mode": "fill"
+                            "mode": "cover"
                           },
                           "cornerRadius": 999,
                           "stroke": "#67B8B333",
@@ -10284,7 +10284,7 @@
       "type": "frame",
       "id": "Y10w5I",
       "x": 6000,
-      "y": 3000,
+      "y": 3114,
       "name": "Soldbay Product Cards (Remediated)",
       "width": 1240,
       "fill": "#F8F9FAFF",
@@ -10369,7 +10369,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "gap": 8,
@@ -10558,7 +10558,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "gap": 8,
@@ -10794,7 +10794,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "children": [
@@ -11247,7 +11247,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "gap": 8,
@@ -11434,7 +11434,7 @@
                             "type": "image",
                             "enabled": true,
                             "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                            "mode": "fill"
+                            "mode": "cover"
                           },
                           "layout": "vertical",
                           "gap": 8,
@@ -11598,7 +11598,7 @@
                             "type": "image",
                             "enabled": true,
                             "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                            "mode": "fill"
+                            "mode": "cover"
                           },
                           "layout": "vertical",
                           "gap": 8,
@@ -11844,7 +11844,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "gap": 8,
@@ -12025,7 +12025,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "gap": 8,
@@ -12253,7 +12253,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "children": [
@@ -12690,7 +12690,7 @@
                         "type": "image",
                         "enabled": true,
                         "url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                        "mode": "fill"
+                        "mode": "cover"
                       },
                       "layout": "vertical",
                       "gap": 8,
@@ -12869,7 +12869,7 @@
                             "type": "image",
                             "enabled": true,
                             "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                            "mode": "fill"
+                            "mode": "cover"
                           },
                           "layout": "vertical",
                           "gap": 8,
@@ -13025,7 +13025,7 @@
                             "type": "image",
                             "enabled": true,
                             "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-                            "mode": "fill"
+                            "mode": "cover"
                           },
                           "layout": "vertical",
                           "gap": 8,
@@ -13217,7 +13217,7 @@
       "type": "frame",
       "id": "YuLlWj",
       "x": 7320,
-      "y": 3000,
+      "y": 3114,
       "name": "Soldbay Form Inputs (Remediated)",
       "width": 1240,
       "fill": "#F8F9FAFF",
@@ -15954,7 +15954,7 @@
       "type": "frame",
       "id": "kdWbjM",
       "x": 8640,
-      "y": 3000,
+      "y": 3114,
       "name": "Soldbay Lists (Remediated)",
       "width": 1240,
       "height": 1583,
@@ -18968,7 +18968,7 @@
       "type": "frame",
       "id": "1pyA2A",
       "x": 9960,
-      "y": 3000,
+      "y": 3114,
       "name": "Soldbay Trust & Misc (Remediated)",
       "width": 1240,
       "fill": "#F8F9FAFF",
