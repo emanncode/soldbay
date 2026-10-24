@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CaretRight, Plus, Tag } from 'phosphor-react-native';
@@ -14,6 +13,7 @@ import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { FilterChip } from '../../components/ui/FilterChip';
 import { StatusPill } from '../../components/ui/Badge';
 import { colors } from '../../theme/tokens';
+import { AppImage } from '../../components/ui/AppImage';
 
 interface SellerListing {
   id: string;
@@ -126,10 +126,8 @@ export default function SellerHubScreen() {
           </View>
 
           <View className="flex-row items-center gap-3">
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200',
-              }}
+            <AppImage
+              uri="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200"
               className="w-12 h-12 rounded-md bg-primaryText/5"
             />
             <View className="flex-1">
@@ -196,8 +194,8 @@ export default function SellerHubScreen() {
                 activeOpacity={0.8}
                 className="flex-row items-center p-3 rounded-md bg-bgBase dark:bg-darkBgStep border border-primaryText/10 dark:border-borderDark/20 gap-3"
               >
-                <Image
-                  source={{ uri: listing.imageUrl }}
+                <AppImage
+                  uri={listing.imageUrl}
                   className="w-14 h-14 rounded-md bg-primaryText/5"
                 />
                 <View className="flex-1 justify-center">

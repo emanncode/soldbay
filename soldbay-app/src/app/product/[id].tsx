@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
   TouchableOpacity,
   useColorScheme,
   Dimensions,
@@ -23,6 +22,7 @@ import { Avatar } from "../../components/ui/Avatar";
 import { WishlistButton } from "../../components/ui/WishlistButton";
 import { IconButton } from "../../components/ui/IconButton";
 import { colors } from "../../theme/tokens";
+import { AppImage } from "../../components/ui/AppImage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Dummy data fetching
@@ -91,11 +91,12 @@ export default function ProductDetailScreen() {
             onMomentumScrollEnd={handleScroll}
           >
             {product.images.map((img, index) => (
-              <Image
+              <AppImage
                 key={index}
-                source={{ uri: img }}
+                uri={img}
                 style={{ width: windowWidth, height: windowWidth }}
-                resizeMode="cover"
+                priority={index === 0 ? "high" : "normal"}
+                contentFit="cover"
               />
             ))}
           </ScrollView>

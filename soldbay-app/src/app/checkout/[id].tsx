@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
@@ -15,6 +14,7 @@ import { IconButton } from "../../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/tokens";
 import { helpfulDialog } from "../../lib/dialogs";
+import { AppImage } from "../../components/ui/AppImage";
 
 // Dummy data fetching (reusing from product page)
 const getProductById = (id: string) => {
@@ -93,8 +93,8 @@ export default function CheckoutScreen() {
             Order Summary
           </Text>
           <View className="flex-row gap-3">
-            <Image
-              source={{ uri: product.imageUrl }}
+            <AppImage
+              uri={product.imageUrl}
               className="w-20 h-20 rounded-md bg-[#e0e0e0] dark:bg-darkBgStep"
             />
             <View className="flex-1 justify-center">

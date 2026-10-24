@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
@@ -22,6 +21,7 @@ import { Button } from '../../components/ui/Button';
 import { IconButton } from '../../components/ui/IconButton';
 import { colors } from '../../theme/tokens';
 import { formatPriceInput, parseRawPrice } from '../../lib/formatters';
+import { AppImage } from '../../components/ui/AppImage';
 
 const CATEGORY_OPTIONS = [
   { label: 'Textbooks', value: 'Textbooks' },
@@ -163,10 +163,10 @@ export default function CreateListingScreen() {
                 key={`${uri}-${index}`}
                 className="w-[100px] h-[100px] rounded-md overflow-hidden bg-primaryText/5 dark:bg-darkBgStep relative"
               >
-                <Image
-                  source={{ uri }}
+                <AppImage
+                  uri={uri}
                   className="w-full h-full"
-                  resizeMode="cover"
+                  contentFit="cover"
                 />
                 {/* Cover Photo Badge */}
                 {index === 0 && (
