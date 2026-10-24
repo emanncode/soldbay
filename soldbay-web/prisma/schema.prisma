@@ -69,6 +69,8 @@ model User {
   universityId  String?
   university    University?    @relation(fields: [universityId], references: [id])
   matricNumber  String?        @unique
+  termsAcceptedAt   DateTime?
+  privacyAcceptedAt DateTime?
   verified      Boolean        @default(false)
   deletedAt     DateTime?
   retainUntil   DateTime?

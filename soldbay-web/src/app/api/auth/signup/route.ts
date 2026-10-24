@@ -51,6 +51,15 @@ export async function POST(request: Request) {
     if (!body.name || typeof body.name !== "string" || !body.name.trim()) {
       return NextResponse.json({ error: "Name is required." }, { status: 400 })
     }
+    if (typeof body.matricNumber !== "string" || !body.matricNumber.trim()) {
+      return NextResponse.json({ error: "Matric number is required." }, { status: 400 })
+    }
+    if (body.termsAccepted !== true || body.privacyAccepted !== true) {
+      return NextResponse.json(
+        { error: "You must accept the Terms of Service and Privacy Policy." },
+        { status: 400 },
+      )
+    }
     if (!body.role || typeof body.role !== "string" || !VALID_ROLES.has(body.role)) {
       return NextResponse.json(
         { error: "Role must be BUYER or SELLER." },
@@ -68,6 +77,7 @@ export async function POST(request: Request) {
     }
 
     const email = body.email.trim().toLowerCase()
+    const matricNumber = body.matricNumber.trim().toUpperCase()
     const hashedPassword = await bcrypt.hash(body.password, 12)
     const role = body.role as UserRole
     const rawSlug = slugifyName(body.name)
@@ -81,6 +91,9 @@ export async function POST(request: Request) {
               password: hashedPassword,
               name: body.name.trim(),
               phone: typeof body.phone === "string" ? body.phone : null,
+              matricNumber,
+              termsAcceptedAt: new Date(),
+              privacyAcceptedAt: new Date(),
               role,
               ...(body.universityId && typeof body.universityId === "string"
                 ? { university: { connect: { id: body.universityId } } }
@@ -125,8 +138,10 @@ export async function POST(request: Request) {
       "code" in error &&
       (error as { code: string }).code === "P2002"
     ) {
+      const target = "target" in error ? (error as { target?: string[] }).target : undefined
+      const duplicateMatric = Array.isArray(target) && target.includes("matricNumber")
       return NextResponse.json(
-        { error: "A user with this email already exists." },
+        { error: duplicateMatric ? "This matric number is already registered." : "A user with this email already exists." },
         { status: 409 },
       )
     }
