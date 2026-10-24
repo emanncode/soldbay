@@ -8,6 +8,7 @@ import './global.css';
 import { useColorScheme } from 'react-native';
 import { colors } from '../theme/tokens';
 import { RoleProvider } from '../context/RoleContext';
+import { AuthProvider } from '../context/AuthContext';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -59,13 +60,15 @@ export default function RootLayout() {
   };
 
   return (
-    <RoleProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? customDarkTheme : customLightTheme}>
-        <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: colorScheme === 'dark' ? colors.darkBg : colors.bgBase } }}>
-          <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
-          <Stack.Screen name="listing/create" options={{ animation: 'slide_from_bottom' }} />
-        </Stack>
-      </ThemeProvider>
-    </RoleProvider>
+    <AuthProvider>
+      <RoleProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? customDarkTheme : customLightTheme}>
+          <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: colorScheme === 'dark' ? colors.darkBg : colors.bgBase } }}>
+            <Stack.Screen name="(tabs)" options={{ animation: 'slide_from_right' }} />
+            <Stack.Screen name="listing/create" options={{ animation: 'slide_from_bottom' }} />
+          </Stack>
+        </ThemeProvider>
+      </RoleProvider>
+    </AuthProvider>
   );
 }

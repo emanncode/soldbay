@@ -1,14 +1,26 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { TabBar, TabItem } from "../../components/ui/TabBar";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRole } from "../../context/RoleContext";
 import { useAppRouter as useRouter } from "@/hooks/useAppRouter";
+import { useAuth } from "../../context/AuthContext";
+import { colors } from "../../theme/tokens";
 
 export default function TabsLayout() {
+  const { isLoading, user } = useAuth();
   const insets = useSafeAreaInsets();
   const { role } = useRole();
   const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-bgBase dark:bg-darkBg">
+        <ActivityIndicator color={colors.accent} />
+      </View>
+    );
+  }
+  if (!user) return <Redirect href="/(auth)" />;
 
   return (
     <Tabs
@@ -59,3 +71,4 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
