@@ -1,6 +1,6 @@
 # Soldbay Interaction Patterns & UX Architecture — Stage 04, Step 07
 
-**Status:** Proposal for owner review; it documents interaction behavior against the approved Product & System Definition (PSS).
+**Status:** Approved by the owner on 2026-11-06; it documents interaction behavior against the approved Product & System Definition (PSS).
 **Prepared:** 2026-11-06
 **Depends on:** Approved Steps 04–06 and `docs/architecture.md`.
 **Authority:** The PSS remains authoritative for eligibility, deadlines, permissions, transitions, and outcomes. This document defines how the interface communicates them; it does not add product policy.
@@ -18,17 +18,17 @@
 
 ## State and feedback contract
 
-| Interaction state | Interface response | Recovery rule |
-| --- | --- | --- |
-| Ready | Show the action, eligibility, price or deadline information needed to decide. | Keep unavailable actions disabled with a short reason where useful. |
-| Editing | Show persistent field labels, focus, format guidance, and immediate input-level validation when useful. | Keep valid entered data when another field fails. |
-| Submitting | Indicate progress and prevent duplicate submission of the same operation. | Allow safe cancellation only before the operation becomes consequential. |
-| Pending / result unknown | Name the operation and say Soldbay is checking its status. Keep associated money/order actions blocked. | Refresh/reconcile from the authoritative source; offer retry only after outcome is known and retry is safe. |
-| Confirmed | State the confirmed result, what changed, the next actor/action, and any relevant deadline. | Provide a path to the resulting order, listing, case, or receipt. |
-| Recoverable failure | Explain what failed and whether the user's work or payment/order state is retained. | Offer a safe retry, correction, or Support path; do not discard entered data. |
-| Blocked / ineligible | State the unmet condition and how it can be resolved, when allowed. | Preserve unrelated work and avoid implying an override exists. |
-| Offline / stale | Identify stale data and actions that need a connection. Do not imply price or availability is current. | Queue only explicitly supported work; show a pending-sync state until server confirmation. |
-| Read-only / closed | Keep prior content visible and state why composing or changing it is unavailable. | Link to the allowed next step or a related record; do not expose a disabled-looking control without explanation. |
+| Interaction state        | Interface response                                                                                      | Recovery rule                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Ready                    | Show the action, eligibility, price or deadline information needed to decide.                           | Keep unavailable actions disabled with a short reason where useful.                                              |
+| Editing                  | Show persistent field labels, focus, format guidance, and immediate input-level validation when useful. | Keep valid entered data when another field fails.                                                                |
+| Submitting               | Indicate progress and prevent duplicate submission of the same operation.                               | Allow safe cancellation only before the operation becomes consequential.                                         |
+| Pending / result unknown | Name the operation and say Soldbay is checking its status. Keep associated money/order actions blocked. | Refresh/reconcile from the authoritative source; offer retry only after outcome is known and retry is safe.      |
+| Confirmed                | State the confirmed result, what changed, the next actor/action, and any relevant deadline.             | Provide a path to the resulting order, listing, case, or receipt.                                                |
+| Recoverable failure      | Explain what failed and whether the user's work or payment/order state is retained.                     | Offer a safe retry, correction, or Support path; do not discard entered data.                                    |
+| Blocked / ineligible     | State the unmet condition and how it can be resolved, when allowed.                                     | Preserve unrelated work and avoid implying an override exists.                                                   |
+| Offline / stale          | Identify stale data and actions that need a connection. Do not imply price or availability is current.  | Queue only explicitly supported work; show a pending-sync state until server confirmation.                       |
+| Read-only / closed       | Keep prior content visible and state why composing or changing it is unavailable.                       | Link to the allowed next step or a related record; do not expose a disabled-looking control without explanation. |
 
 ## Core task patterns
 
@@ -92,7 +92,7 @@ Step 08 should turn these patterns into screen maps and low-fidelity task struct
 - [x] Interaction states separate local response from server/provider-confirmed outcomes.
 - [x] Core task patterns preserve PSS permissions, deadlines, and recovery paths.
 - [x] Payment, handoff, refund, offline, cancellation, and read-only states have explicit feedback rules.
-- [ ] Owner reviews and approves or revises the Step 07 interaction architecture.
-- [ ] Step 08 maps these patterns to complete screen flows and states.
+- [x] Owner approved the Step 07 interaction architecture on 2026-11-06.
+- [ ] Step 08 maps these patterns to complete screen flows and low-fidelity structures.
 
-**No final product screens, app code, payment behavior, or runtime workflow was created in Step 07. This is an interaction-design proposal.**
+**No final product screens, app code, payment behavior, or runtime workflow was created in Step 07. The interaction architecture is approved; screen mapping and low-fidelity structures are Step 08 work.**
