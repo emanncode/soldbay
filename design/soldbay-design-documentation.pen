@@ -4530,7 +4530,7 @@
           "id": "P7R45C",
           "name": "Component architecture subtitle",
           "fill": "#4E5D4D",
-          "content": "STEP 06 · OWNER APPROVED · SHARED SYSTEM, PLATFORM-APPROPRIATE PRESENTATION",
+          "content": "STEP 06 · ARCHITECTURE APPROVED · VISUAL UI KIT STILL TO BE BUILT BEFORE WIREFRAMES",
           "fontFamily": "Inter",
           "fontSize": 13,
           "fontWeight": "bold"
@@ -4776,7 +4776,7 @@
               "fill": "#1F2B21",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "The component inventory, shared state contract, and allowed platform differences are approved. Exact component anatomy and screen-specific validation continue with Steps 08–09. Step 07 now defines interaction patterns and failure recovery.",
+              "content": "The component architecture is approved. The visual UI kit, component specimens and platform variants still need to be built and reviewed. Step 08 remains deferred until this shared library is complete. OS status/navigation chrome is contextual system UI, never a fake Soldbay component.",
               "fontFamily": "Inter",
               "fontSize": 13,
               "fontWeight": "normal"
@@ -4813,7 +4813,7 @@
           "id": "yLQcZ",
           "name": "Interaction architecture subtitle",
           "fill": "#4E5D4D",
-          "content": "STEP 07 · REVIEW PROPOSAL · PSS-ALIGNED STATES, FEEDBACK, FAILURE AND RECOVERY",
+          "content": "STEP 07 · OWNER APPROVED · PSS-ALIGNED STATES, FEEDBACK, FAILURE AND RECOVERY",
           "fontFamily": "Inter",
           "fontSize": 13,
           "fontWeight": "bold"
@@ -5035,7 +5035,7 @@
               "id": "N9WIHj",
               "name": "Interaction review status",
               "fill": "#1F2B21",
-              "content": "REVIEW BOUNDARY",
+              "content": "APPROVED INTERACTION CONTRACT",
               "fontFamily": "Inter",
               "fontSize": 13,
               "fontWeight": "bold"
@@ -5047,10 +5047,1351 @@
               "fill": "#1F2B21",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "This proposal maps approved PSS behavior to interface feedback and recovery. It does not add policy or claim technical feasibility. After approval, Step 08 maps the patterns to screens and low-fidelity flows.",
+              "content": "The interaction states and recovery patterns are approved against the PSS. They preserve the product's actor permissions and deadlines. Step 08 now maps these patterns to platform screen flows and low-fidelity structures.",
               "fontFamily": "Inter",
               "fontSize": 13,
               "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Bac1O",
+      "x": 9180,
+      "y": 0,
+      "name": "Step 08 Screen Architecture and Wireframe Plan",
+      "width": 1440,
+      "height": 1260,
+      "fill": "#F6F7F1",
+      "layout": "vertical",
+      "gap": 18,
+      "padding": 32,
+      "children": [
+        {
+          "type": "text",
+          "id": "J8g4M",
+          "name": "Screen architecture board title",
+          "fill": "#1F2B21",
+          "content": "Screen architecture & wireframe plan",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "bold"
+        },
+        {
+          "type": "text",
+          "id": "EoJ3e",
+          "name": "Screen architecture board subtitle",
+          "fill": "#4E5D4D",
+          "content": "STEP 08 · DEFERRED · WAITING FOR THE STEP 06 VISUAL UI KIT AND COMPONENT SPECIFICATIONS",
+          "fontFamily": "Inter",
+          "fontSize": 13,
+          "fontWeight": "bold"
+        },
+        {
+          "type": "frame",
+          "id": "SJO3u",
+          "name": "Screen architecture columns",
+          "width": "fill_container",
+          "height": "fill_container",
+          "gap": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ny6ZS",
+              "name": "Navigation proposal",
+              "width": 310,
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#C5CEBF",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kFJeY",
+                  "name": "Navigation proposal heading",
+                  "fill": "#1F2B21",
+                  "content": "Navigation proposal",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "text",
+                  "id": "hrzUw",
+                  "name": "Navigation proposal details",
+                  "fill": "#4E5D4D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "BUYER MODE\nBrowse · Saved · Orders · Profile\n\nSELLER MODE\nSeller Hub · Orders · Saved · Profile\n\nCONTEXTUAL ROUTES\nChat stays within a negotiable listing or paid order. Notifications deep-link to the relevant record.\n\nReview tab labels and seller-mode destination set; these are not yet approved.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ARq3B",
+              "name": "Buyer journey",
+              "width": 310,
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#C5CEBF",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ni5iu",
+                  "name": "Buyer journey heading",
+                  "fill": "#1F2B21",
+                  "content": "Buyer journey",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "text",
+                  "id": "U5O98",
+                  "name": "Buyer journey details",
+                  "fill": "#4E5D4D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "CREATE ACCOUNT\nTerms + Privacy + 18+ confirmation. University then required full-screen campus picker.\n\nDISCOVER\nCampus feed, Recently Added, filters, listing detail, wishlist.\n\nTRANSACT\nNegotiable chat + 90m accepted-price lock → checkout → provider-confirmed order.\n\nHANDOFF\nMeetup or courier → buyer enters code → server confirms receipt → dispute/review outcome.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "reEHI",
+              "name": "Seller and staff",
+              "width": 310,
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#C5CEBF",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "n1gn5x",
+                  "name": "Seller and staff heading",
+                  "fill": "#1F2B21",
+                  "content": "Seller and staff",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "text",
+                  "id": "l4NOO7",
+                  "name": "Seller and staff details",
+                  "fill": "#4E5D4D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "SELLER\nSwitch to Seller → matric + one proof + store + payout review → draft → approval + 2FA → publish.\n\nORDER TASKS\nSeller Hub, order queue/detail, Ready deadline, coordination, listing locks, wallet.\n\nSTAFF IA\nSix approved Admin/Ops screens: shell, verification, moderation, dispute, users, campus petitions. Desktop + full mobile fallback.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Pb5jN",
+              "name": "Wireframe scope",
+              "width": 310,
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#C5CEBF",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "p9Zlg1",
+                  "name": "Wireframe scope heading",
+                  "fill": "#1F2B21",
+                  "content": "Wireframe scope",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "text",
+                  "id": "lheV0",
+                  "name": "Wireframe scope details",
+                  "fill": "#4E5D4D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "DEFERRED\nThis planning draft lists candidate screen tasks only. No screen composition is authorized until the Step 06 UI kit and component specifications are complete and reviewed.\n\nCANVASES\nThe iOS and Android screen canvases are clear. Twelve premature iOS wireframe frames were removed; none were created for Android.\n\nSYSTEM CHROME\nStatus/battery/network indicators, cutouts and bottom system navigation are OS-owned context. Do not recreate them as Soldbay components.",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aBLTt",
+          "name": "Screen architecture review boundary",
+          "width": "fill_container",
+          "height": 84,
+          "fill": "#E8EDD9",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 6,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "EK1AB",
+              "name": "Screen architecture review status",
+              "fill": "#1F2B21",
+              "content": "REVIEW BOUNDARY",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "o5WGU",
+              "name": "Screen architecture review note",
+              "fill": "#1F2B21",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The candidate screen inventory is a planning draft in docs/screen-architecture.md. Screen work is deferred while the shared UI kit and component specifications are completed in Step 06. Review the proposal only after those prerequisites are ready.",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "CfiKL",
+      "x": 6060,
+      "y": 1320,
+      "name": "Step 06 UI Kit Visual Library Draft",
+      "width": 1440,
+      "height": 760,
+      "fill": "$soldbay-light-canvas",
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "z7kGv",
+          "name": "UI kit heading group",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "text",
+              "id": "n9J1P",
+              "name": "UI kit title",
+              "fill": "$soldbay-light-ink",
+              "content": "Shared UI kit — first component specimens",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "E8ntQ",
+              "name": "UI kit subtitle",
+              "fill": "$soldbay-light-muted",
+              "content": "STEP 06 · DRAFT LIBRARY · TOKENS FROM APPROVED FOUNDATIONS · NO PRODUCT SCREENS",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "semibold"
+            },
+            {
+              "type": "text",
+              "id": "g8miF",
+              "name": "UI kit intro",
+              "fill": "$soldbay-light-ink",
+              "content": "Components are being drawn and specified before screens. OS-owned status and navigation chrome is documented separately and is not a Soldbay component.",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "B3jpu",
+          "name": "UI kit specimen columns",
+          "width": "fill_container",
+          "gap": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "exAd9",
+              "name": "Control components",
+              "width": 430,
+              "fill": "$soldbay-light-surface",
+              "cornerRadius": 8,
+              "stroke": "$soldbay-light-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SEdq0",
+                  "name": "Control components heading",
+                  "fill": "$soldbay-light-ink",
+                  "content": "Controls",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "b32HKq",
+                  "name": "Button variants",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "klLzD",
+                      "name": "Button Primary",
+                      "reusable": true,
+                      "width": 180,
+                      "height": 48,
+                      "fill": "$soldbay-light-action",
+                      "cornerRadius": 4,
+                      "stroke": "$soldbay-light-action",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HsfDt",
+                          "name": "Button Primary label",
+                          "fill": "$soldbay-light-on-action",
+                          "content": "Continue",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "srLbX",
+                      "name": "Button Secondary",
+                      "reusable": true,
+                      "width": 180,
+                      "height": 48,
+                      "fill": "$soldbay-light-surface",
+                      "cornerRadius": 4,
+                      "stroke": "$soldbay-light-border",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Em1t9",
+                          "name": "Button Secondary label",
+                          "fill": "$soldbay-light-ink",
+                          "content": "Save draft",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SyPSI",
+                      "name": "Button Destructive",
+                      "reusable": true,
+                      "width": 180,
+                      "height": 48,
+                      "fill": "$soldbay-danger-bg",
+                      "cornerRadius": 4,
+                      "stroke": "$soldbay-danger-bg",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mfQe3",
+                          "name": "Button Destructive label",
+                          "fill": "$soldbay-danger-fg",
+                          "content": "Cancel order",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nEYtI",
+                      "name": "Button Disabled",
+                      "reusable": true,
+                      "width": 180,
+                      "height": 48,
+                      "fill": "$soldbay-light-border",
+                      "cornerRadius": 4,
+                      "stroke": "$soldbay-light-border",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "m5VeR",
+                          "name": "Button Disabled label",
+                          "fill": "$soldbay-light-muted",
+                          "content": "Continue",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "H5kaR",
+                  "name": "Text field states",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bQFXM",
+                      "name": "Field Default",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-surface",
+                      "cornerRadius": 4,
+                      "stroke": "$soldbay-light-border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 3,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iu4K0",
+                          "name": "Field Default label",
+                          "fill": "$soldbay-light-muted",
+                          "content": "University email",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "GgAgI",
+                          "name": "Field Default value",
+                          "fill": "$soldbay-light-ink",
+                          "content": "name@university.edu",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "d45uYI",
+                      "name": "Field Error",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-surface",
+                      "cornerRadius": 4,
+                      "stroke": "$soldbay-danger-fg",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 3,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "KVgs2",
+                          "name": "Field Error label",
+                          "fill": "$soldbay-light-muted",
+                          "content": "Matric number",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "y5H8nK",
+                          "name": "Field Error value",
+                          "fill": "$soldbay-light-ink",
+                          "content": "Enter your matric number",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "KxJSy",
+                          "name": "Field Error helper",
+                          "fill": "$soldbay-danger-fg",
+                          "content": "Check the format for your selected university.",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "sY1d3",
+                  "name": "Selection controls",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "e7J6jG",
+                      "name": "Negotiable choice",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-accent-surface",
+                      "cornerRadius": 8,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "WXp9X",
+                          "name": "Negotiable question",
+                          "fill": "$soldbay-light-ink",
+                          "content": "Allow pre-purchase negotiation?",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YjAfM",
+                          "name": "Negotiable selected option",
+                          "fill": "$soldbay-light-ink",
+                          "content": "◉  Yes, buyers can negotiate",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "poeTf",
+                          "name": "Fixed selected option",
+                          "fill": "$soldbay-light-muted",
+                          "content": "◯  No, fixed price",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "V99Qu",
+              "name": "Marketplace components",
+              "width": 430,
+              "fill": "$soldbay-light-surface",
+              "cornerRadius": 8,
+              "stroke": "$soldbay-light-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "zuMv7",
+                  "name": "Marketplace components heading",
+                  "fill": "$soldbay-light-ink",
+                  "content": "Marketplace",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "J0NgKP",
+                  "name": "Listing card preview",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "onNck",
+                      "name": "Listing card component",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-surface",
+                      "cornerRadius": 8,
+                      "stroke": "$soldbay-light-border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 4,
+                          "id": "p8SI6",
+                          "name": "Listing image placeholder",
+                          "fill": "$soldbay-light-accent-surface",
+                          "width": "fill_container",
+                          "height": 132
+                        },
+                        {
+                          "type": "frame",
+                          "id": "R6t0S",
+                          "name": "Listing status row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QkGIN",
+                              "name": "Listing title",
+                              "fill": "$soldbay-light-ink",
+                              "content": "Used scientific calculator",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "semibold"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Zxs0C",
+                              "name": "Negotiable tag",
+                              "reusable": true,
+                              "height": 28,
+                              "fill": "$soldbay-light-accent-surface",
+                              "cornerRadius": 14,
+                              "padding": [
+                                6,
+                                10
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Gmscf",
+                                  "name": "Negotiable tag label",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "Negotiable",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "si3Nm",
+                          "name": "Listing condition",
+                          "fill": "$soldbay-light-muted",
+                          "content": "Good condition · Verified student",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UYfuJ",
+                          "name": "Listing price",
+                          "fill": "$soldbay-light-ink",
+                          "content": "₦18,500",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IvMZd",
+                  "name": "Price and fee summary",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "av1xX",
+                      "name": "Price summary component",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-surface",
+                      "cornerRadius": 8,
+                      "stroke": "$soldbay-light-border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qJOIx",
+                          "name": "Price summary heading",
+                          "fill": "$soldbay-light-ink",
+                          "content": "Order total",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "j46j4",
+                          "name": "Item price row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "UN6sp",
+                              "name": "Item price label",
+                              "fill": "$soldbay-light-muted",
+                              "content": "Agreed item price",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "d0lqnR",
+                              "name": "Item price value",
+                              "fill": "$soldbay-light-ink",
+                              "content": "₦18,500",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "semibold"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FdVrE",
+                          "name": "Delivery price row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "UojhZ",
+                              "name": "Delivery fee label",
+                              "fill": "$soldbay-light-muted",
+                              "content": "Courier delivery",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "a2GWD",
+                              "name": "Delivery fee value",
+                              "fill": "$soldbay-light-ink",
+                              "content": "₦1,200",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "www5a",
+                          "name": "Total price row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "r30vzR",
+                              "name": "Total label",
+                              "fill": "$soldbay-light-ink",
+                              "content": "Total to pay",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "semibold"
+                            },
+                            {
+                              "type": "text",
+                              "id": "f60oQ",
+                              "name": "Total value",
+                              "fill": "$soldbay-light-ink",
+                              "content": "₦19,700",
+                              "fontFamily": "Inter",
+                              "fontSize": 18,
+                              "fontWeight": "bold"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QVjMl",
+                  "name": "Availability badges",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PSnQ5",
+                      "name": "Badge Available",
+                      "reusable": true,
+                      "height": 28,
+                      "fill": "$soldbay-success-bg",
+                      "cornerRadius": 14,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AHKAm",
+                          "name": "Badge Available label",
+                          "fill": "$soldbay-success-fg",
+                          "content": "Available",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "x1fRg",
+                      "name": "Badge Pending",
+                      "reusable": true,
+                      "height": 28,
+                      "fill": "$soldbay-warning-bg",
+                      "cornerRadius": 14,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "U4uPDV",
+                          "name": "Badge Pending label",
+                          "fill": "$soldbay-warning-fg",
+                          "content": "Pending",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H93Gkv",
+                      "name": "Badge Unavailable",
+                      "reusable": true,
+                      "height": 28,
+                      "fill": "$soldbay-danger-bg",
+                      "cornerRadius": 14,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lXdRR",
+                          "name": "Badge Unavailable label",
+                          "fill": "$soldbay-danger-fg",
+                          "content": "Unavailable",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sqrUz",
+              "name": "Trust and transaction components",
+              "width": 430,
+              "fill": "$soldbay-light-surface",
+              "cornerRadius": 8,
+              "stroke": "$soldbay-light-border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VClf0",
+                  "name": "Trust and transaction components heading",
+                  "fill": "$soldbay-light-ink",
+                  "content": "Trust & transaction",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "Y3vwLW",
+                  "name": "Inline feedback",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ry3Aj",
+                      "name": "Offline notice component",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-info-bg",
+                      "cornerRadius": 8,
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "y63kNo",
+                          "name": "Offline notice title",
+                          "fill": "$soldbay-info-fg",
+                          "content": "Saved on this device",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LOX0Y",
+                          "name": "Offline notice message",
+                          "fill": "$soldbay-info-fg",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "We’ll confirm the handoff when you’re back online. Your order is still pending.",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z3xBJ",
+                  "name": "Handoff code entry",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "KAHQi",
+                      "name": "Handoff code component",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i0YSa",
+                          "name": "Handoff code title",
+                          "fill": "$soldbay-light-ink",
+                          "content": "Enter the order code",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "BCZlG",
+                          "name": "Six digit code cells",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "AVngw",
+                              "name": "Code digit 1",
+                              "reusable": true,
+                              "width": 48,
+                              "height": 52,
+                              "fill": "$soldbay-light-surface",
+                              "cornerRadius": 4,
+                              "stroke": "$soldbay-light-action",
+                              "strokeWidth": 2,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "ubgRl",
+                                  "name": "Code placeholder 1",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "4",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "LEiut",
+                              "name": "Code digit 2",
+                              "reusable": true,
+                              "width": 48,
+                              "height": 52,
+                              "fill": "$soldbay-light-surface",
+                              "cornerRadius": 4,
+                              "stroke": "$soldbay-light-border",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "k73Nd",
+                                  "name": "Code placeholder 2",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "—",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "FUQsT",
+                              "name": "Code digit 3",
+                              "reusable": true,
+                              "width": 48,
+                              "height": 52,
+                              "fill": "$soldbay-light-surface",
+                              "cornerRadius": 4,
+                              "stroke": "$soldbay-light-border",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "E5ak5h",
+                                  "name": "Code placeholder 3",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "—",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ysf9v",
+                              "name": "Code digit 4",
+                              "reusable": true,
+                              "width": 48,
+                              "height": 52,
+                              "fill": "$soldbay-light-surface",
+                              "cornerRadius": 4,
+                              "stroke": "$soldbay-light-border",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "w2EaTH",
+                                  "name": "Code placeholder 4",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "—",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "xtShi",
+                              "name": "Code digit 5",
+                              "reusable": true,
+                              "width": 48,
+                              "height": 52,
+                              "fill": "$soldbay-light-surface",
+                              "cornerRadius": 4,
+                              "stroke": "$soldbay-light-border",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "CDSRi",
+                                  "name": "Code placeholder 5",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "—",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "fFsXh",
+                              "name": "Code digit 6",
+                              "reusable": true,
+                              "width": 48,
+                              "height": 52,
+                              "fill": "$soldbay-light-surface",
+                              "cornerRadius": 4,
+                              "stroke": "$soldbay-light-border",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "F6TuVv",
+                                  "name": "Code placeholder 6",
+                                  "fill": "$soldbay-light-ink",
+                                  "content": "—",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "semibold"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "amnf5",
+                          "name": "Handoff code helper",
+                          "fill": "$soldbay-light-muted",
+                          "content": "Offline entry remains pending until server validation.",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dV7cS",
+                  "name": "Order progress",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "M751y",
+                      "name": "Order progress component",
+                      "reusable": true,
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-surface",
+                      "cornerRadius": 8,
+                      "stroke": "$soldbay-light-border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rf7JB",
+                          "name": "Order progress title",
+                          "fill": "$soldbay-light-ink",
+                          "content": "Order status",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YUcHV",
+                          "name": "Order progress event 1",
+                          "fill": "$soldbay-success-fg",
+                          "content": "✓  Payment confirmed",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "hRzev",
+                          "name": "Order progress event 2",
+                          "fill": "$soldbay-light-action",
+                          "content": "●  Seller preparing order",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XalzH",
+                          "name": "Order progress event 3",
+                          "fill": "$soldbay-light-muted",
+                          "content": "○  Handoff not started",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "HMegp",
+                          "name": "Order progress evidence",
+                          "fill": "$soldbay-light-muted",
+                          "content": "Courier pickup does not confirm buyer receipt.",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "gL9Ee",
+                  "name": "System chrome boundary",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "oCCS2",
+                      "name": "OS chrome boundary note",
+                      "width": "fill_container",
+                      "fill": "$soldbay-light-accent-surface",
+                      "cornerRadius": 8,
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QmHQs",
+                          "name": "OS chrome boundary title",
+                          "fill": "$soldbay-light-ink",
+                          "content": "OS chrome stays OS-owned",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "KloSq",
+                          "name": "OS chrome boundary copy",
+                          "fill": "$soldbay-light-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Status bar, network/battery symbols, cutouts, home indicator and Android navigation are shown only as neutral viewport/safe-area context. They are never copied into Soldbay app components.",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
