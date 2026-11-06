@@ -81,10 +81,10 @@ Component specifications must include: purpose, anatomy, allowed variants, state
 
 ## Open decisions and Step 07 handoff
 
-- Select and validate a coherent product icon family in a future component pass; OS symbols remain OS-owned.
-- Define exact component anatomy, sizing, copy, focus order and platform exceptions after the component inventory is approved.
-- Specify interaction details for loading, retries, validation timing, destructive confirmations, permission failures, and recovery in Step 07.
-- Test these components in realistic flows before screen production. Static specifications do not establish usability, accessibility conformance, or implementation readiness.
+- Select and validate a coherent product icon family during detailed component design; OS-owned symbols remain platform-specific.
+- Refine exact component anatomy, sizing, copy, focus order and platform exceptions alongside realistic screen flows in Steps 08–09.
+- Step 07 now defines loading, retries, validation timing, destructive confirmations, permission failures and recovery against the PSS.
+- Test components in realistic flows before final handoff. Static specifications do not establish usability, accessibility conformance, or implementation readiness.
 
 ## Review checklist
 

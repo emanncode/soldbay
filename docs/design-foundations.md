@@ -77,7 +77,7 @@ Use sentence case, keep body copy at 16 px where practical, and preserve text sc
 - **Spacing scale:** 4, 8, 12, 16, 24, and 32 px. Use semantic relationships, not arbitrary offsets.
 - **Mobile foundation grid:** four-column reference grid, 16 px outer margins, 12 px gutters.
 - **Desktop Admin/Ops foundation grid:** 12 columns, 32 px outer margins, 24 px gutters.
-- **Breakpoints:** not set here. Define supported devices, logical units, safe areas, compact/expanded layouts, and exact adaptation rules in Step 05.
+- **Breakpoints:** not set here. Step 05 defines the responsive test canvases and platform rules; refine exact adaptation rules against real screen structures in Steps 08–09.
 - **Approved radii:** 4 px for controls, 8 px for cards, 12 px for larger containers. Keep the interface square enough to read as practical; do not round every element.
 - **Borders/elevation:** prefer spacing and subtle borders for grouping. Use a restrained shadow only for overlays that need separation. Exact elevation is deferred until patterns are designed.
 - **Sizing:** preserve readable text and comfortable targets. Set platform-specific minimum targets in Step 05 using current Apple and Android guidance.
@@ -86,7 +86,7 @@ Use sentence case, keep body copy at 16 px where practical, and preserve text sc
 
 - Approved motion durations: 120 ms fast feedback, 180 ms standard transitions, 240 ms emphasis. Animation must not delay tasks or communicate status alone.
 - Respect reduced-motion settings and make essential state changes clear without animation.
-- No icon family is selected or drawn in this step. Choose one coherent family and define platform-owned system icon boundaries during Step 06.
+- No icon family is selected or drawn in this step. Select a coherent product icon family during detailed component design; keep OS-owned symbols platform-specific.
 
 ## Contrast spot checks
 
@@ -115,8 +115,8 @@ The active Pencil file previously contained unused legacy variables. They were c
 - [x] Owner approved the complete foundation set on 2026-11-06.
 - [ ] Verify type licensing, glyph coverage, dynamic text, and real content lengths.
 - [ ] Check all semantic color pairings and focus/disabled/selected states on rendered screens.
-- [ ] Resolve exact grids and breakpoints during Step 05 device foundations.
-- [ ] Define iOS/Android system bars, status bar, battery/network indicators, home indicator/navigation bar, cutouts, safe areas, keyboards, gestures, touch targets, and offline/interruption behavior in Step 05.
-- [ ] Define the icon family and component-level states in Step 06.
+- [ ] Refine exact responsive breakpoints and pane changes against real screen structures in Steps 08–09.
+- [x] Define iOS/Android system chrome, cutouts, safe areas, keyboards, gestures, touch targets, and offline/interruption behavior in the approved Step 05 foundations.
+- [x] Record the shared component state contract and platform boundaries in the approved Step 06 architecture; select the product icon family during detailed component design.
 
 **No application code, reusable UI components, or final product screens were created in Step 04.** The Pencil foundation sheet records approved tokens; actual screen rendering, contrast coverage, target-device behavior, and technology-specific token mapping remain unverified.
