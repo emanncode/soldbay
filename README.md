@@ -1,58 +1,27 @@
 # Soldbay
 
-> **Documentation hierarchy:** Current product scope and design decisions live
-> in the AllOnSoldBay Linear project. The repository code is the evidence for
-> implementation status. `docs/daily-log.md` is historical; older design docs
-> are explicitly marked below where superseded. If product decisions and code
-> differ, record the gap instead of implying implementation is complete.
+Soldbay is a Nigeria-first university-campus marketplace for students to buy and sell with each other.
 
-## Product and design references
+## Source of truth
 
-- **Product scope and workflow:** AllOnSoldBay Linear project. The Feature/Workflow Inventory is the scope reference; the more specific signup/auth and screen-flow documents define their respective workflows. The October 13 Market Validation Plan is the current market-evidence reference. Older overview copy that states the trust problem as established is a hypothesis, not validated evidence.
-- **Design tokens:** Linear's Design System Reference (updated October 7, 2026) is the global token reference. Some Admin/Ops documents updated September 28 still specify white text for semantic fills in both modes; follow the later global token guidance and update those prompts when they are next revised.
-- **Visual snapshot:** [Soldbay-Designs in Figma](https://www.figma.com/design/sgQa1LT80qwtk317aSbXHS/Soldbay-Designs) contains imported HTML-to-Design snapshots: light screens (`0:1`), dark screens (`5:2488`), and components (`7:4846`), dated September 25–26, 2026. Treat these as visual references, not proof of current implementation or later design decisions. Linear's October updates are newer; where a snapshot conflicts with a later Linear decision, record the discrepancy and use the later decision.
+- [Product & System Definition](docs/architecture.md) is the local canonical reference for the approved product workflow, requirements, acceptance criteria, logical system boundaries, and external gates. The PSS is complete; privacy/legal review and provider/launch readiness remain separate work.
+- The AllOnSoldBay Linear project holds approved product decisions. More-specific workflow docs supersede older summaries.
+- [design/soldbay-design-documentation.pen](design/soldbay-design-documentation.pen) is the canonical Pencil documentation canvas. It records foundations, component architecture/specifications, interaction maps, responsive rules, and decision boards. Stage 04 Steps 01–06 are owner-approved; Step 07 interaction patterns are under review. A — Grounded Market is the selected direction. Separate `soldbay-ios.pen` and `soldbay-android.pen` files will hold real platform screens from Step 08 onward. No final screens are approved yet.
+- Repository source and migrations show what is implemented; they do not prove production behavior.
+- Historical logs and superseded local design documents are not current product policy.
 
-Linear is not fully internally synchronized: its global Design System Reference is newer than the Admin/Ops prompt's semantic-text rule, and its October market-validation draft qualifies older overview claims. Keep these differences visible until the affected Linear documents and Figma snapshots are refreshed.
+## Product model
 
-## What Soldbay Is
+**Confirmed / Intended:** accounts start as buyers; signup requires one 18+ checkbox, university and campus selection, and email verification before app access. If the age box is unchecked, account creation is blocked. The age checkbox is the only age step in the MVP. Becoming a seller requires student verification, store and payout information, Soldbay Admin review, and 2FA before listing or accessing proceeds. Buyers choose campus meetup or courier delivery. Funds remain held through server-validated handoff and the 36-hour dispute window. Refunds return through the original provider and remain pending until provider confirmation; Support reconciles and retries through that provider. See the architecture document for complete happy and failure paths.
 
-Soldbay is a marketplace app built specifically for university students in Nigeria to buy and sell with each other on campus. Single campus per account, single-unit listings, buy-now only (no cart).
+This workflow is approved as product intent, not as a claim that it is implemented or production-ready.
 
-## The Problem
+## Historical repository snapshot (excluded from the full rework)
 
-Soldbay's initial product hypothesis is that campus transactions need better identity and handoff safeguards. The market-validation plan in Linear treats the strength of that problem as unvalidated and calls for student interviews before making a larger market bet.
+- **Mobile:** `soldbay-app` — React Native / Expo client for buyer and seller workflows.
+- **Web/API:** `soldbay-web` — Next.js public site, shared API, and limited Admin pages.
+- **Backend:** Prisma and PostgreSQL; selected Vercel Blob and Paystack code.
 
-## The Model
+These descriptions record the prior implementation only. Do not use its framework, storage, payment-provider code, routes, or design as constraints for the rework. The mobile README reports mock browse/search data, in-memory chat, placeholder order screens, and mock seller verification. Payment webhook/reconciliation, courier operations, 2FA and several other agreed workflows are not evidenced in the repository. Production provider setup and runtime behavior have not been verified.
 
-Seller lists an item (verification status is shown) → buyer pays → campus pickup → PIN-confirmed handoff → 48-hour confirmation/dispute window. This is the intended product flow; live payment settlement and automatic release are not yet evidenced as complete in the repository.
-
-The intended trust mechanism is to release funds only after the item changes hands. Every account starts as a buyer account; selling is an upgrade a user opts into from Profile. Linear's current MVP allows sellers to list while unverified, with a visible unverified badge. The existing server still gates listing writes on approval; see the implementation gap below.
-
-## Messaging — Revisited
-
-Originally excluded on purpose (risk of buyers/sellers routing around escrow). Reversed after competitor research showed most rival Nigerian campus marketplace apps (UniSyncT, Shopydash, TrustBill Market, CampusPlug, Lumo) already offer in-app chat as a core, advertised feature — no messaging would have made Soldbay the outlier, not the differentiator.
-
-Scoped to manage the original risk without needlessly restricting it: chat opens at purchase (the bypass risk is already gone once escrow payment has happened), stays open through pickup, and for 24hrs after PIN-confirmed handoff before closing/archiving. Verified sellers only, chats monitored, and sharing contact info or off-app payment talk is flagged/limited and stated in seller sign-up terms & privacy policy.
-
-Pickup-window scheduling (an app-shown suggested/scheduled window) still exists as its own feature — it sets the initial default expectation, while chat handles live logistics adjustments (running late, changed meeting spot) on top of it. A more complete fix for pickup logistics is planned for the real launch build later; this is the interim v1 shape.
-
-## Surfaces & stack
-
-- **Mobile app** (`soldbay-app`): React Native / Expo, NativeWind styling — buyer and seller modes.
-- **Web** (`soldbay-web`): Next.js — public landing page, shared APIs, and a currently limited admin area (login and waitlist page; designed Admin/Ops screens remain to be built).
-- **Backend**: Prisma + Postgres.
-
-The current web CSS theme also still uses the historical olive palette. The
-Linear orange/teal design system is authoritative, but its web implementation
-remains to be synchronized.
-
-Current implementation caveat: browse/search, chat, orders, and verification
-screens in the mobile client still use mock or placeholder data/actions. The
-server-side seller role/publish gate also does not yet match Linear's latest
-unverified-seller listing decision. See [docs/architecture.md](docs/architecture.md)
-for the verified gaps and [soldbay-app/README.md](soldbay-app/README.md) and
-[soldbay-web/README.md](soldbay-web/README.md) for local development.
-
-## Who's Building This
-
-Solo build. For current product scope and design decisions, start with the Linear "Workflow & Continuation Guide" and related project docs. Its dated implementation status may be stale; verify implementation against this repository.
+See [web setup](soldbay-web/SETUP.md), [web/API README](soldbay-web/README.md), and [mobile README](soldbay-app/README.md) for the prior implementation's local development details. The previous Figma file is historical and is not a design source for the rework; brand and product design are being developed in Pencil.
