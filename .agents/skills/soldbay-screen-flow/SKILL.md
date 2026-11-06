@@ -3,6 +3,9 @@ name: soldbay-screen-flow
 description: Information about Screen Flow (IA) for Soldbay
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # Screen Flow (IA)
 
 **Status: FINAL for mobile buyer/seller.** Admin/Ops has its own separate IA ("Admin/Ops Screen Flow (IA)") and is not covered here.

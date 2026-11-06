@@ -3,6 +3,9 @@ name: soldbay-screen-build-order-re-sequenced
 description: Information about Screen Build Order (Re-Sequenced) for Soldbay
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # Screen Build Order (Re-Sequenced)
 
 **Status: every mobile MVP screen is designed and locked (all** `[X]`**).** This doc is now the reference order for the real-code screen build (app components first, then these screens in this order — see Workflow & Continuation Guide). Code status per screen: Feed/Browse, Search/Filters, Product Detail, Checkout, Order Status, Messaging/Chat, Rate & Review, and Notifications built. **Tier 1 Complete!**

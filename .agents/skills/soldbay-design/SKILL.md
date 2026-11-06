@@ -3,6 +3,9 @@ name: soldbay-design
 description: Master design rules, accessibility, and UI generation config for the Soldbay project. Use this when designing UI screens or components for Soldbay.
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, use the active Pencil file and the Soldbay Complete UI/UX Design Programme in Linear. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # Soldbay UI Design Skill
 
 This skill dictates how to design and build UI for the Soldbay project. It serves as the persistent agent configuration for generating, reviewing, and extending Soldbay's UI components and screens.

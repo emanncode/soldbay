@@ -6,9 +6,15 @@ Durable process doc — read this first, before anything else on Soldbay. It is 
 
 ## What Soldbay is (one line)
 
-A single-campus, single-unit, student-to-student marketplace app for Nigerian universities — buy-now only (no cart), escrow-held payments, PIN-based in-person handoff as the core trust mechanism. Every account starts as a buyer; selling is a verified upgrade.
+A single-campus, single-unit, student-to-student marketplace app for Nigerian universities — buy-now only (no cart), held payments, and a buyer-confirmed single-use handoff code for campus meetup or courier delivery. Every account starts as a buyer; selling is a verified upgrade.
 
-## Current phase (as of 30-09-26)
+## Current working path (2026-11-02)
+
+The product workflow is approved as intended behavior in AllOnSoldBay Linear and `docs/architecture.md`, after owner decisions and a cross-role consistency check. This is not legal clearance, implementation, or production approval. Privacy/legal review and Flutterwave confirmation remain external gates. The broader Product & System Definition is still in progress because formal requirement IDs, acceptance criteria, and traceability need consolidation.
+
+The next PSS work is to finish requirement coverage and add detailed acceptance cases for approved failure paths, checking actor ownership, evidence, timing, recovery, and cross-document traceability. Continue the Linear Privacy & Legal Review in parallel as its separate pre-launch gate. After the product/PSS contract and applicable legal policy are ready, refresh Figma; begin code only after explicit phase authorization. The design/build status, old next-step lists, and continuation text below are historical snapshots only.
+
+## Historical phase snapshot (as of 30-09-26; superseded)
 
 **Design phase: complete and locked** for all 15 mobile MVP screens (light + dark), the component library, and 5 of 6 Admin/Ops screens. **One reopened item:** Admin/Ops Seller Verification (it shows both Student ID and Portal at once; the locked model is choose-one) — correction prompt is in "Admin/Ops — Screen Design Prompts".
 
@@ -22,7 +28,7 @@ A single-campus, single-unit, student-to-student marketplace app for Nigerian un
 * **Verification method:** a component only counts as done after its actual `.tsx` file is diffed line-by-line against the real prototype HTML (`all-screens.html` / `all-screens-dark.html` / `component-library.html`) — never against a build-tool's own summary of its work.
 * **Accessibility audit, locked 30-09-26:** a Python contrast/color-vision script re-tuned the semantic (success/warning/error/info) colors for both light and dark mode, and added two new tokens (`accentIcon`, `borderDarkSolid`) plus a new usage rule for full-strength solid borders. Full detail and the new hex values are in the Design System Reference. **Not yet applied to code or the HTML files** — see step 2 below.
 
-## NEXT STEPS — do these in order
+## Historical NEXT STEPS — superseded; do not execute
 
 **1. Security fix (do this first, before anything else, not code-related):**
    a. Rotate the Linear API key in Linear's API settings — a plaintext key was found and used from `~/fetch_linear.js` on the local machine and is no longer safe to treat as private.
@@ -82,9 +88,9 @@ Emann reports further local work has happened on the component-build phase since
 * Docs that are kept but partly stale get an explicit status line at the top saying what is current and what is superseded.
 * Genuinely new decisions are written into the relevant doc (Design System Reference for tokens, the IA docs for flows) immediately, not left in chat.
 
-## Continuation message for a new chat
+## Historical continuation message — superseded
 
-"Continuing Soldbay work — real-code integration into soldbay-app (React Native/Expo + NativeWind). Check memory for context, then check the AllOnSoldBay Linear project (EmannCode team) and read the Workflow & Continuation Guide first — the 'NEXT STEPS' section says exactly what to do and in what order — then the Design System Reference's 'READ THIS FIRST — before writing any code' section."
+Do not use the old continuation instruction below: it prematurely directs agents to code and historical NEXT STEPS. Current continuation is to complete PSS coverage/acceptance cases and the open privacy/legal review in Linear, then refresh Figma against the approved contract. Code is not authorized until the owner explicitly moves the project into implementation.
 
 ## Design-phase workflow (for any remaining design touch-ups, e.g. the reopened Verification screen)
 

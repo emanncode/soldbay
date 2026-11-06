@@ -3,6 +3,9 @@ name: soldbay-component-prompts
 description: Linear Document - Remaining Component Prompts — Backlog
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # Remaining Component Prompts — Backlog
 
 Full explicit design specs for every remaining unbuilt component. Each spec references `soldbay-design-system.html` for all tokens (colors, type scale, spacing, radius, elevation) — do not invent new values. Deliver each by building it directly in the opened `design.pen` file. DO NOT generate image visuals. Mark each `[X]` in the Component Inventory & Build Order doc once built, same as prior components.

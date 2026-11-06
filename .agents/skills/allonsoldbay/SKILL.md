@@ -7,16 +7,16 @@ description: Support discovery and implementation of Soldbay using the current F
 
 ## Product context
 
-Soldbay is in active product discovery.
+As of 2026-11-02, Soldbay's main product workflow is approved as intended behavior in AllOnSoldBay Linear and `docs/architecture.md`. The Product & System Definition is not fully complete: privacy/legal review and formal requirements, acceptance criteria, and traceability remain in progress. Do not treat these remaining PSS or external gates as unapproved core workflow decisions unless new evidence identifies a specific conflict.
 
 The original concept remains useful for understanding the product’s intent. However, do **not** treat earlier documentation about locked v1 scope, screen/component tiers, design systems, timelines, or logged work as current direction.
 
-The **Feature/Workflow Inventory** and documentation created after it are the working source of truth.
+Use the current AllOnSoldBay Linear documents as the source for intended behavior: Workflow Review, Feature/Workflow Inventory, Screen Flow, and Privacy & Legal Review. Use [`docs/architecture.md`](../../docs/architecture.md) as the local architecture/PSS contract and repository code only as implementation evidence. The older local skill snapshots below are historical context, not active requirements. PSS remains in progress; do not start implementation until the owner authorizes that phase.
 
 ## Discovery-first rules
 
-- Read the Feature/Workflow Inventory and newer product notes before proposing or implementing work.
-- Treat product decisions as provisional unless they are explicitly marked as confirmed.
+- Read the current workflow and feature documents before proposing work. Treat explicitly approved workflow decisions as confirmed; keep unresolved and externally gated items distinct.
+- During PSS, update requirements, acceptance cases, and traceability; do not design or implement screens, APIs, schemas, migrations, or infrastructure.
 - Identify unclear requirements, dependencies, and product assumptions before building.
 - Do not infer requirements from obsolete screens, tiers, design tokens, dates, or prior implementation plans.
 - When current documentation conflicts with earlier material, follow the newer documentation.
@@ -58,6 +58,10 @@ Confirm:
 
 ## Linear Link to be accessed with the linear mcp
 "https://linear.app/emanncode/project/allonsoldbay-8189401cb950/overview"
+## Historical project snapshot — superseded
+
+The following embedded overview and workflow were written before the current Linear decisions. Keep them only as origin context; do not use their payment, pickup, handoff, timing, messaging, or design statements as current requirements.
+
 ## Project Overview — The Idea
 
 ### What Soldbay Is

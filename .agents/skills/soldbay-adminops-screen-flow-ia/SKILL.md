@@ -3,6 +3,9 @@ name: soldbay-adminops-screen-flow-ia
 description: Information about Admin/Ops Screen Flow (IA) for Soldbay
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # Admin/Ops Screen Flow (IA)
 
 Screen-to-screen flow (IA) for Admin/Ops — the web surface (`soldbay-web` admin) with a mobile fallback, companion to the mobile Screen Flow (IA) doc. Admin/Ops was deliberately excluded from that doc and from the Screen Build Order pass; this is its own IA.

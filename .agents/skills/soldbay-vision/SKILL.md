@@ -3,6 +3,9 @@ name: soldbay-vision
 description: Information about MVP Scope & Decisions for Soldbay
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # MVP Scope & Decisions
 
 **Status: early scoping record (12-09-26), still valid unless noted.** The Feature/Workflow Inventory is the final triage and wins on any conflict. This doc is kept because it holds decision rationale that isn't restated elsewhere (layout sharing, re-signup retention, messaging scope). Items resolved since it was written are marked RESOLVED below.

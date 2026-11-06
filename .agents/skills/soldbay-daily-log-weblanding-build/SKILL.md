@@ -3,6 +3,9 @@ name: soldbay-daily-log-weblanding-build
 description: Information about Daily Log (Web/Landing Build) for Soldbay
 ---
 
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
+
 # Daily Log (Web/Landing Build)
 
 Consolidated from three separate dated entries (12-09-26, 13-09-26, 14-09-26) into one doc — same content, chronological order, nothing trimmed.

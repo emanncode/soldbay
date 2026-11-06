@@ -2,6 +2,9 @@
 name: soldbay-design-system
 description: Information about Design System Reference for Soldbay
 ---
+
+> **Historical snapshot, not active product authority.** This document may contain superseded scope, workflow, design, or implementation status. For current intended behavior, use the AllOnSoldBay Linear Workflow Review, Feature/Workflow Inventory, and Screen Flow; for current architecture/PSS status use `docs/architecture.md`. For design work, check the current Figma reference and Linear decisions. Treat details below as historical context unless they are independently confirmed in those current sources.
+
 **Status: LOCKED — Color, Typography (typeface + full scale), Spacing, Corner Radius, and Elevation are all final.** Redone from scratch per the adopted Ace design-principles doc and the one-shared-iOS/Android decision. A full visual reference lives in `soldbay-design-system.html` (design folder) AND the three real prototype files `all-screens.html`, `all-screens-dark.html`, `component-library.html` — those three are the actual assembled source of truth for finished screen/component markup and CSS; this doc is the written explanation of the rules behind them. **Verified 28-09-26 directly against the three prototype files**, including a full header-by-header audit of all 22 screens in `all-screens.html` (see Screen headers section). **Semantic/status colors re-verified and re-locked 30-09-26 via a WCAG/APCA/CIEDE2000 accessibility audit script** (see Accessibility Audit section) — the values below supersede the ones from 28-09-26. If any other file disagrees with this doc, re-verify against the actual prototype HTML/script before trusting either.
 
 ## READ THIS FIRST — before writing any code
