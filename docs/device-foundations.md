@@ -41,7 +41,7 @@ Exact OS simulator/device presets and app store support floors are deferred unti
 ## Pencil file structure
 
 - `design/soldbay-design-documentation.pen` is the canonical documentation canvas. It holds foundations, the shared component specification, flow maps, responsive rules, and decision boards.
-- `design/soldbay-ios.pen` will contain actual iOS screens, created during Step 08 wireframes and continued in Step 09.
+- `design/soldbay-ios.pen` is reserved for actual iOS screens after the shared visual UI kit and component specifications are complete and Step 08 begins.
 - `design/soldbay-android.pen` will contain actual Android screens on the same schedule.
 
 The two screen files are platform workspaces, not single-device layouts. Each must exercise compact, common, large-phone, and relevant expanded-window contexts under this Step 05 matrix. Shared tokens and task requirements remain canonical in the documentation canvas; iOS and Android files may diverge only where platform conventions require it.

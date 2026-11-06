@@ -1,10 +1,12 @@
 # Soldbay UI Kit & Component Architecture — Stage 04, Step 06
 
-**Status:** Component architecture approved by the owner on 2026-11-06; detailed component specs and product screens remain later work.
+**Status:** Component architecture approved by the owner on 2026-11-06. Initial visual specimens are now drafted in the Pencil UI kit library; full component state coverage, accessibility guidance, dark-mode review, icon family, and platform adaptations remain incomplete. Wireframing stays deferred.
 **Prepared:** 2026-11-06
 **Depends on:** Approved Step 04 foundations and Step 05 platform/device foundations.
 **Authority:** `docs/architecture.md` for product behavior. This document does not add product scope.
-**Pencil structure:** `design/soldbay-design-documentation.pen` remains the component-specification source. `soldbay-ios.pen` and `soldbay-android.pen` start with real screen work in Step 08.
+**Pencil structure:** `design/soldbay-design-documentation.pen` is the source for the shared UI kit and component specifications. `soldbay-ios.pen` and `soldbay-android.pen` are reserved for screen work after the UI kit and interaction foundations are complete.
+
+**Visual draft:** The “Step 06 UI Kit Visual Library Draft” canvas frame contains first reusable specimens for button variants, text-field states, negotiability selection, listing card, price summary, availability badges, offline notice, handoff-code entry, and order progress. These are working drafts, not owner-approved final components. Sample listing and transaction values are illustrative.
 
 ## Purpose
 
@@ -21,7 +23,7 @@ Components are specifications, not code. They use Step 04 semantic tokens and St
 | Composites  | Reusable task-level structures | listing card, price block, form group, message bubble, alert, order timeline                          |
 | Patterns    | Repeated interaction behavior  | authentication, seller verification, filters, checkout, handoff-code entry, cancellation confirmation |
 | Templates   | Reusable screen structures     | browse feed, product detail, form, order detail, chat, staff queue                                    |
-| Screens     | A specific user task/state     | produced from Step 08 onward                                                                          |
+| Screens     | A specific user task/state     | deferred until the Step 06 UI kit and Step 07 interaction work are complete                            |
 
 ## Shared primitives
 
@@ -82,7 +84,8 @@ Component specifications must include: purpose, anatomy, allowed variants, state
 ## Open decisions and Step 07 handoff
 
 - Select and validate a coherent product icon family during detailed component design; OS-owned symbols remain platform-specific.
-- Refine exact component anatomy, sizing, copy, focus order and platform exceptions alongside realistic screen flows in Steps 08–09.
+- Specify and visually document component anatomy, sizing, copy, focus order, variants, states and platform exceptions in the shared UI kit before screen composition.
+- Treat status bars, network/battery glyphs, cutouts, home indicators, and Android system navigation as OS-owned chrome. Document them as viewport/safe-area context from Step 05; do not invent Soldbay components for them or draw fake chrome inside app screens.
 - Step 07 now defines loading, retries, validation timing, destructive confirmations, permission failures and recovery against the PSS.
 - Test components in realistic flows before final handoff. Static specifications do not establish usability, accessibility conformance, or implementation readiness.
 
@@ -91,8 +94,13 @@ Component specifications must include: purpose, anatomy, allowed variants, state
 - [x] Component inventory traces core marketplace, transaction, verification, chat, support and staff work to the PSS.
 - [x] Shared state rules distinguish PSS authority from presentational components.
 - [x] iOS/Android differences are bounded to platform conventions without duplicating product behavior.
-- [x] Separate screen files remain deferred until Step 08.
+- [x] Separate screen files remain deferred until the reusable UI kit is complete and reviewed.
 - [x] Owner approved the Step 06 component architecture on 2026-11-06.
-- [ ] Refine exact component anatomy, sizing, copy, icon treatment and platform exceptions alongside realistic screen flows in Steps 08–09.
+- [x] Create first reusable visual specimens for core controls, listing/price presentation, status/feedback, handoff code and order progress.
+- [ ] Complete component variants and states, including the required focus/pressed/loading/error/disabled/offline/read-only cases where applicable.
+- [ ] Document accessibility semantics, text scaling, target sizes, content constraints, and usage guidance for each component.
+- [ ] Review light/dark semantic mappings and define platform-specific presentation adaptations.
+- [ ] Select a coherent product icon family and document when OS-owned symbols remain platform-specific.
+- [ ] Complete component specifications and usage guidance before starting Step 08 wireframes.
 
-**No reusable component instances, iOS screens, Android screens, or implementation code were created in Step 06. The component architecture is approved; detailed component design and validation remain later work.**
+**The component architecture is approved, but the UI kit/library is not complete. No product screens should be composed until the component specimens, specifications, and platform adaptations are reviewed.**
