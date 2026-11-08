@@ -59,7 +59,7 @@ Exact OS/version support, viewport matrix, orientation policy, supported input d
 
 | Source                                    | Step 01 treatment                                                                                                                                             |
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `design/soldbay-design-documentation.pen` | Intentionally empty on 2026-11-05; now holds approved foundations and platform documentation, not final screens or reusable components                         |
+| `design/soldbay-design-documentation.pen` | Intentionally empty on 2026-11-05; now holds approved foundations and platform documentation, not final screens or reusable components                        |
 | Previous Figma file and old local screens | Historical; excluded from the rework and not visual precedent                                                                                                 |
 | Previous repository UI and implementation | Historical; may only be consulted for migration facts if separately requested, not as design authority                                                        |
 | AllOnSoldBay workflow and IA documents    | Product behavior and role boundaries are authoritative; older layout/theme/framework statements are not design approval where marked historical or superseded |

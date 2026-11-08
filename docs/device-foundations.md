@@ -12,14 +12,14 @@ Define how the approved Grounded Market foundations should adapt across iOS, And
 
 ## Platform boundary and system chrome
 
-| Concern | iOS | Android | Soldbay design rule |
-| --- | --- | --- | --- |
-| Status bar | OS owns time, cellular/network, Wi-Fi, battery, and status presentation. | OS owns status icons and status-bar region. | Never draw imitation status icons in app content. Let system appearance follow the active screen background and contrast. |
-| Top safe area | Respect the system safe area, including status region, Dynamic Island/camera areas, and any visible bars. | Respect status-bar and display-cutout insets. | Backgrounds may extend behind system chrome where intentional; text, controls, and critical information stay clear of insets. |
-| Bottom navigation region | Home indicator and system gesture area belong to iOS. | Gesture navigation or three-button navigation belongs to Android. | Do not draw a fake home indicator or Android navigation bar. Keep primary actions above system gesture/navigation insets. |
-| App navigation | Use app-owned navigation patterns consistent with iOS conventions. | Use app-owned navigation patterns consistent with Android conventions. | Navigation bars/toolbars are app UI, visually distinct from OS-owned status/navigation chrome. Exact component decisions belong in Step 06. |
-| Keyboard | OS keyboard and safe-area changes are dynamic. | IME/keyboard insets and resize/pan behavior vary by window and configuration. | Keep the active field and essential submit/continue action visible; scroll content as needed. Never hard-code keyboard height. |
-| Cutouts and edge-to-edge | Safe-area guides adapt to device geometry. | Insets include system bars, gesture regions, and display cutouts; edge-to-edge is part of current platform guidance. | Treat insets as runtime inputs. Never assume a single notch, status-bar, or bottom-bar height. |
+| Concern                  | iOS                                                                                                       | Android                                                                                                              | Soldbay design rule                                                                                                                         |
+| ------------------------ | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Status bar               | OS owns time, cellular/network, Wi-Fi, battery, and status presentation.                                  | OS owns status icons and status-bar region.                                                                          | Never draw imitation status icons in app content. Let system appearance follow the active screen background and contrast.                   |
+| Top safe area            | Respect the system safe area, including status region, Dynamic Island/camera areas, and any visible bars. | Respect status-bar and display-cutout insets.                                                                        | Backgrounds may extend behind system chrome where intentional; text, controls, and critical information stay clear of insets.               |
+| Bottom navigation region | Home indicator and system gesture area belong to iOS.                                                     | Gesture navigation or three-button navigation belongs to Android.                                                    | Do not draw a fake home indicator or Android navigation bar. Keep primary actions above system gesture/navigation insets.                   |
+| App navigation           | Use app-owned navigation patterns consistent with iOS conventions.                                        | Use app-owned navigation patterns consistent with Android conventions.                                               | Navigation bars/toolbars are app UI, visually distinct from OS-owned status/navigation chrome. Exact component decisions belong in Step 06. |
+| Keyboard                 | OS keyboard and safe-area changes are dynamic.                                                            | IME/keyboard insets and resize/pan behavior vary by window and configuration.                                        | Keep the active field and essential submit/continue action visible; scroll content as needed. Never hard-code keyboard height.              |
+| Cutouts and edge-to-edge | Safe-area guides adapt to device geometry.                                                                | Insets include system bars, gesture regions, and display cutouts; edge-to-edge is part of current platform guidance. | Treat insets as runtime inputs. Never assume a single notch, status-bar, or bottom-bar height.                                              |
 
 In design presentations, show OS chrome as labeled context outside the app’s component inventory. A device status-bar mock may be used only as a neutral viewport frame; battery/network glyphs must not be recreated as Soldbay icons. Real screenshots and implementation later need OS-provided chrome.
 
@@ -27,14 +27,14 @@ In design presentations, show OS chrome as labeled context outside the app’s c
 
 The following are reference design canvases, not physical pixel specifications or canonical Apple/Android device dimensions. They are a proposed sampling set to expose layout failures; they are not claims about device support or exact platform breakpoints. Map them to selected platform logical units and test against the usable window after system insets, not only the physical display rectangle.
 
-| Context | Proposed design-test viewport | What it should expose |
-| --- | --- | --- |
-| Compact phone | 320 × 640 | Narrow content, wrapped prices/titles, stacked actions, keyboard overlap, safe-area pressure |
-| Common phone | 390 × 844 | Primary buyer/seller flow composition and typical portrait content density |
-| Large phone | 430 × 932 | Avoid over-stretching cards and forms; preserve readable measure and reachable actions |
-| Tablet / split window | 768 × 1024 and a narrower split-window width | Adaptive columns/panes only when space allows; graceful return to a single column |
-| Admin desktop | 1280 × 800 and 1440 × 900 | Current Admin/Ops IA desktop workflows, table density, persistent navigation |
-| Admin mobile fallback | 390 × 844 | Full-capability mobile fallback from current Admin/Ops IA; prioritize task completion over desktop table mimicry |
+| Context               | Proposed design-test viewport                | What it should expose                                                                                            |
+| --------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Compact phone         | 320 × 640                                    | Narrow content, wrapped prices/titles, stacked actions, keyboard overlap, safe-area pressure                     |
+| Common phone          | 390 × 844                                    | Primary buyer/seller flow composition and typical portrait content density                                       |
+| Large phone           | 430 × 932                                    | Avoid over-stretching cards and forms; preserve readable measure and reachable actions                           |
+| Tablet / split window | 768 × 1024 and a narrower split-window width | Adaptive columns/panes only when space allows; graceful return to a single column                                |
+| Admin desktop         | 1280 × 800 and 1440 × 900                    | Current Admin/Ops IA desktop workflows, table density, persistent navigation                                     |
+| Admin mobile fallback | 390 × 844                                    | Full-capability mobile fallback from current Admin/Ops IA; prioritize task completion over desktop table mimicry |
 
 Exact OS simulator/device presets and app store support floors are deferred until the implementation technology and release targets are chosen. When creating device mockups, the frame bezel remains presentation only; the app content viewport uses the declared logical dimensions and safe areas.
 

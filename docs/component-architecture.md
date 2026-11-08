@@ -23,7 +23,7 @@ Components are specifications, not code. They use Step 04 semantic tokens and St
 | Composites  | Reusable task-level structures | listing card, price block, form group, message bubble, alert, order timeline                          |
 | Patterns    | Repeated interaction behavior  | authentication, seller verification, filters, checkout, handoff-code entry, cancellation confirmation |
 | Templates   | Reusable screen structures     | browse feed, product detail, form, order detail, chat, staff queue                                    |
-| Screens     | A specific user task/state     | deferred until the Step 06 UI kit and Step 07 interaction work are complete                            |
+| Screens     | A specific user task/state     | deferred until the Step 06 UI kit and Step 07 interaction work are complete                           |
 
 ## Shared primitives
 
@@ -67,13 +67,13 @@ Components are specifications, not code. They use Step 04 semantic tokens and St
 
 ## Cross-platform rules
 
-| Area                      | Shared requirement                                                        | iOS / Android adaptation                                                                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Navigation                | Same destinations, labels, permissions and task outcomes                  | Use platform-appropriate back behavior, presentation surfaces and system-bar treatment. Do not recreate OS chrome.                       |
-| Buttons and fields        | Same semantic roles and validation behavior                               | Meet 44 pt iOS / 48 dp Android target guidance; use native input and keyboard conventions at implementation.                             |
-| Dialogs, sheets and menus | Same consequence, focus, dismissal and recovery rule                      | Platform-specific presentation is allowed when it preserves the shared behavior and accessibility semantics.                             |
-| Lists, search and filters | Same results, sort/filter semantics and empty states                      | Android may use window-size/adaptive arrangements; iOS may use its native presentation patterns. Neither platform hides a core function. |
-| Motion and feedback       | Approved timing principles, reduced-motion respect, truthful system state | Use platform motion conventions; do not make motion the sole indicator of success or failure.                                            |
+| Area                      | Shared requirement                                                                                                                                  | iOS / Android adaptation                                                                                                                 |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Navigation                | Same destinations, labels, permissions and task outcomes                                                                                            | Use platform-appropriate back behavior, presentation surfaces and system-bar treatment. Do not recreate OS chrome.                       |
+| Buttons and fields        | Same semantic roles and validation behavior                                                                                                         | Meet 44 pt iOS / 48 dp Android target guidance; use native input and keyboard conventions at implementation.                             |
+| Dialogs, sheets and menus | Same consequence, focus, dismissal and recovery rule                                                                                                | Platform-specific presentation is allowed when it preserves the shared behavior and accessibility semantics.                             |
+| Lists, search and filters | Same results, sort/filter semantics and empty states                                                                                                | Android may use window-size/adaptive arrangements; iOS may use its native presentation patterns. Neither platform hides a core function. |
+| Component-specific motion | Use Step 04 motion tokens only for component state changes that benefit from animation (for example, progress or expansion); respect reduced motion | Platform conventions apply; never make motion the only signal of status or success. Flow-level transitions belong to Step 07.            |
 
 ## Global state contract
 

@@ -16,6 +16,10 @@
 6. **Confirm consequential actions in proportion to their impact.** Clarify the result of cancellations, account deactivation, irreversible submission, and staff decisions. Do not interrupt reversible actions with redundant confirmation.
 7. **Keep state understandable without color or motion.** Pair status color with text and accessible semantics. Respect reduced motion; never use animation, haptics, or sound as the only confirmation.
 
+### Motion ownership
+
+Step 04 owns shared motion tokens and the reduced-motion principle. Step 06 specifies only component-local animation when it clarifies a component state change. Step 07 specifies transitions and motion that communicate a change across a user task. Follow Step 05 platform behavior; no motion may delay an action or serve as the only state signal.
+
 ## State and feedback contract
 
 | Interaction state        | Interface response                                                                                      | Recovery rule                                                                                                    |

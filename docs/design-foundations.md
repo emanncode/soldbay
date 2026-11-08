@@ -19,28 +19,28 @@ Pencil variables should use the `soldbay-` prefix. Primitive values map to seman
 ### Light theme
 
 | Semantic role          | Approved value | Intended use                       |
-| ---------------------- | --------------- | ---------------------------------- |
-| `light-canvas`         | `#F6F7F1`       | Main app background                |
-| `light-surface`        | `#FFFFFF`       | Content surfaces                   |
-| `light-accent-surface` | `#E8EDD9`       | Restrained campus/context emphasis |
-| `light-ink`            | `#1F2B21`       | Primary text                       |
-| `light-muted`          | `#4E5D4D`       | Secondary text                     |
-| `light-border`         | `#C5CEBF`       | Subtle separators and outlines     |
-| `light-action`         | `#40543A`       | Primary action surface             |
-| `light-on-action`      | `#FFFFFF`       | Text on primary action             |
+| ---------------------- | -------------- | ---------------------------------- |
+| `light-canvas`         | `#F6F7F1`      | Main app background                |
+| `light-surface`        | `#FFFFFF`      | Content surfaces                   |
+| `light-accent-surface` | `#E8EDD9`      | Restrained campus/context emphasis |
+| `light-ink`            | `#1F2B21`      | Primary text                       |
+| `light-muted`          | `#4E5D4D`      | Secondary text                     |
+| `light-border`         | `#C5CEBF`      | Subtle separators and outlines     |
+| `light-action`         | `#40543A`      | Primary action surface             |
+| `light-on-action`      | `#FFFFFF`      | Text on primary action             |
 
 ### Dark theme
 
 | Semantic role    | Approved value | Intended use                              |
-| ---------------- | --------------- | ----------------------------------------- |
-| `dark-canvas`    | `#151B16`       | Main app background                       |
-| `dark-surface`   | `#202820`       | Content surfaces                          |
-| `dark-raised`    | `#28332B`       | Raised surface where separation is needed |
-| `dark-ink`       | `#EFF3EA`       | Primary text                              |
-| `dark-muted`     | `#C4CEC0`       | Secondary text                            |
-| `dark-border`    | `#556152`       | Subtle separators and outlines            |
-| `dark-action`    | `#B8D6A5`       | Primary action surface                    |
-| `dark-on-action` | `#172117`       | Text on primary action                    |
+| ---------------- | -------------- | ----------------------------------------- |
+| `dark-canvas`    | `#151B16`      | Main app background                       |
+| `dark-surface`   | `#202820`      | Content surfaces                          |
+| `dark-raised`    | `#28332B`      | Raised surface where separation is needed |
+| `dark-ink`       | `#EFF3EA`      | Primary text                              |
+| `dark-muted`     | `#C4CEC0`      | Secondary text                            |
+| `dark-border`    | `#556152`      | Subtle separators and outlines            |
+| `dark-action`    | `#B8D6A5`      | Primary action surface                    |
+| `dark-on-action` | `#172117`      | Text on primary action                    |
 
 Dark mode uses the approved semantic adaptation of the selected direction, not a simple color inversion. Verify real screens, system settings, imagery, and platform rendering in later steps.
 
@@ -62,13 +62,13 @@ The semantic hues are communication roles, not additional brand accents. Product
 Approved family: **Inter**, as used in the selected concept. Before handoff, confirm font licensing, glyph coverage for Nigerian names and currency/text, and native rendering on target platforms.
 
 | Role      | Approved size / line height | Weight   |
-| --------- | ---------------------------: | -------- |
-| Display   |                      28 / 34 | Bold     |
-| Heading   |                      22 / 28 | Bold     |
-| Title     |                      17 / 24 | Semibold |
-| Body      |                      16 / 24 | Regular  |
-| Secondary |                      14 / 20 | Regular  |
-| Label     |                      12 / 16 | Semibold |
+| --------- | --------------------------: | -------- |
+| Display   |                     28 / 34 | Bold     |
+| Heading   |                     22 / 28 | Bold     |
+| Title     |                     17 / 24 | Semibold |
+| Body      |                     16 / 24 | Regular  |
+| Secondary |                     14 / 20 | Regular  |
+| Label     |                     12 / 16 | Semibold |
 
 Use sentence case, keep body copy at 16 px where practical, and preserve text scaling. Validate actual localized strings and long campus/item names before finalizing the scale. Avoid metadata below 12 px in real UI unless a tested platform constraint justifies it.
 
@@ -97,7 +97,7 @@ Ratios below were calculated from the stated sRGB hex pairs. They are spot check
 | Light primary text `#1F2B21` on accent surface `#E8EDD9` |       12.31:1 |
 | White `#FFFFFF` on primary action `#40543A`              |        8.24:1 |
 | Dark primary text `#EFF3EA` on dark surface `#202820`    |       13.48:1 |
-| Status foreground/background pairs             | 6.28:1–8.01:1 |
+| Status foreground/background pairs                       | 6.28:1–8.01:1 |
 
 Recheck every actual text/background pairing, focus, disabled and selected states, text resizing, and non-color status cues in the component and screen reviews.
 
