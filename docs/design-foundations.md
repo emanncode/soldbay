@@ -1,24 +1,24 @@
 # Soldbay Design Foundations — Stage 04, Step 04
 
-**Status:** The owner withdrew the former values on 2026-11-08 and approved a new high-level MVP visual direction on 2026-11-09. Three replacement foundation candidates are documented and shown in Pencil, but no candidate is selected. On 2026-11-09 the owner requested public design-system grounding and comparative BY-01 feed examples before choosing or combining a direction. Do not treat any candidate or study screen as approved tokens or styling.
+**Status:** Historical record only. The former foundation values were withdrawn on 2026-11-08, and the three exploratory replacement options and synthetic buyer-feed studies were later cleared from the active Pencil canvas. None is a current candidate or approved styling. The owner approved only the high-level MVP direction on 2026-11-09; see [`visual-principles.md`](visual-principles.md) for the current candidate principles that must be reviewed before a new foundation is derived.
 **Prepared:** 2026-11-06; candidate options added 2026-11-09.
 **Former direction:** A — Grounded Market, selected on 2026-11-06 and withdrawn on 2026-11-08.
-**Canvas:** `design/soldbay-design-documentation.pen` keeps the five source studies intact, has a separate Step 06 candidate board, and is being extended with public-foundation-informed BY-01 study screens. The values below are preserved as historical notes only.
+**Canvas:** The active Pencil canvas currently contains the real-screen reference-studies section. No foundation options or synthetic Soldbay screens are active there. The values below are preserved as historical notes only.
 **Product authority:** [`docs/architecture.md`](architecture.md). Product behavior and roles are unchanged.
 
 ## Purpose and evidence boundary
 
 This section records the former attempt to define color, type, spacing, layout, shape, and motion foundations after selecting A — Grounded Market. Those values were approved at the time and withdrawn on 2026-11-08. They are historical, not current tokens or design constraints. No design preference or accessibility result is presented as user research.
 
-The app follows the device appearance setting and has no in-app theme toggle. That product requirement remains active; the previous light/dark foundation values were withdrawn with the former direction. Each current candidate supplies provisional light and dark mappings. Platform behavior and system chrome are specified in Step 05.
+The app follows the device appearance setting and has no in-app theme toggle. That product requirement remains active; the previous light/dark foundation values were withdrawn with the former direction. The archived candidates below had provisional light and dark mappings, but no current palette exists. Platform behavior and system chrome are specified in Step 05.
 
-## Step 06 — candidate visual foundations
+## Withdrawn exploratory foundation values — historical only
 
-**Current process update (2026-11-09):** The owner wants public design-system foundations used as concrete inputs before deciding a Soldbay visual direction. See [`design-reference-studies.md`](design-reference-studies.md#public-foundation-system-studies--2026-11-09) for the source comparison and limits. The three palette/specimen options below remain exploratory; Option C is currently appealing to the owner but has not been selected. The new buyer-feed screens are comparative studies only.
+**Current process update (2026-11-11):** These options and the comparative buyer-feed screens were cleared from the active Pencil canvas and are no longer active explorations. Preserve the notes only to show what was withdrawn; do not reuse or compare the values as current proposals. The current work is candidate visual principles in [`visual-principles.md`](visual-principles.md), followed by a fresh foundation process after owner review.
 
-**Decision state:** Three candidates are ready for owner comparison; none is selected. They explore the approved direction—calm and scannable marketplace structure, image-led listings with consistent comparison details, and a distinctive but controlled editorial voice. These are visual hypotheses, not validated user preferences. The five reference studies informed the options, but no source screen, layout, brand asset, or palette is copied.
+**Decision state:** Withdrawn. Do not treat these archived options as available choices, approved preferences, or current design hypotheses.
 
-**Comparison specimen:** The Pencil board uses the same photo crop and sample content in all three options: campus `AAUA · Akungba-Akoko`, item `Graphing calculator`, price `₦18,500`, condition `Very good`, listing label `Negotiable`, and order label `In progress`. The board shows palette, type hierarchy, spacing/shape, image treatment, and an icon sample only; it is not a product screen or component set. The photo crop is a study input from the Pinterest source capture and does not imply a Soldbay workflow or content model.
+**Archived comparison specimen:** The deleted Pencil board used the same photo crop and sample content in all three options: campus `AAUA · Akungba-Akoko`, item `Graphing calculator`, price `₦18,500`, condition `Very good`, listing label `Negotiable`, and order label `In progress`. It showed palette, type hierarchy, spacing/shape, image treatment, and an icon sample; it was not a product screen or component set. The photo crop came from the Pinterest source capture and did not imply a Soldbay workflow or content model.
 
 All options retain the approved device-appearance behavior: provide light and dark semantic mappings and follow the operating-system appearance setting. Status meaning must use visible text and may use a distinct icon; color alone is insufficient. Exact status palettes, production token names, and component styling remain open until an option is selected and reviewed against the actual screen specifications.
 
@@ -97,7 +97,7 @@ Ratios use the stated sRGB hex pairs and are initial spot checks, not a complete
 
 These checks do not cover small icon strokes, borders, selected/disabled/focus states, tinted surfaces, photography overlays, or actual screen combinations. Verify those after selection. Do not mark any option accessible or approved based only on this table.
 
-**Next gate:** Owner compares the three options and selects, rejects, or requests another exploration. Only the selected and reviewed direction becomes the active foundation. Until then, all candidate values are proposals; the former token set below remains inactive historical material.
+**Historical note:** The following values and prior contrast calculations document a withdrawn experiment only. They are not current tokens, defaults, or accessibility verification for Soldbay.
 
 ## Former token architecture — inactive
 
@@ -194,7 +194,9 @@ Keep the token names semantic and independent of the undecided application frame
 
 At the time, the Pencil file's unused legacy variables were checked for references and replaced with a fresh foundation set. This historical change does not make those withdrawn values current.
 
-## Review checklist and remaining work
+## Historical review checklist from withdrawn foundation work
+
+The completed boxes below refer to the former 2026-11-06 foundation review only; they do not approve the current visual principles or any active theme.
 
 - [x] Owner selected Grounded Market as the direction to develop.
 - [x] Approved light/dark semantic color maps and type/spacing scales are documented.
@@ -206,4 +208,4 @@ At the time, the Pencil file's unused legacy variables were checked for referenc
 - [x] Define iOS/Android system chrome, cutouts, safe areas, keyboards, gestures, touch targets, and offline/interruption behavior in the approved Step 05 foundations.
 - [x] Record the shared component state contract and platform boundaries in the approved Step 06 architecture; select the product icon family during detailed component design.
 
-**No application code, reusable UI components, or final product screens were created in the former Step 04.** The Pencil foundation sheet and all values above are historical and withdrawn, not current tokens. Five source-faithful screen studies and a high-level MVP visual direction are now approved; new visual foundations are the next work. Their rendered states, contrast coverage, target-device behavior, and technology-specific token mapping will remain unverified until those foundations are created and reviewed.
+**No application code, reusable UI components, or final product screens were created in the former Step 04.** The Pencil foundation sheet and all values above are historical and withdrawn, not current tokens. The high-level MVP direction is approved; the current next gate is review of [`visual-principles.md`](visual-principles.md), followed by fresh visual-foundation work. The archived values and their contrast calculations are not current accessibility verification for Soldbay.
