@@ -1,8 +1,8 @@
 # Soldbay Visual Territory Comparison — Stage 04, Step 03
 
-**Status:** A — Grounded Market selected by the owner on 2026-11-06 for Step 04 foundation work. The concepts are not final screens or a complete brand identity.
+**Status:** Historical exploration only. The owner withdrew the A — Grounded Market selection on 2026-11-08; all territory visuals are rejected and non-precedential. The concepts are not final screens or a complete brand identity.
 **Prepared:** 2026-11-06
-**Canvas:** `design/soldbay-design-documentation.pen` — current comparison is in `Step 03 Fresh Territory Comparison`.
+**Canvas:** The prior Pencil comparison is being cleared by the owner. This Markdown record preserves the history only; do not use the concepts as current references.
 **Strategy contract:** [docs/brand-strategy.md](brand-strategy.md)
 
 ## Comparison setup
@@ -15,7 +15,7 @@ The proposals deliberately vary information composition and browsing hierarchy a
 
 | Territory               | Visual hypothesis                                                                                                                                                                                      | Strength to evaluate                                                               | Trade-off to evaluate                                                                                                                                                                                                 |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **A — Grounded Market** | Campus context leads into a structured, practical feed. A pale sage `#E8EDD9` is shown as a palette anchor approved in Step 04 on 2026-11-06, with restrained dark-green text and clear listing facts. | Keeps campus scope and essential listing information prominent while staying calm. | Could read as a generic utility interface if later identity work does not create distinctive brand assets. The displayed color is approved as a foundation token; the territory concept itself is not a final screen. |
+| **A — Grounded Market** | Campus context leads into a structured, practical feed. A pale sage `#E8EDD9` was shown as a palette anchor and approved at the time on 2026-11-06; that approval was withdrawn on 2026-11-08. | Kept campus scope and essential listing information prominent while staying calm. | Could read as a generic utility interface if identity work lacks distinctive assets. The concept and its former color are historical and non-precedential. |
 | **B — Market Index**    | A typographic catalog with an editorial masthead, numbered categories, ruled sections, and explicit price and condition hierarchy.                                                                     | Makes the marketplace feel ordered and supports precise item comparison.           | The catalog language could feel overly formal or slow for casual browsing.                                                                                                                                            |
 | **C — Open Shelf**      | An image-led, modular browse page with a prominent featured listing and a compact secondary listing.                                                                                                   | Gives product photography room and creates a more expressive discovery rhythm.     | Large imagery can push item facts lower and consume space, especially when listings have varied photo quality.                                                                                                        |
 
@@ -31,10 +31,10 @@ These are hypotheses to compare against the approved strategy, accessibility, an
 
 ## Previous proposal set
 
-The earlier **Local Utility / Campus Journal / Open Exchange** comparison was superseded at the owner's request for a completely fresh set. It remains in the Pencil file as historical rejected exploration and is not a precedent for the current proposals.
+The earlier **Local Utility / Campus Journal / Open Exchange** comparison was superseded at the owner's request for a completely fresh set. It was historical rejected exploration; the owner is clearing the previous visual boards. Neither that set nor the fresh comparison is a current precedent.
 
 ## Owner decision — 2026-11-06
 
-The owner selected **A — Grounded Market** to continue. B — Market Index and C — Open Shelf were not selected and remain historical rejected concepts. The selected territory established the direction for Step 04, whose foundations were approved separately on 2026-11-06.
+The owner selected **A — Grounded Market** at the time. On 2026-11-08, the owner withdrew that visual selection and said the theme/taste and palette must be revisited using real sourced screens. A, B, C, and the prior Step 04 foundation work are all historical, rejected, and non-precedential. This record is retained to document the decision history only.
 
-Continue to Stage 04 Step 05 — Cross-Platform Device Foundations. The owner approved the Step 04 foundation set, including `#E8EDD9`, on 2026-11-06. Keep rejected territories non-precedential.
+The former sequence continued to Step 05 after the Step 04 foundation approval recorded at the time. That visual approval was withdrawn on 2026-11-08; keep all territory and foundation visuals historical and non-precedential. Follow `docs/design-reference-studies.md` before replacement visual foundations.

@@ -1,11 +1,12 @@
 # Soldbay Screen Architecture & Wireframes — Stage 04, Step 08
 
-**Status:** Owner-approved Step 08 screen-inventory baseline (2026-11-08). This does not approve wireframes or screen composition; those remain deferred until the Step 06 visual UI kit and component specifications are complete and reviewed.
+**Status:** Owner-approved Step 08 screen-inventory baseline (2026-11-08). This approves task coverage only, not wireframes, screen composition, visual direction, or component appearance. Prior Pencil visual work was rejected on 2026-11-08; screen design remains deferred until sourced real-screen studies, a new theme, and reviewed component studies are complete.
 **Prepared:** 2026-11-06
-**Depends on:** Approved PSS and completed/reviewed Stage 04 Steps 01–07, including the visual UI kit/library and component specifications from Step 06.
+**Depends on:** Approved PSS, IA, and the written Steps 01–07 product/platform/interaction records. Visual foundations and UI specimens from the prior pass are withdrawn; new visual work must follow the source-faithful reference-study process before screen composition.
+**Functional detail:** [`screen-specifications.md`](screen-specifications.md) expands this approved coverage inventory into a draft per-screen task/content/action/state/route specification; owner review and the staff-route decisions remain open.
 **Authority:** `docs/architecture.md`, the approved Screen Flow (IA), Admin/Ops Screen Flow (IA), and Feature/Workflow Inventory define behavior. This artifact maps those decisions to screens and does not change product policy.
 **Surface and role boundary:** buyer and seller experiences are mobile-app only. The web surface is the Soldbay staff console. It has one flat Admin role; verification, moderation, Support cases, disputes, and courier coordination are assigned work contexts within that role, not separate authorization roles.
-**Pencil structure:** The documentation canvas will hold approved screen architecture after prerequisites are complete. `design/soldbay-ios.pen` and `design/soldbay-android.pen` are reserved for later wireframes. The twelve premature iOS wireframes created on 2026-11-06 were removed; both platform canvases are currently clear.
+**Artifact boundary:** This Markdown file is the written screen inventory. Keep the documentation Pencil canvas for visual reference studies and later product-design artifacts; platform files are reserved for eventual iOS and Android screen work.
 **Current execution status:** The screen inventory is approved as the task-coverage baseline, but screen architecture, proposed mobile tab labels, and wireframes are not approved. A staff-operations coverage gap below must be placed before screen composition. Step 06 UI kit/library work remains incomplete. The 390 × 844 viewport mentioned below is only a proposal and does not select a device or OS support floor.
 
 ## Screen architecture goals

@@ -1,24 +1,24 @@
 # Soldbay Brand Strategy & Visual Criteria — Stage 04, Step 03
 
-**Status:** Strategy and exploration scope approved by owner on 2026-11-05. A — Grounded Market was selected by the owner on 2026-11-06 to proceed into Step 04 foundations. Step 04 palette, typography, and foundation tokens were approved by the owner on 2026-11-06.
+**Status:** Product-grounded strategy frame remains approved. The owner withdrew the Grounded Market selection and its Step 04 foundations on 2026-11-08, then approved a new high-level MVP visual direction on 2026-11-09 from five sourced screen studies. Three replacement foundation candidates are now under owner review; none is an approved foundation. The former values remain historical only.
 **Prepared:** 2026-11-06
 **Authority:** Approved PSS in `docs/architecture.md`, current AllOnSoldBay workflow/IA, and Step 01–02 design artifacts.
 **Evidence boundary:** Student interviews were scrapped and not conducted. Demand, trust needs, and brand preference are unvalidated.
 
 ## Purpose
 
-Set a product-grounded strategic frame and criteria for visual exploration. This is not a logo, identity system, foundation, or claim of market differentiation. The owner approved the strategic inputs and exploration scope on 2026-11-05. The resulting territories were proposals; A — Grounded Market was selected by the owner on 2026-11-06.
+Set a product-grounded strategic frame and criteria for visual exploration. This is not a logo, identity system, foundation, or claim of market differentiation. The owner approved the strategic inputs and initial exploration scope on 2026-11-05. A — Grounded Market was selected on 2026-11-06, then withdrawn on 2026-11-08; the next visual exploration follows `docs/design-reference-studies.md`.
 
 ## What is known, inferred, and still a choice
 
 | Type                   | Current statement                                                                                                                                                                                                                                                                                                                                                                     |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Approved product fact  | Soldbay is a Nigeria-first campus marketplace. Accounts select a university and required campus; public discovery is scoped to that campus. A buyer purchases one listing at a time.                                                                                                                                                                                                  |
-| Approved product fact  | The product has distinct buyer, seller, Admin, Support, Ops, and courier responsibilities. Seller approval, payment, handoff, dispute, return, refund, and listing states have explicit rules in the PSS.                                                                                                                                                                             |
+| Approved product fact  | The product has buyer and seller users, one flat Soldbay Admin role, and external courier participation. Support and Ops describe Admin work contexts, not separate authorization roles. Seller approval, payment, handoff, dispute, return, refund, and listing states have explicit rules in the PSS.                                                                                                                                                                             |
 | Approved product fact  | The product must communicate pending and completed states honestly. Courier collection is not buyer receipt; offline code entry remains pending until server validation; refunds remain pending until provider confirmation.                                                                                                                                                          |
 | Research limitation    | Planned student interviews were scrapped and never conducted. No student preference, demand, or trust problem has been validated. Public competitor copy is self-published positioning, not independent evidence.                                                                                                                                                                     |
 | Strategic inference    | Campus context and transaction coordination are central to the approved product model, so the identity should support local relevance and make the process understandable. This is derived from scope, not user research.                                                                                                                                                             |
-| Owner decision pending | Final brand personality and promise wording and distinctive brand assets remain undecided. A — Grounded Market is the selected visual direction; its foundation palette, typography, and tokens were approved in Step 04 on 2026-11-06. Historical Figma and prior design documents are excluded; the superseded first Pencil territory set is retained only as rejected exploration. |
+| Owner decision pending | Final brand personality, promise wording, distinctive brand assets, and specific visual foundations remain open. The high-level MVP direction is approved; three candidate palettes, type systems, shapes, image treatments, and icon approaches are documented in `docs/design-foundations.md` for selection. A — Grounded Market and its Step 04 palette/type/tokens are historical only and must not guide new design. Historical Figma and prior design documents are excluded. |
 
 ## Proposed strategic frame
 
@@ -86,11 +86,11 @@ Use these criteria to compare later territories on the same representative conte
 
 ## Territory exploration record
 
-Three fresh territories were prepared for the same representative campus listing/discovery task after the owner requested a new set. The owner selected A — Grounded Market on 2026-11-06 to develop as the working visual direction. This is a design decision, not usability evidence. The content is synthetic. The options and trade-offs are summarized in [docs/design-territories.md](design-territories.md) and displayed in `design/soldbay-design-documentation.pen`.
+Three fresh territories were prepared for the same representative campus listing/discovery task after the owner requested a new set. A — Grounded Market was selected on 2026-11-06, then withdrawn on 2026-11-08. All territory visuals and the resulting foundation sheet are historical, rejected, and non-precedential. The content was synthetic. See [docs/design-territories.md](design-territories.md) for the history; do not use the prior Pencil boards as references.
 
 ## Strategy approval record
 
-The owner approved the strategy inputs and visual-territory exploration scope on 2026-11-05, then selected A — Grounded Market on 2026-11-06. The owner approved the Step 04 foundation palette, typography, and token set on 2026-11-06. Brand personality wording and distinctive identity assets remain open.
+The owner approved the strategy inputs and initial territory exploration scope on 2026-11-05, selected A — Grounded Market and approved its foundation set on 2026-11-06, then withdrew those visual selections on 2026-11-08. On 2026-11-09, after reviewing five source-faithful screen studies, the owner approved a high-level MVP direction: calm and scannable marketplace structure, image-led listings with consistent comparison details, and a distinctive but controlled editorial voice. This approval does not select a reference screen or specific colors, type, shapes, materials, motion, or component appearance.
 
 ## Step 03 gate
 
@@ -99,8 +99,11 @@ The owner approved the strategy inputs and visual-territory exploration scope on
 - [x] Owner approved visual-territory exploration on 2026-11-05.
 - [x] An initial three-territory proposal set was superseded at the owner's request.
 - [x] A fresh set of three visual territory proposals was created in Pencil on 2026-11-06.
-- [x] Owner selected A — Grounded Market on 2026-11-06; B and C remain rejected concepts.
+- [x] Owner selected A — Grounded Market on 2026-11-06 (historical; withdrawn 2026-11-08).
+- [x] Five source-faithful external screen studies were reviewed and grouped in Pencil.
+- [x] Owner approved the high-level MVP visual direction on 2026-11-09.
+- [x] Three replacement foundation candidates were prepared for owner comparison; no candidate is approved yet.
 
-**Territory comparison:** See [docs/design-territories.md](design-territories.md). The corresponding Pencil comparison is in `design/soldbay-design-documentation.pen`.
+**Territory history:** See [docs/design-territories.md](design-territories.md). The old Pencil comparison is rejected and is being cleared; do not use it as a current reference.
 
-**The selected visual direction is approved for further exploration. This artifact does not approve a final brand identity, reusable UI kit, or implementation. Step 04 foundations are approved separately in `docs/design-foundations.md`.**
+**The prior visual direction and foundation set are withdrawn and non-precedential. The replacement high-level direction is approved; the three new foundation candidates await owner selection.**

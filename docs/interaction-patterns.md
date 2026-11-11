@@ -2,9 +2,9 @@
 
 **Status:** Approved by the owner on 2026-11-06; it documents interaction behavior against the approved Product & System Definition (PSS).
 **Prepared:** 2026-11-06
-**Depends on:** Approved Steps 04–06 and `docs/architecture.md`.
+**Depends on:** `docs/architecture.md` and the approved interaction/component behavior. The former Step 04 visual tokens were withdrawn; interaction rules remain independent of the replacement theme.
 **Authority:** The PSS remains authoritative for eligibility, deadlines, permissions, transitions, and outcomes. This document defines how the interface communicates them; it does not add product policy.
-**Pencil structure:** This interaction map belongs in `design/soldbay-design-documentation.pen`. Screen composition remains deferred to Step 08 in `soldbay-ios.pen` and `soldbay-android.pen`.
+**Artifact boundary:** This written interaction map belongs in Markdown. The owner is clearing textual boards from the Pencil canvas; screen composition remains deferred to the paired platform files.
 
 ## Interaction principles
 
@@ -18,7 +18,7 @@
 
 ### Motion ownership
 
-Step 04 owns shared motion tokens and the reduced-motion principle. Step 06 specifies only component-local animation when it clarifies a component state change. Step 07 specifies transitions and motion that communicate a change across a user task. Follow Step 05 platform behavior; no motion may delay an action or serve as the only state signal.
+Step 04 will own shared motion principles and any replacement tokens after visual direction is revisited. Step 06 specifies only component-local animation when it clarifies a component state change. Step 07 specifies transitions and motion that communicate a change across a user task. Follow Step 05 platform behavior; no motion may delay an action or serve as the only state signal. The former timing values are historical and inactive.
 
 ## State and feedback contract
 

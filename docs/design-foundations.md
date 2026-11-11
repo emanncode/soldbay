@@ -1,18 +1,105 @@
 # Soldbay Design Foundations — Stage 04, Step 04
 
-**Status:** Approved by the owner on 2026-11-06. This is the approved foundation direction and token set; screen-level accessibility and rendering checks remain due.
-**Prepared:** 2026-11-06
-**Selected direction:** A — Grounded Market, owner-selected on 2026-11-06.
-**Canvas:** `design/soldbay-design-documentation.pen`, frame “Step 04 Grounded Market Foundations”.
+**Status:** The owner withdrew the former values on 2026-11-08 and approved a new high-level MVP visual direction on 2026-11-09. Three replacement foundation candidates are documented and shown in Pencil, but no candidate is selected. On 2026-11-09 the owner requested public design-system grounding and comparative BY-01 feed examples before choosing or combining a direction. Do not treat any candidate or study screen as approved tokens or styling.
+**Prepared:** 2026-11-06; candidate options added 2026-11-09.
+**Former direction:** A — Grounded Market, selected on 2026-11-06 and withdrawn on 2026-11-08.
+**Canvas:** `design/soldbay-design-documentation.pen` keeps the five source studies intact, has a separate Step 06 candidate board, and is being extended with public-foundation-informed BY-01 study screens. The values below are preserved as historical notes only.
 **Product authority:** [`docs/architecture.md`](architecture.md). Product behavior and roles are unchanged.
 
 ## Purpose and evidence boundary
 
-Translate the selected visual direction into document the approved color, type, spacing, layout, shape, and motion foundations. These are foundations, not components or final screens. No design preference or accessibility result is presented as user research. The owner approved the stated palette, including `#E8EDD9`, typography scale, spacing/grid values, status pairs, shape, and motion values as the foundation set.
+This section records the former attempt to define color, type, spacing, layout, shape, and motion foundations after selecting A — Grounded Market. Those values were approved at the time and withdrawn on 2026-11-08. They are historical, not current tokens or design constraints. No design preference or accessibility result is presented as user research.
 
-The product follows the device appearance setting; the approved foundation therefore includes light and dark semantic mappings, with no in-app theme toggle. Platform behavior and system chrome are specified in Step 05.
+The app follows the device appearance setting and has no in-app theme toggle. That product requirement remains active; the previous light/dark foundation values were withdrawn with the former direction. Each current candidate supplies provisional light and dark mappings. Platform behavior and system chrome are specified in Step 05.
 
-## Approved token architecture
+## Step 06 — candidate visual foundations
+
+**Current process update (2026-11-09):** The owner wants public design-system foundations used as concrete inputs before deciding a Soldbay visual direction. See [`design-reference-studies.md`](design-reference-studies.md#public-foundation-system-studies--2026-11-09) for the source comparison and limits. The three palette/specimen options below remain exploratory; Option C is currently appealing to the owner but has not been selected. The new buyer-feed screens are comparative studies only.
+
+**Decision state:** Three candidates are ready for owner comparison; none is selected. They explore the approved direction—calm and scannable marketplace structure, image-led listings with consistent comparison details, and a distinctive but controlled editorial voice. These are visual hypotheses, not validated user preferences. The five reference studies informed the options, but no source screen, layout, brand asset, or palette is copied.
+
+**Comparison specimen:** The Pencil board uses the same photo crop and sample content in all three options: campus `AAUA · Akungba-Akoko`, item `Graphing calculator`, price `₦18,500`, condition `Very good`, listing label `Negotiable`, and order label `In progress`. The board shows palette, type hierarchy, spacing/shape, image treatment, and an icon sample only; it is not a product screen or component set. The photo crop is a study input from the Pinterest source capture and does not imply a Soldbay workflow or content model.
+
+All options retain the approved device-appearance behavior: provide light and dark semantic mappings and follow the operating-system appearance setting. Status meaning must use visible text and may use a distinct icon; color alone is insufficient. Exact status palettes, production token names, and component styling remain open until an option is selected and reviewed against the actual screen specifications.
+
+### Option A — Field Catalog
+
+**Character:** Grounded, open, and practical; a warm paper base with a restrained deep-green action color. Pair an editorial serif only on selected headings with a highly readable sans-serif for marketplace information.
+
+| Role | Light | Dark |
+| --- | --- | --- |
+| Canvas | `#F7F4EB` | `#151D19` |
+| Surface | `#FFFDF8` | `#202B25` |
+| Raised surface | `#F0EEE4` | `#2A3830` |
+| Primary text | `#232B27` | `#F2F4ED` |
+| Secondary text | `#526057` | `#C1CCC4` |
+| Border | `#D7DDD4` | `#526259` |
+| Action | `#315F4B` | `#9BD0AE` |
+| Text on action | `#FFFFFF` | `#13251A` |
+| Accent surface | `#E7EFE8` | `#26392F` |
+
+- **Type:** Lora 24/30 for occasional editorial emphasis; Manrope 20/26 section heading, 16/22 listing title, 15/22 body, 13/18 secondary, 12/16 label. Body and prices use Manrope; sentence case.
+- **Spacing and shape:** 4, 8, 12, 16, 24, 32 px; 8 px standard corner, 12 px larger image/surface corner. Use dividers and whitespace for grouping.
+- **Image treatment:** Same 4:3 sample crop; natural color, no tint, 12 px image corner, quiet surrounding surface.
+- **Icon approach:** Lucide outline, 1.75 px visual stroke; reserve icons for actions or state cues and keep labels visible where meaning matters.
+
+### Option B — Clear Signal
+
+**Character:** Crisp, direct, and more energetic; cool near-white surfaces and cobalt action color. A sans-only hierarchy emphasizes fast scanning and precise price comparison.
+
+| Role | Light | Dark |
+| --- | --- | --- |
+| Canvas | `#F4F7FA` | `#101925` |
+| Surface | `#FFFFFF` | `#182638` |
+| Raised surface | `#EAF0F6` | `#23354A` |
+| Primary text | `#172A3B` | `#F2F5F9` |
+| Secondary text | `#4B6173` | `#BAC7D5` |
+| Border | `#D7E1EB` | `#41556B` |
+| Action | `#235DD1` | `#91B7FF` |
+| Text on action | `#FFFFFF` | `#122443` |
+| Accent surface | `#E6EEFB` | `#223752` |
+
+- **Type:** Inter throughout; 24/30 page title, 20/26 section heading, 16/22 listing title, 15/22 body, 13/18 secondary, 12/16 label. Use weight and alignment rather than a second display face for emphasis.
+- **Spacing and shape:** 4, 8, 12, 16, 20, 24, 32 px; 4 px control edge and 8 px image/surface corner. Prefer crisp separators and compact metadata.
+- **Image treatment:** Same 4:3 crop with natural saturation, minimal framing, and a 4 px corner; keep price and condition visually distinct beneath it.
+- **Icon approach:** Phosphor Regular at 20 px; use a filled active state only where it clarifies selection, with text labels retained for essential states.
+
+### Option C — Editorial Finds
+
+**Character:** Warm, expressive, and more editorial while retaining an orderly marketplace hierarchy. Terracotta provides selective emphasis; serif display type is confined to short headings.
+
+| Role | Light | Dark |
+| --- | --- | --- |
+| Canvas | `#FBF1EB` | `#211613` |
+| Surface | `#FFFCF9` | `#2D201C` |
+| Raised surface | `#F5E7DF` | `#3B2B25` |
+| Primary text | `#33231F` | `#F9EEE8` |
+| Secondary text | `#72584F` | `#D4BEB5` |
+| Border | `#E2CFC5` | `#60483F` |
+| Action | `#A84231` | `#F09A7D` |
+| Text on action | `#FFFFFF` | `#2B130F` |
+| Accent surface | `#F5E0D6` | `#472E27` |
+
+- **Type:** Instrument Serif 28/34 for short editorial headings; DM Sans 20/26 section heading, 17/23 listing title, 16/24 body, 13/18 secondary, 12/16 label. Keep prices in DM Sans with strong weight.
+- **Spacing and shape:** 4, 8, 12, 16, 24, 32, 40 px; 6 px standard and 12 px larger image/surface corner. Allow more breathing room around section headings without breaking repeated listing comparison.
+- **Image treatment:** Same 4:3 crop with warm natural photography, no color overlay, 8 px corner; editorial emphasis stays in typography and image scale, not added decoration.
+- **Icon approach:** Material Symbols Rounded at 20 px and regular weight; use sparingly, paired with text for status and marketplace actions.
+
+### Contrast spot checks for candidate palettes
+
+Ratios use the stated sRGB hex pairs and are initial spot checks, not a complete accessibility audit or conformance claim. All listed text/action pairs exceed 4.5:1 in these candidate combinations.
+
+| Option | Primary text / canvas, light | Secondary text / canvas, light | On-action / action, light | Primary text / canvas, dark | Secondary text / canvas, dark | On-action / action, dark |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A — Field Catalog | 13.20:1 | 6.02:1 | 7.32:1 | 15.50:1 | 10.40:1 | 9.20:1 |
+| B — Clear Signal | 13.65:1 | 6.00:1 | 5.90:1 | 16.17:1 | 10.29:1 | 7.67:1 |
+| C — Editorial Finds | 13.48:1 | 5.86:1 | 6.02:1 | 15.50:1 | 9.95:1 | 8.00:1 |
+
+These checks do not cover small icon strokes, borders, selected/disabled/focus states, tinted surfaces, photography overlays, or actual screen combinations. Verify those after selection. Do not mark any option accessible or approved based only on this table.
+
+**Next gate:** Owner compares the three options and selects, rejects, or requests another exploration. Only the selected and reviewed direction becomes the active foundation. Until then, all candidate values are proposals; the former token set below remains inactive historical material.
+
+## Former token architecture — inactive
 
 Pencil variables should use the `soldbay-` prefix. Primitive values map to semantic roles; product components should use semantic roles rather than hard-coded color values. Component-specific tokens are deferred until a real need appears in Step 06.
 
@@ -105,7 +192,7 @@ Recheck every actual text/background pairing, focus, disabled and selected state
 
 Keep the token names semantic and independent of the undecided application framework. If the selected implementation stack supports semantic aliases, map primitive values to semantic roles once and consume the role names from components. Production implementation still waits for the technology decision and later component/screen validation.
 
-The active Pencil file previously contained unused legacy variables. They were checked for references and replaced with a fresh foundation set; no legacy visual values were carried forward.
+At the time, the Pencil file's unused legacy variables were checked for references and replaced with a fresh foundation set. This historical change does not make those withdrawn values current.
 
 ## Review checklist and remaining work
 
@@ -119,4 +206,4 @@ The active Pencil file previously contained unused legacy variables. They were c
 - [x] Define iOS/Android system chrome, cutouts, safe areas, keyboards, gestures, touch targets, and offline/interruption behavior in the approved Step 05 foundations.
 - [x] Record the shared component state contract and platform boundaries in the approved Step 06 architecture; select the product icon family during detailed component design.
 
-**No application code, reusable UI components, or final product screens were created in Step 04.** The Pencil foundation sheet records approved tokens; actual screen rendering, contrast coverage, target-device behavior, and technology-specific token mapping remain unverified.
+**No application code, reusable UI components, or final product screens were created in the former Step 04.** The Pencil foundation sheet and all values above are historical and withdrawn, not current tokens. Five source-faithful screen studies and a high-level MVP visual direction are now approved; new visual foundations are the next work. Their rendered states, contrast coverage, target-device behavior, and technology-specific token mapping will remain unverified until those foundations are created and reviewed.

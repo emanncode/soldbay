@@ -2,13 +2,13 @@
 
 **Status:** Approved by the owner on 2026-11-06. This defines design behavior, not an implementation or final device-support commitment.
 **Prepared:** 2026-11-06
-**Approved visual foundations:** `docs/design-foundations.md` (owner-approved 2026-11-06).
+**Visual foundation status:** The former Step 04 direction and tokens in `docs/design-foundations.md` were withdrawn on 2026-11-08. The platform behavior in this document is independent of visual theme.
 **Product authority:** `docs/architecture.md`. This document defines presentation behavior only and does not alter product workflows.
 **Research basis:** Current official Apple Human Interface Guidelines and Android Developers guidance, linked in Sources.
 
 ## Purpose and evidence boundary
 
-Define how the approved Grounded Market foundations should adapt across iOS, Android, compact/expanded mobile windows, accessibility settings, operating-system chrome, and interruptions. These are design rules and proposed test viewports, not verified OS support, implementation choices, or a promise of a specific device matrix. The app framework and minimum supported OS versions are not selected here.
+Define platform behavior across iOS, Android, compact/expanded mobile windows, accessibility settings, operating-system chrome, and interruptions. These rules do not select or approve a visual theme. Proposed test viewports are not verified OS support, implementation choices, or a promise of a specific device matrix. The app framework and minimum supported OS versions are not selected here.
 
 ## Platform boundary and system chrome
 
@@ -21,7 +21,7 @@ Define how the approved Grounded Market foundations should adapt across iOS, And
 | Keyboard                 | OS keyboard and safe-area changes are dynamic.                                                            | IME/keyboard insets and resize/pan behavior vary by window and configuration.                                        | Keep the active field and essential submit/continue action visible; scroll content as needed. Never hard-code keyboard height.              |
 | Cutouts and edge-to-edge | Safe-area guides adapt to device geometry.                                                                | Insets include system bars, gesture regions, and display cutouts; edge-to-edge is part of current platform guidance. | Treat insets as runtime inputs. Never assume a single notch, status-bar, or bottom-bar height.                                              |
 
-In design presentations, show OS chrome as labeled context outside the app’s component inventory. A device status-bar mock may be used only as a neutral viewport frame; battery/network glyphs must not be recreated as Soldbay icons. Real screenshots and implementation later need OS-provided chrome.
+In design presentations, show OS chrome as labeled context outside the app’s component inventory. Use the imported `Status and Home Indicator Ios Components (Dark and Light Mode)` SVG in iOS Pencil mockups, choosing the appearance that matches the screen background. It is presentation context, not a Soldbay component; implementation and real screenshots use OS-provided chrome.
 
 ## Device and viewport matrix
 
@@ -40,11 +40,19 @@ Exact OS simulator/device presets and app store support floors are deferred unti
 
 ## Pencil file structure
 
-- `design/soldbay-design-documentation.pen` is the canonical documentation canvas. It holds foundations, the shared component specification, flow maps, responsive rules, and decision boards.
+### Current OS UI kit scope — 2026-11-10
+
+Current visual specimens are iPhone-only. Do not include iPhone Duo, iPad/tablet, or Android system chrome in this phase. This is a design-work scope decision, not a change to the product's platform-support commitment.
+
+For the current iPhone reference canvas, use **iPhone 18 Pro Max, portrait**. Its imported app viewport is **440 × 956 pt** (1320 × 2868 px at 3×), with a **440 × 860 pt** safe area using top/bottom/left/right insets of **62/34/0/0 pt**. These inset measurements are a design reference measured from the Xcode 27.1 simulator and catalogued by [safearea.info](https://safearea.info/iphone-18-pro-max); Apple documents the safe-area behavior but does not publish this per-device inset table. At runtime, use the OS-provided safe-area insets; do not treat this specimen as the app's only supported device or as a hard-coded implementation value. The device viewport dimensions are consistent with Apple's [technical specifications](https://support.apple.com/en-asia/148591) (1320 × 2868 pixels at 3×).
+
+The iPhone 18 Pro Max light and dark reference frames now show the safe-area boundary, top and bottom inset bands, Dynamic Island, and home indicator. The guide uses a 94.67 × 36.67 pt Dynamic Island at x=172.67 pt, y=14 pt, catalogued by [safearea.info](https://safearea.info/iphone-18-pro-max); the pill is a geometry specimen, not the original Figma component. Imported iPhone status-bar references remain separate in the OS kit. No other iPhone OS chrome is required for the current specimen scope. Keep all OS chrome as presentation context, not as Soldbay components.
+
+- Markdown in `docs/` is the canonical written record. The owner is clearing previous textual and visual boards from `design/soldbay-design-documentation.pen`; use that file for visual reference studies and later design work only.
 - `design/soldbay-ios.pen` is reserved for actual iOS screens after the shared visual UI kit and component specifications are complete and Step 08 begins.
 - `design/soldbay-android.pen` will contain actual Android screens on the same schedule.
 
-The two screen files are platform workspaces, not single-device layouts. Each must exercise compact, common, large-phone, and relevant expanded-window contexts under this Step 05 matrix. Shared tokens and task requirements remain canonical in the documentation canvas; iOS and Android files may diverge only where platform conventions require it.
+The two screen files are platform workspaces, not single-device layouts. Each must exercise compact, common, large-phone, and relevant expanded-window contexts under this Step 05 matrix. Written requirements remain canonical in Markdown; iOS and Android files may diverge only where platform conventions require it.
 
 ## Responsive and adaptive rules
 
@@ -100,6 +108,8 @@ These are intentionally explicit. This proposal does not establish unsupported p
 
 ## Sources
 
+- Apple, [Status bars](https://developer.apple.com/design/human-interface-guidelines/status-bars) — status bar content and legibility; the mockup chrome is presentation context, not a Soldbay component or exact OS-rendering specification.
+- Apple, [Design Resources](https://developer.apple.com/design/resources/) — official iOS/iPadOS UI kits for Figma and Sketch; the user-supplied Figma page could only be inspected through its public cover in this session.
 - Apple, [Layout](https://developer.apple.com/design/human-interface-guidelines/layout) — safe areas, adaptive layout, size classes.
 - Apple, [Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility) — Dynamic Type/text enlargement, touch targets, accessibility review.
 - Apple, [Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons) — minimum button hit region guidance.

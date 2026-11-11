@@ -3,7 +3,8 @@
 **Status:** Step 01 approved by owner on 2026-11-05. Preparation artifact retained as design scope baseline.
 **Updated:** 2026-11-05
 **Product authority:** Product & System Definition (architecture.md) and its linked, current AllOnSoldBay workflow and IA documents.
-**Design workspace:** `design/soldbay-design-documentation.pen`, initially empty at the reset; now the canonical documentation canvas.
+**Design workspace:** Markdown files in `docs/` are the canonical written record. `design/soldbay-design-documentation.pen` is the visual canvas for sourced reference studies and later product design; the owner is clearing its previous contents. Do not treat its current or prior boards as approved references.
+**Reference-study workflow:** [`design-reference-studies.md`](design-reference-studies.md) defines the project-specific sequence and record template; it complements the shared `design-methodology` skill.
 
 ## Purpose
 
@@ -21,10 +22,8 @@ This is the selected product model, not evidence that market demand or the trust
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Buyer         | Signup, discovery, search, listing detail, negotiation where enabled, checkout, order/chat, handoff, disputes, returns/refunds, reviews, profile/help/account security | Campus-scoped public listings; only own private orders, chats, and cases                                            |
 | Seller        | Seller application, verification status, store profile, private listing drafts, publish controls, sales/order queue, fulfilment, proceeds, profile and security        | Cannot publish before Soldbay Admin approval and 2FA; active listing processes lock edits/deletion                  |
-| Soldbay Admin | Seller verification, moderation, user actions, campus-change petitions                                                                                                 | Least-privilege access to sensitive student and payout data; material decisions recorded                            |
-| Support       | Assigned dispute, failed-handoff, cancellation, recovery, and account/campus requests                                                                                  | Access limited to assigned case or recovery need; holds funds when responsibility or provider outcome is unresolved |
-| Ops           | Manual courier assignment, scoped delivery coordination, fee/destination review, event recording                                                                       | Access limited to assigned fulfilment; no authority to confirm receipt or release funds                             |
-| Courier       | Assigned delivery details and delivery/attempt coordination                                                                                                            | Minimum order-scoped details; cannot mark an order Received or release funds                                        |
+| Soldbay Admin | One flat staff role covering verification, moderation, user actions, campus changes, Support work, and courier operations | Support/Ops are task contexts, not separate authorization roles; use least-privilege access and audit material decisions |
+| Courier       | External participant who receives assigned delivery details and coordinates delivery/attempts | Minimum order-scoped details; cannot mark an order Received or release funds |
 
 ## Critical tasks and requirement traceability
 
@@ -59,7 +58,7 @@ Exact OS/version support, viewport matrix, orientation policy, supported input d
 
 | Source                                    | Step 01 treatment                                                                                                                                             |
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `design/soldbay-design-documentation.pen` | Intentionally empty on 2026-11-05; now holds approved foundations and platform documentation, not final screens or reusable components                        |
+| `design/soldbay-design-documentation.pen` | Owner is clearing the previous exploratory boards and text. Keep written decisions/specifications in Markdown; use the canvas for source-faithful visual reference studies and later product design. |
 | Previous Figma file and old local screens | Historical; excluded from the rework and not visual precedent                                                                                                 |
 | Previous repository UI and implementation | Historical; may only be consulted for migration facts if separately requested, not as design authority                                                        |
 | AllOnSoldBay workflow and IA documents    | Product behavior and role boundaries are authoritative; older layout/theme/framework statements are not design approval where marked historical or superseded |
